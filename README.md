@@ -1,6 +1,6 @@
-# 🌸 PostpartumWellBeing
+# 🌸 TiMe
 
-**PostpartumWellBeing** est une application iOS conçue pour accompagner le bien-être des femmes après l’accouchement.  
+**TiMe** est une application iOS conçue pour accompagner le bien-être des femmes après l’accouchement.  
 Elle propose un espace pour suivre ses humeurs et émotions, ainsi que des défis motivants pour aider à rester positive et prendre soin de soi au quotidien.
 
 ---
@@ -38,4 +38,5 @@ Elle propose un espace pour suivre ses humeurs et émotions, ainsi que des défi
 
 1. Clone ce repo :
    ```bash
-   git clone https://github.com/ton-utilisateur/PostpartumWellBeing.git
+   git clone https://github.com/ton-utilisateur/TiMeFront.git
+
