@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		6A078EE92E745FB100DA1530 /* AppDevPersoFront.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppDevPersoFront.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A078EE92E745FB100DA1530 /* TiMeFront.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TiMeFront.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		6A078EEB2E745FB100DA1530 /* AppDevPersoFront */ = {
+		6A078EEB2E745FB100DA1530 /* TiMeFront */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = AppDevPersoFront;
+			path = TiMeFront;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		6A078EE02E745FB100DA1530 = {
 			isa = PBXGroup;
 			children = (
-				6A078EEB2E745FB100DA1530 /* AppDevPersoFront */,
+				6A078EEB2E745FB100DA1530 /* TiMeFront */,
 				6A078EEA2E745FB100DA1530 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,7 +40,7 @@
 		6A078EEA2E745FB100DA1530 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6A078EE92E745FB100DA1530 /* AppDevPersoFront.app */,
+				6A078EE92E745FB100DA1530 /* TiMeFront.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6A078EE82E745FB100DA1530 /* AppDevPersoFront */ = {
+		6A078EE82E745FB100DA1530 /* TiMeFront */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A078EF42E745FB300DA1530 /* Build configuration list for PBXNativeTarget "AppDevPersoFront" */;
+			buildConfigurationList = 6A078EF42E745FB300DA1530 /* Build configuration list for PBXNativeTarget "TiMeFront" */;
 			buildPhases = (
 				6A078EE52E745FB100DA1530 /* Sources */,
 				6A078EE62E745FB100DA1530 /* Frameworks */,
@@ -61,13 +61,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				6A078EEB2E745FB100DA1530 /* AppDevPersoFront */,
+				6A078EEB2E745FB100DA1530 /* TiMeFront */,
 			);
-			name = AppDevPersoFront;
+			name = TiMeFront;
 			packageProductDependencies = (
 			);
 			productName = AppDevPersoFront;
-			productReference = 6A078EE92E745FB100DA1530 /* AppDevPersoFront.app */;
+			productReference = 6A078EE92E745FB100DA1530 /* TiMeFront.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -78,14 +78,14 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1630;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					6A078EE82E745FB100DA1530 = {
 						CreatedOnToolsVersion = 16.3;
 					};
 				};
 			};
-			buildConfigurationList = 6A078EE42E745FB100DA1530 /* Build configuration list for PBXProject "AppDevPersoFront" */;
+			buildConfigurationList = 6A078EE42E745FB100DA1530 /* Build configuration list for PBXProject "TiMeFront" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6A078EE82E745FB100DA1530 /* AppDevPersoFront */,
+				6A078EE82E745FB100DA1530 /* TiMeFront */,
 			);
 		};
 /* End PBXProject section */
@@ -184,6 +184,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -241,6 +242,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -305,7 +307,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6A078EE42E745FB100DA1530 /* Build configuration list for PBXProject "AppDevPersoFront" */ = {
+		6A078EE42E745FB100DA1530 /* Build configuration list for PBXProject "TiMeFront" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A078EF22E745FB300DA1530 /* Debug */,
@@ -314,7 +316,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A078EF42E745FB300DA1530 /* Build configuration list for PBXNativeTarget "AppDevPersoFront" */ = {
+		6A078EF42E745FB300DA1530 /* Build configuration list for PBXNativeTarget "TiMeFront" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A078EF52E745FB300DA1530 /* Debug */,

@@ -1,6 +1,6 @@
 //
-//  AppDevPersoFrontApp.swift
-//  AppDevPersoFront
+//  TiMeFrontApp.swift
+//  TiMeFront
 //
 //  Created by Apprenant125 on 12/09/2025.
 //
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct AppDevPersoFrontApp: App {
+struct TiMeFrontApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
