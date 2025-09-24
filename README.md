@@ -38,5 +38,6 @@ Elle propose un espace pour suivre ses humeurs et émotions, ainsi que des défi
 
 1. Clone ce repo :
    ```bash
-   git clone https://github.com/ton-utilisateur/TiMeFront.git
+   git clone https://github.com/carlarosealison/TiMeFront.git
+
 
