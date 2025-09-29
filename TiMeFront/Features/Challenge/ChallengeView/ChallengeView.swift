@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ChallengeView: View {
-//    func Challenge(rules: String) -> any View{
+//    func challenge(rules: String) -> any View{
 //        Text(rules)
 //            .foregroundStyle(.purpleDarkHover)
 //            .font(.system(size: 24).width(.expanded).weight(.semibold))
