@@ -11,9 +11,10 @@ import SwiftUI
 struct ButtonForm: View {
     let title: String
     let isImage: Bool
+    var action: () -> Void = {}
     var body: some View {
             Button {
-                print("suivant")
+                action()
             } label: {
                 HStack{
                     Text(title)
@@ -36,13 +37,11 @@ struct ButtonForm: View {
                     RoundedRectangle(cornerRadius: 30)
                         .fill(.purpleButton)
                         .glassEffect()
-                
-                    
+
                 }
                 .frame(width: 200, height: 44)
                 
             }
-
     }
 }
 

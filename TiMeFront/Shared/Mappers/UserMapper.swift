@@ -13,6 +13,6 @@ struct UserMapper{
     }
     
     func mapUserResponse(_ dto: UserResponse) -> User{
-        User(username: dto.userName , firstName: dto.firstName, lastName: dto.lastName, email: dto.email, streakNumber: 0, role: "user", challengeNumber: 0)
+        User(firstName: dto.firstName , lastName: dto.lastName, username: dto.userName, email: dto.email, password: "", streakNumber: 0, role:"user", challengeNumber: 0)
     }
 }

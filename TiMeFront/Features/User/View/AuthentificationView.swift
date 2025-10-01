@@ -12,18 +12,23 @@ struct AuthentificationView: View {
     let title: Font = .system(size: 48).width(.expanded)
     @State var email: String = ""
     @State var password: String = ""
+    @State var isRegister: Bool = false
     var body: some View {
-        ZStack{
-            Image("Background")
-            VStack(alignment: .center, spacing:65){
-                titleAuth
-                textMotivation
-                authForm
-                buttonAccessFormRegister
+        NavigationStack{
+            ZStack{
+                Image("Background")
+                VStack(alignment: .center, spacing:65){
+                    titleAuth
+                    textMotivation
+                    authForm
+                    
+                    buttonAccessFormRegister
+                }
+                .padding()
+                .padding(.top, 50)
             }
-            .padding()
-            .padding(.top, 50)
         }
+      
     }
     
     
@@ -96,7 +101,11 @@ struct AuthentificationView: View {
             Text("Pas encore de compte ? ")
                 .font(.system(size: 8).width(.expanded).weight(.light))
                 .foregroundStyle(.purpleText)
-            ButtonForm(title: "S'enregistrer", isImage: false)
+            ButtonForm(title: "S'enregistrer", isImage: false) {
+                isRegister.toggle()
+               
+                print("")
+            }
         }
         .padding(.top, 100)
     }
@@ -104,7 +113,7 @@ struct AuthentificationView: View {
 
 #Preview {
     if #available(iOS 26.0, *) {
-        AuthentificationView()
+        AuthentificationView(isRegister: false)
     } else {
         // Fallback on earlier versions
     }

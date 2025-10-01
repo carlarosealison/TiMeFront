@@ -17,6 +17,8 @@ struct UserFormView: View {
     @State var password: String = ""
     @State var confirmPassword: String = ""
     
+    @State var userVM = UserViewModel()
+    
     var body: some View {
         ZStack{
             Image("Background")
@@ -25,15 +27,24 @@ struct UserFormView: View {
                     
                 userFormTextField
 
-                ButtonForm(title: "Suivant", isImage: true)
+                ButtonForm(title: "Suivant", isImage: true, action: {
+                    Task{
+                        do{
+                            try await userVM.createUser(firstName: firstName, lastName: lastName, userName: userName, email: email, password: password, confirmPassword: confirmPassword)
+                        }catch{
+                            print("Error \(error)")
+                        }
+                    }
+                })
                     .padding(.top, 100)
 
-                
-                
             }
         }
 
     }
+    
+    
+    
     var userFormTextField: some View{
         VStack(spacing: 30){
             HStack{

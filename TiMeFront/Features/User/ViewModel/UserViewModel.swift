@@ -10,7 +10,6 @@ import Foundation
 @Observable
 class UserViewModel{
     var users: [User] = []
-    
     let userRepo = UserRepo()
     
     func createUser(firstName: String, lastName: String, userName: String, email: String, password: String, confirmPassword: String )async throws{

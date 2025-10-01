@@ -9,11 +9,11 @@ import Foundation
 
 struct User: Identifiable{
     let id = UUID()
-    var username: String
     var firstName: String
     var lastName: String
+    var username: String
     var email: String
-   // var password: String
+    var password: String
     var streakNumber: Int
     var role: String
     var challengeNumber: Int
