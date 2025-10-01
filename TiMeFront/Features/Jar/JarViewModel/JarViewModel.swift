@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 
 class JarViewModel {
-    
+
 }
 
 class BallsViewContainer : SKScene {

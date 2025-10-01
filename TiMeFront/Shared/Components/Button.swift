@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct DissmissButtonView: View {
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         
         if #available(iOS 26.0, *) {
             
             Button {
-                //
+                dismiss()
             } label: {
                 Image(systemName: "chevron.left")
                     .foregroundStyle(.purpleText)

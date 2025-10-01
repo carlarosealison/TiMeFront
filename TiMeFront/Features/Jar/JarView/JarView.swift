@@ -11,6 +11,7 @@ import SpriteKit
 struct JarView: View {
     var body: some View {
         
+        
         NavigationStack {
             ZStack {
 
@@ -46,7 +47,7 @@ struct JarView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     DissmissButtonView()
                 }
-        }
+            }
         }
     }
 }
