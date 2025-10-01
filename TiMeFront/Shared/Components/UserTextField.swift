@@ -19,13 +19,24 @@ struct UserTextField: View {
                 .glassEffect()
                 .frame(height: 44)
                 .overlay(alignment: .center, content: {
-                TextField(text: $data) {
-                    Text("\(label)")
-                        .font(.system(size: 12).width(.expanded).bold())
-                        .foregroundStyle(.purpleDark)
-                    
-                }
-                .padding()
+                    if label == "Mot de passe" || label == "Confirmer mot de passe"{
+                        SecureField(text: $data) {
+                            Text("\(label)")
+                                .font(.system(size: 12).width(.expanded).bold())
+                                .foregroundStyle(.purpleDark)
+                        }
+                        .padding()
+                    }else{
+                        TextField(text: $data) {
+                            Text("\(label)")
+                                .font(.system(size: 12).width(.expanded).bold())
+                                .foregroundStyle(.purpleDark)
+                            
+                        }
+                        .padding()
+
+                    }
+                
                
             })
                 .frame(width: size.width, height: size.heigth)

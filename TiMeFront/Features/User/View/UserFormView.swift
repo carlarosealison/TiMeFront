@@ -55,7 +55,7 @@ struct UserFormView: View {
             
             UserTextField(data: $email, label: "Email", size: (width: 280, heigth: 44))
             UserTextField(data: $password, label: "Mot de passe", size: (width: 280, heigth: 44))
-            UserTextField(data: $confirmPassword, label: "Comfirmer mot de passe", size: (width: 280, heigth: 44))
+            UserTextField(data: $confirmPassword, label: "Confirmer mot de passe", size: (width: 280, heigth: 44))
         }
     }
 }
