@@ -24,11 +24,11 @@ struct UserFormView: View {
                 TitleForm(title: "Inscription", isWelcome: false)
                     
                 userFormTextField
-                
-                if confirmPassword == password{
-                    ButtonForm(title: "Suivant", isImage: true)
 
-                }
+                ButtonForm(title: "Suivant", isImage: true)
+                    .padding(.top, 100)
+
+                
                 
             }
         }

@@ -14,32 +14,37 @@ struct UserRegisterView: View {
             Image("Background")
             VStack(spacing: 100){
                 TitleForm(title: "Photo de profil", isWelcome: false)
-                VStack{
-                    Button {
-                        print("add photo")
-                    } label: {
-                        Circle()
-                            .fill(.white)
-                            .glassEffect()
-                            .frame(width: 200, height: 200)
-                            .overlay{
-                                Image(systemName: "person.badge.plus")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .foregroundStyle(.purpleText)
-                                    .frame(width: 122, height: 115)
-                                    .padding(.leading, 32)
-                            }
-                    }
-                    
-                    Text("Ajouter une photo de profil")
-                        .font(.system(size: 12).width(.expanded).bold())
-                        .foregroundStyle(.purpleDark)
-                        .padding()
-                }
+                addProfilPicture
                 ButtonForm(title: "Enregistrer", isImage: true)
+                    .padding(.top, 100)
             }
             .padding()
+        }
+    }
+    
+    var addProfilPicture: some View{
+        VStack{
+            Button {
+                print("add photo")
+            } label: {
+                Circle()
+                    .fill(.white)
+                    .glassEffect()
+                    .frame(width: 200, height: 200)
+                    .overlay{
+                        Image(systemName: "person.badge.plus")
+                            .resizable()
+                            .scaledToFill()
+                            .foregroundStyle(.purpleText)
+                            .frame(width: 122, height: 115)
+                            .padding(.leading, 32)
+                    }
+            }
+            
+            Text("Ajouter une photo de profil")
+                .font(.system(size: 12).width(.expanded).bold())
+                .foregroundStyle(.purpleDark)
+                .padding()
         }
     }
 }
