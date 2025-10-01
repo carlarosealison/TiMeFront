@@ -7,12 +7,44 @@
 
 import SwiftUI
 
-struct ButtonView: View {
+struct DissmissButtonView: View {
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        if #available(iOS 26.0, *) {
+            
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "chevron.left")
+                    .foregroundStyle(.purpleText)
+                    .font(.system(size: 20))
+                    .padding()
+            }
+            .glassEffect(.clear)
+        } else {
+            Button {
+                //
+            } label: {
+                ZStack {
+                    Circle()
+                        .frame(width: 40)
+                        .foregroundStyle(.grayPurple)
+                    Image(systemName: "chevron.left")
+                        .foregroundStyle(.purpleText)
+                }
+                
+            }
+        }
+        
+        
+        
+        
+        
     }
 }
 
 #Preview {
-    ButtonView()
+    DissmissButtonView()
 }
