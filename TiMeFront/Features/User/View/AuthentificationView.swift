@@ -12,7 +12,7 @@ struct AuthentificationView: View {
     let title: Font = .system(size: 48).width(.expanded)
     @State var email: String = ""
     @State var password: String = ""
-    @State var isRegister: Bool = false
+    @State var navigateToUserForm: Bool = false
     var body: some View {
         NavigationStack{
             ZStack{
@@ -21,14 +21,15 @@ struct AuthentificationView: View {
                     titleAuth
                     textMotivation
                     authForm
-                    
                     buttonAccessFormRegister
                 }
                 .padding()
                 .padding(.top, 50)
             }
+            .navigationDestination(isPresented: $navigateToUserForm) {
+                UserFormView()
+            }
         }
-      
     }
     
     
@@ -102,9 +103,7 @@ struct AuthentificationView: View {
                 .font(.system(size: 8).width(.expanded).weight(.light))
                 .foregroundStyle(.purpleText)
             ButtonForm(title: "S'enregistrer", isImage: false) {
-                isRegister.toggle()
-               
-                print("")
+                navigateToUserForm.toggle()
             }
         }
         .padding(.top, 100)
@@ -113,7 +112,7 @@ struct AuthentificationView: View {
 
 #Preview {
     if #available(iOS 26.0, *) {
-        AuthentificationView(isRegister: false)
+        AuthentificationView(navigateToUserForm: false)
     } else {
         // Fallback on earlier versions
     }
