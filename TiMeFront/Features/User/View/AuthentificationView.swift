@@ -15,7 +15,7 @@ struct AuthentificationView: View {
     var body: some View {
         ZStack{
             Image("Background")
-            VStack(spacing:65){
+            VStack(alignment: .center, spacing:65){
                 Text("Bienvenue")
                     .font(title.width(.expanded).weight(.black))
                     .foregroundStyle(.purpleText)
@@ -34,38 +34,11 @@ struct AuthentificationView: View {
                     .lineSpacing(9)
                     .frame(width: 250)
                 VStack(alignment: .leading, spacing: 20){
-                    TextField(text: $email) {
-                        Text("    Email")
-                            .font(.system(size: 12).width(.expanded).bold())
-                            .foregroundStyle(.purpleDark)
-                        
-                    }
-                    .background{
-                        RoundedRectangle(cornerRadius: 30)
-                            .fill(.white)
-                            .glassEffect()
-                            .frame(height: 44)
-       
-                    }
-                    .frame(width: 280, height: 44)
+                    UserTextField(data: $email, label: "Email", size: (width: 280, heigth: 44))
                     VStack(alignment: .leading){
                         
                         HStack{
-                            TextField(text: $password) {
-                                Text("    Mot de passe")
-                                    .font(.system(size: 12).width(.expanded).bold())
-                                    .foregroundStyle(.purpleDark)
-                                
-                            }
-                            .background{
-                                    RoundedRectangle(cornerRadius: 30)
-                                        .fill(.white)
-                                        .glassEffect()
-                                        .frame(height: 44)
-                                        
-                                    
-                            }
-                            .frame(width: 240, height: 44)
+                            UserTextField(data: $password, label: "Mot de passe", size: (width: 230, heigth: 44))
                             
                             Button {
                                 print("yes")
@@ -98,24 +71,7 @@ struct AuthentificationView: View {
                     Text("Pas encore de compte ? ")
                         .font(.system(size: 8).width(.expanded).weight(.light))
                         .foregroundStyle(.purpleText)
-                    Button {
-                        print("j'ai oublier le mot de passe")
-                    } label: {
-                        Text("S’inscrire")
-                            .font(.system(size: 16).width(.expanded))
-                            .foregroundStyle(.whitePurple)
-                            .frame(width: 113, height: 22)
-                            .padding()
-                            .background {
-                                RoundedRectangle(cornerRadius: 30)
-                                    .fill(.purpleButton)
-                                    .glassEffect()
-                                
-                                
-                            }
-                            
-                            
-                    }
+                    ButtonForm(title: "S'enregistrer", isImage: false)
 
                 }
                 
