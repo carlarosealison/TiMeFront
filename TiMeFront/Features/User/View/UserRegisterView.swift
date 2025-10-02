@@ -9,13 +9,24 @@ import SwiftUI
 
 @available(iOS 26.0, *)
 struct UserRegisterView: View {
+    @Bindable var userVM : UserViewModel
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         ZStack{
             Image("Background")
             VStack(spacing: 100){
                 TitleForm(title: "Photo de profil", isWelcome: false)
                 addProfilPicture
-                ButtonForm(title: "Enregistrer", isImage: true)
+                ButtonForm(title: "Enregistrer", isImage: false, action: {
+                    Task{
+                        do{
+                            try await userVM.createUser(firstName: userVM.firstName, lastName: userVM.lastName, userName: userVM.userName, email: userVM.email, password: userVM.password)
+                        }catch{
+                            print("Error \(error)")
+                        }
+                    }
+                    dismiss()
+                })
                   .padding(.top, 100)
             }
             .padding()
@@ -51,7 +62,7 @@ struct UserRegisterView: View {
 
 #Preview {
     if #available(iOS 26.0, *) {
-        UserRegisterView()
+        UserRegisterView(userVM: .init())
     } else {
         // Fallback on earlier versions
     }

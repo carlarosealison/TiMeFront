@@ -13,6 +13,8 @@ struct AuthentificationView: View {
     @State var email: String = ""
     @State var password: String = ""
     @State var navigateToUserForm: Bool = false
+    @State var isNext: Bool = false
+    @State var userVM = UserViewModel()
     var body: some View {
         NavigationStack{
             ZStack{
@@ -26,7 +28,10 @@ struct AuthentificationView: View {
                 }
             }
             .navigationDestination(isPresented: $navigateToUserForm) {
-                UserFormView()
+                UserFormView(isNext: $isNext, userVM: userVM)
+            }
+            .navigationDestination(isPresented: $isNext) {
+                UserRegisterView(userVM: userVM)
             }
         }
     }
