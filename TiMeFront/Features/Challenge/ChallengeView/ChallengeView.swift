@@ -18,7 +18,7 @@ struct ChallengeView: View {
             Color.whitePurple
                 .ignoresSafeArea()
             VStack {
-//                Spacer()
+                Spacer(minLength: 300)
                 
                 Text("Défi du jour")
                     .foregroundStyle(.purpleDarkHover)
@@ -31,7 +31,11 @@ struct ChallengeView: View {
                     .font(.system(size: 24).width(.expanded).weight(.semibold))
                     .multilineTextAlignment(.center)
                 
-//                Spacer(minLength: 400)
+                Spacer()
+                
+                PurpleButton(withArrow: true, buttonFuncText: "Allons-y!")
+                    .padding(.bottom, 100)
+            
             }.frame(width: 360)
             
             

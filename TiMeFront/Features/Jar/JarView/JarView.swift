@@ -45,7 +45,7 @@ struct JarView: View {
                 
             }.toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    DissmissButtonView()
+                    DissmissButton()
                 }
             }
         }
