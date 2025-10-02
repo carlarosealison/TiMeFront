@@ -16,7 +16,7 @@ struct UserRegisterView: View {
                 TitleForm(title: "Photo de profil", isWelcome: false)
                 addProfilPicture
                 ButtonForm(title: "Enregistrer", isImage: true)
-                    .padding(.top, 100)
+                  .padding(.top, 100)
             }
             .padding()
         }

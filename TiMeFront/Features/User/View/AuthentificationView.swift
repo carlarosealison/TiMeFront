@@ -22,9 +22,8 @@ struct AuthentificationView: View {
                     textMotivation
                     authForm
                     buttonAccessFormRegister
+                    
                 }
-                .padding()
-                .padding(.top, 50)
             }
             .navigationDestination(isPresented: $navigateToUserForm) {
                 UserFormView()

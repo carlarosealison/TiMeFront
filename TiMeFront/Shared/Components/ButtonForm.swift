@@ -22,14 +22,14 @@ struct ButtonForm: View {
                         .foregroundStyle(.whitePurple)
                         .bold()
                         .frame(width: 130, height:32)
-                        .padding()
+                        //.padding()
                     if isImage{
                         Image(systemName: "chevron.right")
                             .resizable()
                             .scaledToFill()
                             .foregroundStyle(.whitePurple)
                             .frame(width: 9, height: 13)
-                            .padding()
+                            //.padding()
                     }
                         
                 }
@@ -37,11 +37,13 @@ struct ButtonForm: View {
                     RoundedRectangle(cornerRadius: 30)
                         .fill(.purpleButton)
                         .glassEffect()
+                        .frame(width: 200, height: 44)
 
                 }
-                .frame(width: 200, height: 44)
+                
                 
             }
+        
     }
 }
 
