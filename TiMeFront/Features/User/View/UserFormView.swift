@@ -21,9 +21,11 @@ struct UserFormView: View {
                 userFormTextField
                 
                 ButtonForm(title: "Suivant", isImage: true, action: {
-                    print(userVM.email)
-                    print(userVM.firstName)
-                    isNext.toggle()
+                    if userVM.password == userVM.confirmPassword{
+                        isNext.toggle()
+                    }else{
+                        userVM.confirmPassword = ""
+                    }
                 })
                 .padding(.top, 100)
             }

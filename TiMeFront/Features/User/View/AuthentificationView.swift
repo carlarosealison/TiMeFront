@@ -88,6 +88,7 @@ struct AuthentificationView: View {
                 .glassEffect()
             
         }
+       
     }
     
     var forgetPassword: some View{
