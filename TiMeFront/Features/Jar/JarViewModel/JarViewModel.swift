@@ -7,16 +7,22 @@
 
 import Foundation
 import SpriteKit
+import UIKit
 
 class JarViewModel {
-
+    
 }
 
 class BallsViewContainer : SKScene {
+    
+    let circleButton = SKShapeNode(circleOfRadius: 65)
+    
     override func didMove(to view: SKView) {
         
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
-            
+        
+        
+        
         //création du sprite 1
         let circle = SKShapeNode(circleOfRadius: 40)
         circle.fillColor = .purpleDark
@@ -83,13 +89,18 @@ class BallsViewContainer : SKScene {
         circle8.physicsBody?.affectedByGravity = true
         
         //création du sprite Button
-        let circleButton = SKShapeNode(circleOfRadius: 65)
         circleButton.fillColor = .purpleButton
         circleButton.position = CGPoint(x: UIScreen.main.bounds.width - 200, y: UIScreen.main.bounds.height - 1)
         
         circleButton.physicsBody = SKPhysicsBody(circleOfRadius: 65)
         circleButton.physicsBody?.affectedByGravity = true
         
+        let circleButtonLabel = SKLabelNode(text: "Secouer")
+        circleButtonLabel.fontName = "SFPro-ExpandedBold"
+        circleButtonLabel.fontSize = 20
+        circleButtonLabel.fontColor = .white
+        circleButtonLabel.horizontalAlignmentMode = .center
+        circleButtonLabel.verticalAlignmentMode = .center
         
         addChild(circle)
         addChild(circle2)
@@ -100,6 +111,20 @@ class BallsViewContainer : SKScene {
         addChild(circle7)
         addChild(circle8)
         addChild(circleButton)
+        circleButton.addChild(circleButtonLabel)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: self)
+        
+        if circleButton.contains(location){
+            // animation pour mimer le comportement du bouton
+            let scaleUp = SKAction.scale(to: 2.5, duration: 0.1)
+            let scaleDown = SKAction.scale(to: 1.0, duration: 0.1)
+            circleButton.run(SKAction.sequence([scaleUp, scaleDown]))
             
+        }
+        
     }
 }

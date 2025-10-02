@@ -43,10 +43,10 @@ struct JarView: View {
                 //                .foregroundStyle(.gray.mix(with: .white, by: 0.6))
                 //                .shadow(radius: 3, y: 4)
                 
-            }.toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    DissmissButton()
-                }
+//            }.toolbar {
+//                ToolbarItem(placement: .topBarLeading) {
+//                    DissmissButton()
+//                }
             }
         }
     }
