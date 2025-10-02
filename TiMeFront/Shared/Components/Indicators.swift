@@ -1,15 +1,15 @@
 //
-//  ButtonView.swift
+//  Indicators.swift
 //  TiMeFront
 //
-//  Created by Sebastien Besse on 25/09/2025.
+//  Created by Sebastien Besse on 02/10/2025.
 //
 
 import SwiftUI
 
 struct DissmissButtonView: View {
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
         
         if #available(iOS 26.0, *) {
@@ -37,10 +37,6 @@ struct DissmissButtonView: View {
                 
             }
         }
-        
-        
-        
-        
         
     }
 }
