@@ -31,6 +31,8 @@ struct ChallengeView: View {
                     .font(.system(size: 24).width(.expanded).weight(.semibold))
                     .multilineTextAlignment(.center)
                 
+                PurpleButton()
+                
 //                Spacer(minLength: 400)
             }.frame(width: 360)
             
