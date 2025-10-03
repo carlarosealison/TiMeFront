@@ -18,6 +18,7 @@ class UserViewModel{
   var password: String = ""
   var confirmPassword: String = ""
     
+    
     var users: [User] = []
     let userRepo = UserRepo()
     
@@ -30,4 +31,5 @@ class UserViewModel{
             print("erreur de saisie \(error)")
         }
     }
+    
 }

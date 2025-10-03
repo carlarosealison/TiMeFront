@@ -10,11 +10,10 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct AuthentificationView: View {
     let title: Font = .system(size: 48).width(.expanded)
-    @State var email: String = ""
-    @State var password: String = ""
     @State var navigateToUserForm: Bool = false
     @State var isNext: Bool = false
     @State var userVM = UserViewModel()
+    @State var views: [any View] = []
     var body: some View {
         NavigationStack{
             ZStack{
@@ -33,7 +32,9 @@ struct AuthentificationView: View {
             .navigationDestination(isPresented: $isNext) {
                 UserRegisterView(userVM: userVM)
             }
+            
         }
+        
     }
     
     
@@ -62,10 +63,10 @@ struct AuthentificationView: View {
     
     var authForm: some View{
         VStack(alignment: .leading, spacing: 30){
-            UserTextField(data: $email, label: "Email", size: (width: 280, heigth: 44))
+            UserTextField(data: $userVM.email, label: "Email", size: (width: 280, heigth: 44))
             VStack(alignment: .leading){
                 HStack{
-                    UserTextField(data: $password, label: "Mot de passe", size: (width: 230, heigth: 44))
+                    UserTextField(data: $userVM.password, label: "Mot de passe", size: (width: 230, heigth: 44))
                     buttonAuth
                 }
                 forgetPassword
