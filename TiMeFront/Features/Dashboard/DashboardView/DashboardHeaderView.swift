@@ -1,25 +1,40 @@
+//
+//  DashboardHeaderView.swift
+//  TiMeFront
+//
+//  Created by Thibault on 26/09/2025.
+//
+
+import SwiftUI
+
 struct DashboardHeaderView: View {
-    // Pour l'instant nil, plus tard depuis la DB
-    let userImageURL: String? = nil  
+    let userImageURL: String? = nil
     
     var body: some View {
         HStack {
-            // ✅ Fonctionne maintenant avec le SF Symbol
-            // ✅ Fonctionnera plus tard avec l'URL
             ProfileImageView(
-                imageURL: userImageURL,
-                size: 44
+                imageURL: userImageURL
             )
             
             VStack(alignment: .leading) {
                 Text("Bonjour Tipsy")
+                
                 Text("Mercredi 3 septembre 2025")
                     .font(.caption)
                     .foregroundColor(.secondary)
+                
             }
             
             Spacer()
+            
+            FlowerSettingsButton(action: {})
         }
         .padding()
     }
 }
+    
+    #Preview {
+        DashboardHeaderView()
+            .background(Color(UIColor.systemBackground))
+    }
+

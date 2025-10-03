@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BookcaseView: View {
     var body: some View {
-        Text("Bookcase!")
+        Text("BookcaseView")
     }
 }
 

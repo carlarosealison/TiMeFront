@@ -2,7 +2,7 @@
 //  GradientBackgroundView.swift
 //  TiMeFront
 //
-//  Created by Thibault on 02/10/2025.
+//  Created by Thibault on 03/10/2025.
 //
 
 import SwiftUI
@@ -14,19 +14,19 @@ struct GradientBackgroundView: View {
             let size = proxy.size
             
             ZStack {
-                // Cercle 1 - Rose/Violet en haut à gauche
+                // Cercle 1
                 Circle()
-                    .fill(Color("PinkCustomClear"))
-                    .frame(width: size.width * 0.8, height: size.width * 0.8)
-                    .blur(radius: 100)
-                    .offset(x: -size.width * 0.3, y: -size.height * 0.2)
+                    .fill(Color("PinkBackground").opacity(0.6))
+                    .frame(width: size.width * 1, height: size.width * 1)
+                    .blur(radius: 90)
+                    .offset(x: -size.width * 0.55, y: -size.height * -0.2)
                 
-                // Cercle 2 - Violet en bas à droite
+                // Cercle 2
                 Circle()
-                    .fill(Color("PurpleText").opacity(0.3))
-                    .frame(width: size.width * 0.7, height: size.width * 0.7)
-                    .blur(radius: 80)
-                    .offset(x: size.width * 0.3, y: size.height * 0.4)
+                    .fill(Color("BlueBackground").opacity(0.6))
+                    .frame(width: size.width * 1, height: size.width * 1.0)
+                    .blur(radius: 90)
+                    .offset(x: size.width * 0.3, y: size.height * 0.5)
             }
             .ignoresSafeArea()
         }

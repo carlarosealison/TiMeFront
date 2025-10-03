@@ -12,18 +12,22 @@ struct JournalCardContent: View {
     let title: String
     
     var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: "doc.text.fill")
+        VStack {
+            Image(systemName: "book.pages")
                 .font(.system(size: 32, weight: .semibold))
-                .foregroundStyle(Color("PurpleText"))
+                .foregroundStyle(Color("PurpleDark"))
             
             Text(title)
-                .font(.headline)
-                .foregroundStyle(.primary)
-            
-            Spacer()
+                .font(.system(size: 12)
+                    .width(.expanded)
+                    .weight(.light))
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity)
+        .background(
+            Image("BackgroundDots")
+                .resizable()
+                .scaledToFill()
+        )
     }
 }
 
@@ -32,5 +36,4 @@ struct JournalCardContent: View {
         JournalCardContent(title: "Rédaction du jour")
     }
     .frame(width: 320, height: 150)
-    .padding()
 }
