@@ -36,17 +36,6 @@ struct JarView: View {
                     
                     Spacer(minLength: 520)
                 }
-                
-                
-                //            Circle()
-                //                .frame(width: 75)
-                //                .foregroundStyle(.gray.mix(with: .white, by: 0.6))
-                //                .shadow(radius: 3, y: 4)
-                
-//            }.toolbar {
-//                ToolbarItem(placement: .topBarLeading) {
-//                    DissmissButton()
-//                }
             }
         }
     }
@@ -73,5 +62,6 @@ struct BallsView: View {
 
 #Preview {
     JarView()
-    
 }
+
+

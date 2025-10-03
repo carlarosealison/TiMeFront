@@ -5,9 +5,9 @@
 //  Created by Apprenant125 on 26/09/2025.
 //
 
-import Foundation
 import SpriteKit
 import UIKit
+import CoreMotion
 
 class JarViewModel {
     
@@ -15,7 +15,9 @@ class JarViewModel {
 
 class BallsViewContainer : SKScene {
     
+    let motionManager = CMMotionManager()
     let circleButton = SKShapeNode(circleOfRadius: 65)
+    let accData = CMAccelerometerData()
     
     override func didMove(to view: SKView) {
         
@@ -112,6 +114,10 @@ class BallsViewContainer : SKScene {
         addChild(circle8)
         addChild(circleButton)
         circleButton.addChild(circleButtonLabel)
+        
+        if motionManager.isAccelerometerActive {
+            motionManager.startAccelerometerUpdates()
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -127,4 +133,61 @@ class BallsViewContainer : SKScene {
         }
         
     }
+    
+    override func update(_ currentTime: TimeInterval) {
+//        //pour lire la data de l'accelerometre
+//        if let accData = motionManager.accelerometerData {
+//            let acc = accData.acceleration
+//            
+////            motionManager.deviceMotionUpdateInterval = 1.0 / 60.0 //60 mises à jour par seconde
+//
+//            physicsWorld.gravity = CGVector(dx: acc.x * 9.8, dy: acc.y * 9.8)
+//        }
+        
+    }
+    
+    func distanceBetween(point1: CGPoint, point2: CGPoint) -> CGFloat {
+        let dx = point2.x - point1.x
+        let dy = point2.y - point1.y
+        return sqrt(dx*dx + dy*dy)
+    }
+    
+    func startMotionUpdates(){
+        if motionManager.isDeviceMotionAvailable {
+            motionManager.deviceMotionUpdateInterval = 1.0 / 60.0 //60 mises à jour par seconde
+            motionManager.startDeviceMotionUpdates(to: .main) { [self] motion, _ in
+                //mise en place du [self] au lieu des self. devant toutes les proprétés embed dans cette closure(ballPosition, circleRadius...) -> Swift nous fait prendre conscience qu'on est bien imbriqué dans cette closure (mesure de sécurité)
+                if let motion = motion {
+                    
+                    //calcule la nouvelle position de la ball suite à un mouvement
+                    let x = CGFloat(motion.gravity.x) * 30
+                    let y = CGFloat(motion.gravity.y) * 30
+                    
+                    //vérifie que la ball est contenue dans la bordure
+                    let newX = circleButton.position.x + x
+                    let newY = circleButton.position.y + y
+                    let distanceFromCenter = distanceBetween(point1: CGPoint(x: 0, y: 0), point2: CGPoint(x: newX, y: newY))
+                    
+//                    if distanceFromCenter <= (circleRadius - ballRadius) {
+//                        circleButton.position = CGPoint(x: newX, y: newY)
+//                    } else {
+//                        let angle = atan2(newY, newX)
+//                        let boundedX = (circleRadius - ballRadius) * cos(angle)
+//                        let boundedY = (circleRadius - ballRadius) * sin(angle)
+//                        circleButton.position = CGPoint(x: boundedX, y: boundedY)
+//                    }
+                }
+            }
+        }
+        
+        
+    }
+    
+    func startAccelerometerData(){
+        if motionManager.isAccelerometerAvailable{
+            motionManager.accelerometerUpdateInterval = 0.1
+        }
+    }
+
+    
 }
