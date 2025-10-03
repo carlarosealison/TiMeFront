@@ -37,10 +37,6 @@ struct ChallengeView: View {
                     .padding(.bottom, 100)
             
             }.frame(width: 360)
-            
-            
-            
-            
         }
     }
 }
