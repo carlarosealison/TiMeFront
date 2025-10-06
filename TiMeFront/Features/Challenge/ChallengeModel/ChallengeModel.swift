@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct ChallengeModel {
+    var id : UUID
+    var instruction : String
+    var messageMotivation : String
+    
+}
