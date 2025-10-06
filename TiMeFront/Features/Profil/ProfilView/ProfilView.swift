@@ -51,22 +51,8 @@ struct ProfileView: View {
             Image("Background")
                 .resizable()
                 .ignoresSafeArea()
-            
+                        
             VStack(spacing: 35) {
-                HStack {
-                    Button(action: {}) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(Color("PurpleText"))
-                            .padding()
-                            .background(Circle()
-                                .fill(Color.white))
-                            .shadow(radius: 2)
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal)
-                
                 ZStack(alignment: .bottomTrailing) {
                     Circle()
                         .fill(Color.gray.opacity(0.4))

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DashboardHeaderView: View {
     let userImageURL: String? = nil
+    @State private var showProfile = false
     
     var body: some View {
         HStack {
@@ -27,14 +28,20 @@ struct DashboardHeaderView: View {
             
             Spacer()
             
-            FlowerSettingsButton(action: {})
+            FlowerSettingsButton(action: {
+                showProfile = true
+            })
         }
         .padding()
+        .navigationDestination(isPresented: $showProfile) {
+            ProfileView()
+        }
     }
 }
     
-    #Preview {
+#Preview {
+    NavigationStack {
         DashboardHeaderView()
             .background(Color(UIColor.systemBackground))
     }
-
+}
