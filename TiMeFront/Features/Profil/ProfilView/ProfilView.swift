@@ -8,7 +8,6 @@
 import SwiftUI
 import LocalAuthentication
 
-
 // Compatibility: Apply Liquid Glass on iOS 26+, fallback to rounded background otherwise
 extension View {
     @ViewBuilder
