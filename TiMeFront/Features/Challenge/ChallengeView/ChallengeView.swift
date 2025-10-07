@@ -40,6 +40,18 @@ struct ChallengeView: View {
                     .padding(.bottom, 100)
             
             }.frame(width: 360)
+//                .onAppear {
+//                    Task {
+//                        do{
+//                            viewModel.fetchChallenge(id: viewModel.challenge?.id ?? UUID())
+//                        }
+//                        catch{
+//                            print("Error in fetching while fetching the challenge : \(error.localizedDescription)")
+//                        }
+//                    }
+//                    
+//                   
+//                }
             
             
             
