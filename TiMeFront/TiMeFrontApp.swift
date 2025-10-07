@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import CoreMotion
 
 @main
 struct TiMeFrontApp: App {
     var body: some Scene {
         WindowGroup {
             //            ContentView()
-            ChallengeView()
+            JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
+            
         }
     }
 }
