@@ -14,4 +14,7 @@ struct UserService{
     func createUser(user: UserRequest)async throws->UserResponse{
        try await api.post(endpoint: "", body: user)
     }
+//    func getIdUser(id: String, user: UserResponse)async throws->UserResponse{
+//        try await api.get(endpoint: "users/\(id)", as: user.self)
+//    }
 }

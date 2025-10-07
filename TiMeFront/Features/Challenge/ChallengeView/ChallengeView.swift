@@ -13,6 +13,8 @@ struct ChallengeView: View {
 //            .foregroundStyle(.purpleDarkHover)
 //            .font(.system(size: 24).width(.expanded).weight(.semibold))
 //    }
+    
+    var viewModel = ChallengeViewModel()
     var body: some View {
         ZStack {
             Color.whitePurple
@@ -25,12 +27,13 @@ struct ChallengeView: View {
                     .font(.system(size: 20).width(.expanded).weight(.medium))
                     .padding(5)
                     .frame(width: 300)
-                
-                Text("Engager une discussion avec une amie")
-                    .foregroundStyle(.purpleText)
-                    .font(.system(size: 24).width(.expanded).weight(.semibold))
-                    .multilineTextAlignment(.center)
-                
+                if let challenge = viewModel.challenge {
+                    Text(challenge.instruction)
+                        .foregroundStyle(.purpleText)
+                        .font(.system(size: 24).width(.expanded).weight(.semibold))
+                        .multilineTextAlignment(.center)
+                }
+
                 Spacer()
                 
                 PurpleButton(withArrow: true, buttonFuncText: "Allons-y!")
