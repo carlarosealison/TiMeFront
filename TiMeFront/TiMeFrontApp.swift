@@ -11,8 +11,7 @@ import SwiftUI
 struct TiMeFrontApp: App {
     var body: some Scene {
         WindowGroup {
-            //            ContentView()
-            ChallengeView()
+            AuthentificationView()
         }
     }
 }
