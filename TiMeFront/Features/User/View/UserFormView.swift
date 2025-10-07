@@ -15,7 +15,6 @@ struct UserFormView: View {
     
     @State var formBoard: [any View] = []
     
-    
     var body: some View {
         ZStack{
             Image("Background")
@@ -45,7 +44,9 @@ struct UserFormView: View {
             UserTextField(data: $userVM.userName, label: "Surnom", size: (width: 280, heigth: 44))
             
             UserTextField(data: $userVM.email, label: "Email", size: (width: 280, heigth: 44))
+            
             UserTextField(data: $userVM.password, label: "Mot de passe", size: (width: 280, heigth: 44))
+            
             UserTextField(data: $userVM.confirmPassword, label: "Confirmer mot de passe", size: (width: 280, heigth: 44))
         }
     }
