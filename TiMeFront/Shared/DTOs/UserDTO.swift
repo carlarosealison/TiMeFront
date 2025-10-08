@@ -13,6 +13,7 @@ struct UserRequest: Codable{
     var userName: String
     var email: String
     var password: String
+    var imageProfil: String?
 }
 
 struct UserResponse: Decodable{

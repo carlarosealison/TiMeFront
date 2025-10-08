@@ -23,7 +23,6 @@ struct AuthentificationView: View {
                     textMotivation
                     authForm
                     buttonAccessFormRegister
-                    
                 }
             }
             .navigationDestination(isPresented: $navigateToUserForm) {
@@ -32,7 +31,7 @@ struct AuthentificationView: View {
             .navigationDestination(isPresented: $isNext) {
                 UserRegisterView(userVM: userVM)
             }
-            
+            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         
     }

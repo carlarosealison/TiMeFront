@@ -17,4 +17,5 @@ struct User: Identifiable{
     var streakNumber: Int
     var role: String
     var challengeNumber: Int
+    var imageProfil: String?
 }

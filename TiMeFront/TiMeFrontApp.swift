@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 26.0, *)
 @main
 struct TiMeFrontApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate

@@ -9,10 +9,19 @@ import SwiftUI
 import FirebaseCore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+      
     FirebaseApp.configure()
-      print("FireBase est configuré !")
+      
+      if FirebaseApp.app() == nil{
+          print("Firebase n'est pas configuré !")
+      }else{
+          print("FireBase est configuré !")
+      }
+      
     return true
+      
   }
 }
