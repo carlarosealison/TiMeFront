@@ -23,4 +23,8 @@ struct ChallengeService {
     ChallengeResponseDTO {
         try await api.get(endpoint: "challenge/\(challengeID)", as: ChallengeResponseDTO.self)
     }
+    
+    func indexChallenge() async throws -> ChallengeResponseDTO{
+        try await api.get(endpoint: "challenge/indexChallenge", as: ChallengeResponseDTO.self)
+    }
 }

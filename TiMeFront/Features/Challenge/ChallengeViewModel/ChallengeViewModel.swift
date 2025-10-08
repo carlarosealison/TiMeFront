@@ -15,17 +15,31 @@ class ChallengeViewModel: @unchecked Sendable {
     
 
     //étape 6: mettre en place le viewModel qui fait l'intermédiaire entre le Model(mais ici le Repo -> DTO) et la View
-    func fetchChallenge(id: UUID) async {
+    func fetchChallenge(id: UUID) async throws {
         
         do{
             let challengeModel = try await challengeRepo.getChallengeById(id: id)
-            self.challenge = challengeModel
             
-//            DispatchQueue.main.async {
-//                self.challenge = challengeModel
-//            } // pour une mise à jour sur le thread principal -> autrement Swift plante
+            DispatchQueue.main.async {
+                self.challenge = challengeModel
+            } // pour une mise à jour sur le thread principal -> autrement Swift plante
         }
         catch {
+            print("Erreur lors du fetch : \(error)")
+        }
+    }
+    
+    func fetchIndexChallenge() async throws {
+        do {
+            let challengeIndex = try await challengeRepo.indexChallenge()
+            
+            var officialChallenge = challengeIndex.instruction.randomElement()
+            
+            DispatchQueue.main.async {
+                self.challenge = challengeIndex
+            }
+        }
+        catch{
             print("Erreur lors du fetch : \(error)")
         }
     }

@@ -13,7 +13,8 @@ struct TiMeFrontApp: App {
     var body: some Scene {
         WindowGroup {
             //            ContentView()
-            JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
+            //JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
+            ChallengeView(challenge: .init(id: .init(), instruction: "bigb", messageMotivation: ""))
             
         }
     }
