@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct EmotionOfTheDayMapper {
+    func mapToUserRequest(register: EmotionOfTheDayResponseDTO) -> EmotionOfTheDayModel {
+        EmotionOfTheDayModel(id: UUID(), date: register.date, idUser: register.idUser, idEmotion: register.idEmotion)
+    }
+}

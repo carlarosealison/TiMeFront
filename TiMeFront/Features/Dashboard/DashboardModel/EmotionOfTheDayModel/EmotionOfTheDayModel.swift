@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct EmotionOfTheDayModel {
+    var id: UUID
+    var date: Date
+    var idUser: UUID
+    var idEmotion: UUID
+}
