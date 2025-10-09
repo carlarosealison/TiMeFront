@@ -82,125 +82,126 @@ struct ProfileView: View {
     @State private var showLogoutConfirm: Bool = false
     
     var body: some View {
-        NavigationStack {
-            ZStack{
-                // Removed the old NavigationLink wrapped in if #available
+                    ZStack{
                
                 // Image de fond
                 Image("Background")
                     .resizable()
                     .ignoresSafeArea()
                 
-                VStack(spacing: 35) {
+                VStack {
+                    Spacer(minLength: 0)
                     
-                    /*
-                    HStack {
-                        Button(action: {}) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(Color("PurpleText"))
-                                .padding()
-                                .background(Circle()
-                                    .fill(Color.white))
-                                .shadow(radius: 2)
-                        }
-                        Spacer()
-                    }
-                    .padding(.horizontal)
-                    */
-                    
-                    // Avatar
-                    ZStack(alignment: .bottomTrailing) {
-                        Circle()
-                            .fill(Color.gray.opacity(0.4))
-                            .frame(width: 100, height: 100)
-                            .overlay(
-                                Group {
-                                    // Affiche l'image de profil si disponible sinon icône
-                                    if let image = profileImage {
-                                        Image(uiImage: image)
-                                            .resizable()
-                                            .scaledToFill()
-                                    } else {
-                                        Image(systemName: "person.fill")
-                                            .font(.system(size: 50))
-                                            .foregroundColor(Color("PurpleText"))
-                                    }
-                                }
-                                    .clipShape(Circle())
-                            )
+                    VStack(spacing: 35) {
                         
-                        // Bouton crayon pour ouvrir le sélecteur de photos et changer l'avatar
-                        Button(action: {
-                            showPhotoPicker = true
-                        }) {
+                        /*
+                        HStack {
+                            Button(action: {}) {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundColor(Color("PurpleText"))
+                                    .padding()
+                                    .background(Circle()
+                                        .fill(Color.white))
+                                    .shadow(radius: 2)
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        */
+                        
+                        // Avatar
+                        ZStack(alignment: .bottomTrailing) {
                             Circle()
-                                .fill(Color.white)
-                                .frame(width: 30, height: 30)
+                                .fill(Color.gray.opacity(0.4))
+                                .frame(width: 100, height: 100)
                                 .overlay(
                                     Group {
-                                        if #available(iOS 26.0, *) {
-                                            Image(systemName: "pencil")
-                                                .foregroundColor(.black)
+                                        // Affiche l'image de profil si disponible sinon icône
+                                        if let image = profileImage {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                                .scaledToFill()
                                         } else {
-                                            Image(systemName: "pencil")
-                                                .foregroundColor(.black)
+                                            Image(systemName: "person.fill")
+                                                .font(.system(size: 50))
+                                                .foregroundColor(Color("PurpleText"))
                                         }
                                     }
+                                        .clipShape(Circle())
                                 )
-                                .shadow(radius: 2)
-                        }
-                    }
-                    
-                    // Affiche le nom d'utilisateur
-                    Text(tempName)
-                        .font(.system(size: 16).width(.expanded).weight(.light))
-                        .foregroundColor(Color("PurpleText"))
-                    
-                    // Champs éditables
-                    VStack(spacing: 0) {
-                        Button { showingEdit = .name } label: {
-                            ProfileRow(icon: "pencil", text: "Modifier le nom")
-                        }
-                        Button { showingEdit = .password } label: {
-                            ProfileRow(icon: "lock", text: "Modifier le mot de passe")
-                        }
-                        Button { showingEdit = .email } label: {
-                            ProfileRow(icon: "envelope", text: "Modifier l'email")
+                            
+                            // Bouton crayon
+                            Button(action: {
+                                showPhotoPicker = true
+                            }) {
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 30, height: 30)
+                                    .overlay(
+                                        Group {
+                                            if #available(iOS 26.0, *) {
+                                                Image(systemName: "pencil")
+                                                    .foregroundColor(.black)
+                                            } else {
+                                                Image(systemName: "pencil")
+                                                    .foregroundColor(.black)
+                                            }
+                                        }
+                                    )
+                                    .shadow(radius: 2)
+                            }
                         }
                         
-                        ToggleRow(icon: "bell", text: "Notifications", isOn: $notificationsOn)
-                        ToggleRow(icon: "faceid", text: "Utiliser Face ID", isOn: $faceIDOn)
+                        // Affiche le nom d'utilisateur
+                        Text(tempName)
+                            .font(.system(size: 16).width(.expanded).weight(.light))
+                            .foregroundColor(Color("PurpleText"))
+                        
+                        // Champs éditables
+                        VStack(spacing: 0) {
+                            Button { showingEdit = .name } label: {
+                                ProfileRow(icon: "pencil", text: "Modifier le nom")
+                            }
+                            Button { showingEdit = .password } label: {
+                                ProfileRow(icon: "lock", text: "Modifier le mot de passe")
+                            }
+                            Button { showingEdit = .email } label: {
+                                ProfileRow(icon: "envelope", text: "Modifier l'email")
+                            }
+                            
+                            ToggleRow(icon: "bell", text: "Notifications", isOn: $notificationsOn)
+                            ToggleRow(icon: "faceid", text: "Utiliser Face ID", isOn: $faceIDOn)
+                        }
+                        // Style carte avec effet verre ou arrière-plan de repli
+                        .glassEffectIfAvailable(cornerRadius: 29)
+                        .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                        .padding(.horizontal, 24)
+                        
+                        
+                        // Bouton de déconnexion qui déclenche une alerte de confirmation
+                        Button(action: {
+                            showLogoutConfirm = true
+                        }) {
+                            Text("Déconnexion")
+                                .font(.system(size: 16).width(.expanded).weight(.medium))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Capsule()
+                                    .fill(Color("RedCustom")))
+                                .padding(.horizontal, 70)
+                                .padding(.bottom, 24)
+                        }
                     }
-                    // Style carte avec effet verre ou arrière-plan de repli
-                    .glassEffectIfAvailable(cornerRadius: 29)
-                    .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-                    .padding(.horizontal, 24)
-                    
                     
                     Spacer()
-                    
-                    // Bouton de déconnexion qui déclenche une alerte de confirmation
-                    Button(action: {
-                        showLogoutConfirm = true
-                    }) {
-                        Text("Déconnexion")
-                            .font(.system(size: 16).width(.expanded).weight(.medium))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Capsule()
-                                .fill(Color("RedCustom")))
-                            .padding(.horizontal, 70)
-                            .padding(.bottom, 70)
-                    }
                 }
             }
             .navigationDestination(isPresented: $navigateToAuth) {
                 if #available(iOS 26.0, *) {
                     AuthentificationView()
                 } else {
-                    // Fallback on earlier versions
                 }
             }
             // Lors d'un changement de la bascule Face ID, ré-authentifier l'utilisateur ; revenir en arrière en cas d'échec
@@ -251,11 +252,11 @@ struct ProfileView: View {
                     }
                 }
             }
-        }
+        
     }
 }
 
-/// Ligne réutilisable affichant une icône, un libellé, un chevron et un séparateur inférieur.
+// Ligne réutilisable affichant une icône, un libellé, un chevron et un séparateur inférieur.
 struct ProfileRow: View {
     var icon: String
     var text: String
@@ -283,8 +284,8 @@ struct ProfileRow: View {
     }
 }
 
-/// Ligne réutilisable avec icône, libellé et un Toggle à droite lié à un état.
-/// Le Toggle utilise une teinte violette.
+// Ligne réutilisable avec icône, libellé et un Toggle à droite lié à un état.
+// Le Toggle utilise une teinte violette.
 struct ToggleRow: View {
     var icon: String
     var text: String
@@ -323,7 +324,7 @@ struct EditSheet: View {
     var onCancel: () -> Void                            // Appelé lors de l'appui sur le bouton Annuler
     var onSave: () -> Void                              // Appelé lors de l'appui sur le bouton Enregistrer
     
-    /// Variables d'état locales servant de tampon avant l'application lors de l'enregistrement
+    // Variables d'état locales servant de tampon avant l'application lors de l'enregistrement
     @State private var localName: String = ""
     @State private var localEmail: String = ""
     @State private var localPassword: String = ""
@@ -409,8 +410,7 @@ struct EditSheet: View {
     }
 }
 
-/// Aperçu de l'écran de profil
+// Aperçu de l'écran de profil
 #Preview {
     ProfileView()
 }
-
