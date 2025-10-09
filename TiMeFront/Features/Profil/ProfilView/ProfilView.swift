@@ -24,7 +24,7 @@ extension View {
     }
 }
 
-// Demande une authentification biométrique
+// Authentification biométrique
 
 func authenticateUser(completion: @escaping (Bool, Error?) -> Void) {
     let context = LAContext()
@@ -42,7 +42,7 @@ func authenticateUser(completion: @escaping (Bool, Error?) -> Void) {
             }
         }
     } else {
-        // Biométrie indisponible : appeler immédiatement la complétion avec un échec et l'erreur
+        // Biométrie indisponible 
         DispatchQueue.main.async {
             completion(false, error)
         }
