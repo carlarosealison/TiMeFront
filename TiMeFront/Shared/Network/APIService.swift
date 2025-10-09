@@ -9,7 +9,7 @@ import Foundation
 
 class APIService{
     
-    let baseURL: URL = URL(string:"http://127.0.0.1:8080/")!
+    let baseURL: URL = URL(string:"http://127.0.0.1:8080")!
     
     enum TVShowError: Error{
            case httpResponseError

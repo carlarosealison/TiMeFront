@@ -14,7 +14,7 @@ struct TiMeFrontApp: App {
         WindowGroup {
             //            ContentView()
             //JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
-            ChallengeView(challenge: .init(id: .init(), instruction: "bigb", messageMotivation: ""))
+            ChallengeView()
             
         }
     }

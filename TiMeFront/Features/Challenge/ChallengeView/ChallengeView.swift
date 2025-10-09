@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChallengeView: View {
     
-    let challenge : ChallengeModel
+//    let challenge : ChallengeModel
     var viewModel = ChallengeViewModel()
     var body: some View {
         NavigationStack{
@@ -23,12 +23,12 @@ struct ChallengeView: View {
                         .foregroundStyle(.purpleDarkHover)
                         .font(.system(size: 20).width(.expanded).weight(.medium))
                         .padding(5)
-                        .frame(width: 300)
                     
-                    Text(challenge.instruction)
+                    Text(viewModel.challenge?.instruction ?? "challenge indisponible")
                         .foregroundStyle(.purpleText)
                         .font(.system(size: 24).width(.expanded).weight(.semibold))
                         .multilineTextAlignment(.center)
+                        
                     
                     Spacer()
                     
@@ -39,7 +39,7 @@ struct ChallengeView: View {
                     .onAppear {
                         Task {
                             do{
-                                try await viewModel.fetchIndexChallenge()
+                                try await viewModel.fetchRandomChallenge()
                             }
                             catch{
                                 print("Error in fetching while fetching the challenge : \(error.localizedDescription)")
@@ -55,5 +55,5 @@ struct ChallengeView: View {
 }
 
 #Preview {
-    ChallengeView(challenge: .init(id: .init(), instruction: "vrvr", messageMotivation: ""))
+    ChallengeView()
 }

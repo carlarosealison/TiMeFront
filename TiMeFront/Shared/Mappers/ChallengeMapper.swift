@@ -16,6 +16,12 @@ struct ChallengeMapper {
         ChallengeModel(id: register.id, instruction: register.instruction, messageMotivation: register.messageMotivation)
     }
     
+    func mapChallengesResponse(register: ChallengeResponseDTO) -> [ChallengeModel]{
+        let indexChallengeResponse = [
+            ChallengeModel(id: register.id, instruction: register.instruction, messageMotivation: register.messageMotivation)
+        ]
+        return indexChallengeResponse
+    }
     
     
 }

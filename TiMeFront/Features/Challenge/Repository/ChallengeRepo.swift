@@ -30,8 +30,13 @@ class ChallengeRepo {
         return mapper.mapChallengeResponse(register: response)
     }
     
-    func indexChallenge() async throws -> ChallengeModel {
+    func indexChallenge() async throws -> [ChallengeModel] {
         let response = try await service.indexChallenge()
+        return mapper.mapChallengesResponse(register: response)
+    }
+    
+    func randomChallenge() async throws -> ChallengeModel {
+        let response = try await service.randomChallenge()
         return mapper.mapChallengeResponse(register: response)
     }
 }
