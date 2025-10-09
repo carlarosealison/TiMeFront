@@ -14,6 +14,7 @@ struct EmotionOfTheDayRequestDTO: Codable {
 }
 
 struct EmotionOfTheDayResponseDTO: Codable {
+    let id: UUID?
     let date: Date
     let idUser: UUID
     let idEmotion: UUID

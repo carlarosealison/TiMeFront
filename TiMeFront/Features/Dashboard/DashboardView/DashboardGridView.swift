@@ -11,6 +11,9 @@ struct DashboardGridView: View {
     
     let spacing = DesignSystem.Grid.spacing
     
+    // Ajout du ViewModel
+    @State private var emotionViewModel = EmotionOfTheDayViewModel()
+    
     var body: some View {
         GeometryReader { geometry in
             let availableWidth = geometry.size.width - (DesignSystem.Grid.padding * 2)
@@ -21,7 +24,7 @@ struct DashboardGridView: View {
             
             VStack(spacing: spacing) {
                 
-                // LIGNE 1 + 2: Défi + Livres + Diamant + Graph
+                // LIGNE 1 & 2: Défi + Livres + Diamant + Graph
                 HStack(alignment: .top, spacing: spacing) {
                     
                     // Défi (2×2)
@@ -42,6 +45,7 @@ struct DashboardGridView: View {
                     
                     VStack(spacing: spacing) {
                         HStack(spacing: spacing) {
+                            
                             // Livres (1×1)
                             NavigationLink(value: DashboardDestination.books) {
                                 DashboardCard {
@@ -121,18 +125,42 @@ struct DashboardGridView: View {
                     
                     // Joyeuse (1×1)
                     DashboardCard {
-                        MoodValidationCardContent {
-                            // Action à exécuter lors de la validation
-                            print("Humeur ajoutée")
-                            // Plus tard : viewModel.validateMood()
-                        }
+                        MoodValidationCardContent(
+                            onValidate: {
+                                // Appel du ViewModel de manière asynchrone grâce à Task
+                                Task {
+                                    await emotionViewModel.addEmotionOfTheDay()
+                                }
+                            },
+                        showSuccess: emotionViewModel.showSuccess
+                            )
                     }
                     .frame(width: cellSize, height: cellSize)
+                    // Overlay pour afficher le loading spinner pour le chargement
+                    .overlay {
+                        if emotionViewModel.isLoading {
+                            ZStack {
+                                Color.black.opacity(0.3)
+                                ProgressView()
+                                    .tint(.white)
+                            }
+                        }
+                    }
                 }
             }
             .padding(DesignSystem.Grid.padding)
         }
         .frame(minWidth: 1)
+        // Alert pour afficher les erreurs
+        .alert("Erreur", isPresented: .constant(emotionViewModel.errorMessage != nil)) {
+            Button("OK") {
+                emotionViewModel.errorMessage = nil
+            }
+        } message: {
+            if let error = emotionViewModel.errorMessage {
+                Text(error)
+            }
+        }
     }
 }
 

@@ -12,7 +12,7 @@ import SwiftUI
 struct TiMeFrontApp: App {
     var body: some Scene {
         WindowGroup {
-            AuthentificationView()
+            DashboardView()
         }
     }
 }

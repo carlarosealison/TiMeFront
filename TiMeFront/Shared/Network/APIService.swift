@@ -9,7 +9,25 @@ import Foundation
 
 class APIService{
     
-    let baseURL: URL = URL(string:"http://127.0.0.1:8080")!
+#if targetEnvironment(simulator)
+let baseURL: URL = URL(string: "http://127.0.0.1:8080")!
+#else
+let baseURL: URL = URL(string: "http://10.80.59.29:8080")!
+#endif
+    
+    // Configuration des encoders/decoders pour gérer les dates de Vapor (format ISO8601) vers Swift (format timestamp)
+    private let jsonEncoder: JSONEncoder = {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        return encoder
+    }()
+    
+    private let jsonDecoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return decoder
+    }()
+    
     
     enum TVShowError: Error{
            case httpResponseError
@@ -30,7 +48,7 @@ class APIService{
                 throw TVShowError.dataEmpty
             }
             do{
-                let decodeObjectRest = try JSONDecoder().decode(T.self, from: data)
+                let decodeObjectRest = try jsonDecoder.decode(T.self, from: data)
                 return decodeObjectRest
             }catch{
                 print("\(error)")
@@ -48,9 +66,9 @@ class APIService{
         let url = URL(string:"\(baseURL)/\(endpoint)")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.httpBody = try JSONEncoder().encode(body)
+        request.httpBody = try jsonEncoder.encode(body)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let (data, _) = try await URLSession.shared.data(for: request)
-        return try JSONDecoder().decode(T.self, from: data)
+        return try jsonDecoder.decode(T.self, from: data)
     }
 }

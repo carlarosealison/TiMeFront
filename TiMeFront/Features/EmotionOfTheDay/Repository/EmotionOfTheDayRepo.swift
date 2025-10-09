@@ -6,3 +6,24 @@
 //
 
 import Foundation
+
+class EmotionOfTheDayRepo {
+    
+    private let service = EmotionOfTheDayService()
+    private let mapper = EmotionOfTheDayMapper()
+    
+    // Crée une émotion du jour
+    func createEmotionOfTheDay(date: Date, idUser: UUID, idEmotion: UUID) async throws -> EmotionOfTheDayModel {
+        // Créer le DTO Request avec les données
+        let request = EmotionOfTheDayRequestDTO(
+            date: date,
+            idUser: idUser,
+            idEmotion: idEmotion
+        )
+        // Appeler le service qui fait l'appel réseau
+        let response = try await service.createEmotionOfTheDay(request: request)
+        
+        // Transformer la réponse DTO en Model via le Mapper
+        return mapper.mapToModel(response)
+    }
+}
