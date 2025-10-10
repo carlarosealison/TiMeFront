@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import CoreMotion
 
 @main
 struct TiMeFrontApp: App {
     var body: some Scene {
         WindowGroup {
-            AuthentificationView()
+                        ContentView()
+            //JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
+            //ChallengeView()
+            
+            //AuthentificationView()
         }
     }
 }
