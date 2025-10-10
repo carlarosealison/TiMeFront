@@ -10,59 +10,78 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct UserFormView: View {
     
-    @State var firstName: String = ""
-    @State var lastName: String = ""
-    @State var userName: String = ""
-    @State var email: String = ""
-    @State var password: String = ""
-    @State var confirmPassword: String = ""
+    @Binding var isNext: Bool
+    @Bindable var userVM : UserViewModel
     
-    @State var userVM = UserViewModel()
+    @State var formBoard: [any View] = []
     
     var body: some View {
         ZStack{
             Image("Background")
             VStack(spacing: 80){
                 TitleForm(title: "Inscription", isWelcome: false)
-                    
+               
                 userFormTextField
-
+               
                 ButtonForm(title: "Suivant", isImage: true, action: {
-                    Task{
-                        do{
-                            try await userVM.createUser(firstName: firstName, lastName: lastName, userName: userName, email: email, password: password, confirmPassword: confirmPassword)
-                        }catch{
-                            print("Error \(error)")
-                        }
+                    if userVM.password == userVM.confirmPassword{
+                        isNext.toggle()
+                    }else{
+                        userVM.confirmPassword = ""
                     }
                 })
-                    .padding(.top, 100)
-
+                .padding(.top, 100)
             }
         }
-
     }
-    
-    
     
     var userFormTextField: some View{
         VStack(spacing: 30){
             HStack{
-                UserTextField(data: $firstName, label: "Prénom", size: (width: 135, heigth: 44))
-                UserTextField(data: $lastName, label: "Nom", size: (width: 135, heigth: 44))
+                UserTextField(data: $userVM.firstName, label: "Prénom", size: (width: 135, heigth: 44))
+                UserTextField(data: $userVM.lastName, label: "Nom", size: (width: 135, heigth: 44))
             }
-            UserTextField(data: $userName, label: "Surnom", size: (width: 280, heigth: 44))
+            UserTextField(data: $userVM.userName, label: "Surnom", size: (width: 280, heigth: 44))
             
-            UserTextField(data: $email, label: "Email", size: (width: 280, heigth: 44))
-            UserTextField(data: $password, label: "Mot de passe", size: (width: 280, heigth: 44))
-            UserTextField(data: $confirmPassword, label: "Confirmer mot de passe", size: (width: 280, heigth: 44))
+            UserTextField(data: $userVM.email, label: "Email", size: (width: 280, heigth: 44))
+            
+            UserTextField(data: $userVM.password, label: "Mot de passe", size: (width: 280, heigth: 44))
+            
+            UserTextField(data: $userVM.confirmPassword, label: "Confirmer mot de passe", size: (width: 280, heigth: 44))
+        }
+    }
+    
+    
+    var addProfilPicture: some View{
+        VStack{
+            Button {
+                print("add photo")
+            } label: {
+                Circle()
+                    .fill(.white)
+                    .glassEffect()
+                    .frame(width: 200, height: 200)
+                    .overlay{
+                        Image(systemName: "person.badge.plus")
+                            .resizable()
+                            .scaledToFill()
+                            .foregroundStyle(.purpleText)
+                            .frame(width: 122, height: 115)
+                            .padding(.leading, 32)
+                    }
+            }
+            
+            Text("Ajouter une photo de profil")
+                .font(.system(size: 12).width(.expanded).bold())
+                .foregroundStyle(.purpleDark)
+                .padding()
         }
     }
 }
 
 #Preview {
     if #available(iOS 26.0, *) {
-        UserFormView()
+        UserFormView(isNext: .constant(false), userVM: .init())
     } else {
         // Fallback on earlier versions
     }

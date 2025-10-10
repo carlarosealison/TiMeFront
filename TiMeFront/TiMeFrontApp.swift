@@ -12,10 +12,11 @@ import CoreMotion
 struct TiMeFrontApp: App {
     var body: some Scene {
         WindowGroup {
-            //            ContentView()
+                        ContentView()
             //JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
-            ChallengeView()
+            //ChallengeView()
             
+            //AuthentificationView()
         }
     }
 }
