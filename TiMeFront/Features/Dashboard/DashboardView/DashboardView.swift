@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreMotion
 
 struct DashboardView: View {
     var body: some View {
@@ -62,6 +63,8 @@ struct DashboardView: View {
             PrivateJournalView()
         case .microphone:
             PrivateJournalView()
+        case .jarChallenge:
+            JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
         }
     }
 }

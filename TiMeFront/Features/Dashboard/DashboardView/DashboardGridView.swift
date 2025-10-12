@@ -40,6 +40,16 @@ struct DashboardGridView: View {
                     }
                     .buttonStyle(.plain)
                     
+//                    NavigationLink(value: DashboardDestination.jarChallenge) {
+//                        DashboardCard {
+//                            ChallengeJarCardContent()
+//                        }
+//                        .frame(
+//                            width: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing),
+//                            height: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing)
+//                        )
+//                    }
+                    
                     VStack(spacing: spacing) {
                         HStack(spacing: spacing) {
                             // Livres (1×1)

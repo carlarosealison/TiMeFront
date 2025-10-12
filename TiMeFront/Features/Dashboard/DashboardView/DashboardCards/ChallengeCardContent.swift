@@ -15,12 +15,15 @@ struct ChallengeCardContent: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                .font(.title2)
-                .fontWeight(.bold)
+//                .font(.title2)
+                .fontWidth(.expanded)
+                .fontWeight(.semibold)
                 .foregroundStyle(Color("PurpleText"))
             
             Text(description)
-                .font(.body)
+//                .font(.body)
+                .fontWidth(.expanded)
+                .fontWeight(.light)
                 .foregroundStyle(.primary)
                 .lineLimit(4)
             
