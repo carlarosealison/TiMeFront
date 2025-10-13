@@ -6,7 +6,6 @@
 //
 
 import SpriteKit
-import UIKit
 import CoreMotion
 
 class JarViewModel {
@@ -17,13 +16,12 @@ class BallsViewContainer : SKScene {
     
     let motionManager = CMMotionManager()
     let circleButton = SKShapeNode(circleOfRadius: 65)
-    let accData = CMAccelerometerData()
+    //    let accData = CMAccelerometerData()
     
     override func didMove(to view: SKView) {
         
+        // pour déterminer la frame à ne pas dépasser
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
-        
-        
         
         //création du sprite 1
         let circle = SKShapeNode(circleOfRadius: 40)
@@ -97,12 +95,16 @@ class BallsViewContainer : SKScene {
         circleButton.physicsBody = SKPhysicsBody(circleOfRadius: 65)
         circleButton.physicsBody?.affectedByGravity = true
         
+        
+        
+        
         let circleButtonLabel = SKLabelNode(text: "Secouer")
         circleButtonLabel.fontName = "SFPro-ExpandedBold"
         circleButtonLabel.fontSize = 20
         circleButtonLabel.fontColor = .white
         circleButtonLabel.horizontalAlignmentMode = .center
         circleButtonLabel.verticalAlignmentMode = .center
+        
         
         addChild(circle)
         addChild(circle2)
@@ -115,7 +117,7 @@ class BallsViewContainer : SKScene {
         addChild(circleButton)
         circleButton.addChild(circleButtonLabel)
         
-        if motionManager.isAccelerometerActive {
+        if motionManager.isAccelerometerAvailable {
             motionManager.startAccelerometerUpdates()
         }
     }
@@ -135,59 +137,83 @@ class BallsViewContainer : SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-//        //pour lire la data de l'accelerometre
-//        if let accData = motionManager.accelerometerData {
-//            let acc = accData.acceleration
-//            
-////            motionManager.deviceMotionUpdateInterval = 1.0 / 60.0 //60 mises à jour par seconde
-//
-//            physicsWorld.gravity = CGVector(dx: acc.x * 9.8, dy: acc.y * 9.8)
-//        }
-        
-    }
-    
-    func distanceBetween(point1: CGPoint, point2: CGPoint) -> CGFloat {
-        let dx = point2.x - point1.x
-        let dy = point2.y - point1.y
-        return sqrt(dx*dx + dy*dy)
-    }
-    
-    func startMotionUpdates(){
-        if motionManager.isDeviceMotionAvailable {
-            motionManager.deviceMotionUpdateInterval = 1.0 / 60.0 //60 mises à jour par seconde
-            motionManager.startDeviceMotionUpdates(to: .main) { [self] motion, _ in
-                //mise en place du [self] au lieu des self. devant toutes les proprétés embed dans cette closure(ballPosition, circleRadius...) -> Swift nous fait prendre conscience qu'on est bien imbriqué dans cette closure (mesure de sécurité)
-                if let motion = motion {
-                    
-                    //calcule la nouvelle position de la ball suite à un mouvement
-                    let x = CGFloat(motion.gravity.x) * 30
-                    let y = CGFloat(motion.gravity.y) * 30
-                    
-                    //vérifie que la ball est contenue dans la bordure
-                    let newX = circleButton.position.x + x
-                    let newY = circleButton.position.y + y
-                    _ = distanceBetween(point1: CGPoint(x: 0, y: 0), point2: CGPoint(x: newX, y: newY))
-                    
-//                    if distanceFromCenter <= (circleRadius - ballRadius) {
-//                        circleButton.position = CGPoint(x: newX, y: newY)
-//                    } else {
-//                        let angle = atan2(newY, newX)
-//                        let boundedX = (circleRadius - ballRadius) * cos(angle)
-//                        let boundedY = (circleRadius - ballRadius) * sin(angle)
-//                        circleButton.position = CGPoint(x: boundedX, y: boundedY)
-//                    }
-                }
-            }
+        //pour lire la data de l'accelerometre
+        if let accData = motionManager.accelerometerData {
+            let acc = accData.acceleration
+            
+            //            motionManager.deviceMotionUpdateInterval = 1.0 / 60.0 //60 mises à jour par seconde
+            
+            physicsWorld.gravity = CGVector(dx: acc.x * 9.8, dy: acc.y * 9.8)
         }
         
-        
     }
-    
-    func startAccelerometerData(){
-        if motionManager.isAccelerometerAvailable{
-            motionManager.accelerometerUpdateInterval = 0.1
-        }
-    }
+}
 
+class BallsDashboardViewContainer : SKScene {
     
+    let motionManager = CMMotionManager()
+    
+    override func didMove(to view: SKView) {
+        
+        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        
+        //création ball 1
+        let ball_1 = SKShapeNode(circleOfRadius: 25)
+        ball_1.position = CGPoint(x: 10, y: 300)
+        ball_1.fillColor = .purpleButton
+        
+        ball_1.physicsBody = SKPhysicsBody(circleOfRadius: 25)
+        ball_1.physicsBody?.affectedByGravity = true
+        
+        //création ball 2
+        let ball_2 = SKShapeNode(circleOfRadius: 25)
+        ball_2.position = CGPoint(x: 25, y: 300)
+        ball_2.fillColor = .purpleDark
+        
+        ball_2.physicsBody = SKPhysicsBody(circleOfRadius: 25)
+        ball_2.physicsBody?.affectedByGravity = true
+        
+        //création ball 3
+        let ball_3 = SKShapeNode(circleOfRadius: 25)
+        ball_3.position = CGPoint(x: 30, y: 300)
+        ball_3.fillColor = .purpleText
+        
+        ball_3.physicsBody = SKPhysicsBody(circleOfRadius: 25)
+        ball_3.physicsBody?.affectedByGravity = true
+        
+        //création ball 4
+        let ball_4 = SKShapeNode(circleOfRadius: 25)
+        ball_4.position = CGPoint(x: 40, y: 300)
+        ball_4.fillColor = .purpleDarkHover
+        
+        ball_4.physicsBody = SKPhysicsBody(circleOfRadius: 25)
+        ball_4.physicsBody?.affectedByGravity = true
+        
+        //création ball 5
+        let ball_5 = SKShapeNode(circleOfRadius: 25)
+        ball_5.position = CGPoint(x: 35, y: 300)
+        ball_5.fillColor = .purpleButton
+        
+        ball_5.physicsBody = SKPhysicsBody(circleOfRadius: 25)
+        ball_5.physicsBody?.affectedByGravity = true
+        
+        addChild(ball_1)
+        addChild(ball_2)
+        addChild(ball_3)
+        addChild(ball_4)
+        addChild(ball_5)
+        
+        if motionManager.isAccelerometerAvailable{
+            motionManager.startAccelerometerUpdates()
+        }
+
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if let accData = motionManager.accelerometerData{
+            let acc = accData.acceleration
+            
+            physicsWorld.gravity = CGVector(dx: acc.x * 9.8, dy: acc.y * 9.8)
+        }
+    }
 }

@@ -42,6 +42,16 @@ struct DashboardGridView: View {
                     .buttonStyle(.plain)
                     .contentShape(Rectangle())
                     
+                    NavigationLink(value: DashboardDestination.jarChallenge) {
+                        DashboardCard {
+                            ChallengeJarCardContent()
+                        }
+                        .frame(
+                            width: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing),
+                            height: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing)
+                        )
+                    }.buttonStyle(.plain)
+                    
                     VStack(spacing: spacing) {
                         HStack(spacing: spacing) {
                             

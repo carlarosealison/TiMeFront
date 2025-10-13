@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreMotion
 
 @available(iOS 26.0, *)
 @main

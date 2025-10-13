@@ -18,12 +18,13 @@ struct ChallengeCardContent: View {
         ZStack {
             VStack(alignment: .leading, spacing: 12) {
                 Text(title)
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .fontWidth(.expanded)
+                    .fontWeight(.semibold)
                     .foregroundStyle(Color("PurpleText"))
                 
                 Text(description)
-                    .font(.body)
+                    .fontWidth(.expanded)
+                    .fontWeight(.light)
                     .foregroundStyle(.primary)
                     .lineLimit(4)
                 

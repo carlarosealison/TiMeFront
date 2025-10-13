@@ -15,4 +15,5 @@ enum DashboardDestination: Hashable {
     case journal
     case microphone
     case profile
+    case jarChallenge
 }
