@@ -11,6 +11,7 @@ struct DashboardGridView: View {
     
     let spacing = DesignSystem.Grid.spacing
     @State private var emotionViewModel = EmotionOfTheDayViewModel()
+    @State private var challengeViewModel = ChallengeViewModel()
     
     var body: some View {
         GeometryReader { geometry in
@@ -26,21 +27,24 @@ struct DashboardGridView: View {
                 HStack(alignment: .top, spacing: spacing) {
                     
                     // Défi (2×2)
-                    NavigationLink(value: DashboardDestination.challenge) {
-                        DashboardCard {
-                            ChallengeCardContent(
-                                title: "Défi",
-                                description: "Prend du temps pour toi en t'appliquant un soin du visage"
-                            )
-                            .background(Color(.white))
-                        }
-                        .frame(
-                            width: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing),
-                            height: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing)
-                        )
-                    }
-                    .buttonStyle(.plain)
-                    .contentShape(Rectangle())
+//                    NavigationLink(value: DashboardDestination.challenge) {
+//                        DashboardCard {
+//                            ChallengeCardContent(
+//                                title: "Défi",
+//                                description: "Prend du temps pour toi en t'appliquant un soin du visage",
+//                                // challenge.instruction
+//                                showSuccess: false
+//                                // challengeViewModel.isChallengeCompleted
+//                            )
+//                            .background(Color(.white))
+//                        }
+//                        .frame(
+//                            width: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing),
+//                            height: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing)
+//                        )
+//                    }
+//                    .buttonStyle(.plain)
+//                    .contentShape(Rectangle())
                     
                     NavigationLink(value: DashboardDestination.jarChallenge) {
                         DashboardCard {
