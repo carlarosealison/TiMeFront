@@ -13,12 +13,18 @@ struct UserRequest: Codable{
     var userName: String
     var email: String
     var password: String
+    var imageProfil: String?
 }
 
+struct UserLogin: Codable{
+    var email: String
+    var password: String
+}
 struct UserResponse: Decodable{
-    let id: UUID
+    let id: UUID?
     let firstName: String
     let lastName: String
     var userName: String
     let email: String
+    var imageProfil: String?
 }

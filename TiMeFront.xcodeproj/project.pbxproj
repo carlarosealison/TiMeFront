@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BEA65BF12E95B11700AD15EB /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = BEA65BF02E95B11700AD15EB /* FirebaseCore */; };
+		BEA65BF32E95B11700AD15EB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BEA65BF22E95B11700AD15EB /* FirebaseStorage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		6A078EE92E745FB100DA1530 /* TiMeFront.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TiMeFront.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -37,6 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEA65BF12E95B11700AD15EB /* FirebaseCore in Frameworks */,
+				BEA65BF32E95B11700AD15EB /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +86,8 @@
 			);
 			name = TiMeFront;
 			packageProductDependencies = (
+				BEA65BF02E95B11700AD15EB /* FirebaseCore */,
+				BEA65BF22E95B11700AD15EB /* FirebaseStorage */,
 			);
 			productName = AppDevPersoFront;
 			productReference = 6A078EE92E745FB100DA1530 /* TiMeFront.app */;
@@ -108,6 +117,9 @@
 			);
 			mainGroup = 6A078EE02E745FB100DA1530;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BEA65BEF2E95B11700AD15EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6A078EEA2E745FB100DA1530 /* Products */;
 			projectDirPath = "";
@@ -269,12 +281,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-
 				DEVELOPMENT_TEAM = 4NDGZX5784;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TiMeFront/Info.plist;
-
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -300,12 +310,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-
 				DEVELOPMENT_TEAM = 4NDGZX5784;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TiMeFront/Info.plist;
-
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -346,6 +354,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BEA65BEF2E95B11700AD15EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BEA65BF02E95B11700AD15EB /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BEA65BEF2E95B11700AD15EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		BEA65BF22E95B11700AD15EB /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BEA65BEF2E95B11700AD15EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6A078EE12E745FB100DA1530 /* Project object */;
 }
