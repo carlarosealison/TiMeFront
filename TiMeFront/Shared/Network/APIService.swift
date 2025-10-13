@@ -9,16 +9,33 @@ import Foundation
 
 class APIService{
     
-    let baseURL: URL = URL(string:"http://127.0.0.1:8080")!
+#if targetEnvironment(simulator)
+    let baseURL: URL = URL(string: "http://127.0.0.1:8080")!
+#else
+    let baseURL: URL = URL(string: "http://10.80.59.29:8080")!
+#endif
+    
+    // Configuration des encoders/decoders pour gérer les dates de Vapor (format ISO8601) vers Swift (format timestamp)
+    private let jsonEncoder: JSONEncoder = {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        return encoder
+    }()
+    
+    private let jsonDecoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return decoder
+    }()
     
     enum TVShowError: Error{
-           case httpResponseError
-           case decodeError
-           case dataEmpty
-           case urlSessionError
-       }
-       
-       
+        case httpResponseError
+        case decodeError
+        case dataEmpty
+        case urlSessionError
+    }
+    
+    
     func get<T:Decodable>(endpoint: String, as type: T.Type)async throws -> T{
         let url = URL(string:"\(baseURL)/\(endpoint)")!
         do{
@@ -44,19 +61,29 @@ class APIService{
     }
     
     
-    func post<U:Encodable>(endpoint: String, body: U) async throws -> HTTPURLResponse{
+    //    func post<U:Encodable>(endpoint: String, body: U) async throws -> HTTPURLResponse{
+    //        let url = URL(string:"\(baseURL)/\(endpoint)")!
+    //        var request = URLRequest(url: url)
+    //        request.httpMethod = "POST"
+    //        request.httpBody = try JSONEncoder().encode(body)
+    //        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    //        let (_, response) = try await URLSession.shared.data(for: request)
+    //        guard let httpResponse = response as? HTTPURLResponse else{
+    //            throw URLError(.badServerResponse)
+    //        }
+    //        print("HTTP Status:", httpResponse.statusCode)
+    //
+    //        return httpResponse
+    //    }
+    
+    func post<T:Decodable, U:Encodable>(endpoint: String, body: U) async throws -> T{
         let url = URL(string:"\(baseURL)/\(endpoint)")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.httpBody = try JSONEncoder().encode(body)
+        request.httpBody = try jsonEncoder.encode(body)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let (_, response) = try await URLSession.shared.data(for: request)
-        guard let httpResponse = response as? HTTPURLResponse else{
-            throw URLError(.badServerResponse)
-        }
-        print("HTTP Status:", httpResponse.statusCode)
-        
-        return httpResponse
+        let (data, _) = try await URLSession.shared.data(for: request)
+        return try jsonDecoder.decode(T.self, from: data)
     }
-
+    
 }

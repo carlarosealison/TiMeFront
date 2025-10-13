@@ -28,7 +28,7 @@ struct UserService{
         return token.replacingOccurrences(of: "\"", with: "")
     }
 
-    func createUser(user: UserRequest)async throws->HTTPURLResponse{
+    func createUser(user: UserRequest)async throws->UserResponse{
         try await api.post(endpoint: "users", body: user)
     }
 }
