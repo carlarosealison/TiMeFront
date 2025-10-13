@@ -7,6 +7,7 @@
 
 import SpriteKit
 import CoreMotion
+import UIKit
 
 class JarViewModel {
     
@@ -157,6 +158,12 @@ class BallsDashboardViewContainer : SKScene {
         
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         
+        let h = frame.height
+        let w = frame.width
+        let cornerRadius: CGFloat
+//        let pathCornerRadius = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: w, height: h), cornerRadius: cornerRadius)
+            
+                
         //création ball 1
         let ball_1 = SKShapeNode(circleOfRadius: 25)
         ball_1.position = CGPoint(x: 10, y: 300)
