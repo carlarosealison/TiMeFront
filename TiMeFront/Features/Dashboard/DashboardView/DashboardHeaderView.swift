@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DashboardHeaderView: View {
+    @Environment(AuthViewModel.self) var authVM
     let userImageURL: String? = nil
     @State private var showProfile = false
     
@@ -18,7 +19,12 @@ struct DashboardHeaderView: View {
             )
             
             VStack(alignment: .leading) {
-                Text("Bonjour Tipsy")
+                if let user = authVM.currentUser{
+                    Text(user.userName)
+                }else{
+                    Text("invité")
+                }
+                
                 
                 Text("Mercredi 3 septembre 2025")
                     .font(.caption)
@@ -42,6 +48,7 @@ struct DashboardHeaderView: View {
 #Preview {
     NavigationStack {
         DashboardHeaderView()
+            .environment(AuthViewModel())
             .background(Color(UIColor.systemBackground))
     }
 }

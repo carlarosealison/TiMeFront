@@ -24,14 +24,14 @@ struct UserFormView: View {
                 userFormTextField
                
                 ButtonForm(title: "Suivant", isImage: true, action: {
-                    if userVM.password == userVM.confirmPassword{
+                        print("switch")
                         isNext.toggle()
-                    }else{
-                        userVM.confirmPassword = ""
-                    }
+                    
+                    
                 })
                 .padding(.top, 100)
             }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
     }
     
