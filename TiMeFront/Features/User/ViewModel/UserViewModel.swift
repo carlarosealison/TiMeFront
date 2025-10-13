@@ -7,7 +7,6 @@
 
 import SwiftUI
 import PhotosUI
-import FirebaseStorage
 
 @MainActor
 @Observable
@@ -27,8 +26,10 @@ class UserViewModel{
     private var errorMessage: String?
     private var downloadURL: String = ""
     private var uploadProgress: Double = 0
+    var isLogin: Bool = false
     
     let userRepo = UserRepo()
+    
     
     func createUser(firstName: String, lastName: String, userName: String, email: String, password: String, imageProfil: String?)async throws{
         do{
@@ -55,43 +56,50 @@ class UserViewModel{
         imageProfil = ""
     }
     
-    func uploadImageFireBase() async -> String? {
+    func uploadImageToVapor() async -> String? {
         guard let imageData = selectedImageData else {
-            print("⚠️ Aucune image sélectionnée")
+            print("Aucune image à uploader")
             return nil
         }
-
-        isUploading = true
-        errorMessage = nil
-
-        let storageRef = Storage.storage().reference()
-        let imageRef = storageRef.child("profilePics/\(UUID().uuidString).jpg")
-
+        
+        let url = URL(string: "http://127.0.0.1:8080/users/upload")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let boundary = UUID().uuidString
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var body = Data()
+        let filename = "profile.jpg"
+        let mimetype = "image/jpeg"
+        
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: \(mimetype)\r\n\r\n".data(using: .utf8)!)
+        body.append(imageData)
+        body.append("\r\n".data(using: .utf8)!)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        request.httpBody = body
+        
         do {
-            //Upload explicite avec métadonnées
-            let metadata = StorageMetadata()
-            metadata.contentType = "image/jpeg"
-
-            //Attente réelle de la fin de l’upload
-            let _ = try await imageRef.putDataAsync(imageData, metadata: metadata)
-
-            // 3️⃣ Attendre un petit délai pour la propagation côté Storage (rare mais utile en dev local)
-            try await Task.sleep(nanoseconds: 300_000_000) // 0.3s
-
-            //Récupération de l’URL publique
-            let url = try await imageRef.downloadURL()
-            let urlString = url.absoluteString
-            imageProfil = urlString
-
-            print("✅ Upload réussi : \(urlString)")
-            isUploading = false
-            return urlString
-
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                print("Upload échoué, statut non 200")
+                return nil
+            }
+            
+            struct UploadResponse: Decodable { let imageURL: String }
+            let decoded = try JSONDecoder().decode(UploadResponse.self, from: data)
+            self.imageProfil = decoded.imageURL
+            print("Image uploadée : \(decoded.imageURL)")
+            return decoded.imageURL
         } catch {
-            errorMessage = error.localizedDescription
-            print("❌ Erreur Firebase : \(error.localizedDescription)")
-            isUploading = false
+            print("Erreur upload : \(error)")
             return nil
         }
     }
+    
 }

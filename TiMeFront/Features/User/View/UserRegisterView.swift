@@ -19,18 +19,30 @@ struct UserRegisterView: View {
                 TitleForm(title: "Photo de profil", isWelcome: false)
                 addProfilPicture
                 ButtonForm(title: "Enregistrer", isImage: false, action: {
-                    Task{
-                        if let userImageProfil = await userVM.uploadImageFireBase(){
-                            do{
-                                try await userVM.createUser(firstName: userVM.firstName, lastName: userVM.lastName, userName: userVM.userName, email: userVM.email, password: userVM.password, imageProfil: userImageProfil)
+                    Task {
+                        // Upload de l'image vers Vapor
+                        if let uploadedImageURL = await userVM.uploadImageToVapor() {
+                            do {
+                                // Création de l'utilisateur avec l'URL de l'image uploadée
+                                try await userVM.createUser(
+                                    firstName: userVM.firstName,
+                                    lastName: userVM.lastName,
+                                    userName: userVM.userName,
+                                    email: userVM.email,
+                                    password: userVM.password,
+                                    imageProfil: uploadedImageURL
+                                )
                                 dismiss()
-                            }catch{
-                                print("Error \(error)")
+                            } catch {
+                                print("Erreur lors de la création de l’utilisateur : \(error)")
                             }
+                        } else {
+                            print("Aucune image à uploader")
                         }
                     }
-                   
                 })
+
+                
                 .padding(.top, 100)
             }
             .padding()

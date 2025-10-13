@@ -10,10 +10,11 @@ import SwiftUI
 @available(iOS 26.0, *)
 @main
 struct TiMeFrontApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @State private var authVM = AuthViewModel()
     var body: some Scene {
         WindowGroup {
-            AuthentificationView()
+            ContentView()
+                .environment(authVM)
         }
     }
 }

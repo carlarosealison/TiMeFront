@@ -15,6 +15,12 @@ class UserRepo{
     func creatUser(firstName: String, lastName: String, userName: String, email: String, password: String, imageProfil: String) async throws -> HTTPURLResponse{
         let request = UserRequest(firstName: firstName, lastName: lastName, userName: userName, email: email, password: password, imageProfil: imageProfil)
         return try await service.createUser(user: request)
-//        return mapper.mapUserResponse(response)
+
+    }
+    
+    func login(email: String, password: String)async throws -> String{
+        let request = UserLogin(email: email, password: password)
+        return try await service.login(user: request)
     }
 }
+//        return mapper.mapUserResponse(response)

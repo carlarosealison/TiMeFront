@@ -13,16 +13,26 @@ struct AuthentificationView: View {
     @State var navigateToUserForm: Bool = false
     @State var isNext: Bool = false
     @State var userVM = UserViewModel()
+    @Environment(AuthViewModel.self) var authVM
     @State var views: [any View] = []
     var body: some View {
-        NavigationStack{
-            ZStack{
+        NavigationStack {
+            ZStack {
                 Image("Background")
-                VStack(alignment: .center, spacing:65){
+                VStack(alignment: .center, spacing: 65) {
                     titleAuth
                     textMotivation
                     authForm
                     buttonAccessFormRegister
+                }
+            }
+            .onChange(of: authVM.isAuthenticated) { _, newValue in
+                if newValue {
+                    // Exemple : redirige vers une page principale
+                    navigateToUserForm = false
+                    isNext = false
+                    // Ou montre un autre écran principal
+                    print("Utilisateur connecté ! Redirection...")
                 }
             }
             .navigationDestination(isPresented: $navigateToUserForm) {
@@ -75,7 +85,11 @@ struct AuthentificationView: View {
     
     var buttonAuth: some View{
         Button {
-            print("yes")
+            Task {
+                await authVM.login(email: userVM.email, password: userVM.password)
+                print("🔑 Tentative de connexion terminée")
+            }
+            
         } label: {
             Image(systemName: "arrow.forward")
                 .foregroundStyle(.purpleDark)
@@ -88,7 +102,7 @@ struct AuthentificationView: View {
                 .glassEffect()
             
         }
-       
+        
     }
     
     var forgetPassword: some View{
@@ -118,6 +132,7 @@ struct AuthentificationView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         AuthentificationView(navigateToUserForm: false)
+            .environment(AuthViewModel())
     } else {
         // Fallback on earlier versions
     }

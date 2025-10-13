@@ -11,7 +11,7 @@ struct User: Identifiable{
     let id = UUID()
     var firstName: String
     var lastName: String
-    var username: String
+    var userName: String
     var email: String
     var password: String
     var streakNumber: Int
