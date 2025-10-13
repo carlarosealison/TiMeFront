@@ -60,9 +60,9 @@ struct BallsView: View {
     }
 }
 
-#Preview {
-    BallsView()
-}
+//#Preview {
+//    BallsView()
+//}
 
 #Preview {
     
