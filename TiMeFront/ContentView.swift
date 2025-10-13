@@ -14,9 +14,9 @@ struct ContentView: View {
     var body: some View {
         Group {
               if authVM.isAuthenticated {
-                  DashboardView() // 🔒 partie protégée
+                  DashboardView()
               } else {
-                  AuthentificationView() // 🔑 login
+                  AuthentificationView()
               }
           }
           .animation(.easeInOut, value: authVM.isAuthenticated)
