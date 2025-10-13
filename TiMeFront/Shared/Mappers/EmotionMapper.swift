@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+struct EmotionMapper {
+    func mapToModel(_ response: EmotionResponseDTO) -> EmotionModel {
+        EmotionModel(
+            id: response.id ?? UUID(),
+            title: response.title,
+            categoryID: response.categoryID
+        )
+    }
+}

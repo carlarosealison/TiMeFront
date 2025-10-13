@@ -166,7 +166,7 @@ class BallsViewContainer : SKScene {
                     //vérifie que la ball est contenue dans la bordure
                     let newX = circleButton.position.x + x
                     let newY = circleButton.position.y + y
-                    let distanceFromCenter = distanceBetween(point1: CGPoint(x: 0, y: 0), point2: CGPoint(x: newX, y: newY))
+                    _ = distanceBetween(point1: CGPoint(x: 0, y: 0), point2: CGPoint(x: newX, y: newY))
                     
 //                    if distanceFromCenter <= (circleRadius - ballRadius) {
 //                        circleButton.position = CGPoint(x: newX, y: newY)

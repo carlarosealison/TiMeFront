@@ -17,6 +17,13 @@ struct EmotionOfTheDayService {
             endpoint: "emotionOfTheDay/create",
             body: request
         )
-        // Retourne automatiquement EmotionOfTheDayResponseDTO grâce aux génériques
+    }
+    
+    // Récupère une emotion aléatoire dans "Amour" et "Joie"
+    func getDailySuggestion() async throws -> EmotionResponseDTO {
+        try await api.get(
+            endpoint: "emotionOfTheDay/daily-suggestion",
+            as: EmotionResponseDTO.self
+        )
     }
 }

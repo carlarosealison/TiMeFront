@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+class EmotionRepo {
+    private let service = EmotionOfTheDayService()
+    private let mapper = EmotionMapper()
+    
+    func getDailySuggestion() async throws -> EmotionModel {
+        let response = try await service.getDailySuggestion()
+        return mapper.mapToModel(response)
+    }
+}

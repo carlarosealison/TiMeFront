@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct EmotionResponseDTO: Codable {
+    let id: UUID?
+    let title: String
+    let categoryID: UUID
+}

@@ -11,6 +11,7 @@ struct MoodValidationCardContent: View {
     
     let onValidate: () -> Void
     let showSuccess: Bool
+    let emotionTitle: String
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -19,7 +20,7 @@ struct MoodValidationCardContent: View {
                 .allowsHitTesting(false)
             
             // Texte "Joyeuse"
-            Text("Joyeuse")
+            Text(emotionTitle)
                 .font(.system(size: 12)
                     .width(.expanded)
                     .weight(.light))
@@ -58,10 +59,10 @@ struct MoodValidationCardContent: View {
 
 #Preview {
     VStack {
-        MoodValidationCardContent(onValidate: {}, showSuccess: false)
+        MoodValidationCardContent(onValidate: {}, showSuccess: false, emotionTitle: "")
             .frame(width: 150, height: 150)
         
-        MoodValidationCardContent(onValidate: {}, showSuccess: true)
+        MoodValidationCardContent(onValidate: {}, showSuccess: true, emotionTitle: "")
             .frame(width: 150, height: 150)
     }
 }

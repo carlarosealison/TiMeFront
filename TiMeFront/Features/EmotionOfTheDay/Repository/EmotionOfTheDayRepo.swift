@@ -26,4 +26,12 @@ class EmotionOfTheDayRepo {
         // Transformer la réponse DTO en Model via le Mapper
         return mapper.mapToModel(response)
     }
+    
+    func addEmotion(_ create: EmotionOfTheDayCreate) async throws -> EmotionOfTheDayModel {
+        return try await createEmotionOfTheDay(
+            date: Date(),
+            idUser: create.userID,
+            idEmotion: create.emotionID
+        )
+    }
 }

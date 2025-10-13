@@ -9,7 +9,8 @@ import SwiftUI
 
 struct DashboardHeaderView: View {
     let userImageURL: String? = nil
-    @State private var showProfile = false
+//    @Environment(AuthManager.self) private var authManager
+    @State private var currentDate = Date()
     
     var body: some View {
         HStack {
@@ -18,30 +19,43 @@ struct DashboardHeaderView: View {
             )
             
             VStack(alignment: .leading) {
-                Text("Bonjour Tipsy")
+//                if let user = authManager.currentUser {
+//                    Text("Bonjour \(user.userName)")
                 
-                Text("Mercredi 3 septembre 2025")
+                Text(currentDate.formatted(.dateTime
+                    .weekday(.wide)
+                    .day()
+                    .month(.wide)
+                    .year()
+                    .locale(Locale(identifier: "fr_FR"))
+                ))
                     .font(.caption)
                     .foregroundColor(.secondary)
-                
+            }
+            .task {
+                // Charger les infos utilisateur
+//                await authManager.loadCurrentUser()
             }
             
             Spacer()
             
-            FlowerSettingsButton(action: {
-                showProfile = true
-            })
+            NavigationLink(value: DashboardDestination.profile) {
+                ZStack {
+                    OrganicFlowerShape()
+                        .fill(Color("PurpleText"))
+                        .frame(width: 36, height: 36)
+                    
+                    Image(systemName: "gearshape.fill")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.white)
+                }
+            }
+            .buttonStyle(.plain)
         }
         .padding()
-        .navigationDestination(isPresented: $showProfile) {
-            ProfileView()
-        }
     }
 }
     
 #Preview {
-    NavigationStack {
         DashboardHeaderView()
-            .background(Color(UIColor.systemBackground))
     }
-}

@@ -44,7 +44,7 @@ struct DashboardView: View {
             .navigationDestination(for: DashboardDestination.self) { destination in
                 destinationView(for: destination)
             }
-        } // ← Fermeture du NavigationStack
+        }
     }
     
     @ViewBuilder
@@ -62,6 +62,8 @@ struct DashboardView: View {
             PrivateJournalView()
         case .microphone:
             PrivateJournalView()
+        case .profile:
+            ProfileView()
         }
     }
 }

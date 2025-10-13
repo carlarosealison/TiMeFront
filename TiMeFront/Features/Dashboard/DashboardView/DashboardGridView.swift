@@ -10,8 +10,6 @@ import SwiftUI
 struct DashboardGridView: View {
     
     let spacing = DesignSystem.Grid.spacing
-    
-    // Ajout du ViewModel
     @State private var emotionViewModel = EmotionOfTheDayViewModel()
     
     var body: some View {
@@ -42,6 +40,7 @@ struct DashboardGridView: View {
                         )
                     }
                     .buttonStyle(.plain)
+                    .contentShape(Rectangle())
                     
                     VStack(spacing: spacing) {
                         HStack(spacing: spacing) {
@@ -49,7 +48,12 @@ struct DashboardGridView: View {
                             // Livres (1×1)
                             NavigationLink(value: DashboardDestination.books) {
                                 DashboardCard {
-                                    Image("ButtonBooks")
+                                    Image("PurpleBook")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: cellSize * 0.8, height: cellSize * 0.8)
+                                        .frame(maxWidth: .infinity)
+                                    Image("PurpleDarkBook")
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: cellSize * 0.8, height: cellSize * 0.8)
@@ -58,10 +62,13 @@ struct DashboardGridView: View {
                                             Image("BackgroundDots")
                                                 .resizable()
                                                 .scaledToFill()
+                                                .frame(width: 200, height: 800)
                                         )
                                 }
                                 .frame(width: cellSize, height: cellSize)
-                            }.buttonStyle(.plain)
+                            }
+                            .buttonStyle(.plain)
+                            .contentShape(Rectangle())
                             
                             // Streak (1×1)
                             NavigationLink(value: DashboardDestination.streak) {
@@ -80,24 +87,28 @@ struct DashboardGridView: View {
                                     .background(.white)
                                 }
                                 .frame(width: cellSize, height: cellSize)
-                            }.buttonStyle(.plain)
+                            }
+                            .buttonStyle(.plain)
+                            .contentShape(Rectangle())
                         }
                         
                         // Graph (2×1)
                         NavigationLink(value: DashboardDestination.graph) {
-                        DashboardCard {
-                            HabitGraphCardContent(moodBars: [
-                                MoodBar(filledBars: 4, color: .red),
-                                MoodBar(filledBars: 2, color: Color(red: 0.7, green: 0.6, blue: 0.9)),
-                                MoodBar(filledBars: 7, color: .green),
-                                MoodBar(filledBars: 4, color: .orange)
-                            ])
+                            DashboardCard {
+                                HabitGraphCardContent(moodBars: [
+                                    MoodBar(filledBars: 4, color: .red),
+                                    MoodBar(filledBars: 2, color: Color(red: 0.7, green: 0.6, blue: 0.9)),
+                                    MoodBar(filledBars: 7, color: .green),
+                                    MoodBar(filledBars: 4, color: .orange)
+                                ])
+                            }
+                            .frame(
+                                width: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing),
+                                height: cellSize
+                            )
                         }
-                        .frame(
-                            width: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing),
-                            height: cellSize
-                        )
-                    }.buttonStyle(.plain)
+                        .buttonStyle(.plain)
+                        .contentShape(Rectangle())
                     }
                 }
                 
@@ -105,12 +116,14 @@ struct DashboardGridView: View {
                 HStack(spacing: spacing) {
                     
                     // Micro (1×1)
-                    NavigationLink(value: DashboardDestination.journal) {
+                    NavigationLink(value: DashboardDestination.microphone) {
                         DashboardCard {
                             IconCardContent(icon: "mic.fill.badge.plus", color: Color("PurpleDark"))
                         }
                         .frame(width: cellSize, height: cellSize)
-                    }.buttonStyle(.plain)
+                    }
+                    .buttonStyle(.plain)
+                    .contentShape(Rectangle())
                     
                     // Rédaction (2×1)
                     NavigationLink(value: DashboardDestination.journal) {
@@ -121,45 +134,30 @@ struct DashboardGridView: View {
                             width: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing),
                             height: cellSize
                         )
-                    }.buttonStyle(.plain)
+                    }
+                    .buttonStyle(.plain)
+                    .contentShape(Rectangle())
                     
                     // Joyeuse (1×1)
                     DashboardCard {
                         MoodValidationCardContent(
                             onValidate: {
-                                // Appel du ViewModel de manière asynchrone grâce à Task
                                 Task {
                                     await emotionViewModel.addEmotionOfTheDay()
                                 }
                             },
-                        showSuccess: emotionViewModel.showSuccess
-                            )
+                            showSuccess: emotionViewModel.showSuccess,
+                            emotionTitle: emotionViewModel.dailyEmotion?.title ?? "Chargement..."
+                        )
                     }
                     .frame(width: cellSize, height: cellSize)
-                    // Overlay pour afficher le loading spinner pour le chargement
-                    .overlay {
-                        if emotionViewModel.isLoading {
-                            ZStack {
-                                Color.black.opacity(0.3)
-                                ProgressView()
-                                    .tint(.white)
-                            }
-                        }
-                    }
                 }
             }
             .padding(DesignSystem.Grid.padding)
         }
         .frame(minWidth: 1)
-        // Alert pour afficher les erreurs
-        .alert("Erreur", isPresented: .constant(emotionViewModel.errorMessage != nil)) {
-            Button("OK") {
-                emotionViewModel.errorMessage = nil
-            }
-        } message: {
-            if let error = emotionViewModel.errorMessage {
-                Text(error)
-            }
+        .task {
+            await emotionViewModel.loadDailyEmotion()
         }
     }
 }

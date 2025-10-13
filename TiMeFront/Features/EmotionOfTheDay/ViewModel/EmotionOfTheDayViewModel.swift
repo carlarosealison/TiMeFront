@@ -10,53 +10,50 @@ import Foundation
 @MainActor
 @Observable
 class EmotionOfTheDayViewModel {
-    
-    // MARK: - States (états observables pour l'UI)
+    // States
     var isLoading: Bool = false
     var errorMessage: String?
-    var currentEmotionOfTheDay: EmotionOfTheDayModel?
     var showSuccess: Bool = false
+    var currentEmotion: EmotionOfTheDayModel?
+    var dailyEmotion: EmotionModel?
     
-    // MARK: - Dependencies
-    private let repository = EmotionOfTheDayRepo()
+    // Dependencies
+    private let emotionOfTheDayRepo = EmotionOfTheDayRepo()
+    private let emotionRepo = EmotionRepo()
+    private let testUserId = UUID(uuidString: "AEFC2553-7B2D-4B11-B378-BFDCE0C3C4E1")!
     
-    // MARK: - Constantes pour les tests
-    // TODO: Plus tard, remplacer par AuthManager.currentUserId
-    private let testUserId = UUID(uuidString: "AEFC2553-7B2D-4B11-B378-BFDCE0C3C4E1")! // UserID de test valide
-    private let defaultEmotionId = UUID(uuidString: "A37FB50A-4AFC-449F-B243-51BD6079B834")! // Emotion Joyeuse par défaut
+    // Charger l'émotion du jour
+    func loadDailyEmotion() async {
+        do {
+            dailyEmotion = try await emotionRepo.getDailySuggestion()
+        } catch {
+            print("Erreur chargement émotion du jour : \(error)")
+            errorMessage = "Impossible de charger l'émotion du jour"
+        }
+    }
     
-    // MARK: - Actions
-    
-    /// Crée ou met à jour l'émotion du jour
     func addEmotionOfTheDay() async {
-        // Reset de l'erreur précédente
-        errorMessage = nil
-        showSuccess = false
+        guard let dailyEmotion = dailyEmotion else {
+            errorMessage = "L'émotion du jour n'est pas encore chargée"
+            return
+        }
+        
         isLoading = true
+        errorMessage = nil
         
         do {
-            // Créer l'émotion avec la date actuelle
-            let emotion = try await repository.createEmotionOfTheDay(
-                date: Date(),
-                idUser: testUserId,
-                idEmotion: defaultEmotionId
+            let emotionOfTheDay = EmotionOfTheDayCreate(
+                userID: testUserId,
+                emotionID: dailyEmotion.id
             )
             
-            // Stocker l'émotion créée
-            currentEmotionOfTheDay = emotion
+            currentEmotion = try await emotionOfTheDayRepo.addEmotion(emotionOfTheDay)
+            
             showSuccess = true
-            
-            print("✅ Émotion du jour ajoutée avec succès : \(emotion.id)")
-            
-            // Réinitialise le checkmark après 2 secondes car si on veut modifier l'émotion du jour plus tard, on doit voir le "+" et non le checkmark
-            Task {
-                try? await Task.sleep(nanoseconds: 2_000_000_000)
-                showSuccess = false
-            }
-            
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+            showSuccess = false
         } catch {
-            errorMessage = "Erreur lors de l'ajout de l'émotion : \(error.localizedDescription)"
-            print("❌ Erreur : \(error)")
+            errorMessage = "Erreur : \(error.localizedDescription)"
         }
         
         isLoading = false
