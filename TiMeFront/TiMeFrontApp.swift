@@ -13,7 +13,7 @@ struct TiMeFrontApp: App {
     var body: some Scene {
         WindowGroup {
             //JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
-            ChallengeView()
+            DashboardView()
             
             //AuthentificationView()
         }

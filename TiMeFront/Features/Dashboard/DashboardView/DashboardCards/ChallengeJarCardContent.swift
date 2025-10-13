@@ -11,7 +11,7 @@ import SpriteKit
 struct ChallengeJarCardContent: View {
     var body: some View {
         MiniBallsView()
-            .frame(width: 300, height: 300)
+//            .frame(width: 300, height: 300)
     }
 }
 struct MiniBallsView : View {
@@ -30,5 +30,8 @@ struct MiniBallsView : View {
 }
 
 #Preview {
-    ChallengeJarCardContent()
+    DashboardCard {
+        ChallengeJarCardContent()
+
+    }.frame(width: 300, height: 300)
 }
