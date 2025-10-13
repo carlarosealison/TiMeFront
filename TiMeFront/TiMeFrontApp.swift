@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreMotion
 
 @available(iOS 26.0, *)
 @main
@@ -15,6 +16,11 @@ struct TiMeFrontApp: App {
         WindowGroup {
             ContentView()
                 .environment(authVM)
+            //JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
+            //ChallengeView()
+            
+            //AuthentificationView()
+
         }
     }
 }

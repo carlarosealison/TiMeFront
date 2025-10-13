@@ -49,6 +49,8 @@ class BallsViewModel : ObservableObject {
                     
                     if distanceFromCenter <= (circleRadius - ballRadius) {
                         ballPosition = CGPoint(x: newX, y: newY)
+                        
+
                     } else {
                         let angle = atan2(newY, newX)
                         let boundedX = (circleRadius - ballRadius) * cos(angle)

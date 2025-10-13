@@ -7,8 +7,12 @@
 
 import SwiftUI
 import SpriteKit
+import CoreMotion
 
 struct JarView: View {
+    
+    @ObservedObject var viewModel : BallsViewModel
+    
     var body: some View {
         
         
@@ -19,8 +23,7 @@ struct JarView: View {
                     .ignoresSafeArea()
                 
                 BallsView()
-                
-                
+
                 VStack {
     
                     Spacer()
@@ -40,6 +43,7 @@ struct JarView: View {
         }
     }
 }
+
 
 struct BallsView: View {
     var scene : SKScene {
@@ -61,7 +65,11 @@ struct BallsView: View {
 }
 
 #Preview {
-    JarView()
+    
+    @Previewable
+    @State var viewModel = BallsViewModel(motionManager: CMMotionManager())
+    
+    JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
 }
 
 
