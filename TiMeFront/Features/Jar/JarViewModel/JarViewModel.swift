@@ -223,4 +223,26 @@ class BallsDashboardViewContainer : SKScene {
             physicsWorld.gravity = CGVector(dx: acc.x * 9.8, dy: acc.y * 9.8)
         }
     }
+    
+    override func sceneDidLoad() {
+        super.sceneDidLoad()
+        scene?.backgroundColor = .greenCustom
+        becomeFirstResponder()
+    }
+    
+    override var canBecomeFirstResponder: Bool{
+        return true
+    }
+    
+    override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        <#code#>
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            let alert = UIAlertController(title: "Detected Shake", message: "I'll change that page to use my animated balls insted", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+//            present(alert, animated : true)
+        }
+    }
 }
