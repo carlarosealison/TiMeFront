@@ -12,22 +12,35 @@ struct ChallengeCardContent: View {
     let title: String
     let description: String
     
+    var challengeIsValidate = false
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(title)
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundStyle(Color("PurpleText"))
-            
-            Text(description)
-                .font(.body)
-                .foregroundStyle(.primary)
-                .lineLimit(4)
-            
-            Spacer(minLength: 0)
+        ZStack {
+            VStack(alignment: .leading, spacing: 12) {
+                Text(title)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color("PurpleText"))
+                
+                Text(description)
+                    .font(.body)
+                    .foregroundStyle(.primary)
+                    .lineLimit(4)
+                
+                Spacer(minLength: 0)
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .overlay(alignment: .bottomTrailing) {
+            if #available(iOS 26.0, *) {
+                Button(action: {}) {
+                    Image(systemName: "checkmark.square.fill")
+                        .font(.title2)
+                        .foregroundStyle(Color("PurpleText"))
+                }
+            }
+        }
     }
 }
 
