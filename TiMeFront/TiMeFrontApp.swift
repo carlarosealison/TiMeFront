@@ -17,7 +17,7 @@ struct TiMeFrontApp: App {
             ContentView()
                 .environment(authVM)
             //JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
-            DashboardView()
+//            DashboardView()
             
             //AuthentificationView()
 
