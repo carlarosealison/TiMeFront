@@ -48,21 +48,20 @@ struct DashboardGridView: View {
                             // Livres (1×1)
                             NavigationLink(value: DashboardDestination.books) {
                                 DashboardCard {
-                                    Image("PurpleBook")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: cellSize * 0.8, height: cellSize * 0.8)
-                                        .frame(maxWidth: .infinity)
-                                    Image("PurpleDarkBook")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: cellSize * 0.8, height: cellSize * 0.8)
-                                        .frame(maxWidth: .infinity)
+                                    VStack {
+                                        
+                                        Spacer()
+                                        
+                                        Image("ButtonBooks")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: cellSize * 0.5, height: cellSize * 0.8, alignment: .bottom)
+                                    }
                                         .background(
                                             Image("BackgroundDots")
                                                 .resizable()
                                                 .scaledToFill()
-                                                .frame(width: 200, height: 800)
+                                                .frame(width: 300, height: 500)
                                         )
                                 }
                                 .frame(width: cellSize, height: cellSize)

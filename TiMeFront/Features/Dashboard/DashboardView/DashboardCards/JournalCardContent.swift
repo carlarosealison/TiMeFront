@@ -27,7 +27,7 @@ struct JournalCardContent: View {
             Image("BackgroundDots")
                 .resizable()
                 .scaledToFill()
-                .frame(width: 200, height: 800)
+                .frame(width: 300, height: 500)
         )
     }
 }
