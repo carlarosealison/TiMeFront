@@ -27,24 +27,37 @@ class UserViewModel{
     private var downloadURL: String = ""
     private var uploadProgress: Double = 0
     var isLogin: Bool = false
+    var checkFormData: Bool = false
+    
     
     let userRepo = UserRepo()
     
-    
-    func createUser(firstName: String, lastName: String, userName: String, email: String, password: String, imageProfil: String?)async throws{
-        do{
-            let newUser = try await userRepo.creatUser(firstName: firstName, lastName: lastName, userName: userName, email: email, password: password, imageProfil: imageProfil ?? "")
-            if newUser.statusCode == 200{
-                do{
-                    try await resetForm()
-                }catch{
-                    print("erreur de la mise à jour du formulaire \(error)")
-                }
-            }
-        }catch{
-            print("erreur de saisie \(error)")
+    func checkFormUser(){
+        let userFormData = [firstName, lastName, userName, email, password, confirmPassword]
+        
+        if userFormData.allSatisfy({!$0.isEmpty}) && password == confirmPassword{
+            checkFormData = true
+        }else{
+            print("Champ non renseigné ou le mot de passe n'est pas identique au à la confirmation")
         }
     }
+    
+    func createUser(firstName: String, lastName: String, userName: String, email: String, password: String, imageProfil: String?) async throws{
+          do {
+              let newUser = try await userRepo.creatUser(
+                  firstName: firstName,
+                  lastName: lastName,
+                  userName: userName,
+                  email: email,
+                  password: password,
+                  imageProfil: imageProfil ?? ""
+              )
+              print("Utilisateur créé : \(newUser.userName)")
+              try await resetForm()
+          } catch {
+              print("Erreur lors de la création de l'utilisateur : \(error)")
+          }
+      }
     
     func resetForm() async throws{
         firstName = ""

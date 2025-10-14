@@ -14,10 +14,10 @@ struct TiMeFrontApp: App {
     @State private var authVM = AuthViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(authVM)
-            //JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
-            DashboardView()
+//            ContentView()
+//                .environment(authVM)
+            JarView()
+//            DashboardView()
             
             //AuthentificationView()
 

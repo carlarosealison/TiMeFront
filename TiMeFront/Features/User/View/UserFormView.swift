@@ -10,7 +10,6 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct UserFormView: View {
     
-    @Binding var isNext: Bool
     @Bindable var userVM : UserViewModel
     
     @State var formBoard: [any View] = []
@@ -24,10 +23,7 @@ struct UserFormView: View {
                 userFormTextField
                
                 ButtonForm(title: "Suivant", isImage: true, action: {
-                        print("switch")
-                        isNext.toggle()
-                    
-                    
+                    userVM.checkFormUser()
                 })
                 .padding(.top, 100)
             }
@@ -81,7 +77,7 @@ struct UserFormView: View {
 
 #Preview {
     if #available(iOS 26.0, *) {
-        UserFormView(isNext: .constant(false), userVM: .init())
+        UserFormView(userVM: .init())
     } else {
         // Fallback on earlier versions
     }

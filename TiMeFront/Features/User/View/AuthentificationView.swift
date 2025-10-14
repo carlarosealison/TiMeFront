@@ -11,7 +11,6 @@ import SwiftUI
 struct AuthentificationView: View {
     let title: Font = .system(size: 48).width(.expanded)
     @State var navigateToUserForm: Bool = false
-    @State var isNext: Bool = false
     @State var userVM = UserViewModel()
     @Environment(AuthViewModel.self) var authVM
     @State var views: [any View] = []
@@ -30,15 +29,15 @@ struct AuthentificationView: View {
                 if newValue {
                     // Exemple : redirige vers une page principale
                     navigateToUserForm = false
-                    isNext = false
+                    //userVM.checkFormData
                     // Ou montre un autre écran principal
                     print("Utilisateur connecté ! Redirection...")
                 }
             }
             .navigationDestination(isPresented: $navigateToUserForm) {
-                UserFormView(isNext: $isNext, userVM: userVM)
+                UserFormView(userVM: userVM)
             }
-            .navigationDestination(isPresented: $isNext) {
+            .navigationDestination(isPresented: $userVM.checkFormData) {
                 UserRegisterView(userVM: userVM)
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
