@@ -13,9 +13,6 @@ struct JarView: View {
     @Namespace private var transitionNamespace
     
     var body: some View {
-        
-        
-        NavigationStack {
             ZStack {
                 
                 Color.whitePurple
@@ -41,8 +38,6 @@ struct JarView: View {
             }
         }
     }
-}
-
 
 struct BallsView: View {
     @StateObject var navManager = NavigationManager()

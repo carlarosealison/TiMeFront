@@ -11,16 +11,13 @@ import CoreMotion
 @available(iOS 26.0, *)
 @main
 struct TiMeFrontApp: App {
+    
     @State private var authVM = AuthViewModel()
+    
     var body: some Scene {
         WindowGroup {
-//            ContentView()
-//                .environment(authVM)
-            JarView()
-//            DashboardView()
-            
-            //AuthentificationView()
-
+                ContentView()
+          .environement(authVM)
+            }
         }
     }
-}

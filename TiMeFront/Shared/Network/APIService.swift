@@ -10,9 +10,9 @@ import Foundation
 class APIService{
     
 #if targetEnvironment(simulator)
-    let baseURL: URL = URL(string: "http://127.0.0.1:8080")!
+let baseURL: URL = URL(string: "http://127.0.0.1:8080")!
 #else
-    let baseURL: URL = URL(string: "http://10.80.59.29:8080")!
+let baseURL: URL = URL(string: "http://10.80.59.29:8080")!
 #endif
     
     // Configuration des encoders/decoders pour gérer les dates de Vapor (format ISO8601) vers Swift (format timestamp)
@@ -47,7 +47,7 @@ class APIService{
                 throw TVShowError.dataEmpty
             }
             do{
-                let decodeObjectRest = try JSONDecoder().decode(T.self, from: data)
+                let decodeObjectRest = try jsonDecoder.decode(T.self, from: data)
                 return decodeObjectRest
             }catch{
                 print("\(error)")
