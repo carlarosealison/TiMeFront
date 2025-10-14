@@ -8,45 +8,40 @@
 import SpriteKit
 import CoreMotion
 import UIKit
+import SwiftUI
 
-class JarViewModel {
+//class JarViewModel {
+//
+//}
+class JarViewModelContainer : SKScene , Observable{
     
-}
-
-class BallsViewContainer : SKScene {
     
     let motionManager = CMMotionManager()
     let circleButton = SKShapeNode(circleOfRadius: 65)
-    //    let accData = CMAccelerometerData()
+    var navManager : NavigationManager?
+    
+    @Namespace private var transitionNamespaces
     
     override func didMove(to view: SKView) {
         
         // pour déterminer la frame à ne pas dépasser
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         
-        //création du sprite 1
+        //création du sprite
         let circle = SKShapeNode(circleOfRadius: 40)
         circle.fillColor = .purpleDark
         circle.position = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height - 40)
         
-        circle.physicsBody = SKPhysicsBody(circleOfRadius: 40)
-        circle.physicsBody?.affectedByGravity = true
         
         //création du sprite 2
         let circle2 = SKShapeNode(circleOfRadius: 40)
         circle2.fillColor = .purpleHover
         circle2.position = CGPoint(x: UIScreen.main.bounds.width - 100, y: UIScreen.main.bounds.height - 50)
         
-        circle2.physicsBody = SKPhysicsBody(circleOfRadius: 40)
-        circle2.physicsBody?.affectedByGravity = true
-        
         //création du sprite 3
         let circle3 = SKShapeNode(circleOfRadius: 40)
         circle3.fillColor = .grayPurple
         circle3.position = CGPoint(x: UIScreen.main.bounds.width - 50, y: UIScreen.main.bounds.height - 40)
-        
-        circle3.physicsBody = SKPhysicsBody(circleOfRadius: 40)
-        circle3.physicsBody?.affectedByGravity = true
         
         
         //création du sprite 4
@@ -54,50 +49,36 @@ class BallsViewContainer : SKScene {
         circle4.fillColor = .purpleText
         circle4.position = CGPoint(x: UIScreen.main.bounds.width - 50, y: UIScreen.main.bounds.height - 35)
         
-        circle4.physicsBody = SKPhysicsBody(circleOfRadius: 40)
-        circle4.physicsBody?.affectedByGravity = true
         
         //création du sprite 5
         let circle5 = SKShapeNode(circleOfRadius: 40)
         circle5.fillColor = .purpleHover
         circle5.position = CGPoint(x: UIScreen.main.bounds.width - 50, y: UIScreen.main.bounds.height - 1)
         
-        circle5.physicsBody = SKPhysicsBody(circleOfRadius: 40)
-        circle5.physicsBody?.affectedByGravity = true
         
         //création du sprite 6
         let circle6 = SKShapeNode(circleOfRadius: 40)
         circle6.fillColor = .lightGray
         circle6.position = CGPoint(x: UIScreen.main.bounds.width - 50, y: UIScreen.main.bounds.height - 1)
         
-        circle6.physicsBody = SKPhysicsBody(circleOfRadius: 40)
-        circle6.physicsBody?.affectedByGravity = true
         
         //création du sprite 7
         let circle7 = SKShapeNode(circleOfRadius: 40)
         circle7.fillColor = .purpleDarkHover
         circle7.position = CGPoint(x: UIScreen.main.bounds.width - 200, y: UIScreen.main.bounds.height - 60)
         
-        circle7.physicsBody = SKPhysicsBody(circleOfRadius: 40)
-        circle7.physicsBody?.affectedByGravity = true
         
         //création du sprite 8
         let circle8 = SKShapeNode(circleOfRadius: 40)
         circle8.fillColor = .grayPurple
         circle8.position = CGPoint(x: UIScreen.main.bounds.width - 100, y: UIScreen.main.bounds.height - 45)
         
-        circle8.physicsBody = SKPhysicsBody(circleOfRadius: 40)
-        circle8.physicsBody?.affectedByGravity = true
-        
-        //création du sprite Button
+        //création du sprite Button + son label + ajout de la sous vue dans la vue parente
         circleButton.fillColor = .purpleButton
         circleButton.position = CGPoint(x: UIScreen.main.bounds.width - 200, y: UIScreen.main.bounds.height - 1)
         
         circleButton.physicsBody = SKPhysicsBody(circleOfRadius: 65)
         circleButton.physicsBody?.affectedByGravity = true
-        
-        
-        
         
         let circleButtonLabel = SKLabelNode(text: "Secouer")
         circleButtonLabel.fontName = "SFPro-ExpandedBold"
@@ -106,24 +87,28 @@ class BallsViewContainer : SKScene {
         circleButtonLabel.horizontalAlignmentMode = .center
         circleButtonLabel.verticalAlignmentMode = .center
         
-        
-        addChild(circle)
-        addChild(circle2)
-        addChild(circle3)
-        addChild(circle4)
-        addChild(circle5)
-        addChild(circle6)
-        addChild(circle7)
-        addChild(circle8)
         addChild(circleButton)
         circleButton.addChild(circleButtonLabel)
+        
+        //mon tableau de petits circles
+        let spriteCircle = [circle, circle2, circle3, circle4, circle5, circle6, circle7, circle8]
+        
+        
+        //ici boucle sur les sprites pour leur appliquer la physique appliquée dans la SKScene + ajouter les sous vues dans la vue parente
+        for sprite in spriteCircle {
+            sprite.physicsBody = SKPhysicsBody(circleOfRadius: 40)
+            sprite.physicsBody?.affectedByGravity = true
+            addChild(sprite)
+        }
         
         if motionManager.isAccelerometerAvailable {
             motionManager.startAccelerometerUpdates()
         }
     }
     
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
         
@@ -133,7 +118,13 @@ class BallsViewContainer : SKScene {
             let scaleDown = SKAction.scale(to: 1.0, duration: 0.1)
             circleButton.run(SKAction.sequence([scaleUp, scaleDown]))
             
+            //navigation de le SKScene à la vue SwiftUI
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.navManager?.shouldNavigate = true
+            }
+            
         }
+        
         
     }
     
@@ -150,6 +141,10 @@ class BallsViewContainer : SKScene {
     }
 }
 
+class NavigationManager : ObservableObject {
+    @Published var shouldNavigate : Bool = false
+}
+
 class BallsDashboardViewContainer : SKScene {
     
     let motionManager = CMMotionManager()
@@ -158,12 +153,12 @@ class BallsDashboardViewContainer : SKScene {
         
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         
-        let h = frame.height
-        let w = frame.width
-        let cornerRadius: CGFloat
-//        let pathCornerRadius = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: w, height: h), cornerRadius: cornerRadius)
-            
-                
+        //        let h = frame.height
+        //        let w = frame.width
+        //        let cornerRadius: CGFloat
+        //        let pathCornerRadius = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: w, height: h), cornerRadius: cornerRadius)
+        
+        
         //création ball 1
         let ball_1 = SKShapeNode(circleOfRadius: 25)
         ball_1.position = CGPoint(x: 10, y: 300)
@@ -213,7 +208,7 @@ class BallsDashboardViewContainer : SKScene {
         if motionManager.isAccelerometerAvailable{
             motionManager.startAccelerometerUpdates()
         }
-
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -223,4 +218,17 @@ class BallsDashboardViewContainer : SKScene {
             physicsWorld.gravity = CGVector(dx: acc.x * 9.8, dy: acc.y * 9.8)
         }
     }
+    
+    override func sceneDidLoad() {
+        super.sceneDidLoad()
+        scene?.backgroundColor = .greenCustom
+        becomeFirstResponder()
+    }
+    
+    override var canBecomeFirstResponder: Bool{
+        return true
+    }
+    
+    
+    
 }
