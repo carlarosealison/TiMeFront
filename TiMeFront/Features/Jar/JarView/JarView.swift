@@ -14,9 +14,6 @@ struct JarView: View {
     @ObservedObject var viewModel : BallsViewModel
     
     var body: some View {
-        
-        
-        NavigationStack {
             ZStack {
 
                 Color.whitePurple
@@ -42,8 +39,6 @@ struct JarView: View {
             }
         }
     }
-}
-
 
 struct BallsView: View {
     var scene : SKScene {

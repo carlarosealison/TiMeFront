@@ -12,7 +12,6 @@ struct ChallengeView: View {
 //    let challenge : ChallengeModel
     var viewModel = ChallengeViewModel()
     var body: some View {
-        NavigationStack{
             ZStack {
                 Color.whitePurple
                     .ignoresSafeArea()
@@ -64,8 +63,6 @@ struct ChallengeView: View {
                         
                     }
             }
-        }
-        
     }
 }
 
