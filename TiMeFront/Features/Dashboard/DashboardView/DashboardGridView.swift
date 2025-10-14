@@ -31,8 +31,7 @@ struct DashboardGridView: View {
                         challengeViewModel: challengeViewModel,
                         cellSize: cellSize,
                         spacing: spacing
-                    )
-                    
+                    )                    
                     VStack(spacing: spacing) {
                         HStack(spacing: spacing) {
                             

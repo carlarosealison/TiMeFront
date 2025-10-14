@@ -12,17 +12,12 @@ import CoreMotion
 @main
 struct TiMeFrontApp: App {
     
-//    @State private var authManager = AuthManager()
+    @State private var authVM = AuthViewModel()
     
     var body: some Scene {
         WindowGroup {
-//            if authManager.isAuthenticated {
-                DashboardView()
-//                    .environment(authManager)
-//            } else {
-//                AuthentificationView()
-//                    .environment(authManager)
-//            }
+                ContentView()
+          .environement(authVM)
+            }
         }
     }
-}
