@@ -12,11 +12,21 @@ struct MoodValidationCardContent: View {
     let onValidate: () -> Void
     let showSuccess: Bool
     let emotionTitle: String
+    let categoryID: UUID?
+    let backgroundColor: Color
+        
+    private var buttonTintColor: Color {
+        if showSuccess {
+            return Color.green.opacity(0.75)
+        } else {
+            return backgroundColor
+        }
+    }
     
     var body: some View {
         ZStack(alignment: .topLeading) {
             // Background
-            Color("OrangeCustom")
+            backgroundColor
                 .allowsHitTesting(false)
             
             // Texte "Joyeuse"
@@ -36,7 +46,7 @@ struct MoodValidationCardContent: View {
                         .font(.system(size: 20, weight: .medium))
                         .frame(width: 36, height: 36)
                 }
-                .glassEffect(.regular.tint(showSuccess ? Color.green.opacity(0.75) : Color("OrangeCustom")))
+                .glassEffect(.regular.tint(buttonTintColor))
                 .padding(.trailing, 6)
                 .padding(.bottom, 6)
                 .disabled(showSuccess)
@@ -58,11 +68,35 @@ struct MoodValidationCardContent: View {
 }
 
 #Preview {
-    VStack {
-        MoodValidationCardContent(onValidate: {}, showSuccess: false, emotionTitle: "")
-            .frame(width: 150, height: 150)
+    VStack(spacing: 20) {
+        // Joie (Orange)
+        MoodValidationCardContent(
+            onValidate: {},
+            showSuccess: false,
+            emotionTitle: "Joyeuse",
+            categoryID: UUID(uuidString: "CE85D2A7-EDD7-4F1B-8BEF-0486B6E8A043")!,
+            backgroundColor: Color("OrangeCustomCard")
+        )
+        .frame(width: 150, height: 150)
         
-        MoodValidationCardContent(onValidate: {}, showSuccess: true, emotionTitle: "")
-            .frame(width: 150, height: 150)
+        // Amour (Rose)
+        MoodValidationCardContent(
+            onValidate: {},
+            showSuccess: false,
+            emotionTitle: "Amoureuse",
+            categoryID: UUID(uuidString: "2406411A-717D-4543-B1D7-11491B517423")!,
+            backgroundColor: Color("PinkCustomClear")
+        )
+        .frame(width: 150, height: 150)
+        
+        // Validée
+        MoodValidationCardContent(
+            onValidate: {},
+            showSuccess: true,
+            emotionTitle: "Sur un nuage",
+            categoryID: UUID(uuidString: "CE85D2A7-EDD7-4F1B-8BEF-0486B6E8A043")!,
+            backgroundColor: Color("OrangeCustomCard")
+        )
+        .frame(width: 150, height: 150)
     }
 }

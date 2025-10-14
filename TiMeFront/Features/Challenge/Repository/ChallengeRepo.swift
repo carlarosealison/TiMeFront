@@ -39,4 +39,17 @@ class ChallengeRepo {
         let response = try await service.randomChallenge()
         return mapper.mapChallengeResponse(register: response)
     }
+    
+    // TODO: Sauvegarder le challenge pour qu'il reste quand on ferme l'app
+    func saveCurrentChallenge(_ challenge: ChallengeModel) async throws {
+        // Appel API pour sauvegarder sur le backend
+        // try await service.saveCurrentChallenge(challenge)
+    }
+
+    func getCurrentChallenge() async throws -> ChallengeModel? {
+        // Appel API pour récupérer le challenge du jour
+        // try await service.getCurrentChallenge()
+        // TODO: Implémenter l'appel au service et mapper la réponse
+        return nil
+    }
 }

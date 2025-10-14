@@ -27,34 +27,11 @@ struct DashboardGridView: View {
                 HStack(alignment: .top, spacing: spacing) {
                     
                     // Défi (2×2)
-//                    NavigationLink(value: DashboardDestination.challenge) {
-//                        DashboardCard {
-//                            ChallengeCardContent(
-//                                title: "Défi",
-//                                description: "Prend du temps pour toi en t'appliquant un soin du visage",
-//                                // challenge.instruction
-//                                showSuccess: false
-//                                // challengeViewModel.isChallengeCompleted
-//                            )
-//                            .background(Color(.white))
-//                        }
-//                        .frame(
-//                            width: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing),
-//                            height: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing)
-//                        )
-//                    }
-//                    .buttonStyle(.plain)
-//                    .contentShape(Rectangle())
-                    
-                    NavigationLink(value: DashboardDestination.jarChallenge) {
-                        DashboardCard {
-                            ChallengeJarCardContent()
-                        }
-                        .frame(
-                            width: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing),
-                            height: DesignSystem.Grid.cardSize(cells: 2, cellSize: cellSize, spacing: spacing)
-                        )
-                    }.buttonStyle(.plain)
+                    ChallengeCardSelector(
+                        challengeViewModel: challengeViewModel,
+                        cellSize: cellSize,
+                        spacing: spacing
+                    )
                     
                     VStack(spacing: spacing) {
                         HStack(spacing: spacing) {
@@ -160,7 +137,9 @@ struct DashboardGridView: View {
                                 }
                             },
                             showSuccess: emotionViewModel.showSuccess,
-                            emotionTitle: emotionViewModel.dailyEmotion?.title ?? "Chargement..."
+                            emotionTitle: emotionViewModel.dailyEmotion?.title ?? "Chargement...",
+                            categoryID: emotionViewModel.dailyEmotion?.categoryID,
+                            backgroundColor: getBackgroundColor(for: emotionViewModel.dailyEmotion?.categoryID)
                         )
                     }
                     .frame(width: cellSize, height: cellSize)
@@ -171,6 +150,18 @@ struct DashboardGridView: View {
         .frame(minWidth: 1)
         .task {
             await emotionViewModel.loadDailyEmotion()
+        }
+    }
+    
+    private func getBackgroundColor(for categoryID: UUID?) -> Color {
+        let joieCategoryID = UUID(uuidString: "CE85D2A7-EDD7-4F1B-8BEF-0486B6E8A043")!
+        guard let categoryID = categoryID else {
+            return Color("OrangeCustomCard")
+        }
+        if categoryID == joieCategoryID {
+            return Color("OrangeCustomCard")
+        } else {
+            return Color("PinkCustomClear")
         }
     }
 }
