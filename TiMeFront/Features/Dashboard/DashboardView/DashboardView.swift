@@ -61,7 +61,11 @@ struct DashboardView: View {
         case .streak:
             StreakView()
         case .graph:
-            StatisticsView()
+            if #available(iOS 26.0, *) {
+                StatisticsView()
+            } else {
+                // Fallback on earlier versions
+            }
         case .journal:
             PrivateJournalView()
         case .microphone:
@@ -76,4 +80,5 @@ struct DashboardView: View {
 
 #Preview {
     DashboardView()
+        .environment(AuthViewModel())
 }
