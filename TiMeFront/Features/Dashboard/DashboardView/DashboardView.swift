@@ -71,7 +71,7 @@ struct DashboardView: View {
         case .microphone:
             PrivateJournalView()
         case .jarChallenge:
-            JarView(viewModel: BallsViewModel(motionManager: CMMotionManager()))
+            JarView()
         case .profile:
             ProfileView()
         }
