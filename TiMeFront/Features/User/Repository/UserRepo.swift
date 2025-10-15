@@ -18,8 +18,8 @@ class UserRepo{
 
     }
     
-    func login(email: String, password: String)async throws -> String{
-        let request = UserLogin(email: email, password: password)
+    func login(email: String?, username: String?, password: String) async throws -> String {
+        let request = UserLogin(email: email, username: username, password: password)
         return try await service.login(user: request)
     }
 }
