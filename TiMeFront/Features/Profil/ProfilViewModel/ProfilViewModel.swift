@@ -53,6 +53,37 @@ final class ProfilViewModel: ObservableObject {
             faceIDOn = false
         }
     }
+    @MainActor
+    func updateProfile(field: ProfilView.EditField) async -> Bool {
+        guard let token = UserDefaults.standard.string(forKey: "jwtToken") else { return false }
+        guard let url = URL(string: "http://127.0.0.1:8080/users/update") else { return false }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        let payload: [String: String] = {
+            switch field {
+            case .name: return ["userName": name]
+            case .email: return ["email": email]
+            case .password: return ["password": password]
+            }
+        }()
+
+        request.httpBody = try? JSONEncoder().encode(payload)
+
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                return false
+            }
+            return true
+        } catch {
+            print("Erreur updateProfile:", error)
+            return false
+        }
+    }
 }
 //@MainActor
 //func updateProfile(field: EditField) async -> Bool {
