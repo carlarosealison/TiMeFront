@@ -6,39 +6,63 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 @available(iOS 26.0, *)
 struct UserRegisterView: View {
+    @Bindable var userVM : UserViewModel
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         ZStack{
             Image("Background")
             VStack(spacing: 100){
                 TitleForm(title: "Photo de profil", isWelcome: false)
                 addProfilPicture
-                ButtonForm(title: "Enregistrer", isImage: true)
-                  .padding(.top, 100)
+                ButtonForm(title: "Enregistrer", isImage: false, action: {
+                    Task {
+                        // Upload de l'image vers Vapor
+                        if let uploadedImageURL = await userVM.uploadImageToVapor() {
+                            do {
+                                // Création de l'utilisateur avec l'URL de l'image uploadée
+                                try await userVM.createUser(
+                                    firstName: userVM.firstName,
+                                    lastName: userVM.lastName,
+                                    userName: userVM.userName,
+                                    email: userVM.email,
+                                    password: userVM.password,
+                                    imageProfil: uploadedImageURL
+                                )
+                                dismiss()
+                            } catch {
+                                print("Erreur lors de la création de l’utilisateur : \(error)")
+                            }
+                        } else {
+                            print("Aucune image à uploader")
+                        }
+                    }
+                })
+
+                
+                .padding(.top, 100)
             }
             .padding()
         }
+        
     }
     
     var addProfilPicture: some View{
         VStack{
-            Button {
-                print("add photo")
-            } label: {
-                Circle()
-                    .fill(.white)
+            if let image = userVM.image{
+                image
+                    .resizable()
+                    .scaledToFill()
                     .glassEffect()
                     .frame(width: 200, height: 200)
-                    .overlay{
-                        Image(systemName: "person.badge.plus")
-                            .resizable()
-                            .scaledToFill()
-                            .foregroundStyle(.purpleText)
-                            .frame(width: 122, height: 115)
-                            .padding(.leading, 32)
-                    }
+                    .clipShape(Circle())
+            }else{
+                PhotosPicker(selection: $userVM.selectedImage, matching: .images) {
+                    CirclePicker
+                }
             }
             
             Text("Ajouter une photo de profil")
@@ -46,12 +70,41 @@ struct UserRegisterView: View {
                 .foregroundStyle(.purpleDark)
                 .padding()
         }
+        .onChange(of: userVM.selectedImage){
+            Task{
+                do{
+                    if let data = try await userVM.selectedImage? .loadTransferable(type: Data.self),
+                       let uIImage = UIImage(data: data){
+                        userVM.image = Image(uiImage: uIImage)
+                        userVM.selectedImageData = data
+                    }
+                    print("Image importer")
+                }catch{
+                    print("Image introuvable")
+                }
+            }
+        }
+    }
+    
+    var CirclePicker : some View{
+        Circle()
+            .fill(.white)
+            .glassEffect()
+            .frame(width: 200, height: 200)
+            .overlay{
+                Image(systemName: "person.badge.plus")
+                    .resizable()
+                    .scaledToFill()
+                    .foregroundStyle(.purpleText)
+                    .frame(width: 122, height: 115)
+                    .padding(.leading, 32)
+            }
     }
 }
 
 #Preview {
     if #available(iOS 26.0, *) {
-        UserRegisterView()
+        UserRegisterView(userVM: .init())
     } else {
         // Fallback on earlier versions
     }

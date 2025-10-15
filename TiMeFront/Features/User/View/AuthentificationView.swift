@@ -10,25 +10,39 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct AuthentificationView: View {
     let title: Font = .system(size: 48).width(.expanded)
-    @State var email: String = ""
-    @State var password: String = ""
     @State var navigateToUserForm: Bool = false
+    @State var userVM = UserViewModel()
+    @Environment(AuthViewModel.self) var authVM
+    @State var views: [any View] = []
     var body: some View {
-        NavigationStack{
-            ZStack{
+        NavigationStack {
+            ZStack {
                 Image("Background")
-                VStack(alignment: .center, spacing:65){
+                VStack(alignment: .center, spacing: 65) {
                     titleAuth
                     textMotivation
                     authForm
                     buttonAccessFormRegister
-                    
+                }
+            }
+            .onChange(of: authVM.isAuthenticated) { _, newValue in
+                if newValue {
+                    // Exemple : redirige vers une page principale
+                    navigateToUserForm = false
+                    //userVM.checkFormData
+                    // Ou montre un autre écran principal
+                    print("Utilisateur connecté ! Redirection...")
                 }
             }
             .navigationDestination(isPresented: $navigateToUserForm) {
-                UserFormView()
+                UserFormView(userVM: userVM)
             }
+            .navigationDestination(isPresented: $userVM.checkFormData) {
+                UserRegisterView(userVM: userVM)
+            }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
+        
     }
     
     
@@ -57,10 +71,10 @@ struct AuthentificationView: View {
     
     var authForm: some View{
         VStack(alignment: .leading, spacing: 30){
-            UserTextField(data: $email, label: "Email", size: (width: 280, heigth: 44))
+            UserTextField(data: $userVM.email, label: "Email ou pseudo", size: (width: 280, heigth: 44))
             VStack(alignment: .leading){
                 HStack{
-                    UserTextField(data: $password, label: "Mot de passe", size: (width: 230, heigth: 44))
+                    UserTextField(data: $userVM.password, label: "Mot de passe", size: (width: 230, heigth: 44))
                     buttonAuth
                 }
                 forgetPassword
@@ -70,7 +84,19 @@ struct AuthentificationView: View {
     
     var buttonAuth: some View{
         Button {
-            print("yes")
+            Task {
+                let input = userVM.email // Champ unique
+                let password = userVM.password
+
+                if input.contains("@") {
+                    await authVM.login(email: input, username: nil, password: password)
+                } else {
+                    await authVM.login(email: nil, username: input, password: password)
+                }
+
+                print("🔑 Tentative de connexion terminée")
+            }
+            
         } label: {
             Image(systemName: "arrow.forward")
                 .foregroundStyle(.purpleDark)
@@ -83,6 +109,7 @@ struct AuthentificationView: View {
                 .glassEffect()
             
         }
+        
     }
     
     var forgetPassword: some View{
@@ -112,6 +139,7 @@ struct AuthentificationView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         AuthentificationView(navigateToUserForm: false)
+            .environment(AuthViewModel())
     } else {
         // Fallback on earlier versions
     }

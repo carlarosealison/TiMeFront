@@ -6,13 +6,19 @@
 ////
 //
 import SwiftUI
+import CoreMotion
 
+@available(iOS 26.0, *)
 @main
 struct TiMeFrontApp: App {
+    
+    @State private var authVM = AuthViewModel()
+    
     var body: some Scene {
         WindowGroup {
 
-           ProfilView()
+                ContentView()
+                .environment(authVM)
+            }
         }
     }
-}

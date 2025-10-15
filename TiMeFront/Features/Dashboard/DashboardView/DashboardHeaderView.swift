@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct DashboardHeaderView: View {
+    @Environment(AuthViewModel.self) var authVM
     let userImageURL: String? = nil
+//    @Environment(AuthManager.self) private var authManager
+    @State private var currentDate = Date()
     
     var body: some View {
         HStack {
@@ -17,24 +20,48 @@ struct DashboardHeaderView: View {
             )
             
             VStack(alignment: .leading) {
-                Text("Bonjour Tipsy")
+                if let user = authVM.currentUser{
+                    Text(user.userName)
+                }else{
+                    Text("invité")
+                }
                 
-                Text("Mercredi 3 septembre 2025")
+                Text(currentDate.formatted(.dateTime
+                    .weekday(.wide)
+                    .day()
+                    .month(.wide)
+                    .year()
+                    .locale(Locale(identifier: "fr_FR"))
+                ))
                     .font(.caption)
                     .foregroundColor(.secondary)
-                
+            }
+            .task {
+                // Charger les infos utilisateur
+//                await authManager.loadCurrentUser()
             }
             
             Spacer()
             
-            FlowerSettingsButton(action: {})
+            NavigationLink(value: DashboardDestination.profile) {
+                ZStack {
+                    OrganicFlowerShape()
+                        .fill(Color("PurpleText"))
+                        .frame(width: 36, height: 36)
+                    
+                    Image(systemName: "gearshape.fill")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.white)
+                }
+            }
+            .buttonStyle(.plain)
         }
         .padding()
     }
 }
     
-    #Preview {
+#Preview {
         DashboardHeaderView()
+            .environment(AuthViewModel())
             .background(Color(UIColor.systemBackground))
     }
-

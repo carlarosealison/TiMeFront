@@ -11,32 +11,66 @@ struct ChallengeCardContent: View {
     
     let title: String
     let description: String
+    let showSuccess: Bool
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(title)
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundStyle(Color("PurpleText"))
-            
-            Text(description)
-                .font(.body)
-                .foregroundStyle(.primary)
-                .lineLimit(4)
-            
-            Spacer(minLength: 0)
+        ZStack {
+            VStack(alignment: .leading, spacing: 12) {
+                Text(showSuccess ? "Défi réussi !" : title)
+                    .fontWidth(.expanded)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(showSuccess ? .white : Color("PurpleText"))
+                
+                Spacer()
+                
+                Text(description)
+                    .fontWidth(.expanded)
+                    .fontWeight(.light)
+                    .lineLimit(4)
+                
+                Spacer(minLength: 0)
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .overlay(alignment: .topTrailing) {
+            if showSuccess {
+                ZStack {
+                    Circle()
+                        .fill(Color("PurpleCardButton"))
+                        .frame(width: 32, height: 32)
+                    
+                    Image(systemName: "checkmark")
+                        .foregroundStyle(.white)
+                        .font(.system(size: 16, weight: .bold))
+                }
+                .padding(12)
+            }
+        }
+        .background(
+            showSuccess ? Color("PurpleCard") : Color(.white)
+        )
     }
 }
 
 #Preview {
-    DashboardCard {
-        ChallengeCardContent(
-            title: "Défi",
-            description: "Prend du temps pour toi en t'appliquant un soin du visage"
-        )
+    VStack(spacing: 20) {
+        DashboardCard {
+            ChallengeCardContent(
+                title: "Défi",
+                description: "Prend du temps pour toi en t'appliquant un soin du visage",
+                showSuccess: false
+            )
+        }
+        .frame(width: 300, height: 300)
+        
+        DashboardCard {
+            ChallengeCardContent(
+                title: "Défi",
+                description: "Prend du temps pour toi en t'appliquant un soin du visage",
+                showSuccess: true
+            )
+        }
+        .frame(width: 300, height: 300)
     }
-    .frame(width: 300, height: 300)
 }
