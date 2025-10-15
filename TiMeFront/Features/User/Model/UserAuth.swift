@@ -9,5 +9,6 @@ import Foundation
 
 struct UserAuth{
     var email: String
+    var username: String
     var password: String
 }

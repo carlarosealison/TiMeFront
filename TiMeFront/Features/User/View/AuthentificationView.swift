@@ -71,7 +71,7 @@ struct AuthentificationView: View {
     
     var authForm: some View{
         VStack(alignment: .leading, spacing: 30){
-            UserTextField(data: $userVM.email, label: "Email", size: (width: 280, heigth: 44))
+            UserTextField(data: $userVM.email, label: "Email ou pseudo", size: (width: 280, heigth: 44))
             VStack(alignment: .leading){
                 HStack{
                     UserTextField(data: $userVM.password, label: "Mot de passe", size: (width: 230, heigth: 44))
@@ -85,7 +85,15 @@ struct AuthentificationView: View {
     var buttonAuth: some View{
         Button {
             Task {
-                await authVM.login(email: userVM.email, password: userVM.password)
+                let input = userVM.email // Champ unique
+                let password = userVM.password
+
+                if input.contains("@") {
+                    await authVM.login(email: input, username: nil, password: password)
+                } else {
+                    await authVM.login(email: nil, username: input, password: password)
+                }
+
                 print("🔑 Tentative de connexion terminée")
             }
             

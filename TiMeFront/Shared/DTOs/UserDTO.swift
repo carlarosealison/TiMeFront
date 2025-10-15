@@ -17,7 +17,8 @@ struct UserRequest: Codable{
 }
 
 struct UserLogin: Codable{
-    var email: String
+    var email: String?
+    var username: String?
     var password: String
 }
 struct UserResponse: Decodable{

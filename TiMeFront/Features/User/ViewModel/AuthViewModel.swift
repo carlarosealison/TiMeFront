@@ -17,14 +17,12 @@ class AuthViewModel {
     private let userRepo = UserRepo()
 
     // MARK: - Login utilisateur
-    func login(email: String, password: String) async {
+    func login(email: String?, username: String?, password: String) async {
         do {
-            let token = try await userRepo.login(email: email, password: password)
+            let token = try await userRepo.login(email: email, username: username, password: password)
             self.token = token
             self.isAuthenticated = true
             print("✅ Connecté avec token: \(token)")
-
-            // Optionnel : récupérer le profil
             await fetchUserProfile()
         } catch {
             print("❌ Erreur lors du login: \(error)")
