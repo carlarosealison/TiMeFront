@@ -29,7 +29,6 @@ class UserViewModel{
     var isLogin: Bool = false
     var checkFormData: Bool = false
     
-    
     let userRepo = UserRepo()
     
     func checkFormUser(){
@@ -42,22 +41,34 @@ class UserViewModel{
         }
     }
     
-    func createUser(firstName: String, lastName: String, userName: String, email: String, password: String, imageProfil: String?) async throws{
-          do {
-              let newUser = try await userRepo.creatUser(
-                  firstName: firstName,
-                  lastName: lastName,
-                  userName: userName,
-                  email: email,
-                  password: password,
-                  imageProfil: imageProfil ?? ""
-              )
-              print("Utilisateur créé : \(newUser.userName)")
-              try await resetForm()
-          } catch {
-              print("Erreur lors de la création de l'utilisateur : \(error)")
-          }
-      }
+    func createUserAndLogin(authVM: AuthViewModel) async {
+        do {
+            // Création utilisateur
+            let newUser = try await userRepo.creatUser(
+                firstName: firstName,
+                lastName: lastName,
+                userName: userName,
+                email: email,
+                password: password,
+                imageProfil: imageProfil ?? ""
+            )
+            
+            print("✅ Utilisateur créé : \(newUser.userName)")
+
+            //Auto-login avec les infos saisies
+            await authVM.login(
+                email: email.isEmpty ? nil : email,
+                username: email.isEmpty ? userName : nil,
+                password: password
+            )
+
+            // Reset du formulaire
+            try await resetForm()
+            
+        } catch {
+            print("❌ Erreur lors de la création ou connexion : \(error)")
+        }
+    }
     
     func resetForm() async throws{
         firstName = ""
