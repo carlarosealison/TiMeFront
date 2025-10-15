@@ -11,7 +11,7 @@ import SwiftUI
 /// Text("Mon titre")
 /// .mediumPurple()
 
-// MARK: - Text Style Modifiers
+// MARK: - Modifiers
 
 struct HeavyTitleStyle: ViewModifier {
     func body(content: Content) -> some View {
@@ -96,7 +96,7 @@ struct SemiBoldTitleStyle: ViewModifier {
     }
 }
 
-// MARK: - View Extensions
+// MARK: - Extensions
 
 extension View {
     /// Heavy title - 48pt heavy expanded
@@ -150,7 +150,7 @@ extension View {
     }
 }
 
-// MARK: - Usage Examples
+// MARK: - Exemples
 
 #Preview("Typography Showcase") {
     ScrollView {
