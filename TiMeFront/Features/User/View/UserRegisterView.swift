@@ -12,6 +12,7 @@ import PhotosUI
 struct UserRegisterView: View {
     @Bindable var userVM : UserViewModel
     @Environment(\.dismiss) var dismiss
+    @Environment(AuthViewModel.self) var authVM
     var body: some View {
         ZStack{
             Image("Background")
@@ -20,25 +21,16 @@ struct UserRegisterView: View {
                 addProfilPicture
                 ButtonForm(title: "Enregistrer", isImage: false, action: {
                     Task {
-                        // Upload de l'image vers Vapor
-                        if let uploadedImageURL = await userVM.uploadImageToVapor() {
-                            do {
-                                // Création de l'utilisateur avec l'URL de l'image uploadée
-                                try await userVM.createUser(
-                                    firstName: userVM.firstName,
-                                    lastName: userVM.lastName,
-                                    userName: userVM.userName,
-                                    email: userVM.email,
-                                    password: userVM.password,
-                                    imageProfil: uploadedImageURL
-                                )
-                                dismiss()
-                            } catch {
-                                print("Erreur lors de la création de l’utilisateur : \(error)")
-                            }
+                        // Upload optionnel de l'image
+                        if let _ = await userVM.uploadImageToVapor() {
+                            print("Image uploadée avec succès")
                         } else {
-                            print("Aucune image à uploader")
+                            print("Pas d'image à uploader, on continue")
                         }
+
+                        // Création et login automatique de l'utilisateur
+                        await userVM.createUserAndLogin(authVM: authVM)
+                            dismiss()
                     }
                 })
 
