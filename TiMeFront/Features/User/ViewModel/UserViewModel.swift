@@ -41,6 +41,38 @@ class UserViewModel{
         }
     }
     
+    var firstNameError: String?
+    var lastNameError: String?
+    var userNameError: String?
+    var emailError: String?
+    var passwordError: String?
+    var confirmPasswordError: String?
+    
+    var isFormValid: Bool {
+        // Vérifie que tous les champs sont non vides et cohérents
+        !firstName.isEmpty &&
+        !lastName.isEmpty &&
+        !userName.isEmpty &&
+        isValidEmail(email) &&
+        !password.isEmpty &&
+        password == confirmPassword
+    }
+    
+    func validateForm() {
+        firstNameError = firstName.isEmpty ? "Le prénom est requis" : nil
+        lastNameError = lastName.isEmpty ? "Le nom est requis" : nil
+        userNameError = userName.isEmpty ? "Le surnom est requis" : nil
+        emailError = isValidEmail(email) ? nil : "Email invalide"
+        passwordError = password.isEmpty ? "Mot de passe requis" : nil
+        confirmPasswordError = (confirmPassword != password) ? "Les mots de passe ne correspondent pas" : nil
+    }
+    
+    // Vérification simple de l'email
+    private func isValidEmail(_ email: String) -> Bool {
+        let pattern = #"^\S+@\S+\.\S+$"#
+        return email.range(of: pattern, options: .regularExpression) != nil
+    }
+    
     func createUserAndLogin(authVM: AuthViewModel) async {
         do {
             // Création utilisateur

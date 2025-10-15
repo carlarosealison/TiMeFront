@@ -71,10 +71,10 @@ struct AuthentificationView: View {
     
     var authForm: some View{
         VStack(alignment: .leading, spacing: 30){
-            UserTextField(data: $userVM.email, label: "Email ou pseudo", size: (width: 280, heigth: 44))
+            UserTextField(data: $userVM.email, dataError: $userVM.emailError, label: "Email ou pseudo", size: (width: 280, heigth: 44))
             VStack(alignment: .leading){
                 HStack{
-                    UserTextField(data: $userVM.password, label: "Mot de passe", size: (width: 230, heigth: 44))
+                    UserTextField(data: $userVM.password, dataError: $userVM.passwordError, label: "Mot de passe", size: (width: 230, heigth: 44))
                     buttonAuth
                 }
                 forgetPassword
