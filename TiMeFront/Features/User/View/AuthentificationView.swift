@@ -71,10 +71,10 @@ struct AuthentificationView: View {
     
     var authForm: some View{
         VStack(alignment: .leading, spacing: 30){
-            UserTextField(data: $userVM.email, dataError: $userVM.emailError, label: "Email ou pseudo", size: (width: 280, heigth: 44))
+            UserTextField(data: $userVM.usernameOrEmailAuth, dataError: $userVM.userNameOrEmailAuthError, label: "Email ou pseudo", size: (width: 280, heigth: 44))
             VStack(alignment: .leading){
                 HStack{
-                    UserTextField(data: $userVM.password, dataError: $userVM.passwordError, label: "Mot de passe", size: (width: 230, heigth: 44))
+                    UserTextField(data: $userVM.passwordAuth, dataError: $userVM.passwordAuthError, label: "Mot de passe", size: (width: 230, heigth: 44))
                     buttonAuth
                 }
                 forgetPassword
@@ -84,18 +84,26 @@ struct AuthentificationView: View {
     
     var buttonAuth: some View{
         Button {
-            Task {
-                let input = userVM.email // Champ unique
-                let password = userVM.password
+            userVM.validateLogin()
+            
+            if userVM.isloginValid {
+                print("Formulaire valide ✅")
+                Task {
+                    let input = userVM.usernameOrEmailAuth // Champ unique
+                    let password = userVM.passwordAuth
 
-                if input.contains("@") {
-                    await authVM.login(email: input, username: nil, password: password)
-                } else {
-                    await authVM.login(email: nil, username: input, password: password)
+                    if input.contains("@") {
+                        await authVM.login(email: input, username: nil, password: password)
+                    } else {
+                        await authVM.login(email: nil, username: input, password: password)
+                    }
+
+                    print("🔑 Tentative de connexion terminée")
                 }
-
-                print("🔑 Tentative de connexion terminée")
+            } else {
+                print("Formulaire invalide ❌")
             }
+           
             
         } label: {
             Image(systemName: "arrow.forward")
