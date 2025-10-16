@@ -73,7 +73,7 @@ struct DashboardView: View {
         case .jarChallenge:
             JarView()
         case .profile:
-            ProfileView()
+            ProfilView()
         }
     }
 }
