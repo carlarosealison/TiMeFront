@@ -10,10 +10,11 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct UserTextField: View {
     @Binding var data: String
+    @Binding var dataError: String?
     let label: String
     let size:(width: CGFloat, heigth: CGFloat)
     var body: some View {
-        VStack{
+        VStack(alignment: .leading){
             RoundedRectangle(cornerRadius: 30)
                 .fill(.white)
                 .glassEffect()
@@ -40,13 +41,22 @@ struct UserTextField: View {
                
             })
                 .frame(width: size.width, height: size.heigth)
+            messageError
         }
+    }
+    
+    var messageError: some View{
+        Text(dataError ?? " ")
+            .font(.caption)
+            .foregroundColor(.redCustom)
+            .frame(height: 14)
+            .padding(.leading, 8)
     }
 }
 
 #Preview {
     if #available(iOS 26.0, *) {
-        UserTextField(data: .constant(""), label: "Mot de passe", size: (280, 44))
+        UserTextField(data: .constant(""), dataError: .constant(""), label: "Mot de passe", size: (280, 44))
     } else {
         // Fallback on earlier versions
     }

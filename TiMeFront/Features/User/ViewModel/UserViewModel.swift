@@ -26,12 +26,16 @@ class UserViewModel{
     private var errorMessage: String?
     private var downloadURL: String = ""
     private var uploadProgress: Double = 0
+    
+    var usernameOrEmailAuth: String = ""
+    
+    var passwordAuth: String = ""
+    
     var isLogin: Bool = false
     var checkFormData: Bool = false
     
-    
     let userRepo = UserRepo()
-    
+    //On check si la password est identique au confirmPassword
     func checkFormUser(){
         let userFormData = [firstName, lastName, userName, email, password, confirmPassword]
         
@@ -42,22 +46,93 @@ class UserViewModel{
         }
     }
     
-    func createUser(firstName: String, lastName: String, userName: String, email: String, password: String, imageProfil: String?) async throws{
-          do {
-              let newUser = try await userRepo.creatUser(
-                  firstName: firstName,
-                  lastName: lastName,
-                  userName: userName,
-                  email: email,
-                  password: password,
-                  imageProfil: imageProfil ?? ""
-              )
-              print("Utilisateur créé : \(newUser.userName)")
-              try await resetForm()
-          } catch {
-              print("Erreur lors de la création de l'utilisateur : \(error)")
-          }
-      }
+    var firstNameError: String?
+    var lastNameError: String?
+    var userNameError: String?
+    var userNameOrEmailAuthError: String?
+    var emailError: String?
+    var passwordError: String?
+    var passwordAuthError: String?
+    var confirmPasswordError: String?
+    
+    var isFormValid: Bool {
+        // Vérifie que tous les champs sont non vides et cohérents
+        !firstName.isEmpty &&
+        !lastName.isEmpty &&
+        !userName.isEmpty &&
+        isValidEmail(email) &&
+        !password.isEmpty &&
+        password == confirmPassword
+    }
+    
+    var isloginValid: Bool {
+        // Vérifie que tous les champs sont non vides et cohérents
+        !usernameOrEmailAuth.isEmpty && !passwordAuth.isEmpty
+    }
+    enum Form{
+        case login
+        case register
+    }
+    
+    
+    func validateForm() {
+        firstNameError = firstName.isEmpty ? "Le prénom est requis" : nil
+        lastNameError = lastName.isEmpty ? "Le nom est requis" : nil
+        userNameError = userName.isEmpty ? "Le surnom est requis" : nil
+        emailError = isValidEmail(email) ? nil : "Email invalide"
+        passwordError = password.isEmpty ? "Mot de passe requis" : nil
+        confirmPasswordError = (confirmPassword != password) ? "Les mots de passe ne correspondent pas" : nil
+    }
+    
+    func validateLogin() {
+        userNameOrEmailAuthError = userName.isEmpty ? "Le surnom ou l'email est requis" : nil
+        passwordAuthError = password.isEmpty ? "Mot de passe requis" : nil
+    }
+    
+    
+    func isCheckDataValid(form: Form) -> Bool{
+        if form == .login{
+            return isloginValid
+        }else if form == .register{
+          return  isFormValid
+        }
+       return false
+    }
+    
+    // Vérification simple de l'email
+    private func isValidEmail(_ email: String) -> Bool {
+        let pattern = #"^\S+@\S+\.\S+$"#
+        return email.range(of: pattern, options: .regularExpression) != nil
+    }
+    
+    func createUserAndLogin(authVM: AuthViewModel) async {
+        do {
+            // Création utilisateur
+            let newUser = try await userRepo.creatUser(
+                firstName: firstName,
+                lastName: lastName,
+                userName: userName,
+                email: email,
+                password: password,
+                imageProfil: imageProfil ?? ""
+            )
+            
+            print("✅ Utilisateur créé : \(newUser.userName)")
+
+            //Auto-login avec les infos saisies
+            await authVM.login(
+                email: email.isEmpty ? nil : email,
+                username: email.isEmpty ? userName : nil,
+                password: password
+            )
+
+            // Reset du formulaire
+            try await resetForm()
+            
+        } catch {
+            print("❌ Erreur lors de la création ou connexion : \(error)")
+        }
+    }
     
     func resetForm() async throws{
         firstName = ""

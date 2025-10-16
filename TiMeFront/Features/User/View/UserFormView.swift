@@ -23,7 +23,13 @@ struct UserFormView: View {
                 userFormTextField
                
                 ButtonForm(title: "Suivant", isImage: true, action: {
-                    userVM.checkFormUser()
+                    userVM.validateForm()
+                        if userVM.isFormValid {
+                            print("Formulaire valide ✅")
+                            userVM.checkFormData = true
+                        } else {
+                            print("Formulaire invalide ❌")
+                        }
                 })
                 .padding(.top, 100)
             }
@@ -31,19 +37,36 @@ struct UserFormView: View {
         }
     }
     
-    var userFormTextField: some View{
-        VStack(spacing: 30){
-            HStack{
-                UserTextField(data: $userVM.firstName, label: "Prénom", size: (width: 135, heigth: 44))
-                UserTextField(data: $userVM.lastName, label: "Nom", size: (width: 135, heigth: 44))
+    var userFormTextField: some View {
+        VStack(spacing: 15) {
+            HStack(spacing: 10) {
+                
+                UserTextField(data: $userVM.firstName, dataError: $userVM.firstNameError, label: "Prénom", size: (width: 135, heigth: 44))
+                
+                
+                
+                UserTextField(data: $userVM.lastName, dataError: $userVM.lastNameError, label: "Nom", size: (width: 135, heigth: 44))
+                
             }
-            UserTextField(data: $userVM.userName, label: "Surnom", size: (width: 280, heigth: 44))
             
-            UserTextField(data: $userVM.email, label: "Email", size: (width: 280, heigth: 44))
             
-            UserTextField(data: $userVM.password, label: "Mot de passe", size: (width: 280, heigth: 44))
+            UserTextField(data: $userVM.userName, dataError: $userVM.userNameError, label: "Surnom", size: (width: 280, heigth: 44))
             
-            UserTextField(data: $userVM.confirmPassword, label: "Confirmer mot de passe", size: (width: 280, heigth: 44))
+            
+            
+            
+            UserTextField(data: $userVM.email, dataError: $userVM.emailError, label: "Email", size: (width: 280, heigth: 44))
+            
+            
+            
+            
+            UserTextField(data: $userVM.password, dataError: $userVM.passwordError, label: "Mot de passe", size: (width: 280, heigth: 44))
+            
+            
+            
+            
+            UserTextField(data: $userVM.confirmPassword, dataError: $userVM.confirmPasswordError, label: "Confirmer mot de passe", size: (width: 280, heigth: 44))
+            
         }
     }
     
