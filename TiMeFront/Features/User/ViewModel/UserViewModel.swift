@@ -26,6 +26,11 @@ class UserViewModel{
     private var errorMessage: String?
     private var downloadURL: String = ""
     private var uploadProgress: Double = 0
+    
+    var usernameOrEmailAuth: String = ""
+    
+    var passwordAuth: String = ""
+    
     var isLogin: Bool = false
     var checkFormData: Bool = false
     
@@ -44,8 +49,10 @@ class UserViewModel{
     var firstNameError: String?
     var lastNameError: String?
     var userNameError: String?
+    var userNameOrEmailAuthError: String?
     var emailError: String?
     var passwordError: String?
+    var passwordAuthError: String?
     var confirmPasswordError: String?
     
     var isFormValid: Bool {
@@ -58,6 +65,16 @@ class UserViewModel{
         password == confirmPassword
     }
     
+    var isloginValid: Bool {
+        // Vérifie que tous les champs sont non vides et cohérents
+        !usernameOrEmailAuth.isEmpty && !passwordAuth.isEmpty
+    }
+    enum Form{
+        case login
+        case register
+    }
+    
+    
     func validateForm() {
         firstNameError = firstName.isEmpty ? "Le prénom est requis" : nil
         lastNameError = lastName.isEmpty ? "Le nom est requis" : nil
@@ -65,6 +82,21 @@ class UserViewModel{
         emailError = isValidEmail(email) ? nil : "Email invalide"
         passwordError = password.isEmpty ? "Mot de passe requis" : nil
         confirmPasswordError = (confirmPassword != password) ? "Les mots de passe ne correspondent pas" : nil
+    }
+    
+    func validateLogin() {
+        userNameOrEmailAuthError = userName.isEmpty ? "Le surnom ou l'email est requis" : nil
+        passwordAuthError = password.isEmpty ? "Mot de passe requis" : nil
+    }
+    
+    
+    func isCheckDataValid(form: Form) -> Bool{
+        if form == .login{
+            return isloginValid
+        }else if form == .register{
+          return  isFormValid
+        }
+       return false
     }
     
     // Vérification simple de l'email
