@@ -35,7 +35,7 @@ class UserViewModel{
     var checkFormData: Bool = false
     
     let userRepo = UserRepo()
-    
+    //On check si la password est identique au confirmPassword
     func checkFormUser(){
         let userFormData = [firstName, lastName, userName, email, password, confirmPassword]
         
