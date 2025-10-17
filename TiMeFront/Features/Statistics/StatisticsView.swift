@@ -20,7 +20,8 @@ struct StatisticsView: View {
     var body: some View {
         ZStack{
             GradientBackgroundView()
-            VStack(spacing: 50){
+            VStack{
+//                TitleForm(title: "Statistiques", isWelcome: false)
                 RoundedRectangle(cornerRadius: 20)
                     .fill(.gray.opacity(0.2))
                     //.glassEffect()
@@ -38,15 +39,20 @@ struct StatisticsView: View {
                                 dateSelect = .year
                             }
                         }
+                        .frame(width: 360, height: 36)
                     }
-                    .frame(width: 370, height: 50)
+                    .frame(width: 378, height: 36)
+                    
+                
                 HStack{
-                    Text("Changements d’humeurs ")
-                        .font(.system(size: 16).width(.expanded))
-                    Spacer()
+                    textDescription(description: "Changements d'humeurs")
                 }
-                .padding(.leading)
                 StatsGraphView()
+                    .padding(.horizontal)
+                 
+                textDescription(description: "Chiffres clès")
+                   
+                GridCardDataCell()
             }
         }
         .navigationTitle("Mes statistique")
@@ -62,10 +68,11 @@ struct StatisticsView: View {
                     action()
                 } label: {
                     Text(name)
+                        .font(.system(size: 14).width(.expanded))
                         .foregroundStyle(.purpleText)
                         .bold()
                         .padding()
-                        .frame( maxWidth: isFilter ? 140 : 130, maxHeight: isFilter ? 43 : 40)
+                        .frame( maxWidth: isFilter ? 140 : 130, maxHeight:40)
                     //.background(Color.gray)
                     // .clipShape(isFilter ? RoundedRectangle(cornerRadius: 20))
                         .animation(.linear(duration: 0.9), value: isFilter)
@@ -73,15 +80,24 @@ struct StatisticsView: View {
                             if isFilter{
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(.white)
+                                    .frame(width: 115, height: 28)
                                 Text(name)
                                     .foregroundStyle(.purpleText)
                                     .bold()
                             }
                         }
                 }
-                
             }
-            
+        }
+    }
+    
+    func textDescription(description: String) -> some View {
+        VStack(alignment: .leading){
+            Text(description)
+                
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 20)
+                .padding(.top)
         }
     }
 }

@@ -35,6 +35,7 @@ class UserViewModel{
     var checkFormData: Bool = false
     
     let userRepo = UserRepo()
+    let apiService = APIService()
     //On check si la password est identique au confirmPassword
     func checkFormUser(){
         let userFormData = [firstName, lastName, userName, email, password, confirmPassword]
@@ -94,9 +95,9 @@ class UserViewModel{
         if form == .login{
             return isloginValid
         }else if form == .register{
-          return  isFormValid
+            return  isFormValid
         }
-       return false
+        return false
     }
     
     // Vérification simple de l'email
@@ -118,14 +119,14 @@ class UserViewModel{
             )
             
             print("✅ Utilisateur créé : \(newUser.userName)")
-
+            
             //Auto-login avec les infos saisies
             await authVM.login(
                 email: email.isEmpty ? nil : email,
                 username: email.isEmpty ? userName : nil,
                 password: password
             )
-
+            
             // Reset du formulaire
             try await resetForm()
             
@@ -144,50 +145,26 @@ class UserViewModel{
         imageProfil = ""
     }
     
+    
+    
     func uploadImageToVapor() async -> String? {
         guard let imageData = selectedImageData else {
             print("Aucune image à uploader")
             return nil
         }
         
-        let url = URL(string: "http://127.0.0.1:8080/users/upload")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        let boundary = UUID().uuidString
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        var body = Data()
-        let filename = "profile.jpg"
-        let mimetype = "image/jpeg"
-        
-        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
-        body.append("Content-Type: \(mimetype)\r\n\r\n".data(using: .utf8)!)
-        body.append(imageData)
-        body.append("\r\n".data(using: .utf8)!)
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-        
-        request.httpBody = body
-        
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  httpResponse.statusCode == 200 else {
-                print("Upload échoué, statut non 200")
-                return nil
-            }
-            
-            struct UploadResponse: Decodable { let imageURL: String }
-            let decoded = try JSONDecoder().decode(UploadResponse.self, from: data)
-            self.imageProfil = decoded.imageURL
-            print("Image uploadée : \(decoded.imageURL)")
-            return decoded.imageURL
+            // Utilise APIService qui gère automatiquement l'IP
+            let imageURL = try await apiService.uploadImage(imageData: imageData)
+            self.imageProfil = imageURL
+            print("Image uploadée : (imageURL)")
+            return imageURL
         } catch {
-            print("Erreur upload : \(error)")
+            print("Erreur upload : (error)")
             return nil
         }
     }
-    
 }
+
+
+
