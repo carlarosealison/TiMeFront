@@ -29,7 +29,6 @@ struct StatsGraphView: View {
     
     var body: some View {
         ZStack{
-            Color.red
             RoundedRectangle(cornerRadius: 30)
                 .fill(.whitePurple)
                 .frame(width: .infinity, height: 270)
@@ -39,7 +38,7 @@ struct StatsGraphView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 30)
+                    .padding(.leading, 38)
                 
                 TabView(selection: $currentPage) {
                     ForEach(0..<graphs.count, id: \.self) { index in
@@ -64,7 +63,7 @@ struct StatsGraphView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding(.trailing)
+                    .padding(.trailing, 60)
             }
         }
         

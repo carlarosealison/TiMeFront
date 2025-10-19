@@ -9,52 +9,31 @@ import SwiftUI
 
 @available(iOS 26.0, *)
 struct StatisticsView: View {
-    @State var dateSelect : DateType = .week
     
-    enum DateType {
-        case week
-        case month
-        case year
-    }
+   @State var statVM = StatisticsViewModel()
     
     var body: some View {
         ZStack{
             GradientBackgroundView()
-            VStack{
-//                TitleForm(title: "Statistiques", isWelcome: false)
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.gray.opacity(0.2))
-                    //.glassEffect()
-                    .overlay {
-                        HStack{
-                            ButtonFilter(name: "Semaine", isFilter: dateSelect == .week) {
-                                dateSelect = .week
-                            }
-                            Divider()
-                            ButtonFilter(name: "Mois", isFilter: dateSelect == .month) {
-                                dateSelect = .month
-                            }
-                            Divider()
-                            ButtonFilter(name: "Année", isFilter: dateSelect == .year) {
-                                dateSelect = .year
-                            }
-                        }
-                        .frame(width: 360, height: 36)
+            VStack(spacing: 30){
+                TitleForm(title: "Statistiques", isWelcome: false)
+                
+
+                headerFilterDate
+                
+                chartOrCardsData(type: .chart)
+                    .popover(isPresented: $statVM.isShowPopCategoryEmotion, arrowEdge: .bottom) {
+                        Text("")
                     }
-                    .frame(width: 378, height: 36)
+                chartOrCardsData(type: .card)
                     
                 
-                HStack{
-                    textDescription(description: "Changements d'humeurs")
-                }
-                StatsGraphView()
-                    .padding(.horizontal)
-                 
-                textDescription(description: "Chiffres clès")
-                   
-                GridCardDataCell()
             }
+            .padding(.top)
         }
+        
+        .frame(width: .infinity, height: .infinity)
+        .ignoresSafeArea()
         .navigationTitle("Mes statistique")
     }
     
@@ -91,13 +70,64 @@ struct StatisticsView: View {
         }
     }
     
-    func textDescription(description: String) -> some View {
+    func textDescription(description: String, isShowInfo: Bool) -> some View {
         VStack(alignment: .leading){
-            Text(description)
+            HStack{
+                Text(description)
+                if isShowInfo{
+                    Image(systemName: "info.circle")
+                        .onTapGesture {
+                            statVM.isShowPopCategoryEmotion.toggle()
+                        }
+                }
                 
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 20)
-                .padding(.top)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 20)
+        }
+    }
+    
+    var headerFilterDate: some View{
+        RoundedRectangle(cornerRadius: 20)
+            .fill(.gray.opacity(0.2))
+            //.glassEffect()
+            .overlay {
+                HStack{
+                    ButtonFilter(name: "Semaine", isFilter: statVM.dateSelect == .week) {
+                        statVM.dateSelect = .week
+                    }
+                    Divider()
+                    ButtonFilter(name: "Mois", isFilter: statVM.dateSelect == .month) {
+                        statVM.dateSelect = .month
+                    }
+                    Divider()
+                    ButtonFilter(name: "Année", isFilter: statVM.dateSelect == .year) {
+                        statVM.dateSelect = .year
+                    }
+                }
+                .frame(width: 360, height: 36)
+            }
+            .frame(width: 378, height: 36)
+    }
+    
+    @ViewBuilder
+    func chartOrCardsData(type: StatisticsViewModel.StatsType) -> some View{
+        switch type{
+        case .chart:
+            VStack{
+                HStack{
+                    textDescription(description: "Changements d'humeurs", isShowInfo: true)
+                    
+                        
+                }
+                StatsGraphView()
+                    .padding(.horizontal)
+            }
+        case .card:
+            VStack{
+                textDescription(description: "Chiffres clès", isShowInfo: false)
+                GridCardDataCell()
+            }
         }
     }
 }
