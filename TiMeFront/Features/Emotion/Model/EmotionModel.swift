@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Model
-struct EmotionModel {
+struct EmotionModel: Identifiable {
     var id: UUID
     var title: String
     var categoryID: UUID

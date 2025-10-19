@@ -10,14 +10,13 @@ import Foundation
 @MainActor
 @Observable
 class EmotionOfTheDayViewModel {
-    // States
+
     var isLoading: Bool = false
     var errorMessage: String?
     var showSuccess: Bool = false
     var currentEmotion: EmotionOfTheDayModel?
     var dailyEmotion: EmotionModel?
     
-    // Dependencies
     private let emotionOfTheDayRepo = EmotionOfTheDayRepo()
     private let emotionRepo = EmotionRepo()
     private let testUserId = UUID(uuidString: "AEFC2553-7B2D-4B11-B378-BFDCE0C3C4E1")!
