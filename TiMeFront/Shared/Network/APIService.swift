@@ -109,6 +109,7 @@ let baseURL: URL = URL(string: "http://10.80.59.190:8080")!
         return try jsonDecoder.decode(T.self, from: data)
     }
     
+
     func uploadImage(imageData: Data, fileName: String = "profile.jpg") async throws -> String {
         let url = baseURL.appendingPathComponent("users/upload")
         
@@ -141,5 +142,10 @@ let baseURL: URL = URL(string: "http://10.80.59.190:8080")!
         
         return decoded.imageURL
     }
+
+    
+    
+    
+
     
 }
