@@ -14,7 +14,8 @@ class AuthViewModel {
     var token: String?
     var currentUser: UserResponse?
 
-    private let userRepo = UserRepo()
+    private let userRepo = UserRepo() // supposé utiliser APIService.shared
+    private let baseURL = APIService.shared.baseURL
 
     // MARK: - Login utilisateur
     func login(email: String?, username: String?, password: String) async {
@@ -42,10 +43,12 @@ class AuthViewModel {
     func fetchUserProfile() async {
         guard let token else { return }
         do {
-            let url = URL(string: "http://127.0.0.1:8080/users/profile")!
+            let url = baseURL.appendingPathComponent("users/profile")
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+            print("🌍 URL profil: \(url)")
 
             let (data, response) = try await URLSession.shared.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse,
@@ -62,3 +65,5 @@ class AuthViewModel {
         }
     }
 }
+
+
