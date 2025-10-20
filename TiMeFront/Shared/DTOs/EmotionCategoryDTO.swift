@@ -9,6 +9,7 @@ import Foundation
 
 //MARK: - EmotionCategoryResponseDTO (pour récupérer la couleur)
 struct EmotionCategoryResponseDTO: Codable, Identifiable {
+
     let id: UUID?
     let title: String
     let color: String

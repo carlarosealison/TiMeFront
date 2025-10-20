@@ -20,11 +20,6 @@ struct Book: Identifiable {
         let monthName = DateFormatter.monthName(from: month)
         return "Semaine \(weekNumber) - \(monthName) \(year)"
     }
-    
-    /// Date de début de la semaine (lundi)
-    var startDate: Date? {
-        Week.calculateStartDate(weekNumber: weekNumber, month: month, year: year)
-    }
 }
 
 // MARK: - DateFormatter Extension

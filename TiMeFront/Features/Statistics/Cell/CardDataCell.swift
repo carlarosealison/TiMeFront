@@ -15,13 +15,11 @@ struct CardDataCell: View {
     
     var body: some View {
         ZStack{
-            if #available(iOS 26.0, *) {
-                RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 12)
                     .fill(.purpleHover)
                     .frame(width: width, height: height)
-            } else {
-                // Fallback on earlier versions
-            }
+                    
+                        
             VStack(alignment: .center, spacing: 10){
                 Text(String(nbStat))
                     .font(.system(size: 26).width(.expanded))
@@ -31,7 +29,6 @@ struct CardDataCell: View {
             .foregroundStyle(.white)
             .bold()
         }
-    
         .ignoresSafeArea()
             
     }

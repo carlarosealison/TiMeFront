@@ -40,8 +40,13 @@ final class PrivateJournalViewModel {
             let userId = UserDefaults.standard.string(forKey: "userId") ?? ""
             
             guard !userId.isEmpty else {
-                errorMessage = "Utilisateur non connecté"
+                errorMessage = nil
                 isLoading = false
+                
+                // Crée une semaine vide à la place
+                let dates = Week.generateWeekDates(weekNumber: weekNumber, month: month, year: year)
+                let emptyDays = dates.map { DayEntry(date: $0) }
+                self.week = Week(weekNumber: weekNumber, month: month, year: year, days: emptyDays)
                 return
             }
             
@@ -57,8 +62,13 @@ final class PrivateJournalViewModel {
             print("✅ Semaine chargée avec succès")
             
         } catch {
-            errorMessage = "Erreur lors du chargement"
+            errorMessage = nil // ✅ Ne pas afficher d'erreur réseau non plus
             print("❌ Error loading week: \(error)")
+            
+            // Crée une semaine vide en cas d'erreur
+            let dates = Week.generateWeekDates(weekNumber: weekNumber, month: month, year: year)
+            let emptyDays = dates.map { DayEntry(date: $0) }
+            self.week = Week(weekNumber: weekNumber, month: month, year: year, days: emptyDays)
         }
         
         isLoading = false

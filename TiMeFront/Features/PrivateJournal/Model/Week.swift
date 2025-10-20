@@ -7,51 +7,54 @@
 
 import Foundation
 
-/// Représente une semaine complète avec 7 jours
+/// Représente une semaine complète avec 7 jours (ou moins pour la dernière semaine du mois)
 struct Week: Identifiable {
     let id = UUID()
     let weekNumber: Int
     let month: Int
     let year: Int
-    let days: [DayEntry]  // 7 jours (lundi → dimanche)
+    let days: [DayEntry]  // 7 jours max (peut être moins pour la dernière semaine)
     
-    /// Calcule la date de début de semaine (lundi)
-    static func calculateStartDate(weekNumber: Int, month: Int, year: Int) -> Date? {
+    /// Génère les dates d'une "semaine" (tranche de 7 jours depuis le début du mois)
+    /// weekNumber = 1 → jours 1-7
+    /// weekNumber = 2 → jours 8-14
+    /// weekNumber = 5 → jours 29-31 (si le mois a 31 jours)
+    static func generateWeekDates(weekNumber: Int, month: Int, year: Int) -> [Date] {
         let calendar = Calendar.current
         
-        // 1. Premier jour du mois
+        // Premier jour du mois
         var components = DateComponents()
         components.year = year
         components.month = month
         components.day = 1
         
-        guard let firstDayOfMonth = calendar.date(from: components) else {
-            return nil
-        }
-        
-        // 2. Trouver le premier lundi du mois
-        var currentDate = firstDayOfMonth
-        while calendar.component(.weekday, from: currentDate) != 2 {  // 2 = lundi
-            guard let nextDay = calendar.date(byAdding: .day, value: 1, to: currentDate) else {
-                return nil
-            }
-            currentDate = nextDay
-        }
-        
-        // 3. Ajouter les semaines pour arriver à la bonne semaine
-        return calendar.date(byAdding: .weekOfYear, value: weekNumber - 1, to: currentDate)
-    }
-    
-    /// Génère les 7 dates d'une semaine (lundi à dimanche)
-    static func generateWeekDates(weekNumber: Int, month: Int, year: Int) -> [Date] {
-        guard let weekStartDate = calculateStartDate(weekNumber: weekNumber, month: month, year: year) else {
+        guard let firstDayOfMonth = calendar.date(from: components),
+              let range = calendar.range(of: .day, in: .month, for: firstDayOfMonth) else {
             return []
         }
         
-        let calendar = Calendar.current
-        return (0..<7).compactMap { dayOffset in
-            calendar.date(byAdding: .day, value: dayOffset, to: weekStartDate)
+        let daysInMonth = range.count
+        
+        // Calcul du premier jour de cette "semaine"
+        let startDay = (weekNumber - 1) * 7 + 1
+        
+        // Calcul du dernier jour de cette "semaine" (max 7 jours)
+        let endDay = min(startDay + 6, daysInMonth)
+        
+        // Génère les dates
+        var dates: [Date] = []
+        for day in startDay...endDay {
+            var dayComponents = DateComponents()
+            dayComponents.year = year
+            dayComponents.month = month
+            dayComponents.day = day
+            
+            if let date = calendar.date(from: dayComponents) {
+                dates.append(date)
+            }
         }
+        
+        return dates
     }
 }
 
@@ -97,5 +100,12 @@ extension Week {
             year: year,
             days: dayEntries
         )
+    }
+}
+
+// Extension Array pour accès sécurisé
+extension Array {
+    subscript(safe index: Int) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }

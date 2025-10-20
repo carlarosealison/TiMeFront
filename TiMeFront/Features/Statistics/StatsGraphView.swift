@@ -28,37 +28,46 @@ struct StatsGraphView: View {
     ]
     
     var body: some View {
-        VStack(spacing: 16) {
-            Text("Taux")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
-            TabView(selection: $currentPage) {
-                ForEach(0..<graphs.count, id: \.self) { index in
-                    FullGraphView(moodBars: graphs[index])
-                        .tag(index)
+        ZStack{
+            RoundedRectangle(cornerRadius: 30)
+                .fill(.whitePurple)
+                .frame(width: .infinity, height: 270)
+//                .frame(minWidth: .infinity, minHeight: 270)
+            VStack {
+                Text("Taux")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 38)
+                
+                TabView(selection: $currentPage) {
+                    ForEach(0..<graphs.count, id: \.self) { index in
+                        FullGraphView(moodBars: graphs[index])
+                            .tag(index)
+                    }
                 }
-            }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(height: 220)
-            
-            // Indicateurs de page
-            HStack(spacing: 8) {
-                ForEach(0..<graphs.count, id: \.self) { index in
-                    Circle()
-                        .fill(currentPage == index ? Color("PurpleDark") : Color.gray.opacity(0.3))
-                        .frame(width: 8, height: 8)
-                        .animation(.easeInOut, value: currentPage)
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .frame(height: 180)
+                
+                // Indicateurs de page
+                HStack(spacing: 8) {
+                    ForEach(0..<graphs.count, id: \.self) { index in
+                        Circle()
+                            .fill(currentPage == index ? Color("PurpleDark") : Color.gray.opacity(0.3))
+                            .frame(width: 8, height: 8)
+                            .animation(.easeInOut, value: currentPage)
+                    }
                 }
+                
+                Text("Humeurs")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.trailing, 60)
             }
-            
-            Text("Humeurs")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, alignment: .trailing)
         }
-        .padding()
+        
+
     }
 }
 
@@ -68,12 +77,12 @@ struct FullGraphView: View {
     var body: some View {
         HStack(alignment: .bottom, spacing: 12) {
             // Axe Y
-            VStack(alignment: .trailing, spacing: 0) {
-                ForEach([100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0], id: \.self) { value in
+            VStack(alignment: .trailing, spacing: 3) {
+                ForEach([100, 90, 80, 70, 60, 50, 40, 30, 20, 10], id: \.self) { value in
                     Text("\(value)")
                         .font(.caption2)
                         .foregroundStyle(.secondary)
-                        .frame(height: 20)
+                        
                 }
             }
             
@@ -84,7 +93,7 @@ struct FullGraphView: View {
                         ForEach((0..<11).reversed(), id: \.self) { index in
                             Capsule()
                                 .fill(index < bar.filledBars ? bar.color : Color.gray.opacity(0.15))
-                                .frame(height: 16)
+                                .frame(width: 50, height: 11)
                         }
                     }
                 }

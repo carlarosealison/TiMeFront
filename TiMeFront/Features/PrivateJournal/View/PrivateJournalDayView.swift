@@ -11,101 +11,104 @@ struct PrivateJournalDayView: View {
     let dayEntry: DayEntry
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+        VStack(alignment: .leading, spacing: 24) {
+            
+            Spacer()
+                .frame(height: 80)
+            
+            // MARK: - Section Ressentis
+            VStack(alignment: .leading, spacing: 16) {
+                Text("Ressentis")
+                    .semiBoldCondensedTitle()
                 
-                // MARK: - Section Ressentis
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Ressentis")
-                        .semiBoldCondensedTitle()
-                    
-                    HStack(spacing: 20) {
-                        // Heart Level
-                        if let heartLevel = dayEntry.heartLevel {
-                            DashboardCard {
+                HStack(spacing: 20) {
+                    Spacer()
+                    // Heart Level (sans pourcentage)
+                    if let heartLevel = dayEntry.heartLevel {
+                        DashboardCard {
+                            VStack {
                                 IconCardContent(
                                     icon: "heart.fill",
                                     color: Color("PurpleButton"),
                                     size: .large
                                 )
                             }
-                            .frame(width: 75, height: 75)
                         }
-                        
-                        // Emotion (consultation uniquement donc onValidate vide)
-                        if let emotionTitle = dayEntry.emotionTitle,
-                           let emotionColor = dayEntry.emotionColor {
-                            DashboardCard {
-                                MoodValidationCardContent(
-                                    onValidate: {},
-                                    showSuccess: true,
-                                    emotionTitle: emotionTitle,
-                                    categoryID: nil,
-                                    backgroundColor: ColorMapper.color(from: emotionColor)
-                                )
-                            }
-                            .frame(width: 75, height: 75)
-                            .allowsHitTesting(false)
-                        }
-                        
-                        // Motivation
-                        if let motivation = dayEntry.motivationLevel {
-                            DashboardCard {
-                                IconCardContent(
-                                    text: "\(motivation)%",
-                                    color: Color("PurpleButton"),
-                                    size: .regularPurple
-                                )
-                            }
-                            .frame(width: 75, height: 75)
-                        }
+                        .frame(width: 75, height: 75)
                     }
+                    
+                    // Emotion (consultation uniquement)
+                    if let emotionTitle = dayEntry.emotionTitle,
+                       let emotionColor = dayEntry.emotionColor {
+                        DashboardCard {
+                            MoodValidationCardContent(
+                                onValidate: {},
+                                showSuccess: true,
+                                emotionTitle: emotionTitle,
+                                categoryID: nil,
+                                backgroundColor: ColorMapper.color(from: emotionColor) // ✅ Utilise ColorMapper
+                            )
+                        }
+                        .frame(width: 75, height: 75)
+                        .allowsHitTesting(false)
+                    }
+                    
+                    // Motivation (garde le % car c'est un pourcentage)
+                    if let motivation = dayEntry.motivationLevel {
+                        DashboardCard {
+                            IconCardContent(
+                                text: "\(motivation)%",
+                                color: Color("PurpleButton"),
+                                size: .regularPurple
+                            )
+                        }
+                        .frame(width: 75, height: 75)
+                    }
+                    Spacer()
                 }
-                
-                // MARK: - Section Rédaction
-                if let note = dayEntry.note {
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Rédaction")
-                            .semiBoldCondensedTitle()
-                        
+            }
+            
+            // MARK: - Section Rédaction
+            if let note = dayEntry.note {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Rédaction")
+                        .semiBoldCondensedTitle()
+                    
+                    ScrollView {
                         Text(note)
                             .textCards()
                             .padding()
                             .lineSpacing(4)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color.white)
-                            .cornerRadius(20)
+                            .frame(maxWidth: .infinity, alignment: .topLeading)
                     }
+                    .background(Color.white)
+                    .cornerRadius(20)
+                    .frame(maxHeight: 220)
                 }
+                .padding(.horizontal, 10)
             }
-            .padding()
+            
+            Spacer()
         }
-    }
-    
-    // Fonction pour mapper les noms de couleur backend vers tes Assets
-    private func colorFromName(_ colorName: String) -> Color {
-        switch colorName.lowercased() {
-        case "orange":
-            return Color("OrangeCustomCard")
-        case "rose", "pink":
-            return Color("PinkCustomClear")
-        case "violet", "purple":
-            return Color("PurpleButton")
-        default:
-            return Color("PurpleButton") // Couleur par défaut
-        }
+        .padding(.horizontal)
     }
 }
 
 #Preview {
-    PrivateJournalDayView(
-        dayEntry: DayEntry(
-            date: Date(),
-            emotionTitle: "Enthousiaste",
-            emotionColor: "Orange",
-            heartLevel: 80,
-            motivationLevel: 65,
-            note: "Aujourd'hui c'était une belle journée. J'ai bien avancé sur mon projet."
+    ZStack {
+        // Simule l'image du livre
+        Color.purple.opacity(0.1)
+        
+        PrivateJournalDayView(
+            dayEntry: DayEntry(
+                date: Date(),
+                emotionTitle: "Enthousiaste",
+                emotionColor: "Orange",
+                heartLevel: 80,
+                motivationLevel: 65,
+                note: "Aujourd'hui c'était une belle journée. J'ai bien avancé sur mon projet. J'ai rencontré des personnes inspirantes et j'ai appris plein de nouvelles choses. La journée était vraiment productive et je suis content du résultat."
+            )
         )
-    )
+        .frame(width: 350)
+    }
 }

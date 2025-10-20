@@ -21,7 +21,6 @@ struct PrivateJournalWeekView: View {
         self.month = month
         self.year = year
         
-        // Initialise le ViewModel avec les paramètres
         _viewModel = State(initialValue: PrivateJournalViewModel(
             weekNumber: weekNumber,
             month: month,
@@ -29,16 +28,21 @@ struct PrivateJournalWeekView: View {
         ))
     }
     
+    // Nombre de jours dans cette semaine (peut être < 7)
+    private var totalDays: Int {
+        viewModel.week?.days.count ?? 0
+    }
+    
     private var currentDayEntry: DayEntry? {
         viewModel.week?.days[safe: currentDayIndex]
     }
     
-    private var currentDate: Date {
-        currentDayEntry?.date ?? Date()
-    }
-    
     private var navigationTitleText: String {
-        currentDate.formattedFrench()
+        guard let week = viewModel.week,
+              currentDayIndex < week.days.count else {
+            return "Chargement..."
+        }
+        return week.days[currentDayIndex].date.formattedFrench()
     }
     
     var body: some View {
@@ -100,7 +104,8 @@ struct PrivateJournalWeekView: View {
                 
                 Spacer()
                 
-                Text("Jour \(currentDayIndex + 1)/7")
+                // Affiche "Jour X/Y" où Y est le nombre réel de jours
+                Text("Jour \(currentDayIndex + 1)/\(totalDays)")
                     .font(.caption)
                     .foregroundStyle(Color("PurpleText"))
                 
@@ -109,11 +114,10 @@ struct PrivateJournalWeekView: View {
                 Button(action: nextDay) {
                     Image(systemName: "chevron.right")
                 }
-                .disabled(currentDayIndex == 6)
+                .disabled(currentDayIndex >= totalDays - 1) // Désactive si on est au dernier jour
             }
         }
         .task {
-            // Charge les données au chargement de la vue
             await viewModel.loadWeek()
         }
     }
@@ -128,24 +132,17 @@ struct PrivateJournalWeekView: View {
     }
     
     private func nextDay() {
-        guard currentDayIndex < 6 else { return }
+        guard currentDayIndex < totalDays - 1 else { return }
         withAnimation {
             currentDayIndex += 1
         }
     }
 }
 
-// Extension pour accès sécurisé aux tableaux
-extension Array {
-    subscript(safe index: Int) -> Element? {
-        return indices.contains(index) ? self[index] : nil
-    }
-}
-
 #Preview {
     NavigationStack {
         PrivateJournalWeekView(
-            weekNumber: 2,
+            weekNumber: 5,
             month: 10,
             year: 2025
         )
