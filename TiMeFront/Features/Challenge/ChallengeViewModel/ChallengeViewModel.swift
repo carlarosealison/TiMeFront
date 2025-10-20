@@ -22,7 +22,7 @@ class ChallengeViewModel: @unchecked Sendable {
 //            
 //            DispatchQueue.main.async {
 //                self.challenge = challengeModel
-//            } // pour une mise à jour sur le thread principal -> autrement Swift plante
+//            }
 //        }
 //        catch {
 //            print("Erreur lors du fetch : \(error)")
@@ -36,6 +36,7 @@ class ChallengeViewModel: @unchecked Sendable {
             DispatchQueue.main.async {
                 self.challenge = challengeIndex
             }
+            // pour une mise à jour sur le thread principal -> autrement Swift plante
         }
         catch{
             print("Erreur lors du fetch : \(error)")

@@ -12,10 +12,13 @@ import Foundation
 struct ChallengeMapper {
     //ici je prends mon JSON challengeResponse pour le transformer en un objet Swift
     //le DTO est passé au mapper pour le mettre sous forme de ChallengeModel
+    
+    //pour récupérer un Challenge
     func mapChallengeResponse(register: ChallengeResponseDTO) -> ChallengeModel{
         ChallengeModel(id: register.id, instruction: register.instruction, messageMotivation: register.messageMotivation)
     }
     
+    //pour récupérer plusieurs challenges ( sous forme d'array)
     func mapChallengesResponse(register: ChallengeResponseDTO) -> [ChallengeModel]{
         let indexChallengeResponse = [
             ChallengeModel(id: register.id, instruction: register.instruction, messageMotivation: register.messageMotivation)

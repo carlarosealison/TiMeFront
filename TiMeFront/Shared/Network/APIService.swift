@@ -37,21 +37,32 @@ class APIService{
     
     
     func get<T:Decodable>(endpoint: String, as type: T.Type)async throws -> T{
+        // cette fonction nous renvoie un objet T ( retour d'un type)
+        
         let url = URL(string:"\(baseURL)/\(endpoint)")!
+        // ici la route effectué lors d'une request
+        
         do{
             let (data, response) = try await URLSession.shared.data(from: url)
+            //ici appel de l'API via la route
+            
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else{
                 throw TVShowError.httpResponseError
-            }
+            } //ici vérification de la bonne response HTTP -> cela signifie que la requête est bien effectué
+            
             guard !data.isEmpty else{
                 throw TVShowError.dataEmpty
             }
+            //vérifie que la donnée n'est pas vide
+            
             do{
                 let decodeObjectRest = try JSONDecoder().decode(T.self, from: data)
                 return decodeObjectRest
+                //décode notre réponse JSON
             }catch{
                 print("\(error)")
                 throw TVShowError.decodeError
+                
             }
         }catch{
             print("\(error)")
@@ -85,5 +96,9 @@ class APIService{
         let (data, _) = try await URLSession.shared.data(for: request)
         return try jsonDecoder.decode(T.self, from: data)
     }
+    
+    
+    
+    
     
 }
