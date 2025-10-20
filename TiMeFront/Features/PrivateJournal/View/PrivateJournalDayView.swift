@@ -24,7 +24,7 @@ struct PrivateJournalDayView: View {
                 HStack(spacing: 20) {
                     Spacer()
                     // Heart Level (sans pourcentage)
-                    if let heartLevel = dayEntry.heartLevel {
+                    if dayEntry.heartLevel != nil {
                         DashboardCard {
                             VStack {
                                 IconCardContent(
