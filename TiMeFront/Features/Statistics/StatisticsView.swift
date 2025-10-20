@@ -10,7 +10,7 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct StatisticsView: View {
     
-   @State var statVM = StatisticsViewModel()
+    @State var statVM = StatisticsViewModel()
     
     var body: some View {
         ZStack{
@@ -18,20 +18,15 @@ struct StatisticsView: View {
             VStack(spacing: 30){
                 TitleForm(title: "Statistiques", isWelcome: false)
                 
-
                 headerFilterDate
                 
                 chartOrCardsData(type: .chart)
-                    .popover(isPresented: $statVM.isShowPopCategoryEmotion, arrowEdge: .bottom) {
-                        Text("")
-                    }
+                
                 chartOrCardsData(type: .card)
-                    
                 
             }
             .padding(.top)
         }
-        
         .frame(width: .infinity, height: .infinity)
         .ignoresSafeArea()
         .navigationTitle("Mes statistique")
@@ -52,8 +47,6 @@ struct StatisticsView: View {
                         .bold()
                         .padding()
                         .frame( maxWidth: isFilter ? 140 : 130, maxHeight:40)
-                    //.background(Color.gray)
-                    // .clipShape(isFilter ? RoundedRectangle(cornerRadius: 20))
                         .animation(.linear(duration: 0.9), value: isFilter)
                         .overlay {
                             if isFilter{
@@ -79,6 +72,16 @@ struct StatisticsView: View {
                         .onTapGesture {
                             statVM.isShowPopCategoryEmotion.toggle()
                         }
+                        .popover(
+                            isPresented: $statVM.isShowPopCategoryEmotion,
+                            attachmentAnchor: .point(.bottom)
+                        ) {
+                            EmotionCategoryView()
+                                .background(Color.white)
+                                .cornerRadius(12)
+                                .shadow(radius: 5)
+                                .presentationCompactAdaptation(.popover)
+                        }
                 }
                 
             }
@@ -90,7 +93,7 @@ struct StatisticsView: View {
     var headerFilterDate: some View{
         RoundedRectangle(cornerRadius: 20)
             .fill(.gray.opacity(0.2))
-            //.glassEffect()
+        //.glassEffect()
             .overlay {
                 HStack{
                     ButtonFilter(name: "Semaine", isFilter: statVM.dateSelect == .week) {
@@ -115,11 +118,7 @@ struct StatisticsView: View {
         switch type{
         case .chart:
             VStack{
-                HStack{
-                    textDescription(description: "Changements d'humeurs", isShowInfo: true)
-                    
-                        
-                }
+                textDescription(description: "Changements d'humeurs", isShowInfo: true)
                 StatsGraphView()
                     .padding(.horizontal)
             }

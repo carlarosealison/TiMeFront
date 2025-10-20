@@ -100,36 +100,35 @@ let baseURL: URL = URL(string: "http://10.80.59.190:8080")!
     
     func uploadImage(imageData: Data, fileName: String = "profile.jpg") async throws -> String {
         let url = baseURL.appendingPathComponent("users/upload")
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-
+        
         let boundary = UUID().uuidString
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-
+        
         var body = Data()
         let mimetype = "image/jpeg"
-
+        
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
         body.append("Content-Type: \(mimetype)\r\n\r\n".data(using: .utf8)!)
         body.append(imageData)
         body.append("\r\n".data(using: .utf8)!)
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-
+        
         request.httpBody = body
-
+        
         let (data, response) = try await URLSession.shared.data(for: request)
-
+        
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw TVShowError.httpResponseError
         }
-
+        
         struct UploadResponse: Decodable { let imageURL: String }
         let decoded = try jsonDecoder.decode(UploadResponse.self, from: data)
-
+        
         return decoded.imageURL
     }
-
     
 }
