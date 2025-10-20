@@ -58,6 +58,11 @@ class AuthViewModel {
 
             let user = try JSONDecoder().decode(UserResponse.self, from: data)
             self.currentUser = user
+            
+            if let userId = user.id {
+                UserDefaults.standard.set(userId.uuidString, forKey: "userId")
+                print("💾 UserId sauvegardé : \(userId.uuidString)")
+            }
             print("👤 Profil récupéré: \(user.userName)")
         } catch {
             print("❌ Erreur récupération profil: \(error)")
