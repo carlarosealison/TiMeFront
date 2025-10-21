@@ -23,7 +23,7 @@ struct PurpleButton: View {
                     .cornerRadius(90)
                     .foregroundStyle(.clear)
                     .glassEffect(.regular.tint(.purpleButton))
-                    .shadow(radius: 3, y: 4)
+//                    .shadow(radius: 3, y: 4)
                 
                     .overlay {
                         

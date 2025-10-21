@@ -10,9 +10,9 @@ import Foundation
 class APIService{
     
 #if targetEnvironment(simulator)
-let baseURL: URL = URL(string: "http://127.0.0.1:8080")!
+    let baseURL: URL = URL(string: "http://127.0.0.1:8080")!
 #else
-let baseURL: URL = URL(string: "http://10.80.59.29:8080")!
+    let baseURL: URL = URL(string: "http://10.80.59.29:8080")!
 #endif
     
     // Configuration des encoders/decoders pour gérer les dates de Vapor (format ISO8601) vers Swift (format timestamp)
@@ -98,6 +98,21 @@ let baseURL: URL = URL(string: "http://10.80.59.29:8080")!
     }
     
     
+    func delete(endpoint: String) async throws -> HTTPURLResponse{
+        let url = URL(string:"\(baseURL)/\(endpoint)")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else{
+            throw TVShowError.httpResponseError
+        }
+        
+        return httpResponse
+    }
     
     
     
