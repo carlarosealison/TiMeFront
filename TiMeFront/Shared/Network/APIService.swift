@@ -184,4 +184,25 @@ let baseURL: URL = URL(string: "http://10.80.59.190:8080")!
         return decoded.imageURL
     }
     
+    func delete<T: Decodable>(endpoint: String, as type: T.Type = T.self) async throws -> T {
+        let url = URL(string:"\(baseURL)/\(endpoint)")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw TVShowError.httpResponseError
+        }
+        
+        // Si pas de contenu (204 No Content), retourne un objet vide
+        if data.isEmpty {
+            return try JSONDecoder().decode(T.self, from: "{}".data(using: .utf8)!)
+        }
+        
+        return try jsonDecoder.decode(T.self, from: data)
+    }
+    
 }
