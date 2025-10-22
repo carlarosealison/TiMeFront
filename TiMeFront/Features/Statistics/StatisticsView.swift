@@ -29,7 +29,6 @@ struct StatisticsView: View {
         }
         .frame(width: .infinity, height: .infinity)
         .ignoresSafeArea()
-        .navigationTitle("Mes statistique")
     }
     
     struct ButtonFilter: View {

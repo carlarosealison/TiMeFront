@@ -13,18 +13,15 @@ struct StatsGraphView: View {
     let graphs: [[MoodBar]] = [
         // Graph 1
         [
+            MoodBar(filledBars: 8, color: .mint),
             MoodBar(filledBars: 4, color: .red),
             MoodBar(filledBars: 2, color: Color(red: 0.7, green: 0.6, blue: 0.9)),
             MoodBar(filledBars: 7, color: .green),
-            MoodBar(filledBars: 4, color: .orange)
+            MoodBar(filledBars: 5, color: .pink),
+            MoodBar(filledBars: 4, color: .orange),
+            MoodBar(filledBars: 3, color: .purple),
         ],
         // Graph 2
-        [
-            MoodBar(filledBars: 6, color: .blue),
-            MoodBar(filledBars: 3, color: .purple),
-            MoodBar(filledBars: 8, color: .mint),
-            MoodBar(filledBars: 5, color: .pink)
-        ]
     ]
     
     var body: some View {
@@ -43,6 +40,8 @@ struct StatsGraphView: View {
                 TabView(selection: $currentPage) {
                     ForEach(0..<graphs.count, id: \.self) { index in
                         FullGraphView(moodBars: graphs[index])
+                            .tag(index)
+                        DonutDataCell()
                             .tag(index)
                     }
                 }
@@ -77,7 +76,7 @@ struct FullGraphView: View {
     var body: some View {
         HStack(alignment: .bottom, spacing: 12) {
             // Axe Y
-            VStack(alignment: .trailing, spacing: 3) {
+            VStack(alignment: .trailing, spacing: 2) {
                 ForEach([100, 90, 80, 70, 60, 50, 40, 30, 20, 10], id: \.self) { value in
                     Text("\(value)")
                         .font(.caption2)
@@ -89,11 +88,11 @@ struct FullGraphView: View {
             // Graphique
             HStack(alignment: .bottom, spacing: 16) {
                 ForEach(moodBars) { bar in
-                    VStack(spacing: 4) {
+                    VStack(spacing: 6) {
                         ForEach((0..<11).reversed(), id: \.self) { index in
                             Capsule()
                                 .fill(index < bar.filledBars ? bar.color : Color.gray.opacity(0.15))
-                                .frame(width: 50, height: 11)
+                                .frame(width: 30, height: 8)
                         }
                     }
                 }

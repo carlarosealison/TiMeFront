@@ -30,7 +30,6 @@ struct CardDataCell: View {
             .bold()
         }
         .ignoresSafeArea()
-            
     }
 }
 
