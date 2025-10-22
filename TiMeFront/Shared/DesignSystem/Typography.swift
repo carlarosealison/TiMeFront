@@ -28,6 +28,7 @@ struct BoldTitleStyle: ViewModifier {
             .font(.system(size: 36, weight: .bold, design: .default))
             .fontWidth(.expanded)
             .foregroundStyle(.purpleText)
+
     }
 }
 
@@ -37,6 +38,7 @@ struct SemiBoldStyle: ViewModifier {
             .font(.system(size: 24, weight: .semibold, design: .default))
             .fontWidth(.expanded)
             .foregroundStyle(.purpleText)
+
     }
 }
 
@@ -45,7 +47,7 @@ struct MediumBlackStyle: ViewModifier {
         content
             .font(.system(size: 20, weight: .medium, design: .default))
             .fontWidth(.expanded)
-            .foregroundStyle(.purpleText)
+            .foregroundStyle(.purpleDarkHover)
     }
 }
 
@@ -73,6 +75,7 @@ struct SemiBoldCardsTitleStyle: ViewModifier {
             .font(.system(size: 14, weight: .semibold, design: .default))
             .fontWidth(.expanded)
             .foregroundStyle(.purpleText)
+
     }
 }
 
@@ -82,6 +85,7 @@ struct TextCardsStyle: ViewModifier {
             .font(.system(size: 14, weight: .light, design: .default))
             .fontWidth(.expanded)
             .foregroundStyle(.purpleText)
+
     }
 }
 
@@ -91,6 +95,7 @@ struct SubTitleStyle: ViewModifier {
             .font(.system(size: 12, weight: .light, design: .default))
             .fontWidth(.expanded)
             .foregroundStyle(.purpleText)
+
     }
 }
 
@@ -100,6 +105,7 @@ struct SemiBoldTitleStyle: ViewModifier {
             .font(.system(size: 20, weight: .semibold, design: .default))
             .fontWidth(.expanded)
             .foregroundStyle(.purpleText)
+
     }
 }
 

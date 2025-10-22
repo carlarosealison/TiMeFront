@@ -2,7 +2,7 @@
 //  ChallengeView.swift
 //  TiMeFront
 //
-//  Created by Sebastien Besse on 25/09/2025.
+//  Created by Carla on 25/09/2025.
 //
 
 import SwiftUI
@@ -19,13 +19,11 @@ struct ChallengeView: View {
                     Spacer(minLength: 265)
                     
                     Text("Défi du jour")
-                        .foregroundStyle(.purpleDarkHover)
-                        .font(.system(size: 20).width(.expanded).weight(.medium))
+                        .mediumPurple()
                         .padding(5)
                     
                     Text(viewModel.challenge?.instruction ?? "challenge indisponible")
-                        .foregroundStyle(.purpleText)
-                        .font(.system(size: 24).width(.expanded).weight(.semibold))
+                        .semiBold()
                         .multilineTextAlignment(.center)
                         
                     
@@ -34,7 +32,7 @@ struct ChallengeView: View {
                     PurpleButton(withArrow: true, buttonFuncText: "Allons-y!")
                         .padding(.bottom, 100)
                     
-                }.frame(width: 360)
+                }.padding(.horizontal, 24)
                     .toolbar{
                         ToolbarItem(placement: .topBarTrailing){
                             NavigationLink { //ici mettre en place un navigation path pour pop sur le dashborad
