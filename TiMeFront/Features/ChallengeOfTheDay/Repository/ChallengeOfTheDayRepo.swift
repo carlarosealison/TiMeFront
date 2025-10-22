@@ -2,7 +2,7 @@
 //  ChallengeOfTheDayRepo.swift
 //  TiMeFront
 //
-//  Created by Apprenant125 on 17/10/2025.
+//  Created by Carla on 17/10/2025.
 //
 
 import Foundation
@@ -13,7 +13,7 @@ class ChallengeOfTheDayRepo {
     private let mapper = ChallengeOfTheDayMapper()
     
     
-    func postRandomChallengeOfTheDay(dateExp: Date, instruction : String, messageMotivation : String, id_user: UUID, id_challenge: UUID) async throws -> ChallengeOfTheDayModel {
+    func postRandomChallengeOfTheDay(dateExp: Date, instruction : String, messageMotivation : String, id_user: UUID, id_challenge: UUID) async throws -> ChallengeOfTheDayResponseDTO {
         
         let request = ChallengeOfTheDayRequestDTO(dateExp: dateExp, instruction: instruction, messageMotivation: messageMotivation, id_user: id_user, id_chellenge: id_challenge)
         
@@ -21,14 +21,14 @@ class ChallengeOfTheDayRepo {
         return mapper.mapChallengeOfTheDayResponse(register: response)
     }
     
-    func getChallengeOfTheDay()async throws -> ChallengeOfTheDayModel {
+    func getChallengeOfTheDay()async throws -> ChallengeOfTheDayResponseDTO {
         let response = try await service.getChallengeOfTheDay()
         return mapper.mapChallengeOfTheDayResponse(register: response)
         
     }
     
-//    func deleteChallengeForToday() async throws {
-//        let response = try await service.
-//        return mapper.mapChallengeOfTheDayResponse(register: response)
-//    }
+    func deleteChallengeForToday(challengeID: UUID) async throws -> HTTPURLResponse{
+        let response = try await service.deleteChallengeOfTheDay(challengeID: challengeID)
+        return HTTPURLResponse()
+    }
 }

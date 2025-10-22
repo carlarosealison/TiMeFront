@@ -10,7 +10,7 @@ import Foundation
 
 struct ChallengeOfTheDayMapper {
     
-    func mapChallengeOfTheDayResponse(register: ChallengeOfTheDayResponseDTO) -> ChallengeOfTheDayModel{
-        ChallengeOfTheDayModel(id: register.id , dateExp: register.dateExp, instruction: register.instruction, messageMotivation: register.messageMotivation ,id_user: register.id_user, id_challenge: register.id_chellenge)
+    func mapChallengeOfTheDayResponse(register: ChallengeOfTheDayResponseDTO) -> ChallengeOfTheDayResponseDTO{
+        ChallengeOfTheDayResponseDTO(id: register.id, dateExp: register.dateExp, instruction: register.instruction, messageMotivation: register.messageMotivation, id_user: register.id_user, id_chellenge: register.id_chellenge)
     }
 }

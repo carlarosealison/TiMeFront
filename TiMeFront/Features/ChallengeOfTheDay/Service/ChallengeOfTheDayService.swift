@@ -2,7 +2,7 @@
 //  ChallengeOfTheDayService.swift
 //  TiMeFront
 //
-//  Created by Apprenant125 on 17/10/2025.
+//  Created by Carla on 17/10/2025.
 //
 
 import Foundation
