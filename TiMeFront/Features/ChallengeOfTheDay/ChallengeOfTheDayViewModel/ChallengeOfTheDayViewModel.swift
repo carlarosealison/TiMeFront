@@ -24,7 +24,7 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
         self.authViewModel = authViewModel
     }
     
-    func fetchRandomChallengeOfTheDay() async throws -> ChallengeOfTheDayResponseDTO {
+    func fetchRandomChallengeOfTheDay() async throws -> ChallengeOfTheDayResult {
         
         let challengeIndex = try await challengeRepo.randomChallenge()
         let finalChallengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
@@ -37,29 +37,31 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
             // je post le challenge récupéré afin de l'assigner comme challenge du jour
             let postChallengeOTD = try await challengeOTDRepo.postRandomChallengeOfTheDay(dateExp: Date.now, instruction: challengeIndex.instruction, messageMotivation: challengeIndex.messageMotivation, id_user: authViewModel.currentUser?.id ?? UUID() , id_challenge: challengeIndex.id)
             
+            DispatchQueue.main.async {
+                self.challengeOTD = postChallengeOTD
+                self.challengeOTD = finalChallengeOfTheDay
+            }
+            
             // je récupère le challenge du jour pour l'injecter dans mon UI
-            var challengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
+            let challengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
             
             //je vérifie que le challenge instencié comme challenge du jour n'a pas dépassé la date du jour
             if challengeOfTheDay.dateExp == Date.now {
-                return finalChallengeOfTheDay
+                return .challenge(finalChallengeOfTheDay)
             }
             // autrement, je le supprime en tant que challenge du jour
             else {
                 let challengeOutOfDate = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeIndex.id)
+                return .delete(DeleteResponse(success: true))
             }
             
             
-            DispatchQueue.main.async {
-//                self.challengeOTD = challengeOfTheDay
-                self.challengeOTD = postChallengeOTD
-                self.challengeOTD = finalChallengeOfTheDay
-//                self.challengeOTD = challengeOutOfDate
-            }
+
         }
         
         catch{
             print("Erreur lors du fetch : \(error)")
+            return .error(URLError(.unknown))
         }
     }
 }
