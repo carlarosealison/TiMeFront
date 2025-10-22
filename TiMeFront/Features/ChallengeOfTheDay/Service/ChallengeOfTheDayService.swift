@@ -19,9 +19,13 @@ struct ChallengeOfTheDayService {
         try await api.get(endpoint: "challengeOfTheDay/get_challenge_of_the_day", as: ChallengeOfTheDayResponseDTO.self)
     }
     
-    func deleteChallengeOfTheDay(challengeID: UUID) async throws -> HTTPURLResponse{
-        try await api.delete(endpoint: "challengeOfTheDay/deleteForToday/\(challengeID)")
+//    func deleteChallengeOfTheDay(challengeID: UUID) async throws -> HTTPURLResponse{
+//        try await api.delete(endpoint: "challengeOfTheDay/deleteForToday/\(challengeID)")
         
+    func deleteChallengeOfTheDay(challengeId: UUID) async throws -> DeleteResponse {
+        try await api.delete(endpoint: "challengeOfTheDay/deleteForToday/\(challengeId)")
     }
     
 }
+
+

@@ -2,7 +2,7 @@
 //  ValidateChallenge.swift
 //  TiMeFront
 //
-//  Created by Apprenant125 on 21/10/2025.
+//  Created by Carla on 21/10/2025.
 //
 
 import SwiftUI
@@ -20,7 +20,7 @@ struct ValidateChallenge: View {
                 
                 
                 RoundedRectangle(cornerRadius: 90)
-                    .frame(height: 60)
+                    .frame(height: 80)
                     .foregroundStyle(.greenCustom.mix(with: .white, by: 0.55))
                     .overlay(content: {
                         Text("Valider")
@@ -28,6 +28,7 @@ struct ValidateChallenge: View {
                             .fontWeight(.semibold)
                             .fontWidth(.expanded)
                             .foregroundStyle(.greenCustom.mix(with: .gray, by: 0.3))
+                            .padding(.leading, 45)
                     })
                     .overlay (alignment: .leading){
                         Circle()
