@@ -9,11 +9,21 @@ import Foundation
 
 class APIService{
     
+    static let shared = APIService() 
+    
+//#if targetEnvironment(simulator)
+//let baseURL: URL = URL(string: "http://127.0.0.1:8080")!
+//#else
+//let baseURL: URL = URL(string: "http://10.80.59.29:8080")!
+//#endif
 #if targetEnvironment(simulator)
     let baseURL: URL = URL(string: "http://127.0.0.1:8080")!
 #else
     let baseURL: URL = URL(string: "http://10.80.59.29:8080")!
 #endif
+
+    init() {}
+
     
     // Configuration des encoders/decoders pour gérer les dates de Vapor (format ISO8601) vers Swift (format timestamp)
     private let jsonEncoder: JSONEncoder = {
@@ -71,6 +81,50 @@ class APIService{
         }
     }
     
+    /// Permet d'utliser les query parameters qui servent à récupérer un user précis avec des jours précis et les mettre dans l'url de requête pour l'historique du journal
+    /// On filtre les données d'un seul user (celui connecté) plutôt que toutes les données du journal de tous les users
+    func get<T: Decodable>(
+        endpoint: String,
+        queryParameters: [String: String],
+        as type: T.Type = T.self
+    ) async throws -> T {
+        
+        var urlComponents = URLComponents(
+            url: baseURL.appendingPathComponent(endpoint),
+            resolvingAgainstBaseURL: false
+        )!
+        
+        // Ajoute les query parameters (?date=xxx&userId=yyy)
+        urlComponents.queryItems = queryParameters.map {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        
+        guard let url = urlComponents.url else {
+            throw TVShowError.urlSessionError
+        }
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                throw TVShowError.httpResponseError
+            }
+            guard !data.isEmpty else {
+                throw TVShowError.dataEmpty
+            }
+            return try jsonDecoder.decode(T.self, from: data)
+        } catch {
+            throw TVShowError.urlSessionError
+        }
+    }
+    
+    // Utilisation de cette méthode :
+    // let dayData: DayDataDTO = try await apiService.get(
+    // endpoint: "journal/day",
+    // queryParameters: [
+    // "date": "2025-01-12T00:00:00Z",
+    // "userId": "xxx-xxx-xxx"
+    // ]
+    // )
     
     //    func post<U:Encodable>(endpoint: String, body: U) async throws -> HTTPURLResponse{
     //        let url = URL(string:"\(baseURL)/\(endpoint)")!
@@ -97,23 +151,58 @@ class APIService{
         return try jsonDecoder.decode(T.self, from: data)
     }
     
+    func uploadImage(imageData: Data, fileName: String = "profile.jpg") async throws -> String {
+        let url = baseURL.appendingPathComponent("users/upload")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let boundary = UUID().uuidString
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var body = Data()
+        let mimetype = "image/jpeg"
+        
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: \(mimetype)\r\n\r\n".data(using: .utf8)!)
+        body.append(imageData)
+        body.append("\r\n".data(using: .utf8)!)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        request.httpBody = body
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw TVShowError.httpResponseError
+        }
+        
+        struct UploadResponse: Decodable { let imageURL: String }
+        let decoded = try jsonDecoder.decode(UploadResponse.self, from: data)
+        
+        return decoded.imageURL
+    }
     
-    func delete(endpoint: String) async throws -> HTTPURLResponse{
+    func delete<T: Decodable>(endpoint: String, as type: T.Type = T.self) async throws -> T {
         let url = URL(string:"\(baseURL)/\(endpoint)")!
         
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let (_, response) = try await URLSession.shared.data(from: url)
+        let (data, response) = try await URLSession.shared.data(for: request)
         
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else{
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
             throw TVShowError.httpResponseError
         }
         
-        return httpResponse
+        // Si pas de contenu (204 No Content), retourne un objet vide
+        if data.isEmpty {
+            return try JSONDecoder().decode(T.self, from: "{}".data(using: .utf8)!)
+        }
+        
+        return try jsonDecoder.decode(T.self, from: data)
     }
-    
-    
     
 }

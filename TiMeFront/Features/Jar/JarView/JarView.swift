@@ -54,15 +54,15 @@ struct BallsView: View {
         NavigationStack{
             SpriteView(scene: scene)
                 .ignoresSafeArea()
+                .onShakeGesture {
+                    print("Device has been shaken!")
+                }
+            //        .matchedTransitionSource(id: <#T##Hashable#>, in: <#T##Namespace.ID#>)
+            
+                .navigationDestination(isPresented: $navManager.shouldNavigate) {
+                    ChallengeView()
+                }
         }
-        .onShakeGesture {
-            print("Device has been shaken!")
-        }
-//        .matchedTransitionSource(id: <#T##Hashable#>, in: <#T##Namespace.ID#>)
-
-        NavigationLink("", destination: ChallengeView(), isActive: $navManager.shouldNavigate)
-
-        
     }
 }
 

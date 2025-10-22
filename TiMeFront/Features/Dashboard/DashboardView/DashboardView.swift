@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreMotion
 
+@available(iOS 26.0, *)
 struct DashboardView: View {
     var body: some View {
         NavigationStack {
@@ -61,24 +62,30 @@ struct DashboardView: View {
         case .streak:
             StreakView()
         case .graph:
-            if #available(iOS 26.0, *) {
                 StatisticsView()
-            } else {
-                // Fallback on earlier versions
-            }
         case .journal:
-            PrivateJournalView()
+            CreatePrivateJournalOfTheDayView()
         case .microphone:
-            PrivateJournalView()
+            CreatePrivateJournalOfTheDayView()
         case .jarChallenge:
             JarView()
         case .profile:
             ProfileView()
+        case .privateJournal(let weekNumber, let month, let year):
+            PrivateJournalWeekView(
+                weekNumber: weekNumber,
+                month: month,
+                year: year
+            )
         }
     }
 }
 
 #Preview {
-    DashboardView()
-        .environment(AuthViewModel())
+    if #available(iOS 26.0, *) {
+        DashboardView()
+            .environment(AuthViewModel())
+    } else {
+        // Fallback on earlier versions
+    }
 }

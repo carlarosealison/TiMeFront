@@ -109,6 +109,24 @@ struct SemiBoldTitleStyle: ViewModifier {
     }
 }
 
+struct SemiBoldTitleCondensedStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: 20, weight: .semibold, design: .default))
+            .fontWidth(.condensed)
+            .foregroundStyle(.purpleText)
+    }
+}
+
+struct SemiBoldTitlePurpleStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: 20, weight: .semibold, design: .default))
+            .fontWidth(.expanded)
+            .foregroundStyle(.purpleButton)
+    }
+}
+
 // MARK: - Extensions
 
 extension View {
@@ -161,6 +179,16 @@ extension View {
     func semiBoldTitle() -> some View {
         modifier(SemiBoldTitleStyle())
     }
+    
+    /// Semi bold condensed title - 20pt semibold expanded
+    func semiBoldCondensedTitle() -> some View {
+        modifier(SemiBoldTitleCondensedStyle())
+    }
+    
+    /// Semi bold purple title - 20pt semibold expanded
+    func semiBoldPurpleTitle() -> some View {
+        modifier(SemiBoldTitlePurpleStyle())
+    }
 }
 
 // MARK: - Exemples
@@ -199,6 +227,12 @@ extension View {
             
             Text("Semi Bold Title 20pt")
                 .semiBoldTitle()
+            
+            Text("Semi Bold Condensed Title 20pt")
+                .semiBoldCondensedTitle()
+            
+            Text("Semi Bold Purple Title 20pt")
+                .semiBoldPurpleTitle()
         }
         .padding()
     }

@@ -135,6 +135,11 @@ struct DashboardGridView: View {
                                     await emotionViewModel.addEmotionOfTheDay()
                                 }
                             },
+                            onDelete: {
+                                Task {
+                                    await emotionViewModel.deleteEmotionOfTheDay()
+                                }
+                            },
                             showSuccess: emotionViewModel.showSuccess,
                             emotionTitle: emotionViewModel.dailyEmotion?.title ?? "Chargement...",
                             categoryID: emotionViewModel.dailyEmotion?.categoryID,
