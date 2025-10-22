@@ -11,6 +11,7 @@ class EmotionOfTheDayRepo {
     
     private let service = EmotionOfTheDayService()
     private let mapper = EmotionOfTheDayMapper()
+    struct EmptyResponse: Codable {}
     
     // Crée une émotion du jour
     func createEmotionOfTheDay(date: Date, idUser: UUID, idEmotion: UUID) async throws -> EmotionOfTheDayModel {
@@ -32,6 +33,13 @@ class EmotionOfTheDayRepo {
             date: Date(),
             idUser: create.userID,
             idEmotion: create.emotionID
+        )
+    }
+    
+    func deleteEmotion(_ id: UUID) async throws {
+        let apiService = APIService()
+        let _: EmptyResponse = try await apiService.delete(
+            endpoint: "emotionOfTheDay/\(id.uuidString)"
         )
     }
 }

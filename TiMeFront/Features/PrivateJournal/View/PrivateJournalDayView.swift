@@ -23,7 +23,7 @@ struct PrivateJournalDayView: View {
                 
                 HStack(spacing: 20) {
                     Spacer()
-                    // Heart Level (sans pourcentage)
+                    // Heart Level
                     if dayEntry.heartLevel != nil {
                         DashboardCard {
                             VStack {
@@ -40,20 +40,24 @@ struct PrivateJournalDayView: View {
                     // Emotion (consultation uniquement)
                     if let emotionTitle = dayEntry.emotionTitle,
                        let emotionColor = dayEntry.emotionColor {
-                        DashboardCard {
-                            MoodValidationCardContent(
-                                onValidate: {},
-                                showSuccess: true,
-                                emotionTitle: emotionTitle,
-                                categoryID: nil,
-                                backgroundColor: ColorMapper.color(from: emotionColor) // ✅ Utilise ColorMapper
-                            )
+                        ZStack {
+                            DashboardCard {
+                                MoodValidationCardContent(
+                                    onValidate: {},
+                                    onDelete: {},
+                                    showSuccess: true,
+                                    emotionTitle: emotionTitle,
+                                    categoryID: nil,
+                                    backgroundColor: ColorMapper.color(from: emotionColor),
+                                    buttonOffset: CGSize(width: 10, height: 10)
+                                )
+                            }
                         }
                         .frame(width: 75, height: 75)
                         .allowsHitTesting(false)
                     }
                     
-                    // Motivation (garde le % car c'est un pourcentage)
+                    // Motivation (pourcentage)
                     if let motivation = dayEntry.motivationLevel {
                         DashboardCard {
                             IconCardContent(
@@ -96,7 +100,7 @@ struct PrivateJournalDayView: View {
 
 #Preview {
     ZStack {
-        // Simule l'image du livre
+        // Simule l'image du livre juste pour la preview
         Color.purple.opacity(0.1)
         
         PrivateJournalDayView(

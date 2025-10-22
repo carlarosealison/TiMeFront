@@ -19,7 +19,6 @@ class EmotionOfTheDayViewModel {
     
     private let emotionOfTheDayRepo = EmotionOfTheDayRepo()
     private let emotionRepo = EmotionRepo()
-    private let testUserId = UUID(uuidString: "AEFC2553-7B2D-4B11-B378-BFDCE0C3C4E1")!
     
     // Charger l'émotion du jour
     func loadDailyEmotion() async {
@@ -45,18 +44,48 @@ class EmotionOfTheDayViewModel {
         errorMessage = nil
         
         do {
+            // Récupère l'userId de l'utilisateur connecté
+            guard let userIdString = UserDefaults.standard.string(forKey: "userId"),
+                  let userId = UUID(uuidString: userIdString) else {
+                errorMessage = "Utilisateur non connecté"
+                isLoading = false
+                return
+            }
+
             let emotionOfTheDay = EmotionOfTheDayCreate(
-                userID: testUserId,
+                date: Date(),
+                userID: userId,
                 emotionID: dailyEmotion.id
             )
-            
             currentEmotion = try await emotionOfTheDayRepo.addEmotion(emotionOfTheDay)
-            
             showSuccess = true
-            try await Task.sleep(nanoseconds: 2_000_000_000)
-            showSuccess = false
         } catch {
             errorMessage = "Erreur : \(error.localizedDescription)"
+        }
+        
+        isLoading = false
+    }
+    
+    func deleteEmotionOfTheDay() async {
+        guard let currentEmotion = currentEmotion else {
+            errorMessage = "Aucune émotion à supprimer"
+            return
+        }
+        
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            try await emotionOfTheDayRepo.deleteEmotion(currentEmotion.id)
+            
+            // Réinitialise l'état
+            self.currentEmotion = nil
+            showSuccess = false
+            
+            print("✅ Émotion du jour supprimée")
+        } catch {
+            errorMessage = "Erreur : \(error.localizedDescription)"
+            print("❌ Erreur suppression : \(error)")
         }
         
         isLoading = false
