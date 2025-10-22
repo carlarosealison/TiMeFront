@@ -10,7 +10,8 @@ import SwiftUI
 struct ChallengeView: View {
     
 //    let challenge : ChallengeModel
-    var viewModel = ChallengeViewModel()
+//    var viewModel = ChallengeViewModel()
+    @State var viewModel = ChallengeOfTheDayViewModel(authViewModel: AuthViewModel())
     var body: some View {
             ZStack {
                 Color.whitePurple
@@ -49,15 +50,14 @@ struct ChallengeView: View {
 
                         }
                     }
-                    .onAppear {
-                        Task {
+                    .task {
                             do{
-                                try await viewModel.fetchRandomChallenge()
+                                try await viewModel.fetchRandomChallengeOfTheDay()
                             }
                             catch{
-                                print("Error in fetching while fetching the challenge : \(error.localizedDescription)")
+                                print("Error while fetching the challenge : \(error.localizedDescription)")
                             }
-                        }
+                        
                         
                     }
             }
