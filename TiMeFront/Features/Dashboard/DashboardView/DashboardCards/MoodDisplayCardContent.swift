@@ -35,7 +35,7 @@ struct MoodDisplayCardContent: View {
                     .width(.expanded)
                     .weight(.light))
                 .foregroundStyle(Color("PurpleText"))
-                .padding(.top, 5)
+                .padding(.top, 10)
                 .padding(.horizontal, 10)
         }
         .overlay(alignment: .bottomTrailing) {

@@ -32,8 +32,6 @@ struct DashboardCard<Content: View>: View {
             
             content()
         }
-            .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 4)
-            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 0)
         
         if allowOverflow {
             card

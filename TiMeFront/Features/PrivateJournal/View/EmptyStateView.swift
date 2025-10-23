@@ -25,7 +25,7 @@ struct EmptyStateView: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(Color("PurpleText"))
                 
-                Text("Commence ton journal pour ce jour")
+                Text("Ajoute des données pour ce jour")
                     .font(.subheadline)
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
@@ -35,7 +35,7 @@ struct EmptyStateView: View {
             Button(action: onCreateEntry) {
                 HStack {
                     Image(systemName: "plus.circle.fill")
-                    Text("Créer une entrée")
+                    Text("Ajouter des données")
                 }
                 .font(.headline)
                 .foregroundStyle(.white)
