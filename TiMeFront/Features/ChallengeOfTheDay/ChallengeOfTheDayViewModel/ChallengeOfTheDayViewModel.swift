@@ -28,7 +28,7 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
         
         let challengeIndex = try await challengeRepo.randomChallenge()
         let finalChallengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
-        let challengeOutOfDate = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeIndex.id)
+        _ = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeIndex.id)
 
         do{
             //je récupre le challenge en .random
@@ -51,7 +51,7 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
             }
             // autrement, je le supprime en tant que challenge du jour
             else {
-                let challengeOutOfDate = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeIndex.id)
+                _ = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeIndex.id)
                 return .delete(DeleteResponse(success: true))
             }
             

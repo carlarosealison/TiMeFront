@@ -28,7 +28,7 @@ class ChallengeOfTheDayRepo {
     }
     
     func deleteChallengeForToday(challengeID: UUID) async throws -> DeleteResponse{
-        let response = try await  service.deleteChallengeOfTheDay(challengeId: challengeID)
+        _ = try await  service.deleteChallengeOfTheDay(challengeId: challengeID)
         return DeleteResponse(success: true)
     }
 }
