@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-@MainActor
+//@MainActor
 @Observable
 class AuthViewModel {
     var isAuthenticated = false
     var token: String?
     var currentUser: UserResponse?
 
-    private let userRepo = UserRepo() // supposé utiliser APIService.shared
+    private let userRepo = UserRepo()
     private let baseURL = APIService.shared.baseURL
 
     // MARK: - Login utilisateur

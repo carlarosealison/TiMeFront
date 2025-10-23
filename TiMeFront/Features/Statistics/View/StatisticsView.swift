@@ -9,7 +9,7 @@ import SwiftUI
 
 @available(iOS 26.0, *)
 struct StatisticsView: View {
-    
+
     @State var statVM = StatisticsViewModel()
     
     var body: some View {
@@ -124,7 +124,8 @@ struct StatisticsView: View {
         case .card:
             VStack{
                 textDescription(description: "Chiffres clès", isShowInfo: false)
-                GridCardDataCell()
+              
+                GridCardDataCell(streak: statVM.streak, challengeSuccessful: statVM.challengeNumber)
             }
         }
     }
@@ -133,6 +134,7 @@ struct StatisticsView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         StatisticsView()
+            .environment(AuthViewModel())
     } else {
         // Fallback on earlier versions
     }
