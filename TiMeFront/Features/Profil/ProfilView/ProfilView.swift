@@ -10,8 +10,11 @@ import LocalAuthentication
 import PhotosUI
 
 struct ProfilView: View {
-    @StateObject private var viewModel = ProfilViewModel()
+    @StateObject private var viewModel = ProfilViewModel()  // ← Utilise @StateObject
     @State private var isShowingPhotoPicker = false
+    @Environment(AuthViewModel.self) var authVM
+    @Environment(UserViewModel.self) var userVM
+
     
     enum EditField: Identifiable {
         case name, email, password
@@ -20,7 +23,7 @@ struct ProfilView: View {
         var title: String {
             switch self {
             case .name: return "Modifier le nom"
-            case .email: return "Modifier l’email"
+            case .email: return "Modifier l'email"
             case .password: return "Modifier le mot de passe"
             }
         }
@@ -38,12 +41,38 @@ struct ProfilView: View {
                     name: $viewModel.name,
                     email: $viewModel.email,
                     password: $viewModel.password,
-                    onCancel: { viewModel.showingEdit = nil },
-                    onSave: { viewModel.showingEdit = nil }
+                    onCancel: {
+                        viewModel.showingEdit = nil
+                    },
+                    onSave: {
+                        Task {
+                            //  Appeler la fonction updateProfile du ProfilViewModel
+                            let success = await viewModel.updateProfile(field: field)
+                            
+                            if success {
+                                //  Synchroniser avec UserViewModel après succès
+                                userVM.userName = viewModel.name
+                                userVM.email = viewModel.email
+                                if !viewModel.password.isEmpty {
+                                    userVM.password = viewModel.password
+                                }
+                                print("✅ Profil mis à jour avec succès")
+                            } else {
+                                print("❌ Échec de la mise à jour")
+                            }
+                            
+                            // Ferme la sheet
+                            viewModel.showingEdit = nil
+                        }
+                    }
                 )
                 .transition(.scale.combined(with: .opacity))
                 .zIndex(1)
             }
+        }
+        .onAppear {
+            // Charger les données au démarrage
+            viewModel.loadUserData(from: userVM)
         }
         .navigationDestination(isPresented: $viewModel.navigateToAuth) {
             if #available(iOS 26.0, *) {
@@ -58,6 +87,7 @@ struct ProfilView: View {
         .alert("Êtes-vous sûr de vouloir vous déconnecter ?", isPresented: $viewModel.showLogoutConfirm) {
             Button("Annuler", role: .cancel) {}
             Button("Valider", role: .destructive) {
+                authVM.logout()
                 viewModel.navigateToAuth = true
             }
         }
@@ -77,14 +107,13 @@ private extension ProfilView {
             Spacer()
             
             avatarSection
-            
-            Text(viewModel.name)
-                .font(Font.custom("SF Pro", size: 19))
-                .fontWeight(.light)
+            Text(userVM.userName.isEmpty ? "Invité" : userVM.userName)
+                .font(.title2)
+                .bold()
                 .foregroundColor(Color("PurpleText"))
+
             
             optionsSection
-            
             logoutButton
             
             Spacer()
@@ -126,30 +155,27 @@ private extension ProfilView {
             Button { viewModel.showingEdit = .name } label: {
                 ProfilRow(icon: "pencil", text: "Modifier le nom")
             }
-            Divider()
-                .frame(minHeight: 1)
-            Button { viewModel.showingEdit = .password } label: {
-                ProfilRow(icon: "lock.fill", text: "Modifier le mot de passe")
-            }
-            Divider()
-                .frame(minHeight: 1)
+            Divider().frame(minHeight: 1)
+            
             Button { viewModel.showingEdit = .email } label: {
                 ProfilRow(icon: "envelope.fill", text: "Modifier l'email")
             }
-            Divider()
-                .frame(minHeight: 1)
+            Divider().frame(minHeight: 1)
+            
+            Button { viewModel.showingEdit = .password } label: {
+                ProfilRow(icon: "lock.fill", text: "Modifier le mot de passe")
+            }
+            Divider().frame(minHeight: 1)
+            
             ToggleRow(icon: "bell.fill", text: "Notifications", isOn: $viewModel.notificationsOn)
-            Divider()
-                .frame(minHeight: 1)
+            Divider().frame(minHeight: 1)
+            
             ToggleRow(icon: "faceid", text: "Utiliser Face ID", isOn: $viewModel.faceIDOn)
-            
-            
         }
-        .tint(Color("PurpleButton")) // appliqué à tous les toggles à l’intérieur
+        .tint(Color("PurpleButton"))
         .glassEffectIfAvailable(cornerRadius: 29)
         .clipShape(RoundedRectangle(cornerRadius: 15))
         .padding(.horizontal, 24)
-        
     }
     
     var logoutButton: some View {
@@ -168,4 +194,7 @@ private extension ProfilView {
 
 #Preview {
     ProfilView()
+        .environment(AuthViewModel())
+        .environment(UserViewModel())
 }
+

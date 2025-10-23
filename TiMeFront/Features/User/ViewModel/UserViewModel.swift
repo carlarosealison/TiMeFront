@@ -26,11 +26,8 @@ class UserViewModel{
     private var errorMessage: String?
     private var downloadURL: String = ""
     private var uploadProgress: Double = 0
-    
     var usernameOrEmailAuth: String = ""
-    
     var passwordAuth: String = ""
-    
     var isLogin: Bool = false
     var checkFormData: Bool = false
     
@@ -133,6 +130,28 @@ class UserViewModel{
             print("❌ Erreur lors de la création ou connexion : \(error)")
         }
     }
+    
+    func updateUser() async {
+        do {
+            let response = try await userRepo.updateUser(
+                firstName: firstName,
+                lastName: lastName,
+                userName: userName,
+                email: email,
+                password: password,
+                imageProfil: imageProfil
+            )
+            firstName = response.firstName
+            email = response.email
+            password = ""
+            errorMessage = nil
+            print("✅ Utilisateur mis à jour")
+        } catch {
+            errorMessage = "Erreur lors de la mise à jour : \(error.localizedDescription)"
+            print("❌ \(errorMessage ?? "")")
+        }
+    }
+
     
     func resetForm() async throws{
         firstName = ""

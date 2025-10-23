@@ -45,7 +45,7 @@ struct EditSheet: View {
                         .font(Font.custom("SF Pro", size: 22))
                         .foregroundColor(Color("PurpleText"))
 
-                    // --- Champ de texte pour la saisie ---
+                    //  Champ de texte
                     TextField("Entrez votre \(labelText(field))", text: $inputText)
                         .textFieldStyle(.roundedBorder)
                         .focused($isFocused)
@@ -64,7 +64,7 @@ struct EditSheet: View {
                             }
                         }
 
-                    // --- Boutons “Annuler” et “Enregistrer” côte à côte ---
+                    //  Boutons “Annuler” et “Enregistrer” côte à côte 
                     HStack(spacing: 20) {
                         // Bouton Annuler
                         Button("Annuler") {
@@ -120,7 +120,7 @@ struct EditSheet: View {
         }
     }
 
-    // --- Fonction utilitaire : texte du placeholder ---
+    //  Fonction utilitaire : texte du placeholder
     private func labelText(_ field: ProfilView.EditField) -> String {
         switch field {
         case .name: return "nom"
@@ -130,14 +130,14 @@ struct EditSheet: View {
     }
 }
 
-// --- Extension pour arrondir uniquement certains coins ---
+//  Extension pour arrondir uniquement certains coins
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 }
 
-// --- Forme personnalisée pour les coins sélectionnés ---
+//  Forme personnalisée pour les coins sélectionnés
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
@@ -154,8 +154,8 @@ struct RoundedCorner: Shape {
 #Preview {
     EditSheet(
         field: .name,
-        name: .constant("Carla Paul"),
-        email: .constant("carla@example.com"),
+        name: .constant(""),
+        email: .constant(""),
         password: .constant(""),
         onCancel: {},
         onSave: {}

@@ -60,7 +60,7 @@ struct BallsView: View {
         }
 //        .matchedTransitionSource(id: <#T##Hashable#>, in: <#T##Namespace.ID#>)
 
-        NavigationLink("", destination: ChallengeView(), isActive: $navManager.shouldNavigate)
+//        NavigationLink("", destination: ChallengeView(), isActive: $navManager.shouldNavigate)
 
         
     }

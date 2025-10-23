@@ -13,12 +13,13 @@ import CoreMotion
 struct TiMeFrontApp: App {
     
     @State private var authVM = AuthViewModel()
-    
+    @State private var userVM = UserViewModel()  // ← Ajoute ceci
     var body: some Scene {
         WindowGroup {
 
                 ContentView()
                 .environment(authVM)
+                .environment(userVM)
             }
         }
     }
