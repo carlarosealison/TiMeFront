@@ -9,58 +9,65 @@ import SwiftUI
 
 struct ChallengeView: View {
     
-//    let challenge : ChallengeModel
-//    var viewModel = ChallengeViewModel()
     @State var viewModel = ChallengeOfTheDayViewModel(authViewModel: AuthViewModel())
+    
     var body: some View {
-            ZStack {
-                Color.whitePurple
-                    .ignoresSafeArea()
-                VStack {
-                    Spacer(minLength: 265)
-                    
-                    Text("Défi du jour")
-                        .mediumPurple()
-                        .padding(5)
-                    
-                    Text(viewModel.challenge?.instruction ?? "challenge indisponible")
-                        .semiBold()
-                        .multilineTextAlignment(.center)
+        
+        VStack {
+            NavigationStack{
+                ZStack {
+                    Color.whitePurple
+                        .ignoresSafeArea()
+                    VStack {
+                        Spacer(minLength: 265)
                         
-                    
-                    Spacer()
-                    
-                    PurpleButton(withArrow: true, buttonFuncText: "Allons-y!")
-                        .padding(.bottom, 100)
-                    
-                }.padding(.horizontal, 24)
+                        Text("Défi du jour")
+                            .mediumPurple()
+                            .padding(5)
+                        
+                        Text(viewModel.challenge?.instruction ?? "challenge indisponible")
+                            .semiBold()
+                            .multilineTextAlignment(.center)
+                        
+                        
+                        Spacer()
+                        
+                        PurpleButton(withArrow: true, buttonFuncText: "Allons-y!")
+                            .padding(.bottom, 100)
+                        
+                    }
+                    .padding(.horizontal, 24)
                     .toolbar{
                         ToolbarItem(placement: .topBarTrailing){
-                            NavigationLink { //ici mettre en place un navigation path pour pop sur le dashborad
-//                                DashboardView()
+                            NavigationLink {
+                                //TODO: mettre en place un navigation path pour pop sur le dashborad
                                 
                             } label: {
-                                Text("Skip")
+                                Text("Passer")
                                     .foregroundStyle(.purpleText)
                                     .fontWeight(.regular)
                                     .fontWidth(.expanded)
-                                    .underline()
-                                    
+                                    .underline()                                
                             }
-
+                            
                         }
                     }
-                    .task {
-                            do{
-                                try await viewModel.fetchRandomChallengeOfTheDay()
-                            }
-                            catch{
-                                print("Error while fetching the challenge : \(error.localizedDescription)")
-                            }
-                        
-                        
+                    
+                    
+                }
+                .task {
+                    do{
+                        try await viewModel.fetchRandomChallengeOfTheDay()
                     }
+                    catch{
+                        print("Error while fetching the challenge : \(error.localizedDescription)")
+                    }
+                    
+                }
+                
             }
+        }
+
     }
 }
 
