@@ -64,9 +64,9 @@ struct DashboardView: View {
         case .graph:
                 StatisticsView()
         case .journal:
-            CreatePrivateJournalOfTheDayView()
+            JournalEditorView()
         case .microphone:
-            CreatePrivateJournalOfTheDayView()
+            JournalEditorView()
         case .jarChallenge:
             JarView()
         case .profile:
