@@ -15,3 +15,13 @@ struct ChallengeOfTheDayModel {
     var id_user : UUID
     var id_challenge : UUID
 }
+
+struct DeleteResponse : Decodable {
+    let success: Bool
+}
+
+enum ChallengeOfTheDayResult {
+case challenge(ChallengeOfTheDayResponseDTO)
+case delete(DeleteResponse)
+case error(URLError)
+}
