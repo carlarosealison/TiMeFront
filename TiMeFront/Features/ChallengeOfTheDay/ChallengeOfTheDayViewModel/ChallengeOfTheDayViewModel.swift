@@ -37,7 +37,7 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
             let challengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
             
             if challengeOfTheDay.dateExp == Date.now {
-                let finalChallengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
+                let _ = try await challengeOTDRepo.getChallengeOfTheDay()
             }
             else {
                 

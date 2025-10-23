@@ -117,30 +117,6 @@ let baseURL: URL = URL(string: "http://10.80.59.190:8080")!
         }
     }
     
-    // Utilisation de cette méthode :
-    // let dayData: DayDataDTO = try await apiService.get(
-    // endpoint: "journal/day",
-    // queryParameters: [
-    // "date": "2025-01-12T00:00:00Z",
-    // "userId": "xxx-xxx-xxx"
-    // ]
-    // )
-    
-    //    func post<U:Encodable>(endpoint: String, body: U) async throws -> HTTPURLResponse{
-    //        let url = URL(string:"\(baseURL)/\(endpoint)")!
-    //        var request = URLRequest(url: url)
-    //        request.httpMethod = "POST"
-    //        request.httpBody = try JSONEncoder().encode(body)
-    //        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    //        let (_, response) = try await URLSession.shared.data(for: request)
-    //        guard let httpResponse = response as? HTTPURLResponse else{
-    //            throw URLError(.badServerResponse)
-    //        }
-    //        print("HTTP Status:", httpResponse.statusCode)
-    //
-    //        return httpResponse
-    //    }
-    
     func post<T:Decodable, U:Encodable>(endpoint: String, body: U) async throws -> T{
         let url = URL(string:"\(baseURL)/\(endpoint)")!
         var request = URLRequest(url: url)

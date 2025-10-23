@@ -10,26 +10,36 @@ import SwiftUI
 struct DashboardCard<Content: View>: View {
     
     let span: GridSpan
+    let allowOverflow: Bool
     @ViewBuilder let content: () -> Content
     
     init(
         span: GridSpan = .small,
+        allowOverflow: Bool = false,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.span = span
+        self.allowOverflow = allowOverflow
         self.content = content
     }
     
     var body: some View {
-        ZStack {
+        let card = ZStack {
+            // Background TOUJOURS avec coins arrondis
             RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card)
                 .fill(.ultraThinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card))
             
             content()
         }
-        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card))
-        .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 4)
-        .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 0)
+            .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 4)
+            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 0)
+        
+        if allowOverflow {
+            card
+        } else {
+            card.clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card))
+        }
     }
 }
 

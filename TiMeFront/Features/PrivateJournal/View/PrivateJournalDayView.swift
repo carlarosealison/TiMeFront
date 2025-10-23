@@ -23,6 +23,7 @@ struct PrivateJournalDayView: View {
                 
                 HStack(spacing: 20) {
                     Spacer()
+                    
                     // Heart Level
                     if dayEntry.heartLevel != nil {
                         DashboardCard {
@@ -37,21 +38,14 @@ struct PrivateJournalDayView: View {
                         .frame(width: 75, height: 75)
                     }
                     
-                    // Emotion (consultation uniquement)
+                    // Emotion
                     if let emotionTitle = dayEntry.emotionTitle,
                        let emotionColor = dayEntry.emotionColor {
-                        ZStack {
-                            DashboardCard {
-                                MoodValidationCardContent(
-                                    onValidate: {},
-                                    onDelete: {},
-                                    showSuccess: true,
-                                    emotionTitle: emotionTitle,
-                                    categoryID: nil,
-                                    backgroundColor: ColorMapper.color(from: emotionColor),
-                                    buttonOffset: CGSize(width: 10, height: 10)
-                                )
-                            }
+                        DashboardCard(allowOverflow: true) {
+                            MoodDisplayCardContent(
+                                emotionTitle: emotionTitle,
+                                backgroundColor: ColorMapper.color(from: emotionColor)
+                            )
                         }
                         .frame(width: 75, height: 75)
                         .allowsHitTesting(false)
@@ -68,6 +62,7 @@ struct PrivateJournalDayView: View {
                         }
                         .frame(width: 75, height: 75)
                     }
+                    
                     Spacer()
                 }
             }
