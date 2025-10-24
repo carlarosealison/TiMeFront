@@ -47,23 +47,24 @@ struct AuthentificationView: View {
     
     
     var titleAuth: some View{
-        Text("Bienvenue")
-            .font(title.width(.expanded).weight(.black))
-            .foregroundStyle(.purpleText)
-            .overlay(alignment: .center) {
-                Image("Plant")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 73, height: 157)
-                    .padding(.bottom, 80)
-                    .padding(.leading, 48)
-            }
-            .padding(.top, 30)
+            Text("Bienvenue")
+                .font(title.width(.expanded).weight(.black))
+                .foregroundStyle(.purpleText)
+                .overlay(alignment: .center) {
+                    Image("Plant")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 73, height: 157)
+                        .padding(.bottom, 80)
+                        .padding(.leading, 48)
+                }
+        .padding(.top, 100)
     }
     
     var textMotivation: some View{
         Text("Incroyable bichette! Tu as fait un premier grand pas vers ta réussite !")
             .font(.system(size: 14).width(.expanded).weight(.light))
+            .foregroundStyle(.purpleText)
             .multilineTextAlignment(.center)
             .lineSpacing(9)
             .frame(width: 250)
@@ -117,10 +118,9 @@ struct AuthentificationView: View {
                 .glassEffect()
             
         }
-        
     }
     
-    var forgetPassword: some View{
+    var forgetPassword: some View {
         Button {
             print("j'ai oublier le mot de passe")
         } label: {
@@ -131,7 +131,7 @@ struct AuthentificationView: View {
         .padding(.leading, 10)
     }
     
-    var buttonAccessFormRegister: some View{
+    var buttonAccessFormRegister: some View {
         VStack(spacing: 12){
             Text("Pas encore de compte ? ")
                 .font(.system(size: 8).width(.expanded).weight(.light))

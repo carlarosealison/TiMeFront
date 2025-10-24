@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 26.0, *)
 struct PrivateJournalWeekView: View {
     
     let weekNumber: Int
@@ -141,10 +142,14 @@ struct PrivateJournalWeekView: View {
 
 #Preview {
     NavigationStack {
-        PrivateJournalWeekView(
-            weekNumber: 5,
-            month: 10,
-            year: 2025
-        )
+        if #available(iOS 26.0, *) {
+            PrivateJournalWeekView(
+                weekNumber: 5,
+                month: 10,
+                year: 2025
+            )
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }

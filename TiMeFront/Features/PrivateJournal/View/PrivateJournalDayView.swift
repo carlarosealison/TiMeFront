@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 26.0, *)
 struct PrivateJournalDayView: View {
     let dayEntry: DayEntry
     
@@ -48,6 +49,7 @@ struct PrivateJournalDayView: View {
                             )
                         }
                         .frame(width: 75, height: 75)
+//                        .glassEffect()
                         .allowsHitTesting(false)
                     }
                     
@@ -98,16 +100,20 @@ struct PrivateJournalDayView: View {
         // Simule l'image du livre juste pour la preview
         Color.purple.opacity(0.1)
         
-        PrivateJournalDayView(
-            dayEntry: DayEntry(
-                date: Date(),
-                emotionTitle: "Enthousiaste",
-                emotionColor: "Orange",
-                heartLevel: 80,
-                motivationLevel: 65,
-                note: "Aujourd'hui c'était une belle journée. J'ai bien avancé sur mon projet. J'ai rencontré des personnes inspirantes et j'ai appris plein de nouvelles choses. La journée était vraiment productive et je suis content du résultat."
+        if #available(iOS 26.0, *) {
+            PrivateJournalDayView(
+                dayEntry: DayEntry(
+                    date: Date(),
+                    emotionTitle: "Enthousiaste",
+                    emotionColor: "Orange",
+                    heartLevel: 80,
+                    motivationLevel: 65,
+                    note: "Aujourd'hui c'était une belle journée. J'ai bien avancé sur mon projet. J'ai rencontré des personnes inspirantes et j'ai appris plein de nouvelles choses. La journée était vraiment productive et je suis content du résultat."
+                )
             )
-        )
-        .frame(width: 350)
+            .frame(width: 350)
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }
