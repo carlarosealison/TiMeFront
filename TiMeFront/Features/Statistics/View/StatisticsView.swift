@@ -9,7 +9,7 @@ import SwiftUI
 
 @available(iOS 26.0, *)
 struct StatisticsView: View {
-
+    @Environment(AuthViewModel.self) var authVM
     @State var statVM = StatisticsViewModel()
     
     var body: some View {
@@ -124,8 +124,14 @@ struct StatisticsView: View {
         case .card:
             VStack{
                 textDescription(description: "Chiffres clès", isShowInfo: false)
-              
+                
                 GridCardDataCell(streak: statVM.streak, challengeSuccessful: statVM.challengeNumber)
+            }
+            .task {
+                // injecte l'instance AuthViewModel que tu as dans l'environnement
+                statVM.authVM = authVM
+                // appelle la méthode pour lire streak et challengeNumber
+                await statVM.streakTotal()
             }
         }
     }

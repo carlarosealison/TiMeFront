@@ -14,22 +14,27 @@ struct CardDataCell: View {
     let (description, sizeD) : (String, CGFloat)
     
     var body: some View {
-        ZStack{
-            RoundedRectangle(cornerRadius: 12)
-                    .fill(.purpleHover)
+        if #available(iOS 26.0, *) {
+            ZStack{
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(.purpleHover.opacity(0.8))
                     .frame(width: width, height: height)
-                    
-                        
-            VStack(alignment: .center, spacing: 10){
-                Text(String(nbStat))
-                    .font(.system(size: 26).width(.expanded))
-                Text(description)
-                    .font(.system(size:sizeD).width(.expanded))
+                VStack(alignment: .center, spacing: 10){
+                    Text(String(nbStat))
+                        .font(.system(size: 26).width(.expanded))
+                    Text(description)
+                        .font(.system(size:sizeD).width(.expanded))
+                }
+                .foregroundStyle(.white)
+                .bold()
             }
-            .foregroundStyle(.white)
-            .bold()
+            .glassEffect(
+                in: RoundedRectangle(cornerRadius: 12)
+            )
+            .ignoresSafeArea()
+        } else {
+            // Fallback on earlier versions
         }
-        .ignoresSafeArea()
     }
 }
 

@@ -12,9 +12,10 @@ class StatisticsViewModel{
     
     var dateSelect : DateType = .week
     var isShowPopCategoryEmotion: Bool = false
-    let currentUser = AuthViewModel()
+    // injection depuis la View
+    var authVM: AuthViewModel?
     
-    var streak : Int = 0
+    var streak : Int = 9
     var challengeNumber: Int = 0
     
     enum DateType {
@@ -28,12 +29,14 @@ class StatisticsViewModel{
         case card
     }
     
-    func streakTotal(){
-        if let user = currentUser.currentUser{
+    func streakTotal() async {
+        // utilise l'instance injectée
+        if let user = authVM?.currentUser {
             self.streak = user.streakNumber
             self.challengeNumber = user.challengeNumber
+        } else {
+            // Optionnel : reset ou log si pas d'utilisateur
+            print("⚠️ authVM non injecté dans StatisticsViewModel")
         }
     }
-    
-    
 }
