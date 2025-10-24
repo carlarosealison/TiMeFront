@@ -8,11 +8,21 @@
 import SwiftUI
 
 struct ScrollMotivation: View {
+    @Binding var viewModel : JournalEditorViewModel
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            GeometryReader { geo in
+                let center = geo.size.width/2
+                
+//                ForEach(viewModel.range) { tick in
+//                    let x = center
+//                }
+                
+            }
+        }
     }
 }
 
 #Preview {
-    ScrollMotivation()
+    ScrollMotivation(viewModel: .constant(JournalEditorViewModel()))
 }

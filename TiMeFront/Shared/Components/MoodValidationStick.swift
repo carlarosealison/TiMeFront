@@ -2,7 +2,7 @@
 //  MoodValidationStick.swift
 //  TiMeFront
 //
-//  Created by Apprenant125 on 23/10/2025.
+//  Created by Carla on 23/10/2025.
 //
 
 import SwiftUI
