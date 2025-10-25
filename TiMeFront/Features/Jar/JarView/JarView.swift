@@ -2,7 +2,7 @@
 //  JarView.swift
 //  TiMeFront
 //
-//  Created by Apprenant125 on 26/09/2025.
+//  Created by Carla on 26/09/2025.
 //
 
 import SwiftUI
@@ -13,6 +13,7 @@ struct JarView: View {
     @Namespace private var transitionNamespace
     
     var body: some View {
+        NavigationStack {
             ZStack {
                 
                 Color.whitePurple
@@ -37,6 +38,7 @@ struct JarView: View {
                 }
             }
         }
+        }
     }
 
 struct BallsView: View {
@@ -51,7 +53,6 @@ struct BallsView: View {
     }
     
     var body: some View {
-        NavigationStack{
             SpriteView(scene: scene)
                 .ignoresSafeArea()
                 .onShakeGesture {
@@ -62,7 +63,7 @@ struct BallsView: View {
                 .navigationDestination(isPresented: $navManager.shouldNavigate) {
                     ChallengeView()
                 }
-        }
+        
     }
 }
 
