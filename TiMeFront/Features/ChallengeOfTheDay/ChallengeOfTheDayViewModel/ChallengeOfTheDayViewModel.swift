@@ -26,37 +26,40 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
     
     func fetchRandomChallengeOfTheDay() async throws -> ChallengeOfTheDayResult {
         
-        let challengeIndex = try await challengeRepo.randomChallenge()
-        let finalChallengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
-        let challengeOutOfDate = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeIndex.id)
-
+        
         do{
             //je récupre le challenge en .random
             let challengeIndex = try await challengeRepo.randomChallenge()
             
             // je post le challenge récupéré afin de l'assigner comme challenge du jour
-            let postChallengeOTD = try await challengeOTDRepo.postRandomChallengeOfTheDay(dateExp: Date.now, instruction: challengeIndex.instruction, messageMotivation: challengeIndex.messageMotivation, id_user: authViewModel.currentUser?.id ?? UUID() , id_challenge: challengeIndex.id)
+            // let postChallengeOTD
+            _ = try await challengeOTDRepo.postRandomChallengeOfTheDay(dateExp: Date.now, instruction: challengeIndex.instruction, messageMotivation: challengeIndex.messageMotivation, id_user: authViewModel.currentUser?.id ?? UUID() , id_challenge: challengeIndex.id)
             
-            DispatchQueue.main.async {
-                self.challengeOTD = postChallengeOTD
-                self.challengeOTD = finalChallengeOfTheDay
-            }
-            
-            // je récupère le challenge du jour pour l'injecter dans mon UI
+            //je récupère mon challenge of the day créé juste avant
             let challengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
             
-            //je vérifie que le challenge instencié comme challenge du jour n'a pas dépassé la date du jour
-            if challengeOfTheDay.dateExp == Date.now {
-                return .challenge(finalChallengeOfTheDay)
+            DispatchQueue.main.async {
+                self.challengeOTD = challengeOfTheDay
             }
+            
+            //je vérifie que le challenge instencié comme challenge du jour n'a pas dépassé la date du jour
+            let isToday = Calendar.current.isDateInToday(challengeOfTheDay.dateExp)
+            
+            if isToday {
+                return .challenge(challengeOfTheDay)
+            }
+            
             // autrement, je le supprime en tant que challenge du jour
             else {
-                let challengeOutOfDate = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeIndex.id)
+                //let challengeOutOfDate
+                _ = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeOfTheDay.id)
+                self.challengeOTD = nil
+                
                 return .delete(DeleteResponse(success: true))
             }
             
             
-
+            
         }
         
         catch{
