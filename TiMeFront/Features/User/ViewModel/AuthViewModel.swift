@@ -40,7 +40,7 @@ class AuthViewModel {
         isAuthenticated = false
 
         UserDefaults.standard.removeObject(forKey: "jwtToken")
-        print("👋 Déconnexion réussie")
+        print(" Déconnexion réussie")
     }
 
     // MARK: - Récupérer le profil utilisateur connecté
