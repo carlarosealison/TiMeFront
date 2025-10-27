@@ -2,7 +2,7 @@
 //  ChallengeRepo.swift
 //  TiMeFront
 //
-//  Created by Apprenant125 on 06/10/2025.
+//  Created by Carla on 06/10/2025.
 //
 
 import Foundation
@@ -18,7 +18,7 @@ class ChallengeRepo {
     
 
     
-    func createChallenge(instruction : String, messageMotivation: String) async throws -> ChallengeModel {
+    func createChallenge(instruction : String, messageMotivation: String, dateExp: Date) async throws -> ChallengeModel {
         let request = ChallengeRequestDTO(instruction: instruction, messageMotivation: messageMotivation)
         
         let response = try await service.createChallenge(challenge: request)
