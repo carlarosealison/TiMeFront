@@ -120,7 +120,7 @@ final class ProfilViewModel: ObservableObject {
             if let httpResponse = response as? HTTPURLResponse {
                 print("📡 Code HTTP: \(httpResponse.statusCode)")
                 
-                // ✅ CORRECTION ICI - Enlevé l'espace
+                // Enlevé l'espace
                 if let responseText = String(data: data, encoding: .utf8) {
                     print("Réponse: \(responseText)")
                 }
