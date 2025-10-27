@@ -70,13 +70,12 @@ struct DashboardView: View {
         case .jarChallenge:
             JarView()
         case .profile:
-            ProfileView()
+            ProfilView()
         case .privateJournal(let weekNumber, let month, let year):
             PrivateJournalWeekView(
                 weekNumber: weekNumber,
                 month: month,
-                year: year
-            )
+                year: year)
         }
     }
 }

@@ -55,6 +55,7 @@ struct BallsView: View {
     var body: some View {
             SpriteView(scene: scene)
                 .ignoresSafeArea()
+
                 .onShakeGesture {
                     print("Device has been shaken!")
                 }

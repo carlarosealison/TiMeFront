@@ -151,6 +151,16 @@ class APIService{
         return try jsonDecoder.decode(T.self, from: data)
     }
     
+    func put<T: Decodable, U: Encodable>(endpoint: String, body: U) async throws -> T {
+        let url = URL(string: "\(baseURL)/\(endpoint)")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.httpBody = try jsonEncoder.encode(body)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let (data, _) = try await URLSession.shared.data(for: request)
+        return try jsonDecoder.decode(T.self, from: data)
+    }
+
     func uploadImage(imageData: Data, fileName: String = "profile.jpg") async throws -> String {
         let url = baseURL.appendingPathComponent("users/upload")
         

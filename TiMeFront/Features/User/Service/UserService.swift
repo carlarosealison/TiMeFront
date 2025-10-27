@@ -8,7 +8,6 @@
 import Foundation
 
 struct UserService{
-    
     private let api = APIService()
     
     func login(user: UserLogin) async throws -> String {
@@ -27,13 +26,12 @@ struct UserService{
         }
         return token.replacingOccurrences(of: "\"", with: "")
     }
-
+    
     func createUser(user: UserRequest)async throws->UserResponse{
         try await api.post(endpoint: "users", body: user)
     }
+    
+    func updateUser(userRequest: UserRequest) async throws -> UserResponse {
+        try await api.put(endpoint: "users", body: userRequest)
+    }
 }
-
-
-//    func getIdUser(id: String, user: UserResponse)async throws->UserResponse{
-//        try await api.get(endpoint: "users/\(id)", as: user.self)
-//    }
