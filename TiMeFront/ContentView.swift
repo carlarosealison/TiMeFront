@@ -16,7 +16,7 @@ struct ContentView: View {
               if authVM.isAuthenticated {
                   DashboardView()
               } else {
-                  DashboardView()
+                  AuthentificationView()
               }
           }
           .animation(.easeInOut, value: authVM.isAuthenticated)

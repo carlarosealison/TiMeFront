@@ -74,71 +74,68 @@ struct PrivateJournalWeekView: View {
                             .padding(.leading, 30)
                     } else {
                         // Jour vide
-                        EmptyStateView(date: dayEntry.date) {
-                            // TODO: Navigation vers CreateJournalEntryView
-                            print("Créer une entrée pour le \(dayEntry.date.formattedFrench())")
-                        }
-                        .frame(width: 350)
-                        .padding(.top, 50)
-                        .padding(.leading, 30)
+                        EmptyStateView(date: dayEntry.date)
+                            .frame(width: 350)
+                            .padding(.top, 50)
+                            .padding(.leading, 30)
                     }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        .background {
-            Image("BackgroundDots")
-                .resizable()
-                .scaledToFill()
-                .scaleEffect(0.40)
-                .ignoresSafeArea()
-        }
-        .navigationTitle(navigationTitleText)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            // Navigation entre les jours
-            ToolbarItemGroup(placement: .bottomBar) {
-                Button(action: previousDay) {
-                    Image(systemName: "chevron.left")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                .disabled(currentDayIndex == 0)
-                
-                Spacer()
-                
-                // Affiche "Jour X/Y" où Y est le nombre réel de jours
-                Text("Jour \(currentDayIndex + 1)/\(totalDays)")
-                    .font(.caption)
-                    .foregroundStyle(Color("PurpleText"))
-                
-                Spacer()
-                
-                Button(action: nextDay) {
-                    Image(systemName: "chevron.right")
+                    .background {
+                        Image("BackgroundDots")
+                            .resizable()
+                            .scaledToFill()
+                            .scaleEffect(0.40)
+                            .ignoresSafeArea()
+                    }
+                    .navigationTitle(navigationTitleText)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        // Navigation entre les jours
+                        ToolbarItemGroup(placement: .bottomBar) {
+                            Button(action: previousDay) {
+                                Image(systemName: "chevron.left")
+                            }
+                            .disabled(currentDayIndex == 0)
+                            
+                            Spacer()
+                            
+                            // Affiche "Jour X/Y" où Y est le nombre réel de jours
+                            Text("Jour \(currentDayIndex + 1)/\(totalDays)")
+                                .font(.caption)
+                                .foregroundStyle(Color("PurpleText"))
+                            
+                            Spacer()
+                            
+                            Button(action: nextDay) {
+                                Image(systemName: "chevron.right")
+                            }
+                            .disabled(currentDayIndex >= totalDays - 1) // Désactive si on est au dernier jour
+                        }
+                    }
+                    .task {
+                        await viewModel.loadWeek()
+                    }
+            }
+            
+            // MARK: - Navigation
+            
+            private func previousDay() {
+                guard currentDayIndex > 0 else { return }
+                withAnimation {
+                    currentDayIndex -= 1
                 }
-                .disabled(currentDayIndex >= totalDays - 1) // Désactive si on est au dernier jour
+            }
+            
+            private func nextDay() {
+                guard currentDayIndex < totalDays - 1 else { return }
+                withAnimation {
+                    currentDayIndex += 1
+                }
             }
         }
-        .task {
-            await viewModel.loadWeek()
-        }
-    }
-    
-    // MARK: - Navigation
-    
-    private func previousDay() {
-        guard currentDayIndex > 0 else { return }
-        withAnimation {
-            currentDayIndex -= 1
-        }
-    }
-    
-    private func nextDay() {
-        guard currentDayIndex < totalDays - 1 else { return }
-        withAnimation {
-            currentDayIndex += 1
-        }
-    }
-}
 
 #Preview {
     NavigationStack {

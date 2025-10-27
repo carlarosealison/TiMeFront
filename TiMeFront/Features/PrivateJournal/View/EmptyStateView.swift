@@ -9,7 +9,6 @@ import SwiftUI
 
 struct EmptyStateView: View {
     let date: Date
-    let onCreateEntry: () -> Void
     
     var body: some View {
         VStack(spacing: 24) {
@@ -31,27 +30,24 @@ struct EmptyStateView: View {
                     .multilineTextAlignment(.center)
             }
             
-            // Bouton
-            Button(action: onCreateEntry) {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Ajouter des données")
+            NavigationLink(destination: JournalEditorView()){
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                        Text("Ajouter des données")
+                    }
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 12)
+                    .background(Color("PurpleButton"))
+                    .cornerRadius(12)
                 }
-                .font(.headline)
-                .foregroundStyle(.white)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 12)
-                .background(Color("PurpleButton"))
-                .cornerRadius(12)
             }
-        }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white.opacity(0.5))
     }
 }
 
 #Preview {
-    EmptyStateView(date: Date(), onCreateEntry: {
-        print("Créer entrée")
-    })
+    EmptyStateView(date: Date())
 }
