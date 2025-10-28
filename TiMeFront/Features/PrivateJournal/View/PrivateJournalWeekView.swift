@@ -47,40 +47,40 @@ struct PrivateJournalWeekView: View {
     }
     
     var body: some View {
-        ZStack {
-            // Image du livre
-            Image("Journal")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 755, height: 620)
-                .padding(.leading, 360)
-                .padding(.top, 20)
-            
-            // Contenu du journal
-            VStack {
-                if viewModel.isLoading {
-                    ProgressView("Chargement...")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if let errorMessage = viewModel.errorMessage {
-                    Text("Erreur : \(errorMessage)")
-                        .foregroundColor(.red)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if let dayEntry = currentDayEntry {
-                    if dayEntry.hasData {
-                        // Affiche les données du jour
-                        PrivateJournalDayView(dayEntry: dayEntry)
-                            .frame(width: 350)
-                            .padding(.top, 50)
-                            .padding(.leading, 30)
-                    } else {
-                        // Jour vide
-                        EmptyStateView(date: dayEntry.date)
-                            .frame(width: 350)
-                            .padding(.top, 50)
-                            .padding(.leading, 30)
-                    }
-                }
-            }
+		ZStack {
+				// Image du livre
+			Image("Journal")
+				.resizable()
+				.scaledToFit()
+				.frame(width: 755, height: 620)
+				.padding(.leading, 360)
+				.padding(.top, 20)
+			
+				// Contenu du journal
+			VStack {
+				if viewModel.isLoading {
+					ProgressView("Chargement...")
+						.frame(maxWidth: .infinity, maxHeight: .infinity)
+				} else if let errorMessage = viewModel.errorMessage {
+					Text("Erreur : \(errorMessage)")
+						.foregroundColor(.red)
+						.frame(maxWidth: .infinity, maxHeight: .infinity)
+				} else if let dayEntry = currentDayEntry {
+					if dayEntry.hasData {
+							// Au moins 1 donnée → Affiche placeholders pour les autres cartes
+						PrivateJournalDayView(dayEntry: dayEntry)
+							.frame(width: 350)
+							.padding(.top, 50)
+							.padding(.leading, 30)
+					} else {
+							// Aucune donnée → Affiche EmptyStateView
+						EmptyStateView(date: dayEntry.date)
+							.frame(width: 350)
+							.padding(.top, 50)
+							.padding(.leading, 30)
+					}
+				}
+			}
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                     .background {
@@ -91,7 +91,7 @@ struct PrivateJournalWeekView: View {
                             .ignoresSafeArea()
                     }
                     .navigationTitle(navigationTitleText)
-                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarTitleDisplayMode(.automatic)
                     .toolbar {
                         // Navigation entre les jours
                         ToolbarItemGroup(placement: .bottomBar) {
@@ -145,8 +145,6 @@ struct PrivateJournalWeekView: View {
                 month: 10,
                 year: 2025
             )
-        } else {
-            // Fallback on earlier versions
         }
     }
 }

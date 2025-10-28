@@ -1,3 +1,12 @@
+//
+//  EmptyDataCard.swift
+//  TiMeFront
+//
+//  Created by Thibault on 27/10/2025.
+//
+
+import SwiftUI
+
 struct EmptyDataCard: View {
     let icon: String
     let label: String
