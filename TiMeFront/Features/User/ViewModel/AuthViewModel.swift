@@ -14,7 +14,7 @@ class AuthViewModel {
     var token: String?
     var currentUser: UserResponse?
     
-    private let userRepo = UserRepo() // supposé utiliser APIService.shared
+    private let userRepo = UserRepo()
     private let baseURL = APIService.shared.baseURL
     
     // MARK: - Login utilisateur
@@ -23,7 +23,6 @@ class AuthViewModel {
             let token = try await userRepo.login(email: email, username: username, password: password)
             self.token = token
             self.isAuthenticated = true
-            // ✅ AJOUTE CES 2 LIGNES
             UserDefaults.standard.set(token, forKey: "jwtToken")
             print("💾 Token sauvegardé dans UserDefaults")
             print("✅ Connecté avec token: \(token)")
@@ -125,14 +124,6 @@ class AuthViewModel {
             let user = try decoder.decode(UserResponse.self, from: data)
             
             self.currentUser = user
-            
-            // Sauvegarde l'userId
-//            if let userId = user.id {
-//                UserDefaults.standard.set(userId.uuidString, forKey: "userId")
-//                print("💾 UserId sauvegardé : \(userId.uuidString)")
-//            } else {
-//                print("⚠️ UserResponse n'a pas d'id !")
-//            }
             
             print("👤 Profil récupéré: \(user.userName)")
             
