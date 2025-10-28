@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct JournalEditorViewModel {
+@Observable
+class JournalEditorViewModel {
     
     //MARK: - FetchEmotion pour les MoodValidationSticks
     func fetchEmotion(){
