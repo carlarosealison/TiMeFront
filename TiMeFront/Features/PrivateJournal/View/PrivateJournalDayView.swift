@@ -91,7 +91,7 @@ struct PrivateJournalDayView: View {
 			}
 			
 				// MARK: - Section Rédaction
-			VStack(alignment: .leading, spacing: 12) {
+			VStack(alignment: .leading, spacing: 16) {
 				Text("Rédaction")
 					.semiBoldCondensedTitle()
 				
@@ -120,7 +120,7 @@ struct PrivateJournalDayView: View {
 								.foregroundStyle(Color("PurpleText").opacity(0.5))
 						}
 						.frame(maxWidth: .infinity)
-						.frame(height: 120)
+                        .frame(maxHeight: 220)
 						.background(Color.white.opacity(0.3))
 						.cornerRadius(20)
 						.overlay(
@@ -130,7 +130,6 @@ struct PrivateJournalDayView: View {
 					}
 				}
 			}
-			.padding(.horizontal, 10)
 			
 			Spacer()
 		}
