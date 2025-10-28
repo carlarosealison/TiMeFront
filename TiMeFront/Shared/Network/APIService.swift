@@ -84,7 +84,7 @@ let baseURL: URL = URL(string: "http://10.80.59.190:8080")!
     }
     
     func getToken<T: Decodable>(endpoint: String, token: String, as type: T.Type) async throws -> T {
-        // 1️⃣ Vérifie que l’URL est correcte
+        // Vérifie que l’URL est correcte
         guard let url = URL(string: "\(baseURL)\(endpoint)") else {
             throw URLError(.badURL)
         }
@@ -97,10 +97,10 @@ let baseURL: URL = URL(string: "http://10.80.59.190:8080")!
         print("📡 [API] GET \(url)")
         print("🔐 Token utilisé : \(token)")
 
-        // 3️⃣ Effectue la requête
+        // Effectue la requête
         let (data, response) = try await URLSession.shared.data(for: request)
 
-        // 4️⃣ Vérifie la réponse HTTP
+        // Vérifie la réponse HTTP
         guard let httpResponse = response as? HTTPURLResponse else {
             throw URLError(.badServerResponse)
         }
@@ -112,7 +112,7 @@ let baseURL: URL = URL(string: "http://10.80.59.190:8080")!
             print("🧾 Response body: \(body)")
         }
 
-        // 5️⃣ Vérifie le code HTTP
+        //  Vérifie le code HTTP et revoie une erreur correspondante
         switch httpResponse.statusCode {
         case 200:
             // OK ✅
