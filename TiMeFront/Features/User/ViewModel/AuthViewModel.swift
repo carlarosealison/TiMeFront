@@ -18,18 +18,36 @@ class AuthViewModel {
     private let baseURL = APIService.shared.baseURL
 
     // MARK: - Login utilisateur
+//    func login(email: String?, username: String?, password: String) async {
+//        do {
+//            let token = try await userRepo.login(email: email, username: username, password: password)
+//            self.token = token
+//            self.isAuthenticated = true
+//            print("✅ Connecté avec token: \(token)")
+//            await fetchUserProfile()
+//        } catch {
+//            print("❌ Erreur lors du login: \(error)")
+//            self.isAuthenticated = false
+//        }
+//    }
+    
     func login(email: String?, username: String?, password: String) async {
         do {
             let token = try await userRepo.login(email: email, username: username, password: password)
             self.token = token
             self.isAuthenticated = true
+            
+            // ✅ Sauvegarde du token dans UserDefaults
+            UserDefaults.standard.set(token, forKey: "token")
             print("✅ Connecté avec token: \(token)")
+
             await fetchUserProfile()
         } catch {
             print("❌ Erreur lors du login: \(error)")
             self.isAuthenticated = false
         }
     }
+
 
     // MARK: - Déconnexion
     func logout() {
