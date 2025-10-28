@@ -12,7 +12,7 @@ struct ScrollMotivation: View {
     var body: some View {
         VStack {
             GeometryReader { geo in
-                let center = geo.size.width/2
+                var _ = geo.size.width/2
                 
 //                ForEach(viewModel.range) { tick in
 //                    let x = center

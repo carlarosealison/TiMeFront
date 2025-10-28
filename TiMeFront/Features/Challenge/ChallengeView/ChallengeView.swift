@@ -73,11 +73,11 @@ struct ChallengeView: View {
             }
         }
         .task {
-            do {
-                try await viewModel.fetchRandomChallengeOfTheDay()
-            } catch {
-                print("Error while fetching the challenge : \(error.localizedDescription)")
-            }
+//            do {
+//                try await viewModel.fetchRandomChallengeOfTheDay()
+//            } catch {
+//                print("Error while fetching the challenge : \(error.localizedDescription)")
+//            }
         }
         .onChange(of: isValidated) { _, validated in
             if validated {

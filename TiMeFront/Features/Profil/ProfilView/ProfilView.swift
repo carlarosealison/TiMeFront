@@ -10,7 +10,7 @@ import LocalAuthentication
 import PhotosUI
 
 struct ProfilView: View {
-    @StateObject private var viewModel = ProfilViewModel()  // ← Utilise @StateObject
+    @State private var viewModel = ProfilViewModel()
     @State private var isShowingPhotoPicker = false
     @Environment(AuthViewModel.self) var authVM
     @Environment(UserViewModel.self) var userVM
@@ -73,13 +73,6 @@ struct ProfilView: View {
         .onAppear {
             // Charger les données au démarrage
             viewModel.loadUserData(from: userVM)
-        }
-        .navigationDestination(isPresented: $viewModel.navigateToAuth) {
-            if #available(iOS 26.0, *) {
-                AuthentificationView()
-            } else {
-                // Fallback on earlier versions
-            }
         }
         .onChange(of: viewModel.faceIDOn) { _, newValue in
             if newValue { viewModel.authenticateFaceID() }
