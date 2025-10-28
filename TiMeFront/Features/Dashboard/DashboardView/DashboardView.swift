@@ -1,9 +1,9 @@
-//
-//  DashboardView.swift
-//  TiMeFront
-//
-//  Created by Thibault on 26/09/2025.
-//
+    //
+    //  DashboardView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 26/09/2025.
+    //
 
 import SwiftUI
 import CoreMotion
@@ -36,7 +36,7 @@ struct DashboardView: View {
                             availableWidth: availableWidth,
                             columns: 4
                         )
-                        // 2 Lignes de cellules + spacing entre les lignes + paddings haut/bas
+                            // 2 Lignes de cellules + spacing entre les lignes + paddings haut/bas
                         let calculatedHeight = (cellSize * 2) + DesignSystem.Grid.spacing + (DesignSystem.Grid.padding * 2)
                         
                         DashboardGridView()
@@ -56,27 +56,28 @@ struct DashboardView: View {
     @ViewBuilder
     private func destinationView(for destination: DashboardDestination) -> some View {
         switch destination {
-        case .challenge:
-            ChallengeView(navigationPath: $navigationPath)
-        case .books:
-            BookcaseView()
-        case .streak:
-            StreakView()
-        case .graph:
+            case .challenge:
+                ChallengeView(navigationPath: $navigationPath)
+            case .books:
+                BookcaseView()
+            case .streak:
+                StreakView()
+            case .graph:
                 StatisticsView()
-        case .journal:
-            JournalEditorView()
-        case .microphone:
-            JournalEditorView()
-        case .jarChallenge:
-            JarView(navigationPath: $navigationPath)
-        case .profile:
-            ProfilView()
-        case .privateJournal(let weekNumber, let month, let year):
-            PrivateJournalWeekView(
-                weekNumber: weekNumber,
-                month: month,
-                year: year)
+            case .journal:
+                JournalEditorView()
+            case .microphone:
+                JournalEditorView()
+            case .jarChallenge:
+                JarView(navigationPath: $navigationPath)
+            case .profile:
+                ProfilView()
+            case .privateJournal(let weekNumber, let month, let year):
+                PrivateJournalWeekView(
+                    weekNumber: weekNumber,
+                    month: month,
+                    year: year
+                )
         }
     }
 }
@@ -86,6 +87,6 @@ struct DashboardView: View {
         DashboardView()
             .environment(AuthViewModel())
     } else {
-        // Fallback on earlier versions
+            // Fallback on earlier versions
     }
 }

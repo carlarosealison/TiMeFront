@@ -16,7 +16,7 @@ struct StatisticsView: View {
         ZStack{
             GradientBackgroundView()
             VStack(spacing: 30){
-                TitleForm(title: "Statistiques", isWelcome: false)
+//                TitleForm(title: "Statistiques", isWelcome: false)
                 
                 headerFilterDate
                 
@@ -27,9 +27,8 @@ struct StatisticsView: View {
             }
             .padding(.top)
         }
-        .frame(width: .infinity, height: .infinity)
         .ignoresSafeArea()
-        .navigationTitle("Mes statistique")
+        .navigationTitle("Mes statistiques")
     }
     
     struct ButtonFilter: View {

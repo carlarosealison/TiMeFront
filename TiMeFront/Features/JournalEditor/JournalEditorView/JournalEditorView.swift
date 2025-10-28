@@ -11,7 +11,6 @@ struct JournalEditorView: View {
     @State var viewModel = JournalEditorViewModel()
     
     var body: some View {
-        NavigationStack{
             ZStack {
                 Image(.backgroundBullet)
                     .ignoresSafeArea()
@@ -109,12 +108,9 @@ struct JournalEditorView: View {
                     
                     PurpleButton(withArrow: false, buttonFuncText: "Enregistrer")
                 }
-                
-                
-                
-            }
-            
         }
+            .navigationTitle("Journal du jour")
+            .navigationBarTitleDisplayMode(.automatic)
     }
 }
 

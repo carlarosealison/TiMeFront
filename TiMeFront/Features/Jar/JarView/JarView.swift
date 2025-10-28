@@ -1,9 +1,9 @@
-//
-//  JarView.swift
-//  TiMeFront
-//
-//  Created by Carla on 26/09/2025.
-//
+    //
+    //  JarView.swift
+    //  TiMeFront
+    //
+    //  Created by Apprenant125 on 26/09/2025.
+    //
 
 import SwiftUI
 import SpriteKit
@@ -14,33 +14,31 @@ struct JarView: View {
     @Namespace private var transitionNamespace
     
     var body: some View {
-        NavigationStack {
-            ZStack {
+        ZStack {
+            
+            Color.whitePurple
+                .ignoresSafeArea()
+            
+            BallsView(navigationPath: $navigationPath)
+            
+            VStack {
                 
-                Color.whitePurple
-                    .ignoresSafeArea()
+                Spacer()
                 
-                BallsView(navigationPath: $navigationPath)
+                Text("Met toi au défi dès aujourd'hui")
+                    .foregroundStyle(.purpleDark)
+                    .font(.system(size: 16).width(.expanded).weight(.medium))
+                    .padding(.bottom, 5)
                 
-                VStack {
-                    
-                    Spacer()
-                    
-                    Text("Met toi au défi dès aujourd'hui")
-                        .foregroundStyle(.purpleDark)
-                        .font(.system(size: 16).width(.expanded).weight(.medium))
-                        .padding(.bottom, 5)
-                    
-                    Text("Secoue le téléphone pour découvir le défi du jour")
-                        .foregroundStyle(.purpleText)
-                        .font(.system(size: 10).width(.expanded).weight(.light))
-                    
-                    Spacer(minLength: 520)
-                }
+                Text("Secoue le téléphone pour découvir le défi du jour")
+                    .foregroundStyle(.purpleText)
+                    .font(.system(size: 10).width(.expanded).weight(.light))
+                
+                Spacer(minLength: 520)
             }
         }
-        }
     }
+}
 
 struct BallsView: View {
     @Binding var navigationPath: NavigationPath
@@ -55,23 +53,22 @@ struct BallsView: View {
     }
     
     var body: some View {
-            SpriteView(scene: scene)
-                .ignoresSafeArea()
-
-                .onShakeGesture {
-                    print("Device has been shaken!")
-                }
+        SpriteView(scene: scene)
+            .ignoresSafeArea()
+            .onShakeGesture {
+                print("Device has been shaken!")
+            }
             //        .matchedTransitionSource(id: <#T##Hashable#>, in: <#T##Namespace.ID#>)
-            
-                .onChange(of: navManager.shouldNavigate) { _, shouldNavigate in
-                    if shouldNavigate {
-                        navigationPath = NavigationPath()
-                        navigationPath.append(DashboardDestination.challenge)
-                        navManager.shouldNavigate = false
-                    }
-                }
         
+            .onChange(of: navManager.shouldNavigate) { _, shouldNavigate in
+                if shouldNavigate {
+                    navigationPath = NavigationPath()
+                    navigationPath.append(DashboardDestination.challenge)
+                    navManager.shouldNavigate = false
+                }
+            }
     }
+}
 
 extension View {
     public func onShakeGesture(perform action: @escaping () -> Void) -> some View {
@@ -93,12 +90,12 @@ extension UIWindow{
 }
 
 struct ShakeGestureViewModifier: ViewModifier {
-    // 1
+        // 1
     let action: () -> Void
     
     func body(content: Content) -> some View {
         content
-        // 2
+            // 2
             .onReceive(NotificationCenter.default.publisher(for: UIDevice.deviceDidShakeNotification)) { _ in
                 action()
             }
@@ -108,5 +105,3 @@ struct ShakeGestureViewModifier: ViewModifier {
 #Preview {
     JarView(navigationPath: .constant(NavigationPath()))
 }
-
-

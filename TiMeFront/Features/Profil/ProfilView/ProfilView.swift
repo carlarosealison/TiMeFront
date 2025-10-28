@@ -107,12 +107,19 @@ private extension ProfilView {
             Spacer()
             
             avatarSection
-            Text(userVM.userName.isEmpty ? "Invité" : userVM.userName)
-                .font(.title2)
-                .bold()
-                .foregroundColor(Color("PurpleText"))
-
             
+            if let user = authVM.currentUser{
+                Text(user.userName)
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color("PurpleText"))
+            }else{
+                Text("invité")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color("PurpleText"))
+            }
+
             optionsSection
             logoutButton
             
