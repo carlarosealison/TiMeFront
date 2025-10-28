@@ -11,24 +11,32 @@ struct DashboardCard<Content: View>: View {
     
     let span: GridSpan
     let allowOverflow: Bool
+    let backgroundColor: Color?
     @ViewBuilder let content: () -> Content
     
     init(
         span: GridSpan = .small,
         allowOverflow: Bool = false,
+        backgroundColor: Color? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.span = span
         self.allowOverflow = allowOverflow
+        self.backgroundColor = backgroundColor
         self.content = content
     }
     
     var body: some View {
         let card = ZStack {
-            // Background TOUJOURS avec coins arrondis
-            RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card)
-                .fill(.ultraThinMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card))
+            if let bgColor = backgroundColor {
+                RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card)
+                    .fill(bgColor)
+                    .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card))
+            } else {
+                RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card)
+                    .fill(.ultraThinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card))
+            }
             
             content()
         }

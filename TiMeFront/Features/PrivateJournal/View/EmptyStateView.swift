@@ -9,28 +9,39 @@ import SwiftUI
 
 struct EmptyStateView: View {
     let date: Date
+    private var isToday: Bool {
+        Calendar.current.isDateInToday(date)
+    }
     
     var body: some View {
         VStack(spacing: 24) {
-            // Icône
+                // Icône
             Image(systemName: "book.closed")
                 .font(.system(size: 60))
                 .foregroundStyle(.gray.opacity(0.5))
             
-            // Texte
+                // Texte
             VStack(spacing: 8) {
                 Text("Aucune donnée")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundStyle(Color("PurpleText"))
                 
-                Text("Ajoute des données pour ce jour")
-                    .font(.subheadline)
-                    .foregroundStyle(.gray)
-                    .multilineTextAlignment(.center)
+                if isToday {
+                    Text("Ajoute des données pour aujourd'hui")
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                        .multilineTextAlignment(.center)
+                }
+                else {
+                    Text("Aucune donnée enregistrée pour ce jour")
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                        .multilineTextAlignment(.center)
+                }
             }
-            
-            NavigationLink(destination: JournalEditorView()){
+            if isToday {
+                NavigationLink(destination: JournalEditorView()){
                     HStack {
                         Image(systemName: "plus.circle.fill")
                         Text("Ajouter des données")
@@ -43,11 +54,17 @@ struct EmptyStateView: View {
                     .cornerRadius(12)
                 }
             }
+        }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white.opacity(0.5))
     }
 }
 
-#Preview {
+#Preview("Ajourd'hui") {
     EmptyStateView(date: Date())
+}
+
+#Preview("Jour passé ou futur") {
+    NavigationStack {
+        EmptyStateView(date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!)
+    }
 }

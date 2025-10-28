@@ -69,13 +69,13 @@ struct PrivateJournalWeekView: View {
 					if dayEntry.hasData {
 							// Au moins 1 donnée → Affiche placeholders pour les autres cartes
 						PrivateJournalDayView(dayEntry: dayEntry)
-							.frame(width: 350)
+							.frame(width: 290)
 							.padding(.top, 50)
-							.padding(.leading, 30)
+                            .padding(.leading, 30)
 					} else {
 							// Aucune donnée → Affiche EmptyStateView
 						EmptyStateView(date: dayEntry.date)
-							.frame(width: 350)
+							.frame(width: 290)
 							.padding(.top, 50)
 							.padding(.leading, 30)
 					}
@@ -105,6 +105,7 @@ struct PrivateJournalWeekView: View {
                             // Affiche "Jour X/Y" où Y est le nombre réel de jours
                             Text("Jour \(currentDayIndex + 1)/\(totalDays)")
                                 .font(.caption)
+                                .multilineTextAlignment(.center)
                                 .foregroundStyle(Color("PurpleText"))
                             
                             Spacer()
@@ -141,7 +142,7 @@ struct PrivateJournalWeekView: View {
     NavigationStack {
         if #available(iOS 26.0, *) {
             PrivateJournalWeekView(
-                weekNumber: 5,
+                weekNumber: 3,
                 month: 10,
                 year: 2025
             )

@@ -23,6 +23,8 @@ struct EmptyDataCard: View {
                     .foregroundStyle(Color("PurpleText").opacity(0.4))
             }
         }
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(DesignSystem.CornerRadius.card)
         .overlay(
             RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card)
                 .stroke(Color("PurpleText").opacity(0.15), style: StrokeStyle(lineWidth: 1.5, dash: [3]))

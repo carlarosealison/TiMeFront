@@ -107,7 +107,7 @@ struct DashboardGridView: View {
                     // Micro (1×1)
                     NavigationLink(value: DashboardDestination.microphone) {
                         DashboardCard {
-                            IconCardContent(icon: "mic.fill.badge.plus", color: Color("PurpleDark"))
+                            IconCardContent(icon: "mic.fill.badge.plus", color: Color("PurpleDark"), backgroundColor: .white)
                         }
                         .frame(width: cellSize, height: cellSize)
                     }

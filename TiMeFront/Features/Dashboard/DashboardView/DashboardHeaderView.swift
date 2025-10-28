@@ -10,7 +10,6 @@ import SwiftUI
 struct DashboardHeaderView: View {
     @Environment(AuthViewModel.self) var authVM
     let userImageURL: String? = nil
-//    @Environment(AuthManager.self) private var authManager
     @State private var currentDate = Date()
     
     var body: some View {
