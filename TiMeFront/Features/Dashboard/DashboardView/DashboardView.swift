@@ -10,8 +10,9 @@ import CoreMotion
 
 @available(iOS 26.0, *)
 struct DashboardView: View {
+    @State private var navigationPath = NavigationPath()
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             ZStack {
                 GradientBackgroundView()
                 
@@ -56,7 +57,7 @@ struct DashboardView: View {
     private func destinationView(for destination: DashboardDestination) -> some View {
         switch destination {
         case .challenge:
-            ChallengeView()
+            ChallengeView(navigationPath: $navigationPath)
         case .books:
             BookcaseView()
         case .streak:
@@ -64,11 +65,11 @@ struct DashboardView: View {
         case .graph:
                 StatisticsView()
         case .journal:
-            CreatePrivateJournalOfTheDayView()
+            JournalEditorView()
         case .microphone:
-            CreatePrivateJournalOfTheDayView()
+            JournalEditorView()
         case .jarChallenge:
-            JarView()
+            JarView(navigationPath: $navigationPath)
         case .profile:
             ProfilView()
         case .privateJournal(let weekNumber, let month, let year):

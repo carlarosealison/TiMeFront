@@ -10,6 +10,7 @@ import SpriteKit
 import CoreMotion
 
 struct JarView: View {
+    @Binding var navigationPath: NavigationPath
     @Namespace private var transitionNamespace
     
     var body: some View {
@@ -19,7 +20,7 @@ struct JarView: View {
                 Color.whitePurple
                     .ignoresSafeArea()
                 
-                BallsView()
+                BallsView(navigationPath: $navigationPath)
                 
                 VStack {
                     
@@ -42,6 +43,7 @@ struct JarView: View {
     }
 
 struct BallsView: View {
+    @Binding var navigationPath: NavigationPath
     @StateObject var navManager = NavigationManager()
     var scene : SKScene {
         let scene = JarViewModelContainer()
@@ -61,12 +63,15 @@ struct BallsView: View {
                 }
             //        .matchedTransitionSource(id: <#T##Hashable#>, in: <#T##Namespace.ID#>)
             
-                .navigationDestination(isPresented: $navManager.shouldNavigate) {
-                    ChallengeView()
+                .onChange(of: navManager.shouldNavigate) { _, shouldNavigate in
+                    if shouldNavigate {
+                        navigationPath = NavigationPath()
+                        navigationPath.append(DashboardDestination.challenge)
+                        navManager.shouldNavigate = false
+                    }
                 }
         
     }
-}
 
 extension View {
     public func onShakeGesture(perform action: @escaping () -> Void) -> some View {
@@ -101,7 +106,7 @@ struct ShakeGestureViewModifier: ViewModifier {
 }
 
 #Preview {
-    JarView()
+    JarView(navigationPath: .constant(NavigationPath()))
 }
 
 

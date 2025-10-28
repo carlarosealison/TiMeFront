@@ -1,12 +1,13 @@
-//
-//  PrivateJournalDayView.swift
-//  TiMeFront
-//
-//  Created by Thibault on 15/10/2025.
-//
+    //
+    //  PrivateJournalDayView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 15/10/2025.
+    //
 
 import SwiftUI
 
+@available(iOS 26.0, *)
 struct PrivateJournalDayView: View {
     let dayEntry: DayEntry
     
@@ -16,16 +17,16 @@ struct PrivateJournalDayView: View {
             Spacer()
                 .frame(height: 80)
             
-            // MARK: - Section Ressentis
+                // MARK: - Section Ressentis
             VStack(alignment: .leading, spacing: 16) {
                 Text("Ressentis")
                     .semiBoldCondensedTitle()
                 
-                HStack(spacing: 20) {
-                    Spacer()
-                    // Heart Level
+                HStack(spacing: 32.5) {
+                    
+                        // Heart Level
                     if dayEntry.heartLevel != nil {
-                        DashboardCard {
+                        DashboardCard(backgroundColor: Color("WhitePurple")) {
                             VStack {
                                 IconCardContent(
                                     icon: "heart.fill",
@@ -35,31 +36,36 @@ struct PrivateJournalDayView: View {
                             }
                         }
                         .frame(width: 75, height: 75)
+                    } else {
+                        EmptyDataCard(
+                            icon: "heart",
+                            label: "Ressenti"
+                        )
+                        .frame(width: 75, height: 75)
                     }
                     
-                    // Emotion (consultation uniquement)
+                        // Emotion
                     if let emotionTitle = dayEntry.emotionTitle,
                        let emotionColor = dayEntry.emotionColor {
-                        ZStack {
-                            DashboardCard {
-                                MoodValidationCardContent(
-                                    onValidate: {},
-                                    onDelete: {},
-                                    showSuccess: true,
-                                    emotionTitle: emotionTitle,
-                                    categoryID: nil,
-                                    backgroundColor: ColorMapper.color(from: emotionColor),
-                                    buttonOffset: CGSize(width: 10, height: 10)
-                                )
-                            }
+                        DashboardCard(allowOverflow: true) {
+                            MoodDisplayCardContent(
+                                emotionTitle: emotionTitle,
+                                backgroundColor: ColorMapper.color(from: emotionColor)
+                            )
                         }
                         .frame(width: 75, height: 75)
                         .allowsHitTesting(false)
+                    } else {
+                        EmptyDataCard(
+                            icon: "brain.head.profile",
+                            label: "Emotion"
+                        )
+                        .frame(width: 75, height: 75)
                     }
                     
-                    // Motivation (pourcentage)
+                        // Motivation
                     if let motivation = dayEntry.motivationLevel {
-                        DashboardCard {
+                        DashboardCard(backgroundColor: Color("WhitePurple")) {
                             IconCardContent(
                                 text: "\(motivation)%",
                                 color: Color("PurpleButton"),
@@ -67,17 +73,23 @@ struct PrivateJournalDayView: View {
                             )
                         }
                         .frame(width: 75, height: 75)
+                    } else {
+                        EmptyDataCard(
+                            icon: "percent",
+                            label: "Motivation"
+                        )
+                        .frame(width: 75, height: 75)
                     }
-                    Spacer()
                 }
+                .frame(width: 290)
             }
             
-            // MARK: - Section Rédaction
-            if let note = dayEntry.note {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Rédaction")
-                        .semiBoldCondensedTitle()
-                    
+                // MARK: - Section Rédaction
+            VStack(alignment: .leading, spacing: 16) {
+                Text("Rédaction")
+                    .semiBoldCondensedTitle()
+                
+                if let note = dayEntry.note {
                     ScrollView {
                         Text(note)
                             .textCards()
@@ -85,34 +97,76 @@ struct PrivateJournalDayView: View {
                             .lineSpacing(4)
                             .frame(maxWidth: .infinity, alignment: .topLeading)
                     }
-                    .background(Color.white)
+                    .background(Color("WhitePurple"))
                     .cornerRadius(20)
-                    .frame(maxHeight: 220)
+                    .frame(width: 290, height: 220)
+                    
+                } else {
+                        // Placeholder vide
+                    NavigationLink(destination: JournalEditorView()) {
+                        VStack(spacing: 12) {
+                            Image(systemName: "square.and.pencil")
+                                .font(.system(size: 40))
+                                .foregroundStyle(Color("PurpleText").opacity(0.3))
+                            
+                            Text("Ajouter une note")
+                                .font(.caption)
+                                .foregroundStyle(Color("PurpleText").opacity(0.5))
+                        }
+                        .frame(width: 290, height: 220)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(20)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color("PurpleText").opacity(0.2), style: StrokeStyle(lineWidth: 2, dash: [5]))
+                        )
+                    }
                 }
-                .padding(.horizontal, 10)
             }
             
             Spacer()
         }
-        .padding(.horizontal)
     }
 }
 
-#Preview {
+    // Preview 1 - Jour complet
+#Preview("Jour complet") {
     ZStack {
-        // Simule l'image du livre juste pour la preview
         Color.purple.opacity(0.1)
         
-        PrivateJournalDayView(
-            dayEntry: DayEntry(
-                date: Date(),
-                emotionTitle: "Enthousiaste",
-                emotionColor: "Orange",
-                heartLevel: 80,
-                motivationLevel: 65,
-                note: "Aujourd'hui c'était une belle journée. J'ai bien avancé sur mon projet. J'ai rencontré des personnes inspirantes et j'ai appris plein de nouvelles choses. La journée était vraiment productive et je suis content du résultat."
+        if #available(iOS 26.0, *) {
+            PrivateJournalDayView(
+                dayEntry: DayEntry(
+                    date: Date(),
+                    emotionTitle: "Enthousiaste",
+                    emotionColor: "Orange",
+                    heartLevel: 80,
+                    motivationLevel: 65,
+                    note: "Aujourd'hui c'était une belle journée. J'ai bien avancé sur mon projet."
+                )
             )
-        )
-        .frame(width: 350)
+            .frame(width: 290)
+        }
+    }
+}
+
+    // Preview 2 - Jour partiel
+#Preview("Jour partiel") {
+    ZStack {
+        Color.purple.opacity(0.1)
+        
+        if #available(iOS 26.0, *) {
+            PrivateJournalDayView(
+                dayEntry: DayEntry(
+                    date: Date(),
+                    emotionTitle: "Joyeuse",
+                    emotionColor: "Orange",
+                    heartLevel: nil,
+                    motivationLevel: nil,
+                    note: nil
+                )
+            )
+            .frame(width: 290)
+        }
     }
 }
