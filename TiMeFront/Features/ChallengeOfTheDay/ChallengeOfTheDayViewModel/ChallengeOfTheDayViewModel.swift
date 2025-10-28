@@ -49,6 +49,7 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
             if challengeOfTheDay.dateExp == Date.now {
                 return .challenge(finalChallengeOfTheDay)
             }
+            
             // autrement, je le supprime en tant que challenge du jour
             else {
                 _ = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeIndex.id)
@@ -56,7 +57,7 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
             }
             
             
-
+            
         }
         
         catch{

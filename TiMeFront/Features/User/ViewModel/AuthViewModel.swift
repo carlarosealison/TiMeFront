@@ -23,6 +23,9 @@ class AuthViewModel {
             let token = try await userRepo.login(email: email, username: username, password: password)
             self.token = token
             self.isAuthenticated = true
+            // ✅ AJOUTE CES 2 LIGNES
+            UserDefaults.standard.set(token, forKey: "jwtToken")
+            print("💾 Token sauvegardé dans UserDefaults")
             print("✅ Connecté avec token: \(token)")
             
             // Décoder le JWT pour extraire l'userId
@@ -87,7 +90,9 @@ class AuthViewModel {
         token = nil
         currentUser = nil
         isAuthenticated = false
-        print("👋 Déconnexion réussie")
+
+        UserDefaults.standard.removeObject(forKey: "jwtToken")
+        print(" Déconnexion réussie")
     }
     
     // MARK: - Récupérer le profil utilisateur connecté
