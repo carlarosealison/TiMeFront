@@ -42,7 +42,7 @@ struct JarView: View {
 
 struct BallsView: View {
     @Binding var navigationPath: NavigationPath
-    @StateObject var navManager = NavigationManager()
+    @State var navManager = NavigationManager()
     var scene : SKScene {
         let scene = JarViewModelContainer()
         scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
