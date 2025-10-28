@@ -10,6 +10,7 @@ import SwiftUI
 struct GridCardDataView: View {
     var pages: Int
     var streak: Int
+    var notes: Int
     var challengeSuccessful: Int
 
     var body: some View {
@@ -30,7 +31,7 @@ struct GridCardDataView: View {
             HStack(alignment: .top, spacing: 12) {
                 CardDataCell(
                     cardVM: StatisticsCardViewModel(
-                        card: Card(data: 55, description: "Rédaction", size: .large, dataSize: .large)
+                        card: Card(data: notes, description: "Rédaction", size: .large, dataSize: .large)
                     )
                 )
                 VStack(spacing: 12) {
@@ -53,7 +54,7 @@ struct GridCardDataView: View {
 
 
 #Preview {
-    GridCardDataView(pages: 10, streak: 4, challengeSuccessful: 8)
+    GridCardDataView(pages: 10, streak: 4, notes: 104, challengeSuccessful: 8)
 }
 
 

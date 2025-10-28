@@ -18,6 +18,7 @@ class StatisticsViewModel {
     var streak: Int = 1
     var challengeNumber: Int = 1
     var pages: Int = 1
+    var notes: Int = 1
     
     var statRepo: StatRepo?
     
@@ -26,7 +27,10 @@ class StatisticsViewModel {
         case month
         case year
     }
-    
+    enum countData{
+        case page
+        case note
+    }
     enum StatsType {
         case chart
         case card
@@ -47,7 +51,7 @@ class StatisticsViewModel {
         self.challengeNumber = user.challengeNumber
     }
     
-    func fetchPageTotal() async {
+    func fetchPageTotal(selectData: countData) async {
         guard authVM?.token != nil else {
             print("⚠️ Token non disponible")
             return
@@ -58,9 +62,16 @@ class StatisticsViewModel {
         }
         
         do {
-            let countPages = try await repo.getCountData()
-            self.pages = countPages.countData
-            print("📄 Nombre de pages récupérées : \(pages)")
+            switch selectData{
+            case .note:
+                let countNotes = try await repo.getCountNote()
+                self.notes = countNotes.countData
+                print("🖊️ Nombre de pages récupérées : \(notes)")
+            case .page:
+                let countPages = try await repo.getCountPage()
+                self.pages = countPages.countData
+                print("📄 Nombre de pages récupérées : \(pages)")
+            }
         } catch {
             print("❌ Erreur récupération pages : \(error)")
         }

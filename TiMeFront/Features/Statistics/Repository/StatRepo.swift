@@ -12,8 +12,13 @@ struct StatRepo {
     var statService: StatService
     let statMapper = StatMapper()
     
-    func getCountData() async throws -> StatModel {
+    func getCountPage() async throws -> StatModel {
         let statDTO = try await statService.getCountPage()
+        return statMapper.map(dto: statDTO)
+    }
+    
+    func getCountNote() async throws -> StatModel {
+        let statDTO = try await statService.getCountNote()
         return statMapper.map(dto: statDTO)
     }
 }

@@ -20,5 +20,14 @@ struct StatService {
             throw NSError(domain: "AuthError", code: 401, userInfo: [NSLocalizedDescriptionKey: "Token non disponible. Connectez-vous."])
         }
     }
+    
+    
+    func getCountNote() async throws -> StatDTO {
+        if let token = authVM?.token {
+            return try await apiService.getToken(endpoint: "/users/notes", as: StatDTO.self)
+        } else {
+            throw NSError(domain: "AuthError", code: 401, userInfo: [NSLocalizedDescriptionKey: "Token non disponible. Connectez-vous."])
+        }
+    }
 }
 
