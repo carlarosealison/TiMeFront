@@ -83,7 +83,7 @@ let baseURL: URL = URL(string: "http://10.80.59.190:8080")!
         }
     }
     
-    func getToken<T: Decodable>(endpoint: String, as type: T.Type) async throws -> T {
+    func getToken<T: Decodable>(endpoint: String, token: String, as type: T.Type) async throws -> T {
         // 1️⃣ Vérifie que l’URL est correcte
         guard let url = URL(string: "\(baseURL)\(endpoint)") else {
             throw URLError(.badURL)
@@ -92,13 +92,10 @@ let baseURL: URL = URL(string: "http://10.80.59.190:8080")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
-        // 2️⃣ Ajoute le token si disponible
-        if let token = UserDefaults.standard.string(forKey: "token") {
-            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        } else {
-            print("⚠️ Aucun token trouvé dans UserDefaults — la requête risque d’être refusée (401)")
-        }
+        print("📡 [API] GET \(url)")
+        print("🔐 Token utilisé : \(token)")
 
         // 3️⃣ Effectue la requête
         let (data, response) = try await URLSession.shared.data(for: request)
