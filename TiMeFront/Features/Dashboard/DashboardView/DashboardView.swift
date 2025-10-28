@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+import CoreMotion
 
+@available(iOS 26.0, *)
 struct DashboardView: View {
     var body: some View {
         NavigationStack {
@@ -19,8 +21,11 @@ struct DashboardView: View {
                     Spacer()
                     
                     Text("Ici on trouvera l'affirmation du jour pour ne pas encombrer une des bulles en dessous.")
-                        .font(Font.custom("SF Pro", size: 26))
-                        .padding()
+                        .fontWidth(.expanded)
+                        .fontWeight(.regular)
+                        .font(.system(size: 16))
+                        .padding(.horizontal, 70)
+                        .multilineTextAlignment(.center)
                     
                     Spacer()
                     
@@ -44,7 +49,7 @@ struct DashboardView: View {
             .navigationDestination(for: DashboardDestination.self) { destination in
                 destinationView(for: destination)
             }
-        } // ← Fermeture du NavigationStack
+        }
     }
     
     @ViewBuilder
@@ -57,15 +62,29 @@ struct DashboardView: View {
         case .streak:
             StreakView()
         case .graph:
-            StatisticsView()
+                StatisticsView()
         case .journal:
-            PrivateJournalView()
+            CreatePrivateJournalOfTheDayView()
         case .microphone:
-            PrivateJournalView()
+            CreatePrivateJournalOfTheDayView()
+        case .jarChallenge:
+            JarView()
+        case .profile:
+            ProfilView()
+        case .privateJournal(let weekNumber, let month, let year):
+            PrivateJournalWeekView(
+                weekNumber: weekNumber,
+                month: month,
+                year: year)
         }
     }
 }
 
 #Preview {
-    DashboardView()
+    if #available(iOS 26.0, *) {
+        DashboardView()
+            .environment(AuthViewModel())
+    } else {
+        // Fallback on earlier versions
+    }
 }
