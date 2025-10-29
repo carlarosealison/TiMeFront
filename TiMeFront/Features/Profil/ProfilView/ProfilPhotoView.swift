@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfilePhotoView: View {
-    @ObservedObject var viewModel: ProfilViewModel
+    @Bindable var viewModel: ProfilViewModel
     
     var body: some View {
         VStack {

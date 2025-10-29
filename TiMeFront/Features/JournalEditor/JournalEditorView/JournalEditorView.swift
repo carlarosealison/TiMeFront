@@ -10,7 +10,7 @@ import SwiftUI
 struct JournalEditorView: View {
     @State var viewModel = JournalEditorViewModel()
     @State var emotionCatVM = EmotionCategoryViewModel()
-    @Binding var jounalEditVM : JournalEditorViewModel
+    @Binding var journalEditVM : JournalEditorViewModel
     
     var body: some View {
             ZStack {
@@ -147,7 +147,7 @@ struct JournalEditorView: View {
                             Spacer()
                         }
 
-                        ScrollMotivation(viewModel: $jounalEditVM)
+                        ScrollMotivation(viewModel: $journalEditVM)
 
                     }.padding(.bottom)
 
@@ -167,13 +167,16 @@ struct JournalEditorView: View {
                     
                 }
                 
-            }
+            
             
         
         
+        }
+            .navigationTitle("Journal du jour")
+            .navigationBarTitleDisplayMode(.automatic)
     }
 }
 
 #Preview {
-    JournalEditorView(jounalEditVM: .constant(JournalEditorViewModel()))
+    JournalEditorView(journalEditVM: .constant(JournalEditorViewModel()))
 }

@@ -31,8 +31,7 @@ struct StatsGraphView: View {
         ZStack{
             RoundedRectangle(cornerRadius: 30)
                 .fill(.whitePurple)
-                .frame(width: .infinity, height: 270)
-//                .frame(minWidth: .infinity, minHeight: 270)
+                .frame(height: 270)
             VStack {
                 Text("Taux")
                     .font(.caption)

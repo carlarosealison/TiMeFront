@@ -91,8 +91,6 @@ struct BookcaseView: View {
     NavigationStack {
         if #available(iOS 26.0, *) {
             BookcaseView()
-        } else {
-            // Fallback on earlier versions
         }
     }
 }

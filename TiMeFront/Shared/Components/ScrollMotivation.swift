@@ -32,6 +32,7 @@ struct ScrollMotivation: View {
             GeometryReader { geo in
                 //établit le centre de l'écran
                 let center = geo.size.width / 2
+
                 
                 //met en place chaque tiret de la graduation
                 ForEach(viewModel.range, id: \.self) { tick in
