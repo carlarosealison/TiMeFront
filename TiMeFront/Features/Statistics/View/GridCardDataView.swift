@@ -19,7 +19,7 @@ struct GridCardDataView: View {
             HStack(spacing: 12) {
                 CardDataCell(
                     cardVM: StatisticsCardViewModel(
-                        card: Card(data: average, description: "Motivation moyenne", size: .medium, dataSize: .medium, descriptionFontSize: .small)
+                        card: Card(data: notes, description: "Rédaction", size: .medium, dataSize: .medium, descriptionFontSize: .small)
                     )
                 )
                 CardDataCell(
@@ -32,7 +32,7 @@ struct GridCardDataView: View {
             HStack(alignment: .top, spacing: 12) {
                 CardDataCell(
                     cardVM: StatisticsCardViewModel(
-                        card: Card(data: notes, description: "Rédaction", size: .large, dataSize: .large, descriptionFontSize: .medium)
+                        card: Card(data: average, description: "Motivation moyenne", size: .large, dataSize: .large, descriptionFontSize: .medium)
                     )
                 )
                 VStack(spacing: 12) {
