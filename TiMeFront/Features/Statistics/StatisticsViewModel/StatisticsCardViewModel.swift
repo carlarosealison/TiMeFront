@@ -36,6 +36,12 @@ class StatisticsCardViewModel {
         }
     }
 
+    var descriptionFontSize: CGFloat {
+        switch card.descriptionFontSize{
+        case .small: return 8
+        case .medium: return 14
+        }
+    }
     
 
     init(card: Card) {
@@ -44,6 +50,6 @@ class StatisticsCardViewModel {
 }
 
 extension StatisticsCardViewModel{
-   static let card = Card(data: 23, description: "Streak", size: .small, dataSize: .medium)
+    static let card = Card(data: 23, description: "Streak", size: .small, dataSize: .medium, descriptionFontSize: .small)
 }
 

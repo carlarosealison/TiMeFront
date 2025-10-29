@@ -15,7 +15,7 @@ struct Card: Identifiable {
     let size: CardSize
     
     let dataSize: DataSize
-    let descriptionFontSize: CGFloat = 8
+    let descriptionFontSize: FontSize
     
     enum CardSize {
         case small
@@ -29,9 +29,14 @@ struct Card: Identifiable {
         case medium
         case large
     }
+    
+    enum FontSize{
+        case small
+        case medium
+    }
 }
 
 extension Card{
-    static let card = Card(data: 24, description: "Streaks", size: .small, dataSize: .medium)
+    static let card = Card(data: 24, description: "Streaks", size: .small, dataSize: .medium, descriptionFontSize: .small)
 }
 

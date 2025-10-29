@@ -24,7 +24,7 @@ struct CardDataCell: View {
                         Text("\(card.data)")
                             .font(.system(size: cardVM.dataFontSize, weight: .bold))
                         Text(card.description)
-                            .font(.system(size: cardVM.card.descriptionFontSize))
+                            .font(.system(size: cardVM.descriptionFontSize))
                     }
                         .foregroundStyle(.white)
                 )

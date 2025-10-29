@@ -19,12 +19,12 @@ struct GridCardDataView: View {
             HStack(spacing: 12) {
                 CardDataCell(
                     cardVM: StatisticsCardViewModel(
-                        card: Card(data: average, description: "Motivation moyenne", size: .medium, dataSize: .medium)
+                        card: Card(data: average, description: "Motivation moyenne", size: .medium, dataSize: .medium, descriptionFontSize: .small)
                     )
                 )
                 CardDataCell(
                     cardVM: StatisticsCardViewModel(
-                        card: Card(data: challengeSuccessful, description: "Défi réussi", size: .mediumLarge, dataSize: .medium)
+                        card: Card(data: challengeSuccessful, description: "Défi réussi", size: .mediumLarge, dataSize: .medium, descriptionFontSize: .small)
                     )
                 )
             }
@@ -32,18 +32,18 @@ struct GridCardDataView: View {
             HStack(alignment: .top, spacing: 12) {
                 CardDataCell(
                     cardVM: StatisticsCardViewModel(
-                        card: Card(data: notes, description: "Rédaction", size: .large, dataSize: .large)
+                        card: Card(data: notes, description: "Rédaction", size: .large, dataSize: .large, descriptionFontSize: .medium)
                     )
                 )
                 VStack(spacing: 12) {
                     CardDataCell(
                         cardVM: StatisticsCardViewModel(
-                            card: Card(data: streak, description: "Streak", size: .small, dataSize: .medium)
+                            card: Card(data: streak, description: "Streak", size: .small, dataSize: .medium, descriptionFontSize: .small)
                         )
                     )
                     CardDataCell(
                         cardVM: StatisticsCardViewModel(
-                            card: Card(data: pages, description: "Pages", size: .small, dataSize: .medium)
+                            card: Card(data: pages, description: "Pages", size: .small, dataSize: .medium, descriptionFontSize: .small)
                         )
                     )
                 }
