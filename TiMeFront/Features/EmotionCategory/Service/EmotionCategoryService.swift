@@ -15,4 +15,5 @@ struct EmotionCategoryService{
         let emotions = try await apiService.get(endpoint: "emotion-category", as: [EmotionCategoryResponseDTO].self)
         return emotions
     }
+    
 }
