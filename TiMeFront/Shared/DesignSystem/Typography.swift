@@ -18,6 +18,7 @@ struct HeavyTitleStyle: ViewModifier {
         content
             .font(.system(size: 48, weight: .heavy, design: .default))
             .fontWidth(.expanded)
+            .foregroundStyle(.purpleText)
     }
 }
 
@@ -26,6 +27,8 @@ struct BoldTitleStyle: ViewModifier {
         content
             .font(.system(size: 36, weight: .bold, design: .default))
             .fontWidth(.expanded)
+            .foregroundStyle(.purpleText)
+
     }
 }
 
@@ -34,6 +37,8 @@ struct SemiBoldStyle: ViewModifier {
         content
             .font(.system(size: 24, weight: .semibold, design: .default))
             .fontWidth(.expanded)
+            .foregroundStyle(.purpleText)
+
     }
 }
 
@@ -42,7 +47,7 @@ struct MediumBlackStyle: ViewModifier {
         content
             .font(.system(size: 20, weight: .medium, design: .default))
             .fontWidth(.expanded)
-            .foregroundColor(.black)
+            .foregroundStyle(.purpleDarkHover)
     }
 }
 
@@ -51,7 +56,7 @@ struct MediumPurpleStyle: ViewModifier {
         content
             .font(.system(size: 20, weight: .medium, design: .default))
             .fontWidth(.expanded)
-            .foregroundColor(Color("PurpleDark"))
+            .foregroundColor(.purpleDark)
     }
 }
 
@@ -60,7 +65,7 @@ struct BoldTextWhiteStyle: ViewModifier {
         content
             .font(.system(size: 16, weight: .bold, design: .default))
             .fontWidth(.expanded)
-            .foregroundColor(.white)
+            .foregroundColor(.whitePurple)
     }
 }
 
@@ -69,6 +74,8 @@ struct SemiBoldCardsTitleStyle: ViewModifier {
         content
             .font(.system(size: 14, weight: .semibold, design: .default))
             .fontWidth(.expanded)
+            .foregroundStyle(.purpleText)
+
     }
 }
 
@@ -77,6 +84,8 @@ struct TextCardsStyle: ViewModifier {
         content
             .font(.system(size: 14, weight: .light, design: .default))
             .fontWidth(.expanded)
+            .foregroundStyle(.purpleText)
+
     }
 }
 
@@ -85,6 +94,8 @@ struct SubTitleStyle: ViewModifier {
         content
             .font(.system(size: 12, weight: .light, design: .default))
             .fontWidth(.expanded)
+            .foregroundStyle(.purpleText)
+
     }
 }
 
@@ -93,6 +104,26 @@ struct SemiBoldTitleStyle: ViewModifier {
         content
             .font(.system(size: 20, weight: .semibold, design: .default))
             .fontWidth(.expanded)
+            .foregroundStyle(.purpleText)
+
+    }
+}
+
+struct SemiBoldTitleCondensedStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: 20, weight: .semibold, design: .default))
+            .fontWidth(.condensed)
+            .foregroundStyle(.purpleText)
+    }
+}
+
+struct SemiBoldTitlePurpleStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: 20, weight: .semibold, design: .default))
+            .fontWidth(.expanded)
+            .foregroundStyle(.purpleButton)
     }
 }
 
@@ -148,6 +179,16 @@ extension View {
     func semiBoldTitle() -> some View {
         modifier(SemiBoldTitleStyle())
     }
+    
+    /// Semi bold condensed title - 20pt semibold expanded
+    func semiBoldCondensedTitle() -> some View {
+        modifier(SemiBoldTitleCondensedStyle())
+    }
+    
+    /// Semi bold purple title - 20pt semibold expanded
+    func semiBoldPurpleTitle() -> some View {
+        modifier(SemiBoldTitlePurpleStyle())
+    }
 }
 
 // MARK: - Exemples
@@ -186,6 +227,12 @@ extension View {
             
             Text("Semi Bold Title 20pt")
                 .semiBoldTitle()
+            
+            Text("Semi Bold Condensed Title 20pt")
+                .semiBoldCondensedTitle()
+            
+            Text("Semi Bold Purple Title 20pt")
+                .semiBoldPurpleTitle()
         }
         .padding()
     }

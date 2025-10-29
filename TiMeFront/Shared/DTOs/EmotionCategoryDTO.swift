@@ -2,12 +2,14 @@
 //  EmotionCategoryDTO.swift
 //  TiMeFront
 //
-//  Created by apprenant152 on 20/10/2025.
+//  Created by Thibault on 19/10/2025.
 //
 
 import Foundation
 
-struct EmotionCategoryResponseDTO: Decodable{
+//MARK: - EmotionCategoryResponseDTO (pour récupérer la couleur)
+struct EmotionCategoryResponseDTO: Codable, Identifiable {
+
     let id: UUID?
     let title: String
     let color: String

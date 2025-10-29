@@ -10,11 +10,31 @@ import SwiftUI
 struct MoodValidationCardContent: View {
     
     let onValidate: () -> Void
+    let onDelete: () -> Void
     let showSuccess: Bool
     let emotionTitle: String
     let categoryID: UUID?
     let backgroundColor: Color
+    var buttonOffset: CGSize // Pour placer le bouton de validation
         
+    init(
+        onValidate: @escaping () -> Void,
+        onDelete: @escaping () -> Void,
+        showSuccess: Bool,
+        emotionTitle: String,
+        categoryID: UUID?,
+        backgroundColor: Color,
+        buttonOffset: CGSize = .zero // Valeur par défaut
+    ) {
+        self.onValidate = onValidate
+        self.onDelete = onDelete
+        self.showSuccess = showSuccess
+        self.emotionTitle = emotionTitle
+        self.categoryID = categoryID
+        self.backgroundColor = backgroundColor
+        self.buttonOffset = buttonOffset
+    }
+    
     private var buttonTintColor: Color {
         if showSuccess {
             return Color.green.opacity(0.75)
@@ -24,7 +44,7 @@ struct MoodValidationCardContent: View {
     }
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        ZStack(alignment: .top) {
             // Background
             backgroundColor
                 .allowsHitTesting(false)
@@ -35,12 +55,18 @@ struct MoodValidationCardContent: View {
                     .width(.expanded)
                     .weight(.light))
                 .foregroundStyle(Color("PurpleText"))
-                .padding(.top, 10)
-                .padding(.leading, 8)
+                .padding(.top, 5)
+                .padding(.horizontal, 10)
         }
         .overlay(alignment: .bottomTrailing) {
             if #available(iOS 26.0, *) {
-                Button(action: onValidate) {
+                Button(action: {
+                    if showSuccess {
+                        onDelete()
+                    } else {
+                        onValidate()
+                    }
+                }) {
                     Image(systemName: showSuccess ? "checkmark" : "plus")
                         .foregroundStyle(Color("PurpleText"))
                         .font(.system(size: 20, weight: .medium))
@@ -49,7 +75,7 @@ struct MoodValidationCardContent: View {
                 .glassEffect(.regular.tint(buttonTintColor))
                 .padding(.trailing, 6)
                 .padding(.bottom, 6)
-                .disabled(showSuccess)
+                .offset(buttonOffset)
             } else {
                 Button(action: onValidate) {
                     Image(systemName: showSuccess ? "checkmark" : "plus")
@@ -61,7 +87,7 @@ struct MoodValidationCardContent: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding(.trailing, 10)
                 .padding(.bottom, 10)
-                .disabled(showSuccess)
+                .offset(buttonOffset)
             }
         }
     }
@@ -72,6 +98,7 @@ struct MoodValidationCardContent: View {
         // Joie (Orange)
         MoodValidationCardContent(
             onValidate: {},
+            onDelete: {},
             showSuccess: false,
             emotionTitle: "Joyeuse",
             categoryID: UUID(uuidString: "CE85D2A7-EDD7-4F1B-8BEF-0486B6E8A043")!,
@@ -82,20 +109,24 @@ struct MoodValidationCardContent: View {
         // Amour (Rose)
         MoodValidationCardContent(
             onValidate: {},
+            onDelete: {},
             showSuccess: false,
             emotionTitle: "Amoureuse",
             categoryID: UUID(uuidString: "2406411A-717D-4543-B1D7-11491B517423")!,
-            backgroundColor: Color("PinkCustomClear")
+            backgroundColor: Color("PinkCustomClear"),
+            buttonOffset: .zero
         )
         .frame(width: 150, height: 150)
         
         // Validée
         MoodValidationCardContent(
             onValidate: {},
+            onDelete: {},
             showSuccess: true,
             emotionTitle: "Sur un nuage",
             categoryID: UUID(uuidString: "CE85D2A7-EDD7-4F1B-8BEF-0486B6E8A043")!,
-            backgroundColor: Color("OrangeCustomCard")
+            backgroundColor: Color("OrangeCustomCard"),
+            buttonOffset: .zero
         )
         .frame(width: 150, height: 150)
     }

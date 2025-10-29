@@ -2,7 +2,7 @@
 //  ColorMapper.swift
 //  TiMeFront
 //
-//  Created by apprenant152 on 20/10/2025.
+//  Created by Thibault on 20/10/2025.
 //
 
 import SwiftUI

@@ -2,12 +2,13 @@
 //  EmotionCategoryModel.swift
 //  TiMeFront
 //
-//  Created by apprenant152 on 20/10/2025.
+//  Created by Thibault on 19/10/2025.
 //
 
 import Foundation
 
-struct EmotionCategoryModel: Identifiable{
+//MARK: - EmotionCategoryModel
+struct EmotionCategoryModel: Identifiable, Hashable {
     let id: UUID
     let title: String
     let color: String
