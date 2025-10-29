@@ -27,26 +27,30 @@ struct IconCardContent: View {
     let iconType: CardIconType
     let color: Color
     let size: CardTextSize
+    let backgroundColor: Color?
     
     // Initializer pour SF Symbol
-    init(icon: String, color: Color, size: CardTextSize = .large) {
+    init(icon: String, color: Color, size: CardTextSize = .large, backgroundColor: Color? = nil) {
         self.iconType = .sfSymbol(icon)
         self.color = color
         self.size = size
+        self.backgroundColor = backgroundColor
     }
     
     // Initializer pour Asset Image
-    init(assetImage: String, color: Color, size: CardTextSize = .large) {
+    init(assetImage: String, color: Color, size: CardTextSize = .large, backgroundColor: Color? = nil) {
         self.iconType = .assetImage(assetImage)
         self.color = color
         self.size = size
+        self.backgroundColor = backgroundColor
     }
     
     // Initializer pour texte
-    init(text: String, color: Color, size: CardTextSize = .large) {
+    init(text: String, color: Color, size: CardTextSize = .large, backgroundColor: Color? = nil) {
         self.iconType = .text(text)
         self.color = color
         self.size = size
+        self.backgroundColor = backgroundColor
     }
     
     var body: some View {
@@ -93,16 +97,27 @@ struct IconCardContent: View {
         }
         .foregroundStyle(color)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.white))
+        .background(backgroundColor ?? .clear)
     }
 }
 
 #Preview {
-    DashboardCard {
-        IconCardContent(
-            icon: "mic.fill.badge.plus",
-            color: Color("PurpleDark")
-        )
+    VStack(spacing: 20) {
+        DashboardCard {
+            IconCardContent(
+                icon: "mic.fill.badge.plus",
+                color: Color("PurpleDark"),
+                backgroundColor: .clear
+            )
+        }
+        .frame(width: 150, height: 150)
+        
+        DashboardCard(backgroundColor: Color("WhitePurple")) {
+            IconCardContent(
+                icon: "heart.fill",
+                color: Color("PurpleButton")
+            )
+        }
+        .frame(width: 150, height: 150)
     }
-    .frame(width: 150, height: 150)
 }

@@ -63,8 +63,8 @@ class APIService{
             guard !data.isEmpty else{
                 throw TVShowError.dataEmpty
             }
-            
             //vérifie que la donnée n'est pas vide
+            
             do{
                 let decodeObjectRest = try jsonDecoder.decode(T.self, from: data)
                 return decodeObjectRest
@@ -169,8 +169,6 @@ class APIService{
             throw TVShowError.urlSessionError
         }
     }
-   
-
     
     func post<T:Decodable, U:Encodable>(endpoint: String, body: U) async throws -> T{
         let url = URL(string:"\(baseURL)/\(endpoint)")!
@@ -182,8 +180,6 @@ class APIService{
         return try jsonDecoder.decode(T.self, from: data)
     }
     
-
-
     func put<T: Decodable, U: Encodable>(endpoint: String, body: U) async throws -> T {
         let url = URL(string: "\(baseURL)/\(endpoint)")!
         var request = URLRequest(url: url)
@@ -193,7 +189,6 @@ class APIService{
         let (data, _) = try await URLSession.shared.data(for: request)
         return try jsonDecoder.decode(T.self, from: data)
     }
-
 
     func uploadImage(imageData: Data, fileName: String = "profile.jpg") async throws -> String {
         let url = baseURL.appendingPathComponent("users/upload")
@@ -227,11 +222,6 @@ class APIService{
         
         return decoded.imageURL
     }
-
-    
-    
-    
-
     
     func delete<T: Decodable>(endpoint: String, as type: T.Type = T.self) async throws -> T {
         let url = URL(string:"\(baseURL)/\(endpoint)")!

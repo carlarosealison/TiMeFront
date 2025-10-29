@@ -5,36 +5,36 @@
 //  Created by apprenant152 on 14/10/2025.
 //
 
-
 import SwiftUI
 
 struct CardDataCell: View {
-    let cardVM: StatisticsCardViewModel
+    let (width, height) : (CGFloat, CGFloat)
+    //let size : CGSize
+    let (nbStat, sizeS) : (Int, CGFloat)
+    let (description, sizeD) : (String, CGFloat)
     
     var body: some View {
-        let card = cardVM.card
-        
-        if #available(iOS 26.0, *) {
+        ZStack{
             RoundedRectangle(cornerRadius: 12)
-                .fill(.purpleButton.opacity(0.8))
-                .frame(width: cardVM.width, height: cardVM.height)
-                .glassEffect(in: RoundedRectangle(cornerRadius: 12))
-                .overlay(
-                    VStack(spacing: 4) {
-                        Text("\(card.data)")
-                            .font(.system(size: cardVM.dataFontSize, weight: .bold))
-                        Text(card.description)
-                            .font(.system(size: cardVM.descriptionFontSize))
-                    }
-                        .foregroundStyle(.white)
-                )
-        } else {
-            // Fallback on earlier versions
+                    .fill(.purpleHover)
+                    .frame(width: width, height: height)
+                    
+                        
+            VStack(alignment: .center, spacing: 10){
+                Text(String(nbStat))
+                    .font(.system(size: 26).width(.expanded))
+                Text(description)
+                    .font(.system(size:sizeD).width(.expanded))
+            }
+            .foregroundStyle(.white)
+            .bold()
         }
+        .ignoresSafeArea()
+            
     }
 }
 
 #Preview {
-    //    CardDataCell(size: CGSize(width: UIScreen.main.bounds.width/3, height: UIScreen.main.bounds.height/8),nbStat: 54, sizeS: 26, description: "Stricks max", sizeD: 8)
-    CardDataCell(cardVM: StatisticsCardViewModel(card: Card.card))
+//    CardDataCell(size: CGSize(width: UIScreen.main.bounds.width/3, height: UIScreen.main.bounds.height/8),nbStat: 54, sizeS: 26, description: "Stricks max", sizeD: 8)
+    CardDataCell(width: 200, height: 300,nbStat: 54, sizeS: 26, description: "Stricks max", sizeD: 8)
 }

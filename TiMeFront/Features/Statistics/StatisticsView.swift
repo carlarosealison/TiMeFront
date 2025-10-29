@@ -9,44 +9,26 @@ import SwiftUI
 
 @available(iOS 26.0, *)
 struct StatisticsView: View {
-    @Environment(AuthViewModel.self) var authVM
+    
     @State var statVM = StatisticsViewModel()
     
     var body: some View {
-        ZStack {
+        ZStack{
             GradientBackgroundView()
-<<<<<<< HEAD:TiMeFront/Features/Statistics/View/StatisticsView.swift
-            VStack(spacing: 30) {
-                TitleForm(title: "Statistiques", isWelcome: false)
-=======
             VStack(spacing: 30){
 //                TitleForm(title: "Statistiques", isWelcome: false)
->>>>>>> feature/thibault-fixbugs:TiMeFront/Features/Statistics/StatisticsView.swift
                 
                 headerFilterDate
                 
                 chartOrCardsData(type: .chart)
+                
                 chartOrCardsData(type: .card)
+                
             }
             .padding(.top)
         }
-<<<<<<< HEAD:TiMeFront/Features/Statistics/View/StatisticsView.swift
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .ignoresSafeArea()
-        .task {
-            // Injection AuthViewModel
-            statVM.authVM = authVM
-            statVM.setupRepo()
-            
-            await statVM.streakTotal()
-            await statVM.fetchPageTotal(selectData: .averageMotivation)
-            await statVM.fetchPageTotal(selectData: .page)
-            await statVM.fetchPageTotal(selectData: .note)
-        }
-=======
         .ignoresSafeArea()
         .navigationTitle("Mes statistiques")
->>>>>>> feature/thibault-fixbugs:TiMeFront/Features/Statistics/StatisticsView.swift
     }
     
     struct ButtonFilter: View {
@@ -131,31 +113,26 @@ struct StatisticsView: View {
     }
     
     @ViewBuilder
-     func chartOrCardsData(type: StatisticsViewModel.StatsType) -> some View {
-         switch type {
-         case .chart:
-             VStack {
-                 textDescription(description: "Changements d'humeurs", isShowInfo: true)
-                 StatsGraphView()
-                     .padding(.horizontal)
-             }
-         case .card:
-             VStack {
-                 textDescription(description: "Chiffres clés", isShowInfo: false)
-                 GridCardDataView(
-                     pages: statVM.pages,
-                     streak: statVM.streak, notes: statVM.notes, average: statVM.average,
-                     challengeSuccessful: statVM.challengeNumber
-                 )
-             }
-         }
-     }
- }
+    func chartOrCardsData(type: StatisticsViewModel.StatsType) -> some View{
+        switch type{
+        case .chart:
+            VStack{
+                textDescription(description: "Changements d'humeurs", isShowInfo: true)
+                StatsGraphView()
+                    .padding(.horizontal)
+            }
+        case .card:
+            VStack{
+                textDescription(description: "Chiffres clès", isShowInfo: false)
+                GridCardDataCell()
+            }
+        }
+    }
+}
 
 #Preview {
     if #available(iOS 26.0, *) {
         StatisticsView()
-            .environment(AuthViewModel())
     } else {
         // Fallback on earlier versions
     }

@@ -8,13 +8,13 @@
 import Foundation
 
 @MainActor
-class BookcaseViewModel: ObservableObject {
+@Observable
+class BookcaseViewModel {
     
-    // MARK: - Published Properties
-    
-    @Published private(set) var books: [Book] = []
-    @Published private(set) var currentMonth: Int = 1
-    @Published private(set) var currentYear: Int = 2025
+    // MARK: - Properties
+    private(set) var books: [Book] = []
+    private(set) var currentMonth: Int = 1
+    private(set) var currentYear: Int = 2025
     
     // MARK: - Computed Properties
     

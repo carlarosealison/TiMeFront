@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 26.0, *)
 struct BookcaseView: View {
     
     private var currentMonth: Int {
@@ -88,6 +89,8 @@ struct BookcaseView: View {
 
 #Preview {
     NavigationStack {
-        BookcaseView()
+        if #available(iOS 26.0, *) {
+            BookcaseView()
+        }
     }
 }

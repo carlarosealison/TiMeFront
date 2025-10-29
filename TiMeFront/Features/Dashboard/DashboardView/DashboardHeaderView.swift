@@ -10,19 +10,17 @@ import SwiftUI
 struct DashboardHeaderView: View {
     @Environment(AuthViewModel.self) var authVM
     let userImageURL: String? = nil
-//    @Environment(AuthManager.self) private var authManager
     @State private var currentDate = Date()
     
     var body: some View {
         HStack {
-            ProfileImageView(
-                imageURL: userImageURL
-            )
+            ProfileImageView()
             
             VStack(alignment: .leading) {
-                if let user = authVM.currentUser{
-                    Text(user.userName)
-                }else{
+                if let user = authVM.currentUser {
+                    Text("Bonjour \(user.userName)")
+                        .semiBoldCardsTitle()
+                } else {
                     Text("invité")
                 }
                 
@@ -35,10 +33,6 @@ struct DashboardHeaderView: View {
                 ))
                     .font(.caption)
                     .foregroundColor(.secondary)
-            }
-            .task {
-                // Charger les infos utilisateur
-//                await authManager.loadCurrentUser()
             }
             
             Spacer()

@@ -40,7 +40,7 @@ class UserViewModel{
         if userFormData.allSatisfy({!$0.isEmpty}) && password == confirmPassword{
             checkFormData = true
         }else{
-            print("Champ non renseigné ou le mot de passe n'est pas identique au à la confirmation")
+            print("Champ non renseigné ou le mot de passe n'est pas identique à la confirmation")
         }
     }
     
@@ -83,8 +83,8 @@ class UserViewModel{
     }
     
     func validateLogin() {
-        userNameOrEmailAuthError = userName.isEmpty ? "Le surnom ou l'email est requis" : nil
-        passwordAuthError = password.isEmpty ? "Mot de passe requis" : nil
+        userNameOrEmailAuthError = userName.isEmpty ? nil : "Le surnom ou l'email est requis"
+        passwordAuthError = password.isEmpty ? nil : "Mot de passe requis"
     }
     
     

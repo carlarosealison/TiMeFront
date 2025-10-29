@@ -141,8 +141,9 @@ class JarViewModelContainer : SKScene , Observable{
     }
 }
 
-class NavigationManager : ObservableObject {
-    @Published var shouldNavigate : Bool = false
+@Observable
+class NavigationManager {
+    var shouldNavigate : Bool = false
 }
 
 class BallsDashboardViewContainer : SKScene {
