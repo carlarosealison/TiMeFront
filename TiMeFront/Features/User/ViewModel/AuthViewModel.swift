@@ -7,25 +7,38 @@
 
 import SwiftUI
 
-@MainActor
+//@MainActor
 @Observable
 class AuthViewModel {
     var isAuthenticated = false
     var token: String?
     var currentUser: UserResponse?
-    
+
     private let userRepo = UserRepo() // supposé utiliser APIService.shared
     private let baseURL = APIService.shared.baseURL
     
     // MARK: - Login utilisateur
+//    func login(email: String?, username: String?, password: String) async {
+//        do {
+//            let token = try await userRepo.login(email: email, username: username, password: password)
+//            self.token = token
+//            self.isAuthenticated = true
+//            print("✅ Connecté avec token: \(token)")
+//            await fetchUserProfile()
+//        } catch {
+//            print("❌ Erreur lors du login: \(error)")
+//            self.isAuthenticated = false
+//        }
+//    }
+    
     func login(email: String?, username: String?, password: String) async {
         do {
             let token = try await userRepo.login(email: email, username: username, password: password)
             self.token = token
             self.isAuthenticated = true
-            // ✅ AJOUTE CES 2 LIGNES
-            UserDefaults.standard.set(token, forKey: "jwtToken")
-            print("💾 Token sauvegardé dans UserDefaults")
+            
+            // ✅ Sauvegarde du token dans UserDefaults
+            UserDefaults.standard.set(token, forKey: "token")
             print("✅ Connecté avec token: \(token)")
             
             // Décoder le JWT pour extraire l'userId
@@ -42,6 +55,9 @@ class AuthViewModel {
             self.isAuthenticated = false
         }
     }
+
+
+
     
     // MARK: - Helper : Décoder JWT
     private func extractUserIdFromJWT(_ token: String) -> String? {
@@ -126,13 +142,6 @@ class AuthViewModel {
             
             self.currentUser = user
             
-            // Sauvegarde l'userId
-//            if let userId = user.id {
-//                UserDefaults.standard.set(userId.uuidString, forKey: "userId")
-//                print("💾 UserId sauvegardé : \(userId.uuidString)")
-//            } else {
-//                print("⚠️ UserResponse n'a pas d'id !")
-//            }
             
             print("👤 Profil récupéré: \(user.userName)")
             
