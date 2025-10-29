@@ -63,8 +63,8 @@ class APIService{
             guard !data.isEmpty else{
                 throw TVShowError.dataEmpty
             }
-            
             //vérifie que la donnée n'est pas vide
+            
             do{
                 let decodeObjectRest = try jsonDecoder.decode(T.self, from: data)
                 return decodeObjectRest
@@ -81,59 +81,6 @@ class APIService{
         }
     }
     
-    func getToken<T: Decodable>(endpoint: String, token: String, as type: T.Type) async throws -> T {
-        // Vérifie que l’URL est correcte
-        guard let url = URL(string: "\(baseURL)\(endpoint)") else {
-            throw URLError(.badURL)
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-
-        print("📡 [API] GET \(url)")
-        print("🔐 Token utilisé : \(token)")
-
-        // Effectue la requête
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        // Vérifie la réponse HTTP
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw URLError(.badServerResponse)
-        }
-
-        // 🔍 Log des infos pour le debug
-        print("📡 [API] GET \(url.absoluteString)")
-        print("📦 Status code: \(httpResponse.statusCode)")
-        if let body = String(data: data, encoding: .utf8) {
-            print("🧾 Response body: \(body)")
-        }
-
-        //  Vérifie le code HTTP et revoie une erreur correspondante
-        switch httpResponse.statusCode {
-        case 200:
-            // OK ✅
-            return try JSONDecoder().decode(T.self, from: data)
-
-        case 400:
-            throw NSError(domain: "APIError", code: 400, userInfo: [NSLocalizedDescriptionKey: "Requête invalide (400)"])
-        case 401:
-            throw NSError(domain: "APIError", code: 401, userInfo: [NSLocalizedDescriptionKey: "Non autorisé — token invalide ou expiré"])
-        case 403:
-            throw NSError(domain: "APIError", code: 403, userInfo: [NSLocalizedDescriptionKey: "Accès refusé (403)"])
-        case 404:
-            throw NSError(domain: "APIError", code: 404, userInfo: [NSLocalizedDescriptionKey: "Ressource non trouvée (404)"])
-        case 500...599:
-            throw NSError(domain: "APIError", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Erreur serveur (\(httpResponse.statusCode))"])
-        default:
-            throw NSError(domain: "APIError", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Erreur inconnue (\(httpResponse.statusCode))"])
-        }
-    }
-
-
-    
-
     /// Permet d'utliser les query parameters qui servent à récupérer un user précis avec des jours précis et les mettre dans l'url de requête pour l'historique du journal
     /// On filtre les données d'un seul user (celui connecté) plutôt que toutes les données du journal de tous les users
     func get<T: Decodable>(
@@ -169,8 +116,6 @@ class APIService{
             throw TVShowError.urlSessionError
         }
     }
-   
-
     
     func post<T:Decodable, U:Encodable>(endpoint: String, body: U) async throws -> T{
         let url = URL(string:"\(baseURL)/\(endpoint)")!
@@ -182,8 +127,6 @@ class APIService{
         return try jsonDecoder.decode(T.self, from: data)
     }
     
-
-
     func put<T: Decodable, U: Encodable>(endpoint: String, body: U) async throws -> T {
         let url = URL(string: "\(baseURL)/\(endpoint)")!
         var request = URLRequest(url: url)
@@ -193,7 +136,6 @@ class APIService{
         let (data, _) = try await URLSession.shared.data(for: request)
         return try jsonDecoder.decode(T.self, from: data)
     }
-
 
     func uploadImage(imageData: Data, fileName: String = "profile.jpg") async throws -> String {
         let url = baseURL.appendingPathComponent("users/upload")
@@ -227,11 +169,6 @@ class APIService{
         
         return decoded.imageURL
     }
-
-    
-    
-    
-
     
     func delete<T: Decodable>(endpoint: String, as type: T.Type = T.self) async throws -> T {
         let url = URL(string:"\(baseURL)/\(endpoint)")!

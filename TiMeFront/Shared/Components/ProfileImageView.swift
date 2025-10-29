@@ -8,16 +8,24 @@
 import SwiftUI
 
 struct ProfileImageView: View {
-    let imageURL: String?
+    @Environment(AuthViewModel.self) var authVM
     let size: CGFloat = 44
     
     var body: some View {
         Group {
-            if imageURL != nil && !imageURL!.isEmpty {
-                AsyncImage(url: URL(string: imageURL!)) { image in
-                    image.resizable()
+            if let user = authVM.currentUser,
+               let imageURLString = user.imageProfil,
+               !imageURLString.isEmpty,
+               let imageURL = URL(string: imageURLString) {
+                
+                AsyncImage(url: imageURL) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
                 } placeholder: {
-                    ProgressView()
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .foregroundColor(Color("PurpleText"))
                 }
             } else {
                 Image(systemName: "person.circle.fill")
@@ -25,11 +33,12 @@ struct ProfileImageView: View {
                     .foregroundColor(Color("PurpleText"))
             }
         }
-        .frame(width: size, height: size)
-        .clipShape(Circle())
+                .frame(width: size, height: size)
+                .clipShape(Circle())
     }
 }
 
 #Preview {
-    ProfileImageView(imageURL: "")
+    ProfileImageView()
+        .environment(AuthViewModel())
 }

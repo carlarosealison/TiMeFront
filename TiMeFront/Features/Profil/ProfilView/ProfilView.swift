@@ -10,7 +10,7 @@ import LocalAuthentication
 import PhotosUI
 
 struct ProfilView: View {
-    @StateObject private var viewModel = ProfilViewModel()  // ← Utilise @StateObject
+    @State private var viewModel = ProfilViewModel()
     @State private var isShowingPhotoPicker = false
     @Environment(AuthViewModel.self) var authVM
     @Environment(UserViewModel.self) var userVM
@@ -74,13 +74,6 @@ struct ProfilView: View {
             // Charger les données au démarrage
             viewModel.loadUserData(from: userVM)
         }
-        .navigationDestination(isPresented: $viewModel.navigateToAuth) {
-            if #available(iOS 26.0, *) {
-                AuthentificationView()
-            } else {
-                // Fallback on earlier versions
-            }
-        }
         .onChange(of: viewModel.faceIDOn) { _, newValue in
             if newValue { viewModel.authenticateFaceID() }
         }
@@ -107,12 +100,19 @@ private extension ProfilView {
             Spacer()
             
             avatarSection
-            Text(userVM.userName.isEmpty ? "Invité" : userVM.userName)
-                .font(.title2)
-                .bold()
-                .foregroundColor(Color("PurpleText"))
-
             
+            if let user = authVM.currentUser{
+                Text(user.userName)
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color("PurpleText"))
+            }else{
+                Text("invité")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color("PurpleText"))
+            }
+
             optionsSection
             logoutButton
             
@@ -127,17 +127,28 @@ private extension ProfilView {
                 .frame(width: 100, height: 100)
                 .overlay(
                     Group {
-                        if let image = viewModel.profilImage {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
+                        if let user = authVM.currentUser,
+                           let imageURLString = user.imageProfil,
+                           !imageURLString.isEmpty,
+                           let imageURL = URL(string: imageURLString) {
+                            
+                            AsyncImage(url: imageURL) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            } placeholder: {
+                                Image(systemName: "person.circle.fill")
+                                    .resizable()
+                                    .foregroundColor(Color("PurpleText"))
+                            }
                         } else {
                             Image(systemName: "person.fill")
-                                .font(.system(size: 70))
+                                .resizable()
+                                .frame(width: 60, height: 60)
                                 .foregroundColor(Color("PurpleText"))
                         }
                     }
-                    .clipShape(Circle())
+                        .clipShape(Circle())
                 )
             
             Button(action: { isShowingPhotoPicker = true }) {

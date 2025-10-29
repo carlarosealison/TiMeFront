@@ -7,38 +7,24 @@
 
 import SwiftUI
 
-//@MainActor
+@MainActor
 @Observable
 class AuthViewModel {
     var isAuthenticated = false
     var token: String?
     var currentUser: UserResponse?
-
-    private let userRepo = UserRepo() // supposé utiliser APIService.shared
+    
+    private let userRepo = UserRepo()
     private let baseURL = APIService.shared.baseURL
     
     // MARK: - Login utilisateur
-//    func login(email: String?, username: String?, password: String) async {
-//        do {
-//            let token = try await userRepo.login(email: email, username: username, password: password)
-//            self.token = token
-//            self.isAuthenticated = true
-//            print("✅ Connecté avec token: \(token)")
-//            await fetchUserProfile()
-//        } catch {
-//            print("❌ Erreur lors du login: \(error)")
-//            self.isAuthenticated = false
-//        }
-//    }
-    
     func login(email: String?, username: String?, password: String) async {
         do {
             let token = try await userRepo.login(email: email, username: username, password: password)
             self.token = token
             self.isAuthenticated = true
-            
-            // ✅ Sauvegarde du token dans UserDefaults
-            UserDefaults.standard.set(token, forKey: "token")
+            UserDefaults.standard.set(token, forKey: "jwtToken")
+            print("💾 Token sauvegardé dans UserDefaults")
             print("✅ Connecté avec token: \(token)")
             
             // Décoder le JWT pour extraire l'userId
@@ -55,9 +41,6 @@ class AuthViewModel {
             self.isAuthenticated = false
         }
     }
-
-
-
     
     // MARK: - Helper : Décoder JWT
     private func extractUserIdFromJWT(_ token: String) -> String? {
@@ -141,7 +124,6 @@ class AuthViewModel {
             let user = try decoder.decode(UserResponse.self, from: data)
             
             self.currentUser = user
-            
             
             print("👤 Profil récupéré: \(user.userName)")
             
