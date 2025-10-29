@@ -81,7 +81,5 @@ struct DashboardView: View {
     if #available(iOS 26.0, *) {
         DashboardView()
             .environment(AuthViewModel())
-    } else {
-            // Fallback on earlier versions
     }
 }

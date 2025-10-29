@@ -21,7 +21,7 @@ struct ContentView: View {
               }
           }
         .environment(journalEditVM)
-          .animation(.easeInOut, value: authVM.isAuthenticated)
+        .animation(.easeInOut, value: authVM.isAuthenticated)
     }
 }
 
