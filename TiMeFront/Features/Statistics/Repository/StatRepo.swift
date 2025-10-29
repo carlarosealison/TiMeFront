@@ -21,5 +21,10 @@ struct StatRepo {
         let statDTO = try await statService.getCountNote()
         return statMapper.map(dto: statDTO)
     }
+    
+    func getAverageMotivation() async throws -> StatModel {
+        let statDTO = try await statService.getAverageMotivation()
+        return statMapper.map(dto: statDTO)
+    }
 }
 

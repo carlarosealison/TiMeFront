@@ -33,6 +33,7 @@ struct StatisticsView: View {
             statVM.setupRepo()
             
             await statVM.streakTotal()
+            await statVM.fetchPageTotal(selectData: .averageMotivation)
             await statVM.fetchPageTotal(selectData: .page)
             await statVM.fetchPageTotal(selectData: .note)
         }
@@ -133,7 +134,7 @@ struct StatisticsView: View {
                  textDescription(description: "Chiffres clés", isShowInfo: false)
                  GridCardDataView(
                      pages: statVM.pages,
-                     streak: statVM.streak, notes: statVM.notes,
+                     streak: statVM.streak, notes: statVM.notes, average: statVM.average,
                      challengeSuccessful: statVM.challengeNumber
                  )
              }

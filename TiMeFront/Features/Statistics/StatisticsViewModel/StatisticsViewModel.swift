@@ -19,6 +19,7 @@ class StatisticsViewModel {
     var challengeNumber: Int = 1
     var pages: Int = 1
     var notes: Int = 1
+    var average: Int = 1
     
     var statRepo: StatRepo?
     
@@ -30,6 +31,7 @@ class StatisticsViewModel {
     enum countData{
         case page
         case note
+        case averageMotivation
     }
     enum StatsType {
         case chart
@@ -71,6 +73,11 @@ class StatisticsViewModel {
                 let countPages = try await repo.getCountPage()
                 self.pages = countPages.countData
                 print("📄 Nombre de pages récupérées : \(pages)")
+            case .averageMotivation:
+                let averageMotivation = try await repo.getAverageMotivation()
+                self.average = averageMotivation.countData
+                print("📄 Nombre de pages récupérées : \(average)")
+                
             }
         } catch {
             print("❌ Erreur récupération pages : \(error)")

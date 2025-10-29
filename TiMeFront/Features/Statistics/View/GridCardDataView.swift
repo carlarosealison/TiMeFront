@@ -11,6 +11,7 @@ struct GridCardDataView: View {
     var pages: Int
     var streak: Int
     var notes: Int
+    var average: Int
     var challengeSuccessful: Int
 
     var body: some View {
@@ -18,7 +19,7 @@ struct GridCardDataView: View {
             HStack(spacing: 12) {
                 CardDataCell(
                     cardVM: StatisticsCardViewModel(
-                        card: Card(data: 61, description: "Motivation moyenne", size: .medium, dataSize: .medium)
+                        card: Card(data: average, description: "Motivation moyenne", size: .medium, dataSize: .medium)
                     )
                 )
                 CardDataCell(
@@ -54,7 +55,7 @@ struct GridCardDataView: View {
 
 
 #Preview {
-    GridCardDataView(pages: 10, streak: 4, notes: 104, challengeSuccessful: 8)
+    GridCardDataView(pages: 10, streak: 4, notes: 104, average: 65, challengeSuccessful: 8)
 }
 
 
