@@ -15,13 +15,8 @@ struct StatisticsView: View {
     var body: some View {
         ZStack {
             GradientBackgroundView()
-<<<<<<< HEAD:TiMeFront/Features/Statistics/View/StatisticsView.swift
             VStack(spacing: 30) {
                 TitleForm(title: "Statistiques", isWelcome: false)
-=======
-            VStack(spacing: 30){
-//                TitleForm(title: "Statistiques", isWelcome: false)
->>>>>>> feature/thibault-fixbugs:TiMeFront/Features/Statistics/StatisticsView.swift
                 
                 headerFilterDate
                 
@@ -30,7 +25,6 @@ struct StatisticsView: View {
             }
             .padding(.top)
         }
-<<<<<<< HEAD:TiMeFront/Features/Statistics/View/StatisticsView.swift
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea()
         .task {
@@ -39,14 +33,8 @@ struct StatisticsView: View {
             statVM.setupRepo()
             
             await statVM.streakTotal()
-            await statVM.fetchPageTotal(selectData: .averageMotivation)
-            await statVM.fetchPageTotal(selectData: .page)
-            await statVM.fetchPageTotal(selectData: .note)
+            await statVM.fetchPageTotal()
         }
-=======
-        .ignoresSafeArea()
-        .navigationTitle("Mes statistiques")
->>>>>>> feature/thibault-fixbugs:TiMeFront/Features/Statistics/StatisticsView.swift
     }
     
     struct ButtonFilter: View {

@@ -33,4 +33,6 @@ struct UserResponse: Decodable{
     var userName: String
     let email: String
     var imageProfil: String?
+    var streakNumber: Int
+    var challengeNumber: Int
 }
