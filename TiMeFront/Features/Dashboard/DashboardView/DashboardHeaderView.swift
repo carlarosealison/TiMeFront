@@ -18,7 +18,8 @@ struct DashboardHeaderView: View {
             
             VStack(alignment: .leading) {
                 if let user = authVM.currentUser {
-                    Text(user.userName)
+                    Text("Bonjour \(user.userName)")
+                        .semiBoldCardsTitle()
                 } else {
                     Text("invité")
                 }
@@ -32,10 +33,6 @@ struct DashboardHeaderView: View {
                 ))
                     .font(.caption)
                     .foregroundColor(.secondary)
-            }
-            .task {
-                // Charger les infos utilisateur
-//                await authManager.loadCurrentUser()
             }
             
             Spacer()

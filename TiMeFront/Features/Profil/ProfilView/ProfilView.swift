@@ -127,17 +127,28 @@ private extension ProfilView {
                 .frame(width: 100, height: 100)
                 .overlay(
                     Group {
-                        if let image = viewModel.profilImage {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
+                        if let user = authVM.currentUser,
+                           let imageURLString = user.imageProfil,
+                           !imageURLString.isEmpty,
+                           let imageURL = URL(string: imageURLString) {
+                            
+                            AsyncImage(url: imageURL) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            } placeholder: {
+                                Image(systemName: "person.circle.fill")
+                                    .resizable()
+                                    .foregroundColor(Color("PurpleText"))
+                            }
                         } else {
                             Image(systemName: "person.fill")
-                                .font(.system(size: 70))
+                                .resizable()
+                                .frame(width: 60, height: 60)
                                 .foregroundColor(Color("PurpleText"))
                         }
                     }
-                    .clipShape(Circle())
+                        .clipShape(Circle())
                 )
             
             Button(action: { isShowingPhotoPicker = true }) {
