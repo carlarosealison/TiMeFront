@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct JournalEditorView: View {
-    @State var viewModel = JournalEditorViewModel()
+    @Environment(JournalEditorViewModel.self) var journalEditVM
     @State var emotionCatVM = EmotionCategoryViewModel()
-    @Binding var jounalEditVM : JournalEditorViewModel
     
     var body: some View {
             ZStack {
@@ -147,9 +146,10 @@ struct JournalEditorView: View {
                             Spacer()
                         }
 
-                        ScrollMotivation(viewModel: $jounalEditVM)
+                        ScrollMotivation(viewModel: journalEditVM)
 
-                    }.padding(.bottom)
+                    }
+                    .padding(.bottom)
 
 
                     PurpleButton(withArrow: false, buttonFuncText: "Enregistrer")
@@ -175,5 +175,6 @@ struct JournalEditorView: View {
 }
 
 #Preview {
-    JournalEditorView(jounalEditVM: .constant(JournalEditorViewModel()))
+    JournalEditorView()
+        .environment(JournalEditorViewModel())
 }

@@ -21,12 +21,7 @@ struct DashboardView: View {
                     
                     Spacer()
                     
-                    Text("Ici on trouvera l'affirmation du jour pour ne pas encombrer une des bulles en dessous.")
-                        .fontWidth(.expanded)
-                        .fontWeight(.regular)
-                        .font(.system(size: 16))
-                        .padding(.horizontal, 70)
-                        .multilineTextAlignment(.center)
+                    DailyStatementView()
                     
                     Spacer()
                     
