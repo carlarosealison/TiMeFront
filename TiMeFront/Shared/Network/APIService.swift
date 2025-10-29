@@ -80,7 +80,7 @@ class APIService{
             
         }
     }
-    
+    // Get avec le token user
     func getToken<T: Decodable>(endpoint: String, token: String, as type: T.Type) async throws -> T {
         // Vérifie que l’URL est correcte
         guard let url = URL(string: "\(baseURL)\(endpoint)") else {
