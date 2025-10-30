@@ -1,5 +1,5 @@
 //
-//  RegisterModel.swift
+//  ChallengeViewModel.swift
 //  TiMeFront
 //
 //  Created by Sebastien Besse on 25/09/2025.
@@ -16,7 +16,9 @@ class ChallengeViewModel: @unchecked Sendable {
     var isChallengeCompleted: Bool = false
     var isLoading = false
     var errorMessage: String?
+    
     private let challengeRepo = ChallengeRepo()
+    private let challengeOfTheDayRepo = ChallengeOfTheDayRepo()
     
 
     //étape 6: mettre en place le viewModel qui fait l'intermédiaire entre le Model(mais ici le Repo -> DTO) et la View
@@ -34,22 +36,27 @@ class ChallengeViewModel: @unchecked Sendable {
 //        }
 //    }
     
-    func fetchRandomChallenge() async throws {
+    func fetchRandomChallenge() async {
         isLoading = true
+        errorMessage = nil
+        
         do {
-            let challengeIndex = try await challengeRepo.randomChallenge()
-            challenge = challengeIndex
-            isChallengeCompleted = false
-                        
-            DispatchQueue.main.async {
-                self.challenge = challengeIndex
-            }
-            // pour une mise à jour sur le thread principal -> autrement Swift plante
-        }
-        catch{
-            print("Erreur lors du fetch : \(error)")
+            let challengeOTD = try await challengeOfTheDayRepo.createRandomChallengeOfTheDay()
+            
+            self.challenge = ChallengeModel(
+                id: challengeOTD.idChallenge.id,
+                instruction: challengeOTD.instructionOTD,
+                messageMotivation: challengeOTD.messageMotivationOTD
+            )
+            self.isChallengeCompleted = false
+            
+            print("✅ Challenge du jour créé")
+            
+        } catch {
+            print("❌ Erreur : \(error)")
             errorMessage = "Erreur de chargement"
         }
+        
         isLoading = false
     }
     
@@ -74,7 +81,8 @@ class ChallengeViewModel: @unchecked Sendable {
         // TODO: Appeler le backend pour marquer comme complété
         // try await challengeRepo.completeChallenge(challenge.id)
         
-        isChallengeCompleted = true
+        self.isChallengeCompleted = true
+        print("✅ Challenge complété !")
     }
     
     // Terminer/abandonner le challenge

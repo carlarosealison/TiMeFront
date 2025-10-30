@@ -1,5 +1,5 @@
 //
-//  ChallengeOfTheDay.swift
+//  ChallengeOfTheDayModel.swift
 //  TiMeFront
 //
 //  Created by Apprenant125 on 17/10/2025.
@@ -18,6 +18,19 @@ struct ChallengeOfTheDayModel {
 
 struct DeleteResponse : Decodable {
     let success: Bool
+}
+
+struct ChallengeOfTheDayResponse: Decodable {
+    let id: UUID?
+    let instructionOTD: String
+    let messageMotivationOTD: String
+    let dateExp: Date
+    let idChallenge: ParentID
+    let idUser: ParentID
+}
+
+struct ParentID: Decodable {
+    let id: UUID
 }
 
 enum ChallengeOfTheDayResult {

@@ -1,5 +1,5 @@
 //
-//  v.swift
+//  DashboardGridView.swift
 //  TiMeFront
 //
 //  Created by Thibault on 30/09/2025.
@@ -11,9 +11,9 @@ struct DashboardGridView: View {
     
     let spacing = DesignSystem.Grid.spacing
     @Environment(AuthViewModel.self) var authVM
+    @Environment(ChallengeViewModel.self) var challengeViewModel
     @State private var emotionViewModel = EmotionOfTheDayViewModel()
-    @State private var challengeViewModel = ChallengeViewModel()
-    
+
     var body: some View {
         GeometryReader { geometry in
             let availableWidth = geometry.size.width - (DesignSystem.Grid.padding * 2)

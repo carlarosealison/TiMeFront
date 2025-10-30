@@ -24,13 +24,10 @@ class AuthViewModel {
             self.token = token
             self.isAuthenticated = true
             UserDefaults.standard.set(token, forKey: "jwtToken")
-            print("Token sauvegardé dans UserDefaults")
-            print("Connecté avec token: \(token)")
             
             // Décoder le JWT pour extraire l'userId
             if let userId = extractUserIdFromJWT(token) {
                 UserDefaults.standard.set(userId, forKey: "userId")
-                print("UserId extrait du JWT et sauvegardé : \(userId)")
             } else {
                 print("Impossible d'extraire l'userId du token")
             }
@@ -94,7 +91,7 @@ class AuthViewModel {
         isAuthenticated = false
 
         UserDefaults.standard.removeObject(forKey: "jwtToken")
-        print(" Déconnexion réussie")
+        print("✅ Déconnexion réussie")
     }
     
     // MARK: - Récupérer le profil utilisateur connecté
@@ -118,8 +115,7 @@ class AuthViewModel {
                 return
             }
             
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("JSON profil reçu : \(jsonString)")
+            if String(data: data, encoding: .utf8) != nil {
             }
             
             let decoder = JSONDecoder()
@@ -127,9 +123,7 @@ class AuthViewModel {
             let user = try decoder.decode(UserResponse.self, from: data)
             
             self.currentUser = user
-            
-            print("Profil récupéré: \(user.userName)")
-            
+                        
         } catch {
             print("Erreur récupération profil: \(error)")
         }
@@ -144,14 +138,10 @@ class AuthViewModel {
         
             // Récupère la dernière date de connexion (peu importe si elle a incrémenté ou non)
         let lastConnectionDate = UserDefaults.standard.object(forKey: "lastConnectionDate") as? Date
-        
-        print("Aujourd'hui : \(today)")
-        print("Dernière connexion : \(lastConnectionDate?.description ?? "nil")")
-        
+                
             // Cas 1 : Déjà connecté aujourd'hui → Ne rien faire
         if let lastDate = lastConnectionDate,
            calendar.isDate(lastDate, inSameDayAs: today) {
-            print("Déjà connecté aujourd'hui")
             return
         }
         
