@@ -180,4 +180,5 @@ struct DashboardGridView: View {
 #Preview {
     DashboardGridView()
         .environment(AuthViewModel())
+        .environment(ChallengeViewModel())
 }

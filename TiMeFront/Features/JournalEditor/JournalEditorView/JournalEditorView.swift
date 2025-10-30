@@ -177,4 +177,5 @@ struct JournalEditorView: View {
 #Preview {
     JournalEditorView()
         .environment(JournalEditorViewModel())
+        .environment(ChallengeViewModel())
 }
