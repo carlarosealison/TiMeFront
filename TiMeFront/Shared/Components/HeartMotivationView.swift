@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HeartMotivationView: View {
+    @Binding var viewModel : JournalEditorViewModel
     var body: some View {
         ZStack {
             Image(systemName: "heart")
@@ -18,7 +19,7 @@ struct HeartMotivationView: View {
             Image(systemName: "heart.fill")
                 .resizable()
                 .foregroundStyle(.purpleButton)
-                .frame(height: viewModel.)
+                .frame(height: viewModel.sliderHeight)
                 .padding(.bottom,2)
         }
         .frame(height: 105)
@@ -28,5 +29,5 @@ struct HeartMotivationView: View {
 }
 
 #Preview {
-    HeartMotivationView()
+    HeartMotivationView(viewModel: .constant(JournalEditorViewModel()))
 }
