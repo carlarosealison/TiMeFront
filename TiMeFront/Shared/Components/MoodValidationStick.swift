@@ -23,15 +23,20 @@ struct MoodValidationStick: View {
                         .glassEffect(.regular.tint(ColorMapper.color(from: stickColor)))
                         .frame(width: 44, height: 110)
                         .overlay {
-                            
-                            Circle()
-                                .glassEffect(.regular.tint(ColorMapper.color(from: stickColor)))
-                                .frame(width: 44)
-                                .overlay {
-                                    Image(systemName: "plus")
-                                        .font(.system(size: 20))
-                                }
-                                .padding([.leading, .top], 45)
+                            Button {
+                                //
+                            } label: {
+                                Circle()
+                                    .glassEffect(.regular.tint(ColorMapper.color(from: stickColor)))
+                                    .frame(width: 44)
+                                    .overlay {
+                                        Image(systemName: "plus")
+                                            .font(.system(size: 20))
+                                    }
+                                    .padding([.leading, .top], 45)
+                            }.buttonStyle(.plain)
+
+
 
                         }
                 } else {

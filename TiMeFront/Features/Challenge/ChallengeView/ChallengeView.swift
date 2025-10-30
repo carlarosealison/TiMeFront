@@ -14,7 +14,6 @@ struct ChallengeView: View {
     var body: some View {
         
         VStack {
-            NavigationStack{
                 ZStack {
                     Color.whitePurple
                         .ignoresSafeArea()
@@ -65,11 +64,11 @@ struct ChallengeView: View {
                     
                 }
                 
-            }
         }
+    }
 
     }
-}
+
 
 #Preview {
     ChallengeView()

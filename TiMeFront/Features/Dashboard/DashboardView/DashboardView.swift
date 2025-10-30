@@ -11,7 +11,6 @@ import CoreMotion
 @available(iOS 26.0, *)
 struct DashboardView: View {
     @State private var navigationPath = NavigationPath()
-    @Binding var journalEditVM : JournalEditorViewModel
     var body: some View {
         NavigationStack(path: $navigationPath) {
             ZStack {
@@ -58,7 +57,7 @@ struct DashboardView: View {
     private func destinationView(for destination: DashboardDestination) -> some View {
         switch destination {
             case .challenge:
-                ChallengeView(navigationPath: $navigationPath)
+                ChallengeView(/*navigationPath: $navigationPath*/)
             case .books:
                 BookcaseView()
             case .streak:
@@ -66,9 +65,9 @@ struct DashboardView: View {
             case .graph:
                 StatisticsView()
             case .journal:
-            JournalEditorView(journalEditVM: $journalEditVM)
+            JournalEditorView()
             case .microphone:
-            JournalEditorView(journalEditVM: $journalEditVM)
+            JournalEditorView()
             case .jarChallenge:
                 JarView(navigationPath: $navigationPath)
             case .profile:
@@ -85,7 +84,7 @@ struct DashboardView: View {
 
 #Preview {
     if #available(iOS 26.0, *) {
-        DashboardView(journalEditVM: .constant(JournalEditorViewModel()))
+        DashboardView()
             .environment(AuthViewModel())
     } else {
             // Fallback on earlier versions

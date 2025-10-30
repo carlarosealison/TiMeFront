@@ -53,33 +53,33 @@ class ChallengeViewModel: @unchecked Sendable {
         isLoading = false
     }
     
-    // Charge le challenge actuel au démarrage
-    func loadCurrentChallenge() async {
-        // Pour l'instant, on simule qu'il n'y a pas de challenge
-        // Plus tard, tu chargeras depuis le backend le challenge du jour
-        challenge = nil
-        isChallengeCompleted = false
-    }
-    
-    // Accepter un challenge
-    func acceptChallenge(_ selectedChallenge: ChallengeModel) {
-        challenge = selectedChallenge
-        isChallengeCompleted = false
-    }
-    
-    // Valider le challenge
-    func completeChallenge() async {
-        guard challenge != nil else { return }
-        
-        // TODO: Appeler le backend pour marquer comme complété
-        // try await challengeRepo.completeChallenge(challenge.id)
-        
-        isChallengeCompleted = true
-    }
-    
-    // Terminer/abandonner le challenge
-    func finishChallenge() {
-        challenge = nil
-        isChallengeCompleted = false
-    }
+//    // Charge le challenge actuel au démarrage
+//    func loadCurrentChallenge() async {
+//        // Pour l'instant, on simule qu'il n'y a pas de challenge
+//        // Plus tard, tu chargeras depuis le backend le challenge du jour
+//        challenge = nil
+//        isChallengeCompleted = false
+//    }
+//    
+//    // Accepter un challenge
+//    func acceptChallenge(_ selectedChallenge: ChallengeModel) {
+//        challenge = selectedChallenge
+//        isChallengeCompleted = false
+//    }
+//    
+//    // Valider le challenge
+//    func completeChallenge() async {
+//        guard challenge != nil else { return }
+//        
+//        // TODO: Appeler le backend pour marquer comme complété
+//        // try await challengeRepo.completeChallenge(challenge.id)
+//        
+//        isChallengeCompleted = true
+//    }
+//    
+//    // Terminer/abandonner le challenge
+//    func finishChallenge() {
+//        challenge = nil
+//        isChallengeCompleted = false
+//    }
 }

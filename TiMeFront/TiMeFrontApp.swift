@@ -17,7 +17,7 @@ struct TiMeFrontApp: App {
     var body: some Scene {
         WindowGroup {
 
-                ContentView()
+            ContentView()
                 .environment(authVM)
                 .environment(userVM)
             }

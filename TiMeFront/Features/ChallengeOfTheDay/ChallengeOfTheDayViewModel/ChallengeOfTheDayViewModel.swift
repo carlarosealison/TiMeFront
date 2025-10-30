@@ -24,21 +24,22 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
         self.authViewModel = authViewModel
     }
     
-//    func fetchRandomChallengeOfTheDay() async throws -> ChallengeOfTheDayResult {
-//        
-//
-//        do{
-//
-//            
-//            }
-//            
-//        catch{
-//            print("Erreur lors du fetch : \(error)")
-//            return .error(URLError(.unknown))
-//        }
-//            
-//        }
+    func fetchRandomChallengeOfTheDay() async throws {
+        do{
+            let challengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
+            challengeOTD = challengeOfTheDay
+            
+            DispatchQueue.main.async {
+                self.challengeOTD = challengeOfTheDay
+            }
+        }
         
-
+        catch{
+            print("Erreur lors du fetch : \(error.localizedDescription)")
+        }
+        
     }
+    
+    
+}
 
