@@ -16,7 +16,8 @@ struct StatisticsView: View {
         ZStack {
             GradientBackgroundView()
             VStack(spacing: 30) {
-                TitleForm(title: "Statistiques", isWelcome: false)
+                Text("Statistiques")
+                    .semiBoldTitle()
                 
                 headerFilterDate
                 
@@ -28,12 +29,12 @@ struct StatisticsView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea()
         .task {
-            // Injection AuthViewModel
             statVM.authVM = authVM
             statVM.setupRepo()
             
             await statVM.streakTotal()
             await statVM.fetchPageTotal()
+            await statVM.fetchEmotionCategoryStat()
         }
     }
     
@@ -119,25 +120,25 @@ struct StatisticsView: View {
     }
     
     @ViewBuilder
-     func chartOrCardsData(type: StatisticsViewModel.StatsType) -> some View {
-         switch type {
-         case .chart:
-             VStack {
-                 textDescription(description: "Changements d'humeurs", isShowInfo: true)
-                 StatsGraphView()
-                     .padding(.horizontal)
-             }
-         case .card:
-             VStack {
-                 textDescription(description: "Chiffres clés", isShowInfo: false)
-                 GridCardDataView(
-                     pages: statVM.pages,
-                     streak: statVM.streak, notes: statVM.notes, average: statVM.average,
-                     challengeSuccessful: statVM.challengeNumber
-                 )
-             }
-         }
-     }
+    func chartOrCardsData(type: StatisticsViewModel.StatsType) -> some View {
+        switch type {
+        case .chart:
+            VStack {
+                textDescription(description: "Changements d'humeurs", isShowInfo: true)
+                StatsGraphView(emotionStats: statVM.emotionCategoryStats)
+                    .padding(.horizontal)
+            }
+        case .card:
+            VStack {
+                textDescription(description: "Chiffres clés", isShowInfo: false)
+                GridCardDataView(
+                    pages: statVM.pages,
+                    streak: statVM.streak, notes: statVM.notes, average: statVM.average,
+                    challengeSuccessful: statVM.challengeNumber
+                )
+            }
+        }
+    }
  }
 
 #Preview {

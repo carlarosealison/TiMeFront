@@ -20,6 +20,7 @@ class StatisticsViewModel {
     var pages: Int = 1
     var notes: Int = 1
     var average: Int = 1
+    var emotionCategoryStats : [EmotionCategoryStats] = []
     
     var statRepo: StatRepo?
     
@@ -77,6 +78,28 @@ class StatisticsViewModel {
             let averageMotivation = try await repo.getAverageMotivation()
             self.average = averageMotivation.countData
             print("📊 Moyenne de motivation : \(average)")
+            
+        } catch {
+            print("❌ Erreur récupération statistiques : \(error)")
+        }
+    }
+    
+    
+    
+    
+    func fetchEmotionCategoryStat() async {
+        guard authVM?.token != nil else {
+            print("⚠️ Token non disponible")
+            return
+        }
+        guard let repo = statRepo else {
+            print("⚠️ StatRepo non initialisé")
+            return
+        }
+        
+        do {
+            let emotionCategoryStat = try await repo.getEmotionStats()
+            self.emotionCategoryStats = emotionCategoryStat
             
         } catch {
             print("❌ Erreur récupération statistiques : \(error)")

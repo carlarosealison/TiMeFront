@@ -11,6 +11,7 @@ struct StatRepo {
     
     var statService: StatService
     let statMapper = StatMapper()
+    let emotionCategoryMapper = EmotionCategoryMapper()
     
     func getCountPage() async throws -> StatModel {
         let statDTO = try await statService.getCountPage()
@@ -25,6 +26,11 @@ struct StatRepo {
     func getAverageMotivation() async throws -> StatModel {
         let statDTO = try await statService.getAverageMotivation()
         return statMapper.map(dto: statDTO)
+    }
+    
+    func getEmotionStats() async throws -> [EmotionCategoryStats] {
+        let statDTO = try await statService.getEmotionStats()
+        return statDTO.map({emotionCategoryMapper.mapEmotionCategoryStatsResponse(from: $0)})
     }
 }
 

@@ -8,38 +8,45 @@
 import SwiftUI
 import Charts
 
-struct DataChart: Identifiable{
-    let id = UUID()
-    var emotions: Int
-    var color: Color
-}
+
+
 struct DonutDataCell: View {
-    var emotionChart : [DataChart] = [
-        DataChart(emotions: 11, color: .red),
-        DataChart(emotions: 8, color: .greenCustom),
-        DataChart(emotions: 5, color: .orangeCustom),
-        DataChart(emotions: 22, color: .purpleButton),
-        DataChart(emotions: 12, color: .teal),
-        DataChart(emotions: 10, color: .pinkCustomMate),
-        DataChart(emotions: 14, color: .indigo)
-        
-    ]
+    
+    var emotionStats: [EmotionCategoryStats]
+
     var body: some View {
-        Chart {
-            ForEach(emotionChart){ emotion in
-                SectorMark(
-                    angle: .value("Emotion", emotion.emotions),
-                    innerRadius: .ratio(0.70),
-                    angularInset: 8
-                )
-                .cornerRadius(.infinity)
-                .foregroundStyle(emotion.color)
+        VStack{
+            if emotionStats.isEmpty{
+                Circle()
+                    .stroke(lineWidth: 20)
+                    .fill(.grayCustom.opacity(0.5))
+                    .frame(width: 150)
+            }else{
+                Chart {
+                    ForEach(emotionStats) { stat in
+                        SectorMark(
+                            angle: .value("Count", stat.count),
+                            innerRadius: .ratio(0.70),
+                            angularInset: 8
+                        )
+                        .cornerRadius(.infinity)
+                        .foregroundStyle(ColorMapper.color(from: stat.color))
+                    }
+                }
+                .frame(width: 300)
             }
         }
-        .frame(width: 300)
+
     }
 }
 
 #Preview {
-    DonutDataCell()
+    DonutDataCell(
+        emotionStats: [
+//            EmotionCategoryStats(id: UUID(), title: "Joie", color: "violet", count: 12),
+//            EmotionCategoryStats(id: UUID(), title: "Tristesse", color: "rose", count: 8),
+//            EmotionCategoryStats(id: UUID(), title: "Colère", color: "bleu", count: 5),
+//            EmotionCategoryStats(id: UUID(), title: "Sérénité", color: "orange", count: 10)
+        ]
+    )
 }

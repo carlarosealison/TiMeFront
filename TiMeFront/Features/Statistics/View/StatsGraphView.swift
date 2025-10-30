@@ -10,25 +10,21 @@ import SwiftUI
 struct StatsGraphView: View {
     
     @State private var currentPage = 0
-    let graphs: [[MoodBar]] = [
-        // Graph 1
-        [
-            MoodBar(filledBars: 8, color: .mint),
-            MoodBar(filledBars: 4, color: .red),
-            MoodBar(filledBars: 2, color: Color(red: 0.7, green: 0.6, blue: 0.9)),
-            MoodBar(filledBars: 7, color: .green),
-            MoodBar(filledBars: 5, color: .pink),
-            MoodBar(filledBars: 4, color: .orange),
-            MoodBar(filledBars: 3, color: .purple),
-        ],
-        // Graph 2
-    ]
+    var emotionStats: [EmotionCategoryStats]
+    
+    // Transforme emotionStats en MoodBar pour FullGraphView
+    var moodBars: [MoodBar] {
+        emotionStats.map { stat in
+            MoodBar(filledBars: stat.count, color: ColorMapper.color(from: stat.color))
+        }
+    }
     
     var body: some View {
-        ZStack{
+        ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.whitePurple)
                 .frame(height: 270)
+            
             VStack {
                 Text("Taux")
                     .font(.caption)
@@ -37,19 +33,21 @@ struct StatsGraphView: View {
                     .padding(.leading, 38)
                 
                 TabView(selection: $currentPage) {
-                    ForEach(0..<graphs.count, id: \.self) { index in
-                        FullGraphView(moodBars: graphs[index])
-                            .tag(index)
-                        DonutDataCell()
-                            .tag(index)
-                    }
+                    
+                    // Bar chart basé sur les émotions
+                    FullGraphCell(emotionStats: emotionStats)
+                        .tag(0)
+                    
+                    // Donut chart
+                    DonutDataCell(emotionStats: emotionStats)
+                        .tag(1)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .frame(height: 180)
                 
                 // Indicateurs de page
                 HStack(spacing: 8) {
-                    ForEach(0..<graphs.count, id: \.self) { index in
+                    ForEach(0..<2, id: \.self) { index in
                         Circle()
                             .fill(currentPage == index ? Color("PurpleDark") : Color.gray.opacity(0.3))
                             .frame(width: 8, height: 8)
@@ -64,42 +62,20 @@ struct StatsGraphView: View {
                     .padding(.trailing, 60)
             }
         }
-        
-
     }
 }
 
-struct FullGraphView: View {
-    let moodBars: [MoodBar]
-    
-    var body: some View {
-        HStack(alignment: .bottom, spacing: 12) {
-            // Axe Y
-            VStack(alignment: .trailing, spacing: 2) {
-                ForEach([100, 90, 80, 70, 60, 50, 40, 30, 20, 10], id: \.self) { value in
-                    Text("\(value)")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                        
-                }
-            }
-            
-            // Graphique
-            HStack(alignment: .bottom, spacing: 16) {
-                ForEach(moodBars) { bar in
-                    VStack(spacing: 6) {
-                        ForEach((0..<11).reversed(), id: \.self) { index in
-                            Capsule()
-                                .fill(index < bar.filledBars ? bar.color : Color.gray.opacity(0.15))
-                                .frame(width: 30, height: 8)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 
 #Preview {
-    StatsGraphView()
+    StatsGraphView(
+        emotionStats: [
+            EmotionCategoryStats(id: UUID(), title: "Joie", color: "violet", count: 12),
+            EmotionCategoryStats(id: UUID(), title: "Tristesse", color: "rose", count: 8),
+            EmotionCategoryStats(id: UUID(), title: "Colère", color: "bleu", count: 5),
+            EmotionCategoryStats(id: UUID(), title: "Sérénité", color: "orange", count: 10),
+            EmotionCategoryStats(id: UUID(), title: "Sérénité", color: "bleu", count: 0),
+            EmotionCategoryStats(id: UUID(), title: "Sérénité", color: "rouge", count: 0),
+            EmotionCategoryStats(id: UUID(), title: "Sérénité", color: "vert", count: 4),
+        ]
+    )
 }
