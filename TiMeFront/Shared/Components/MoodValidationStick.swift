@@ -10,6 +10,8 @@ import SwiftUI
 struct MoodValidationStick: View {
     @State var stickColor : String
     @State var emotion : String
+    @State var isSelected : Bool = false
+    @Binding var emotionOTFVM : EmotionOfTheDayViewModel
     
     @State var color = ColorMapper()
     
@@ -24,7 +26,8 @@ struct MoodValidationStick: View {
                         .frame(width: 44, height: 110)
                         .overlay {
                             Button {
-                                //
+                                isSelected.toggle()
+                                
                             } label: {
                                 Circle()
                                     .glassEffect(.regular.tint(ColorMapper.color(from: stickColor)))
@@ -61,10 +64,16 @@ struct MoodValidationStick: View {
 //                    .border(.red)
 //                    .frame(alignment: .trailing)
             }
+        }.task {
+            do{
+                await emotionOTFVM.addEmotionOfTheDay()
+            }
+
+
         }
     }
 }
 
 #Preview {
-    MoodValidationStick(stickColor: "rose", emotion: "Peur")
+    MoodValidationStick(stickColor: "rose", emotion: "Peur", emotionOTFVM: .constant(EmotionOfTheDayViewModel()))
 }

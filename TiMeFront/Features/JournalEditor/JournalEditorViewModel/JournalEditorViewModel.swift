@@ -15,7 +15,10 @@ class JournalEditorViewModel {
     
     //MARK: - Heart Manager
     var sliderHeight : CGFloat = 0
+    var sliderProgress : CGFloat = 0
+    var heartMaxHeight : CGFloat = 105
     
+    var lastDragValue : CGFloat = 0
     //MARK: - FetchEmotion pour les MoodValidationSticks
     func fetchEmotion(){
         

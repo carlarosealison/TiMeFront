@@ -2,16 +2,47 @@
 //  JournalTextEditorView.swift
 //  TiMeFront
 //
-//  Created by Apprenant125 on 29/10/2025.
+//  Created by Carla on 29/10/2025.
 //
 
 import SwiftUI
 
 struct JournalTextEditorView: View {
     @Binding var viewModel : JournalEditorViewModel
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {
-            
+            HStack{
+                Button {
+                    dismiss()
+                } label: {
+                    Circle()
+                        .frame(width: 44)
+                        .foregroundStyle(.grayPurple)
+                        .overlay {
+                            Image(systemName: "xmark")
+                                .foregroundStyle(.purpleText)
+                        }
+                }.buttonStyle(.plain)
+                Spacer()
+                Text("Rédaction")
+                    .semiBoldCardsTitle()
+                Spacer()
+                Button {
+                    //TODO: Bouton pour poster le message
+                } label: {
+                    Circle()
+                        .frame(width: 44)
+                        .foregroundStyle(.purpleText)
+                        .overlay {
+                            Image(systemName: "arrow.up")
+                                .foregroundStyle(.whitePurple)
+                        }
+                }.buttonStyle(.plain)
+
+            }.padding(.horizontal)
+  
+
             ZStack {
                 
                 if #available(iOS 26.0, *) {

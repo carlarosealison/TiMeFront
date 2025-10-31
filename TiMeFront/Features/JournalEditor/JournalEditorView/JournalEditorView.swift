@@ -10,6 +10,8 @@ import SwiftUI
 struct JournalEditorView: View {
     @State var viewModel = JournalEditorViewModel()
     @State var emotionCatVM = EmotionCategoryViewModel()
+    @State var emotionOTDViewModel = EmotionOfTheDayViewModel()
+    @State var emotionVM = EmotionViewModel()
     
     var body: some View {
         ZStack {
@@ -18,16 +20,16 @@ struct JournalEditorView: View {
                 .ignoresSafeArea()
             
             VStack {
-//                Spacer()
+                //                Spacer()
                 
                 HStack {
                     Spacer()
                     
-                                        Text(viewModel.today)
-                                            .font(.system(size: 24))
-                                            .fontWidth(.compressed)
-                                            .foregroundStyle(.purpleText)
-                                            .padding(.trailing, 24)
+                    Text(viewModel.today)
+                        .font(.system(size: 24))
+                        .fontWidth(.compressed)
+                        .foregroundStyle(.purpleText)
+                        .padding(.trailing, 24)
                 }
                 
                 
@@ -49,12 +51,8 @@ struct JournalEditorView: View {
                             //                            .shadow(radius: 3, y: 4)
                                 .overlay {
                                     VStack (alignment: .leading){
-                                        Image(systemName: "heart")
-                                        //                                    .resizable()
-                                        //                                    .aspectRatio(0.7, contentMode: .fit)
-                                            .font(.system(size: 70))
-                                            .foregroundStyle(.purpleButton)
-                                            .padding(.bottom,2)
+                                        HeartMotivationView(viewModel: $viewModel)
+                                                                                
                                         Text("Niveau d'émotion")
                                             .font(.system(size: 12))
                                             .fontWeight(.light)
@@ -63,6 +61,8 @@ struct JournalEditorView: View {
                                             .font(.system(size: 10))
                                             .fontWeight(.thin)
                                             .fontWidth(.expanded)
+                                        
+                                    
                                     }.padding(.trailing,35)
                                     
                                 }.padding(.leading, 24)
@@ -85,11 +85,7 @@ struct JournalEditorView: View {
                             //                            .shadow(radius: 3, y: 4)
                                 .overlay {
                                     VStack (alignment: .leading){
-                                        Image(systemName: "heart")
-                                        //                                    .resizable()
-                                        //                                    .aspectRatio(0.7, contentMode: .fit)
-                                            .font(.system(size: 70))
-                                            .foregroundStyle(.purpleButton)
+                                        HeartMotivationView(viewModel: $viewModel)
                                             .padding(.bottom,2)
                                         Text("Niveau d'émotion")
                                             .font(.system(size: 12))
@@ -108,8 +104,9 @@ struct JournalEditorView: View {
                         
                     }
                     HStack(spacing: -10){
-                        MoodValidationStick(stickColor: "rose", emotion: "Emerveillée")
-                        MoodValidationStick(stickColor: "rose", emotion: "Joyeuse")
+//                        ForEach(emotionCatVM.emotionsCategory) { emotion in
+//                            <#code#>
+//                        }
                     }
                     
                 }
@@ -184,8 +181,8 @@ struct JournalEditorView: View {
             
             
         }
-//        .navigationTitle(viewModel.today)
-//        .navigationBarTitleDisplayMode(.inline)
+        //        .navigationTitle(viewModel.today)
+        //        .navigationBarTitleDisplayMode(.inline)
         //        .toolbar {
         //            Text(viewModel.today)
         //                .font(.system(size: 24))
