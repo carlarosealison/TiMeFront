@@ -16,7 +16,7 @@ struct UserRequest: Codable{
     var imageProfil: String?
 }
 
-//DTO uniquement pour la streak
+//DTO uniquement pour la streak du user
 struct UserStreakDTO: Codable{
     var streak: Int
 }
