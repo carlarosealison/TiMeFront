@@ -52,9 +52,12 @@ struct MoodValidationStick: View {
                 }
                 Text(emotion)
                     .textCards()
+                    .lineLimit(1)
+                    .allowsTightening(true)
+                    .minimumScaleFactor(0.3)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .layoutPriority(1)
                     .padding([.leading, .bottom], 40)
-//                    .border(.red)
-//                    .frame(alignment: .trailing)
             }
         }
     }

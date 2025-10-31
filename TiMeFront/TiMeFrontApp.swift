@@ -16,10 +16,11 @@ struct TiMeFrontApp: App {
     @State private var userVM = UserViewModel()  // ← Ajoute ceci
     var body: some Scene {
         WindowGroup {
-
-                ContentView()
-                .environment(authVM)
-                .environment(userVM)
+            
+            EmotionListView()
+//                ContentView()
+//                .environment(authVM)
+//                .environment(userVM)
             }
         }
     }
