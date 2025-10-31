@@ -30,7 +30,7 @@ class StatementViewModel {
             
             guard let httpResponse = response as? HTTPURLResponse,
                   httpResponse.statusCode == 200 else {
-                errorMessage = "Erreur serveur"
+                errorMessage = "Aucune donnée disponible"
                 isLoading = false
                 return
             }
