@@ -61,7 +61,6 @@ struct ChallengeCardSelector: View {
 #Preview {
     VStack(spacing: 20) {
         // Preview avec bocal (pas de challenge)
-        Text("Aucun challenge")
         ChallengeCardSelector(
             challengeViewModel: {
                 let vm = ChallengeViewModel()
@@ -73,7 +72,6 @@ struct ChallengeCardSelector: View {
         )
         
         // Preview du challenge en cours (non complété)
-        Text("Challenge actif")
         ChallengeCardSelector(
             challengeViewModel: {
                 let vm = ChallengeViewModel()
@@ -90,7 +88,6 @@ struct ChallengeCardSelector: View {
         )
         
         // Preview du challenge validé
-        Text("Challenge complété")
         ChallengeCardSelector(
             challengeViewModel: {
                 let vm = ChallengeViewModel()

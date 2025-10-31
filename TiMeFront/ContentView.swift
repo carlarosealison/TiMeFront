@@ -10,6 +10,8 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct ContentView: View {
     @Environment(AuthViewModel.self) var authVM
+    @State private var journalEditVM = JournalEditorViewModel()
+    @State private var challengeVM = ChallengeViewModel()
     
     var body: some View {
         Group {
@@ -19,7 +21,9 @@ struct ContentView: View {
                   AuthentificationView()
               }
           }
-          .animation(.easeInOut, value: authVM.isAuthenticated)
+        .environment(journalEditVM)
+        .environment(challengeVM)
+        .animation(.easeInOut, value: authVM.isAuthenticated)
     }
 }
 
@@ -27,7 +31,5 @@ struct ContentView: View {
     if #available(iOS 26.0, *) {
         ContentView()
                 .environment(AuthViewModel())
-    } else {
-        // Fallback on earlier versions
     }
 }

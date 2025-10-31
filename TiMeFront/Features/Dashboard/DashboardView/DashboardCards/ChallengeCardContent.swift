@@ -17,6 +17,7 @@ struct ChallengeCardContent: View {
         ZStack {
             VStack(alignment: .leading, spacing: 12) {
                 Text(showSuccess ? "Défi réussi !" : title)
+                    .font(.system(size: 14))
                     .fontWidth(.expanded)
                     .fontWeight(.semibold)
                     .foregroundStyle(showSuccess ? .white : Color("PurpleText"))
@@ -24,13 +25,16 @@ struct ChallengeCardContent: View {
                 Spacer()
                 
                 Text(description)
+                    .font(.system(size: 12))
                     .fontWidth(.expanded)
                     .fontWeight(.light)
-                    .lineLimit(4)
+                    .lineLimit(5)
+                    .minimumScaleFactor(0.8)
+                    .multilineTextAlignment(.leading)
                 
                 Spacer(minLength: 0)
             }
-            .padding()
+            .padding(12)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
         .overlay(alignment: .topTrailing) {

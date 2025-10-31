@@ -3,7 +3,7 @@
 //  TiMeFront
 //
 //  Created by Apprenant125 on 12/09/2025.
-////
+//
 //
 import SwiftUI
 import CoreMotion
@@ -13,13 +13,15 @@ import CoreMotion
 struct TiMeFrontApp: App {
     
     @State private var authVM = AuthViewModel()
-    @State private var userVM = UserViewModel()  // ← Ajoute ceci
+    @State private var userVM = UserViewModel()
+    @State private var challengeVM = ChallengeViewModel()
     var body: some Scene {
         WindowGroup {
 
             ContentView()
                 .environment(authVM)
                 .environment(userVM)
+                .environment(challengeVM)
             }
         }
     }

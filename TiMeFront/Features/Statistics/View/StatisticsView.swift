@@ -9,55 +9,69 @@ import SwiftUI
 
 @available(iOS 26.0, *)
 struct StatisticsView: View {
-    
+    @Environment(AuthViewModel.self) var authVM
     @State var statVM = StatisticsViewModel()
     
     var body: some View {
-        ZStack{
+        ZStack {
             GradientBackgroundView()
+<<<<<<< HEAD:TiMeFront/Features/Statistics/StatisticsView.swift
             VStack(spacing: 30){
 //                TitleForm(title: "Statistiques", isWelcome: false)
+=======
+            VStack(spacing: 30) {
+                Text("Statistiques")
+                    .semiBoldTitle()
+>>>>>>> main:TiMeFront/Features/Statistics/View/StatisticsView.swift
                 
                 headerFilterDate
                 
                 chartOrCardsData(type: .chart)
-                
                 chartOrCardsData(type: .card)
-                
             }
             .padding(.top)
         }
+<<<<<<< HEAD:TiMeFront/Features/Statistics/StatisticsView.swift
         .ignoresSafeArea()
         .navigationTitle("Mes statistiques")
+=======
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea()
+        .task {
+            statVM.authVM = authVM
+            statVM.setupRepo()
+            
+            await statVM.streakTotal()
+            await statVM.fetchPageTotal()
+            await statVM.fetchEmotionCategoryStat()
+        }
+>>>>>>> main:TiMeFront/Features/Statistics/View/StatisticsView.swift
     }
     
     struct ButtonFilter: View {
         let name: String
-        let isFilter : Bool
-        let action: ()-> Void
+        let isFilter: Bool
+        let action: () -> Void
+
         var body: some View {
-            HStack{
-                Button {
-                    action()
-                } label: {
-                    Text(name)
-                        .font(.system(size: 14).width(.expanded))
-                        .foregroundStyle(.purpleText)
-                        .bold()
-                        .padding()
-                        .frame( maxWidth: isFilter ? 140 : 130, maxHeight:40)
-                        .animation(.linear(duration: 0.9), value: isFilter)
-                        .overlay {
-                            if isFilter{
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(.white)
-                                    .frame(width: 115, height: 28)
-                                Text(name)
-                                    .foregroundStyle(.purpleText)
-                                    .bold()
-                            }
+            Button(action: action) {
+                Text(name)
+                    .font(.system(size: 14).width(.expanded))
+                    .foregroundStyle(.purpleText)
+                    .bold()
+                    .padding()
+                    .frame(maxWidth: isFilter ? 140 : 130, maxHeight: 40)
+                    .overlay {
+                        if isFilter {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(.white)
+                                .frame(width: 115, height: 28)
+                            Text(name)
+                                .foregroundStyle(.purpleText)
+                                .bold()
                         }
-                }
+                    }
+                    .animation(.linear(duration: 0.3), value: isFilter)
             }
         }
     }
@@ -89,50 +103,65 @@ struct StatisticsView: View {
         }
     }
     
-    var headerFilterDate: some View{
+    var headerFilterDate: some View {
         RoundedRectangle(cornerRadius: 20)
             .fill(.gray.opacity(0.2))
-        //.glassEffect()
             .overlay {
-                HStack{
+                HStack(spacing: 0) {
                     ButtonFilter(name: "Semaine", isFilter: statVM.dateSelect == .week) {
-                        statVM.dateSelect = .week
+                        Task {
+                            statVM.dateSelect = .week
+                            await statVM.fetchEmotionCategoryStat()
+                        }
                     }
                     Divider()
                     ButtonFilter(name: "Mois", isFilter: statVM.dateSelect == .month) {
-                        statVM.dateSelect = .month
+                        Task {
+                            statVM.dateSelect = .month
+                            await statVM.fetchEmotionCategoryStat()
+                        }
                     }
                     Divider()
                     ButtonFilter(name: "Année", isFilter: statVM.dateSelect == .year) {
-                        statVM.dateSelect = .year
+                        Task {
+                            statVM.dateSelect = .year
+                            await statVM.fetchEmotionCategoryStat()
+                        }
                     }
                 }
                 .frame(width: 360, height: 36)
             }
             .frame(width: 378, height: 36)
     }
+
+
     
     @ViewBuilder
-    func chartOrCardsData(type: StatisticsViewModel.StatsType) -> some View{
-        switch type{
+    func chartOrCardsData(type: StatisticsViewModel.StatsType) -> some View {
+        switch type {
         case .chart:
-            VStack{
+            VStack {
                 textDescription(description: "Changements d'humeurs", isShowInfo: true)
-                StatsGraphView()
+                StatsGraphView(emotionStats: statVM.emotionCategoryStats)
                     .padding(.horizontal)
             }
         case .card:
-            VStack{
-                textDescription(description: "Chiffres clès", isShowInfo: false)
-                GridCardDataCell()
+            VStack {
+                textDescription(description: "Chiffres clés", isShowInfo: false)
+                GridCardDataView(
+                    pages: statVM.pages,
+                    streak: statVM.streak, notes: statVM.notes, average: statVM.average,
+                    challengeSuccessful: statVM.challengeNumber
+                )
             }
         }
     }
-}
+ }
 
 #Preview {
     if #available(iOS 26.0, *) {
         StatisticsView()
+            .environment(AuthViewModel())
     } else {
         // Fallback on earlier versions
     }

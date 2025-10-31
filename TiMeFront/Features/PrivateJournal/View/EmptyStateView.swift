@@ -41,7 +41,6 @@ struct EmptyStateView: View {
                 }
             }
             if isToday {
-                NavigationLink(destination: JournalEditorView()){
                     HStack {
                         Image(systemName: "plus.circle.fill")
                         Text("Ajouter des données")
@@ -52,7 +51,6 @@ struct EmptyStateView: View {
                     .padding(.vertical, 12)
                     .background(Color("PurpleButton"))
                     .cornerRadius(12)
-                }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -42,12 +42,17 @@ struct JarView: View {
 
 struct BallsView: View {
     @Binding var navigationPath: NavigationPath
+<<<<<<< HEAD
+=======
+    @Environment(ChallengeViewModel.self) var challengeVM
+>>>>>>> main
     @State var navManager = NavigationManager()
     var scene : SKScene {
         let scene = JarViewModelContainer()
         scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         scene.backgroundColor = .whitePurple
         scene.navManager = navManager
+        scene.challengeVM = challengeVM
         
         return scene
     }
@@ -56,7 +61,11 @@ struct BallsView: View {
         SpriteView(scene: scene)
             .ignoresSafeArea()
             .onShakeGesture {
+<<<<<<< HEAD
                 print("Device has been shaken!")
+=======
+                print("L' appareil a été secoué !")
+>>>>>>> main
             }
             //        .matchedTransitionSource(id: <#T##Hashable#>, in: <#T##Namespace.ID#>)
         

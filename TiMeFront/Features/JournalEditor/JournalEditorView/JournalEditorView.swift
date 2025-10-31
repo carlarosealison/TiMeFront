@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct JournalEditorView: View {
-    @State var viewModel = JournalEditorViewModel()
+    @Environment(JournalEditorViewModel.self) var journalEditVM
     @State var emotionCatVM = EmotionCategoryViewModel()
+<<<<<<< HEAD
     @State var emotionOTDViewModel = EmotionOfTheDayViewModel()
     @State var emotionVM = EmotionViewModel()
     
@@ -21,6 +22,14 @@ struct JournalEditorView: View {
             
             VStack {
                 //                Spacer()
+=======
+    
+    var body: some View {
+            ZStack {
+                Image(.backgroundDots)
+                    .resizable()
+                    .ignoresSafeArea()
+>>>>>>> main
                 
                 HStack {
                     Spacer()
@@ -129,6 +138,7 @@ struct JournalEditorView: View {
                                         .foregroundStyle(.whitePurple)
                                         .font(.system(size: 35))
                                 }
+<<<<<<< HEAD
                         }.buttonStyle(.plain)
                             .sheet(isPresented: $viewModel.showSheet) {
                                 JournalTextEditorView(viewModel: $viewModel)                                }
@@ -145,6 +155,41 @@ struct JournalEditorView: View {
                             }
                     }
                 }.padding(.bottom, 40)
+=======
+                        } else {
+                            RoundedRectangle(cornerRadius: 20)
+                                .frame(width: 350, height: 90)
+                                .foregroundStyle(.purpleButton)
+                                .overlay {
+                                    Image(systemName: "pencil.and.scribble")
+                                        .foregroundStyle(.whitePurple)
+                                        .font(.system(size: 35))
+                                }
+                        }
+                    }.padding(.bottom, 40)
+
+                    
+                    VStack {
+                        HStack {
+                            Text("Motivation")
+                                .semiBold()
+                                .padding(.leading, 24)
+                                .padding(.bottom, 5)
+                            
+                            Spacer()
+                        }
+
+                        ScrollMotivation(viewModel: journalEditVM)
+
+                    }
+                    .padding(.bottom)
+
+
+                    PurpleButton(withArrow: false, buttonFuncText: "Enregistrer")
+                    
+                    
+                }
+>>>>>>> main
                 
                 
                 VStack {
@@ -192,4 +237,9 @@ struct JournalEditorView: View {
 
 #Preview {
     JournalEditorView()
+<<<<<<< HEAD
+=======
+        .environment(JournalEditorViewModel())
+        .environment(ChallengeViewModel())
+>>>>>>> main
 }

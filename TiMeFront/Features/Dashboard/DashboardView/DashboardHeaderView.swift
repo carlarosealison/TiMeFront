@@ -14,14 +14,13 @@ struct DashboardHeaderView: View {
     
     var body: some View {
         HStack {
-            ProfileImageView(
-                imageURL: userImageURL
-            )
+            ProfileImageView()
             
             VStack(alignment: .leading) {
-                if let user = authVM.currentUser{
-                    Text(user.userName)
-                }else{
+                if let user = authVM.currentUser {
+                    Text("Bonjour \(user.userName)")
+                        .semiBoldCardsTitle()
+                } else {
                     Text("invité")
                 }
                 
@@ -34,10 +33,6 @@ struct DashboardHeaderView: View {
                 ))
                     .font(.caption)
                     .foregroundColor(.secondary)
-            }
-            .task {
-                // Charger les infos utilisateur
-//                await authManager.loadCurrentUser()
             }
             
             Spacer()

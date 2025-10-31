@@ -24,14 +24,50 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
         self.authViewModel = authViewModel
     }
     
+<<<<<<< HEAD
     func fetchRandomChallengeOfTheDay() async throws {
         do{
             let challengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
             challengeOTD = challengeOfTheDay
+=======
+    func fetchRandomChallengeOfTheDay() async throws -> ChallengeOfTheDayResult {
+        
+        let challengeIndex = try await challengeRepo.randomChallenge()
+        let finalChallengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
+        _ = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeIndex.id)
+
+        do{
+            //je récupre le challenge en .random
+            let challengeIndex = try await challengeRepo.randomChallenge()
+            
+            // je post le challenge récupéré afin de l'assigner comme challenge du jour
+            let postChallengeOTD = try await challengeOTDRepo.postRandomChallengeOfTheDay(dateExp: Date.now, instruction: challengeIndex.instruction, messageMotivation: challengeIndex.messageMotivation, id_user: authViewModel.currentUser?.id ?? UUID() , id_challenge: challengeIndex.id)
+>>>>>>> main
             
             DispatchQueue.main.async {
-                self.challengeOTD = challengeOfTheDay
+                self.challengeOTD = postChallengeOTD
+                self.challengeOTD = finalChallengeOfTheDay
             }
+<<<<<<< HEAD
+=======
+            
+            // je récupère le challenge du jour pour l'injecter dans mon UI
+            let challengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
+            
+            //je vérifie que le challenge instencié comme challenge du jour n'a pas dépassé la date du jour
+            if challengeOfTheDay.dateExp == Date.now {
+                return .challenge(finalChallengeOfTheDay)
+            }
+            
+            // autrement, je le supprime en tant que challenge du jour
+            else {
+                _ = try await challengeOTDRepo.deleteChallengeForToday(challengeID: challengeIndex.id)
+                return .delete(DeleteResponse(success: true))
+            }
+            
+            
+            
+>>>>>>> main
         }
         
         catch{

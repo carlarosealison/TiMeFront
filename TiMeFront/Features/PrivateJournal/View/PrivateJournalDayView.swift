@@ -103,7 +103,6 @@ struct PrivateJournalDayView: View {
                     
                 } else {
                         // Placeholder vide
-                    NavigationLink(destination: JournalEditorView()) {
                         VStack(spacing: 12) {
                             Image(systemName: "square.and.pencil")
                                 .font(.system(size: 40))
@@ -120,7 +119,6 @@ struct PrivateJournalDayView: View {
                             RoundedRectangle(cornerRadius: 20)
                                 .stroke(Color("PurpleText").opacity(0.2), style: StrokeStyle(lineWidth: 2, dash: [5]))
                         )
-                    }
                 }
             }
             
