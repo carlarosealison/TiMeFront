@@ -5,12 +5,6 @@
 //  Created by Thibault on 30/10/2025.
 //
 
-
-//
-//  ShelfView.swift
-//  TiMeFront
-//
-
 import SwiftUI
 
 /// Une étagère en bois (la planche horizontale)
@@ -20,8 +14,7 @@ struct ShelfView: View {
             .fill(
                 LinearGradient(
                     colors: [
-                        Color(red: 0.6, green: 0.4, blue: 0.2),
-                        Color(red: 0.5, green: 0.3, blue: 0.15)
+                        Color(.purpleButton)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
@@ -35,4 +28,8 @@ struct ShelfView: View {
             }
             .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 3)
     }
+}
+
+#Preview {
+    ShelfView()
 }

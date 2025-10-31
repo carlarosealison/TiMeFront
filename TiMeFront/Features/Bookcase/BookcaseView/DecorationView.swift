@@ -2,6 +2,8 @@
 //  DecorationView.swift
 //  TiMeFront
 //
+//  Created by Thibault on 30/10/2025.
+//
 
 import SwiftUI
 

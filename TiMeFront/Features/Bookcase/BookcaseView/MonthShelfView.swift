@@ -2,26 +2,22 @@
 //  MonthShelfView.swift
 //  TiMeFront
 //
-//  Created by Thibault on 30/10/2025.
-//
 
 import SwiftUI
 
-/// Vue d'une étagère de mois (composant de présentation)
+@available(iOS 26.0, *)
 struct MonthShelfView: View {
     let monthData: BookcaseViewModel.MonthData
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            // En-tête du mois
+        VStack(spacing: 0) {
             Text("\(monthData.monthName) \(monthData.year)")
-                .font(.system(size: 24, weight: .bold))
+                .font(.system(size: 18, weight: .bold))
                 .fontWidth(.expanded)
                 .foregroundStyle(Color("PurpleDark"))
-                .padding(.leading, 20)
+                .padding(.bottom, 10)
             
-            // Étagère de livres
-            HStack(spacing: 16) {
+            HStack(spacing: 12) {
                 ForEach(monthData.books) { book in
                     NavigationLink {
                         PrivateJournalWeekView(
@@ -35,24 +31,11 @@ struct MonthShelfView: View {
                 }
             }
             .padding(.horizontal, 20)
+            .padding(.bottom, 10)
+            
+            ShelfView()
+                .padding(.horizontal, 10)
         }
-        .frame(maxHeight: .infinity, alignment: .top)
     }
 }
 
-#Preview {
-    let monthData = BookcaseViewModel.MonthData(
-        month: 10,
-        year: 2025,
-        books: [
-            Book(weekNumber: 1, month: 10, year: 2025),
-            Book(weekNumber: 2, month: 10, year: 2025),
-            Book(weekNumber: 3, month: 10, year: 2025),
-            Book(weekNumber: 4, month: 10, year: 2025)
-        ]
-    )
-    
-    NavigationStack {
-        MonthShelfView(monthData: monthData)
-    }
-}

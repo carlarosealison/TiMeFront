@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 26.0, *)
 struct RecordView: View {
     @Environment(\.dismiss) var dismiss
     @State private var isRecording = false
@@ -94,12 +95,12 @@ struct RecordView: View {
                 if !isRecording && recordingTime > 0 {
                     Button(action: saveRecording) {
                         HStack(spacing: 12) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.system(size: 20))
-                            
-                            Text("Enregistrer")
-                                .font(.system(size: 18, weight: .semibold).width(.expanded))
-                        }
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 20))
+                                
+                                Text("Enregistrer")
+                                    .font(.system(size: 18, weight: .semibold).width(.expanded))
+                            }
                         .foregroundStyle(Color("PurpleButton"))
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)
@@ -121,7 +122,7 @@ struct RecordView: View {
         }
         .alert("Enregistrement sauvegardé", isPresented: $showSaveAlert) {
             Button("OK", role: .cancel) {
-                recordingTime = 0
+                    recordingTime = 0
             }
         } message: {
             Text("Votre enregistrement vocal a été sauvegardé avec succès !")
@@ -147,7 +148,7 @@ struct RecordView: View {
             recordingTime += 0.1
         }
         
-            // Timer pour l'animation de la waveform
+            // Timer pour l'animation de la forme
         animationTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
             for i in 0..<waveformHeights.count {
                 waveformHeights[i] = CGFloat.random(in: 20...80)
@@ -165,7 +166,7 @@ struct RecordView: View {
     }
     
     private func saveRecording() {
-        print("🎙️ Enregistrement sauvegardé : \(formatTime(recordingTime))")
+        print("Enregistrement sauvegardé : \(formatTime(recordingTime))")
         showSaveAlert = true
     }
     

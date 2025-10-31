@@ -78,9 +78,11 @@ struct DashboardView: View {
 }
 
 #Preview {
+        let previewBookColor: BookColor = .purple
+
     if #available(iOS 26.0, *) {
         DashboardView()
             .environment(AuthViewModel())
             .environment(ChallengeViewModel())
     }
-}
+    }
