@@ -39,7 +39,19 @@ struct ValidateChallenge: View {
                                     .foregroundStyle(.greenCustom)
                             }
                         
-                    }
+                    }.gesture(
+                        DragGesture()
+                            .onChanged({ gesture in
+                                let dragWidth = gesture.translation.width
+                                
+                                let minX = CGFloat(0)
+                                let maxX = UIScreen.main.bounds.width - 165
+                                
+                                
+                                
+                                
+                            })
+                    )
                     .padding(.horizontal, 45)
             }
             

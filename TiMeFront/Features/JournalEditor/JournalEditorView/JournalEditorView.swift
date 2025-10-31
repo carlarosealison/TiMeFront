@@ -104,9 +104,10 @@ struct JournalEditorView: View {
                         
                     }
                     HStack(spacing: -10){
-//                        ForEach(emotionCatVM.emotionsCategory) { emotion in
-//                            <#code#>
-//                        }
+                        ForEach(emotionVM.randomEmotions, id: \.self) { emotion in
+                            MoodValidationStick(stickColor: "rose", emotion: emotion.title, emotionOTFVM: $emotionOTDViewModel)
+                        }
+                        MoodValidationStick(stickColor: "rose", emotion: "joyeuse", emotionOTFVM: $emotionOTDViewModel)
                     }
                     
                 }
@@ -168,12 +169,8 @@ struct JournalEditorView: View {
             
             .task {
                 do{
-                    try await emotionCatVM.fetchEmotionCategory()
+                      emotionVM.fetchRandomEmotions()
                 }
-                catch{
-                    print("error while fetching emotionCategory : \(error.localizedDescription)")
-                }
-                
             }
             
             

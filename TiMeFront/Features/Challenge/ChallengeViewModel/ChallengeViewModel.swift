@@ -53,6 +53,9 @@ class ChallengeViewModel: @unchecked Sendable {
         isLoading = false
     }
     
+    //MARK: - ValidateChallenge
+    
+    
 //    // Charge le challenge actuel au démarrage
 //    func loadCurrentChallenge() async {
 //        // Pour l'instant, on simule qu'il n'y a pas de challenge

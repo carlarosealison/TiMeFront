@@ -7,20 +7,33 @@
 
 import Foundation
 
-struct EmotionViewModel: @unchecked Sendable{
-    var emotion : EmotionModel?
-    private let emotionRepo = EmotionRepo()
+@Observable
+class EmotionViewModel: @unchecked Sendable{
+    var randomEmotions : [EmotionResponseDTO] = []
     
-    mutating func fetchRandomEmotions() async throws {
-//        do{
-//            let emotions = try await emotionRepo.getRandomEmotions()
-//            var randomEmotions : [EmotionModel] = []
-//            randomEmotions.append(emotions)
-//            
-//            DispatchQueue.main.async {
-//                self.emotion = randomEmotions
-//            }
-//        }catch{
-//            
-//        }
-    }}
+    func fetchRandomEmotions() {
+        guard let url = URL(string: "http://127.0.0.1:8080/emotion/random") else {
+            print("invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                do{
+                    let decodedEmotions = try JSONDecoder().decode([EmotionResponseDTO].self, from: data)
+                    DispatchQueue.main.async {
+                        self.randomEmotions = decodedEmotions
+                    }
+                }
+                catch{
+                    print("error while decoding data: \(error.localizedDescription)")
+                }
+            }
+            else if let error = error {
+                print("error whule fetching: \(error.localizedDescription)")
+            }
+            
+        }.resume()
+    }
+
+    }
