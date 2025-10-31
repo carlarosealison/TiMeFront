@@ -26,11 +26,7 @@ struct StatsGraphView: View {
                 .frame(height: 270)
             
             VStack {
-                Text("Taux")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 38)
+            
                 
                 TabView(selection: $currentPage) {
                     
@@ -43,7 +39,7 @@ struct StatsGraphView: View {
                         .tag(1)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                .frame(height: 180)
+                .frame(height: 200)
                 
                 // Indicateurs de page
                 HStack(spacing: 8) {
@@ -54,12 +50,6 @@ struct StatsGraphView: View {
                             .animation(.easeInOut, value: currentPage)
                     }
                 }
-                
-                Text("Humeurs")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding(.trailing, 60)
             }
         }
     }
