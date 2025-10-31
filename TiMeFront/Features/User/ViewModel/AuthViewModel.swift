@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@MainActor
 @Observable
 class AuthViewModel {
     var isAuthenticated = false
