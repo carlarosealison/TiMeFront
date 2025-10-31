@@ -38,5 +38,13 @@ struct StatService {
           }
           return try await apiService.getToken(endpoint: "/users/average", token: token, as: StatDTO.self)
       }
+    
+    
+    func getEmotionStats() async throws -> [EmotionCategoryStatsResponseDTO] {
+          guard let token = authVM?.token else {
+              throw NSError(domain: "AuthError", code: 401, userInfo: [NSLocalizedDescriptionKey: "Token non disponible. Connectez-vous."])
+          }
+          return try await apiService.getToken(endpoint: "/users/emotionStats", token: token, as: [EmotionCategoryStatsResponseDTO].self)
+      }
 }
 

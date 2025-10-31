@@ -41,4 +41,6 @@ struct UserService{
     func updateUser(userRequest: UserRequest) async throws -> UserResponse {
         try await api.put(endpoint: "users", body: userRequest)
     }
+    
+    
 }
