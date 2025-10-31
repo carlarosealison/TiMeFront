@@ -17,9 +17,9 @@ class EmotionRepo {
         return mapper.mapToModel(response)
     }
     
-//    func getRandomEmotions() async throws -> [EmotionResponseDTO]{
-//        let response = try await emotionService.getRandomEmotions()
-//        return mapper.mapToModel(response)
-//    }
+    func getRandomEmotions() async throws -> [EmotionModel]{
+        let response = try await emotionService.getRandomEmotions()
+        return mapper.mapEmotionsResponse(register: try EmotionResponseDTO(from: response as! Decoder))
+    }
 
 }

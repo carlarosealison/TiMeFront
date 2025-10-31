@@ -16,8 +16,10 @@ struct EmotionMapper {
         )
     }
     
-    func mapEmotionsResponse(register : EmotionResponseDTO) -> [EmotionModel ] {
-        let emotionsResponse = [EmotionModel(id: register.id ?? UUID(), title: register.title, categoryID: register.categoryID)]
+    func mapEmotionsResponse(register : EmotionResponseDTO) -> [EmotionModel] {
+        let emotionsResponse = [
+            EmotionModel(id: register.id ?? UUID(), title: register.title, categoryID: register.categoryID)
+        ]
         return emotionsResponse
     }
 }

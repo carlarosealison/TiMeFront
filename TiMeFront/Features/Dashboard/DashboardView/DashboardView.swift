@@ -1,9 +1,9 @@
-//
-//  DashboardView.swift
-//  TiMeFront
-//
-//  Created by Thibault on 26/09/2025.
-//
+    //
+    //  DashboardView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 26/09/2025.
+    //
 
 import SwiftUI
 import CoreMotion
@@ -52,7 +52,11 @@ struct DashboardView: View {
     private func destinationView(for destination: DashboardDestination) -> some View {
         switch destination {
             case .challenge:
+<<<<<<< HEAD
+                ChallengeView(/*navigationPath: $navigationPath*/)
+=======
                 ChallengeView(navigationPath: $navigationPath)
+>>>>>>> main
             case .books:
                 BookcaseView()
             case .streak:
@@ -60,9 +64,15 @@ struct DashboardView: View {
             case .graph:
                 StatisticsView()
             case .journal:
+<<<<<<< HEAD
+            JournalEditorView()
+            case .microphone:
+            JournalEditorView()
+=======
                 JournalEditorView()
             case .microphone:
                 RecordView()
+>>>>>>> main
             case .jarChallenge:
                 JarView(navigationPath: $navigationPath)
             case .profile:
@@ -83,6 +93,11 @@ struct DashboardView: View {
     if #available(iOS 26.0, *) {
         DashboardView()
             .environment(AuthViewModel())
+<<<<<<< HEAD
+    } else {
+            // Fallback on earlier versions
+=======
             .environment(ChallengeViewModel())
     }
+>>>>>>> main
     }

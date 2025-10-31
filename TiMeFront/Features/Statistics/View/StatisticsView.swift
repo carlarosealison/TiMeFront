@@ -15,9 +15,14 @@ struct StatisticsView: View {
     var body: some View {
         ZStack {
             GradientBackgroundView()
+<<<<<<< HEAD:TiMeFront/Features/Statistics/StatisticsView.swift
+            VStack(spacing: 30){
+//                TitleForm(title: "Statistiques", isWelcome: false)
+=======
             VStack(spacing: 30) {
                 Text("Statistiques")
                     .semiBoldTitle()
+>>>>>>> main:TiMeFront/Features/Statistics/View/StatisticsView.swift
                 
                 headerFilterDate
                 
@@ -26,6 +31,10 @@ struct StatisticsView: View {
             }
             .padding(.top)
         }
+<<<<<<< HEAD:TiMeFront/Features/Statistics/StatisticsView.swift
+        .ignoresSafeArea()
+        .navigationTitle("Mes statistiques")
+=======
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea()
         .task {
@@ -36,6 +45,7 @@ struct StatisticsView: View {
             await statVM.fetchPageTotal()
             await statVM.fetchEmotionCategoryStat()
         }
+>>>>>>> main:TiMeFront/Features/Statistics/View/StatisticsView.swift
     }
     
     struct ButtonFilter: View {

@@ -12,8 +12,7 @@ struct EmotionService {
     private let api = APIService()
     
     func getRandomEmotions() async throws -> [EmotionResponseDTO]{
-        try await api.get(endpoint: "random", as: [EmotionResponseDTO].self)
-        
+        try await api.get(endpoint: "emotion/random", as: [EmotionResponseDTO].self)
     }
 
     

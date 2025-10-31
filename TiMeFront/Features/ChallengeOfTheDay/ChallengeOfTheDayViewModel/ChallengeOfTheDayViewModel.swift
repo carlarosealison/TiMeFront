@@ -24,6 +24,12 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
         self.authViewModel = authViewModel
     }
     
+<<<<<<< HEAD
+    func fetchRandomChallengeOfTheDay() async throws {
+        do{
+            let challengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
+            challengeOTD = challengeOfTheDay
+=======
     func fetchRandomChallengeOfTheDay() async throws -> ChallengeOfTheDayResult {
         
         let challengeIndex = try await challengeRepo.randomChallenge()
@@ -36,11 +42,14 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
             
             // je post le challenge récupéré afin de l'assigner comme challenge du jour
             let postChallengeOTD = try await challengeOTDRepo.postRandomChallengeOfTheDay(dateExp: Date.now, instruction: challengeIndex.instruction, messageMotivation: challengeIndex.messageMotivation, id_user: authViewModel.currentUser?.id ?? UUID() , id_challenge: challengeIndex.id)
+>>>>>>> main
             
             DispatchQueue.main.async {
                 self.challengeOTD = postChallengeOTD
                 self.challengeOTD = finalChallengeOfTheDay
             }
+<<<<<<< HEAD
+=======
             
             // je récupère le challenge du jour pour l'injecter dans mon UI
             let challengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
@@ -58,11 +67,15 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
             
             
             
+>>>>>>> main
         }
         
         catch{
-            print("Erreur lors du fetch : \(error)")
-            return .error(URLError(.unknown))
+            print("Erreur lors du fetch : \(error.localizedDescription)")
         }
+        
     }
+    
+    
 }
+

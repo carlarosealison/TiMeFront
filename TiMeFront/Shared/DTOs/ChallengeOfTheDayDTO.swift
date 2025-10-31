@@ -12,7 +12,7 @@ struct ChallengeOfTheDayRequestDTO : Codable {
     let instruction: String
     let messageMotivation: String
     let id_user: UUID
-    let id_chellenge: UUID
+    let id_challenge: UUID
 }
 
 struct ChallengeOfTheDayResponseDTO : Decodable {
@@ -21,5 +21,5 @@ struct ChallengeOfTheDayResponseDTO : Decodable {
     let instruction: String
     let messageMotivation: String
     let id_user: UUID
-    let id_chellenge: UUID
+    let id_challenge: UUID
 }

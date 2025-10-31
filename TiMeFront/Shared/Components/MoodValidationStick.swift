@@ -10,6 +10,8 @@ import SwiftUI
 struct MoodValidationStick: View {
     @State var stickColor : String
     @State var emotion : String
+    @State var isSelected : Bool = false
+    @Binding var emotionOTFVM : EmotionOfTheDayViewModel
     
     @State var color = ColorMapper()
     
@@ -23,15 +25,21 @@ struct MoodValidationStick: View {
                         .glassEffect(.regular.tint(ColorMapper.color(from: stickColor)))
                         .frame(width: 44, height: 110)
                         .overlay {
-                            
-                            Circle()
-                                .glassEffect(.regular.tint(ColorMapper.color(from: stickColor)))
-                                .frame(width: 44)
-                                .overlay {
-                                    Image(systemName: "plus")
-                                        .font(.system(size: 20))
-                                }
-                                .padding([.leading, .top], 45)
+                            Button {
+                                isSelected.toggle()
+                                
+                            } label: {
+                                Circle()
+                                    .glassEffect(.regular.tint(ColorMapper.color(from: stickColor)))
+                                    .frame(width: 44)
+                                    .overlay {
+                                        Image(systemName: "plus")
+                                            .font(.system(size: 20))
+                                    }
+                                    .padding([.leading, .top], 45)
+                            }.buttonStyle(.plain)
+
+
 
                         }
                 } else {
@@ -56,10 +64,16 @@ struct MoodValidationStick: View {
 //                    .border(.red)
 //                    .frame(alignment: .trailing)
             }
+        }.task {
+            do{
+                await emotionOTFVM.addEmotionOfTheDay()
+            }
+
+
         }
     }
 }
 
 #Preview {
-    MoodValidationStick(stickColor: "rose", emotion: "Peur")
+    MoodValidationStick(stickColor: "rose", emotion: "Peur", emotionOTFVM: .constant(EmotionOfTheDayViewModel()))
 }

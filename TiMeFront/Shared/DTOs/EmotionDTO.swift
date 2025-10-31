@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EmotionResponseDTO: Codable, Identifiable {
+struct EmotionResponseDTO: Codable, Identifiable, Hashable {
     let id: UUID?
     let title: String
     let categoryID: UUID

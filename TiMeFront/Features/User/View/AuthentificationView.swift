@@ -114,7 +114,11 @@ struct AuthentificationView: View {
                     } else {
                         await authVM.login(email: nil, username: input, password: password)
                     }
+<<<<<<< HEAD
+                    print("🔑 Tentative de connexion terminée")
+=======
                     print("✅ Connexion réussie")
+>>>>>>> main
                 }
             } else {
                 print("❌ Formulaire invalide")
