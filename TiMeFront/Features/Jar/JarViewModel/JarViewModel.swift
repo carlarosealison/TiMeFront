@@ -19,6 +19,7 @@ class JarViewModelContainer : SKScene , Observable{
     let motionManager = CMMotionManager()
     let circleButton = SKShapeNode(circleOfRadius: 65)
     var navManager : NavigationManager?
+    var challengeVM: ChallengeViewModel?
     
     @Namespace private var transitionNamespaces
     
@@ -117,6 +118,10 @@ class JarViewModelContainer : SKScene , Observable{
             let scaleUp = SKAction.scale(to: 2.5, duration: 0.1)
             let scaleDown = SKAction.scale(to: 1.0, duration: 0.1)
             circleButton.run(SKAction.sequence([scaleUp, scaleDown]))
+            
+            Task { @MainActor in
+                await self.challengeVM?.fetchRandomChallenge()
+            }
             
             //navigation de le SKScene à la vue SwiftUI
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {

@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView: View {
     @Environment(AuthViewModel.self) var authVM
     @State private var journalEditVM = JournalEditorViewModel()
+    @State private var challengeVM = ChallengeViewModel()
     
     var body: some View {
         Group {
@@ -21,7 +22,8 @@ struct ContentView: View {
               }
           }
         .environment(journalEditVM)
-          .animation(.easeInOut, value: authVM.isAuthenticated)
+        .environment(challengeVM)
+        .animation(.easeInOut, value: authVM.isAuthenticated)
     }
 }
 

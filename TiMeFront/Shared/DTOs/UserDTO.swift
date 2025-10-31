@@ -35,4 +35,6 @@ struct UserResponse: Decodable{
     var imageProfil: String?
     var streakNumber: Int
     var challengeNumber: Int
+
 }
+

@@ -13,7 +13,7 @@ struct JournalEditorView: View {
     
     var body: some View {
             ZStack {
-                Image(.backgroundBullet)
+                Image(.backgroundDots)
                     .resizable()
                     .ignoresSafeArea()
                 
@@ -177,4 +177,5 @@ struct JournalEditorView: View {
 #Preview {
     JournalEditorView()
         .environment(JournalEditorViewModel())
+        .environment(ChallengeViewModel())
 }

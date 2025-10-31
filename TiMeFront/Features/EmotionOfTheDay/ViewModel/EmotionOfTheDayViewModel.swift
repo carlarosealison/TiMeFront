@@ -22,14 +22,11 @@ class EmotionOfTheDayViewModel {
     
     // Charger l'émotion du jour
     func loadDailyEmotion() async {
-        print("🔄 [ViewModel] Chargement de l'émotion du jour...")
-        
         do {
             dailyEmotion = try await emotionRepo.getDailySuggestion()
-            print("✅ [ViewModel] Émotion chargée : \(dailyEmotion?.title ?? "nil")")
-            print("✅ [ViewModel] CategoryID : \(dailyEmotion?.categoryID.uuidString ?? "nil")")
+            print("✅ Émotion chargée : \(dailyEmotion?.title ?? "nil")")
         } catch {
-            print("❌ [ViewModel] Erreur chargement : \(error)")
+            print("[ViewModel] Erreur chargement : \(error)")
             errorMessage = "Impossible de charger l'émotion du jour"
         }
     }
@@ -82,10 +79,10 @@ class EmotionOfTheDayViewModel {
             self.currentEmotion = nil
             showSuccess = false
             
-            print("✅ Émotion du jour supprimée")
+            print("Émotion du jour supprimée")
         } catch {
             errorMessage = "Erreur : \(error.localizedDescription)"
-            print("❌ Erreur suppression : \(error)")
+            print("Erreur suppression : \(error)")
         }
         
         isLoading = false

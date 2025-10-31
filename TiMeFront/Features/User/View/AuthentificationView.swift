@@ -32,7 +32,6 @@ struct AuthentificationView: View {
                     navigateToUserForm = false
                     //userVM.checkFormData
                     // Ou montre un autre écran principal
-                    print("Utilisateur connecté ! Redirection...")
                 }
             }
             .navigationDestination(isPresented: $navigateToUserForm) {
@@ -106,7 +105,6 @@ struct AuthentificationView: View {
             userVM.validateLogin()
             
             if userVM.isloginValid {
-                print("Formulaire valide ✅")
                 Task {
                     let input = userVM.usernameOrEmailAuth // Champ unique
                     let password = userVM.passwordAuth
@@ -116,10 +114,10 @@ struct AuthentificationView: View {
                     } else {
                         await authVM.login(email: nil, username: input, password: password)
                     }
-                    print("🔑 Tentative de connexion terminée")
+                    print("✅ Connexion réussie")
                 }
             } else {
-                print("Formulaire invalide ❌")
+                print("❌ Formulaire invalide")
             }
         } label: {
             Image(systemName: "arrow.forward")
@@ -136,7 +134,7 @@ struct AuthentificationView: View {
     
     var forgetPassword: some View {
         Button {
-            print("j'ai oublier le mot de passe")
+            print("J'ai oublié mon mot de passe -> appelé")
         } label: {
             Text("mot de passe oublié ?")
                 .font(.system(size: 8).width(.expanded))
@@ -161,7 +159,5 @@ struct AuthentificationView: View {
     if #available(iOS 26.0, *) {
         AuthentificationView(navigateToUserForm: false)
             .environment(AuthViewModel())
-    } else {
-        // Fallback on earlier versions
     }
 }

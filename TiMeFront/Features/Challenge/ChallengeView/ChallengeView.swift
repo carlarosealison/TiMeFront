@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ChallengeView: View {
+    @Environment(ChallengeViewModel.self) var challengeVM
     @Binding var navigationPath: NavigationPath
-    @State var viewModel = ChallengeOfTheDayViewModel(authViewModel: AuthViewModel())
     
     @State private var isValidated = false
     @State private var showSuccessAnimation = false
@@ -29,7 +29,7 @@ struct ChallengeView: View {
                         .mediumPurple()
                         .padding(5)
                     
-                    Text(viewModel.challenge?.instruction ?? "challenge indisponible")
+                    Text(challengeVM.challenge?.instruction ?? "Challenge indisponible")
                         .semiBold()
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
@@ -62,7 +62,7 @@ struct ChallengeView: View {
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            if !showSuccessAnimation {
                 Button("Ignorer") {
                     navigationPath = NavigationPath()
                 }
@@ -71,13 +71,6 @@ struct ChallengeView: View {
                 .fontWidth(.expanded)
                 .underline()
             }
-        }
-        .task {
-//            do {
-//                try await viewModel.fetchRandomChallengeOfTheDay()
-//            } catch {
-//                print("Error while fetching the challenge : \(error.localizedDescription)")
-//            }
         }
         .onChange(of: isValidated) { _, validated in
             if validated {
@@ -91,7 +84,10 @@ struct ChallengeView: View {
         withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
             showSuccessAnimation = true
         }
-//isChallengeCompleted = true
+
+        Task {
+            await challengeVM.completeChallenge()
+        }
         
         // Attendre 1.5 secondes puis retourner au Dashboard
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
