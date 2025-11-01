@@ -10,6 +10,8 @@ import SwiftUI
 struct MoodValidationStick: View {
     @State var stickColor : String
     @State var emotion : String
+    var isSelected: Bool 
+    var onTap: () -> Void  //  Action à exécuter au tap
     
     @State var color = ColorMapper()
     
@@ -25,11 +27,12 @@ struct MoodValidationStick: View {
                         .overlay {
                             
                             Circle()
-                                .glassEffect(.regular.tint(ColorMapper.color(from: stickColor)))
+                                .glassEffect(.regular.tint(isSelected ? Color.green : ColorMapper.color(from: stickColor)))
                                 .frame(width: 44)
                                 .overlay {
-                                    Image(systemName: "plus")
+                                    Image(systemName: isSelected ? "checkmark" : "plus")
                                         .font(.system(size: 20))
+                                        .foregroundColor(isSelected ? .black : .primary)
                                 }
                                 .padding([.leading, .top], 45)
 
@@ -40,16 +43,18 @@ struct MoodValidationStick: View {
                         .foregroundStyle(ColorMapper.color(from: stickColor))
                         .overlay {
                             Circle()
-                                .foregroundStyle(ColorMapper.color(from: stickColor))
+                                .foregroundStyle(isSelected ? Color.green : ColorMapper.color(from: stickColor))
                                 .frame(width: 44)
                                 .overlay {
-                                    Image(systemName: "plus")
+                                    Image(systemName: isSelected ? "checkmark" : "plus")
                                         .font(.system(size: 20))
+                                        .foregroundColor(isSelected ? .black : .primary)
                                 }
                                 .padding([.leading, .top], 45)
                         }
                         
                 }
+                
                 Text(emotion)
                     .textCards()
                     .lineLimit(1)
@@ -58,11 +63,15 @@ struct MoodValidationStick: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .layoutPriority(1)
                     .padding([.leading, .bottom], 40)
+                
             }
+        }
+        .onTapGesture {
+            onTap()  //  Appelle l'action fournie par le parent
         }
     }
 }
 
 #Preview {
-    MoodValidationStick(stickColor: "rose", emotion: "Peur")
+    MoodValidationStick(stickColor: "rose", emotion: "Peur", isSelected: false, onTap: {})
 }

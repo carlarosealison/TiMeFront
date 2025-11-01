@@ -17,10 +17,10 @@ struct TiMeFrontApp: App {
     var body: some Scene {
         WindowGroup {
             
-            EmotionListView()
-//                ContentView()
-//                .environment(authVM)
-//                .environment(userVM)
+//            EmotionListView()
+                ContentView()
+                .environment(authVM)
+                .environment(userVM)
             }
         }
     }
