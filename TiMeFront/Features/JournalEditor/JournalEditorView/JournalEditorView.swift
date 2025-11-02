@@ -8,28 +8,20 @@
 import SwiftUI
 
 struct JournalEditorView: View {
-    @Environment(JournalEditorViewModel.self) var journalEditVM
     @State var emotionCatVM = EmotionCategoryViewModel()
-<<<<<<< HEAD
     @State var emotionOTDViewModel = EmotionOfTheDayViewModel()
     @State var emotionVM = EmotionViewModel()
+    @Binding var viewModel : JournalEditorViewModel
     
     var body: some View {
         ZStack {
-            Image(.backgroundBullet)
+            Image(.backgroundDots)
                 .resizable()
                 .ignoresSafeArea()
             
             VStack {
                 //                Spacer()
-=======
-    
-    var body: some View {
-            ZStack {
-                Image(.backgroundDots)
-                    .resizable()
-                    .ignoresSafeArea()
->>>>>>> main
+
                 
                 HStack {
                     Spacer()
@@ -112,12 +104,22 @@ struct JournalEditorView: View {
                         Spacer()
                         
                     }
-                    HStack(spacing: -10){
-                        ForEach(emotionVM.randomEmotions, id: \.self) { emotion in
-                            MoodValidationStick(stickColor: "rose", emotion: emotion.title, emotionOTFVM: $emotionOTDViewModel)
+                    ScrollView(.horizontal){
+                        HStack(spacing: -35) {
+                            ForEach(viewModel.randomEmotions, id: \.self) { emotion in
+                                    MoodValidationStick(stickColor: "rose", emotion: emotion.title, emotionOTFVM: $emotionOTDViewModel)
+                                
+                            }
+                            NavigationLink {
+                                // doit naviger vers la page des choix des émotions
+                            } label: {
+                                MoodValidationStick(stickColor: "gris", emotion: "Voir plus", emotionOTFVM: $emotionOTDViewModel)
+                            }.buttonStyle(.plain)
                         }
-                        MoodValidationStick(stickColor: "rose", emotion: "joyeuse", emotionOTFVM: $emotionOTDViewModel)
+
+
                     }
+                    
                     
                 }
                 
@@ -138,11 +140,10 @@ struct JournalEditorView: View {
                                         .foregroundStyle(.whitePurple)
                                         .font(.system(size: 35))
                                 }
-<<<<<<< HEAD
                         }.buttonStyle(.plain)
                             .sheet(isPresented: $viewModel.showSheet) {
-                                JournalTextEditorView(viewModel: $viewModel)                                }
-                        
+                                JournalTextEditorView(viewModel: $viewModel)
+                            }
                         
                     } else {
                         RoundedRectangle(cornerRadius: 20)
@@ -155,41 +156,6 @@ struct JournalEditorView: View {
                             }
                     }
                 }.padding(.bottom, 40)
-=======
-                        } else {
-                            RoundedRectangle(cornerRadius: 20)
-                                .frame(width: 350, height: 90)
-                                .foregroundStyle(.purpleButton)
-                                .overlay {
-                                    Image(systemName: "pencil.and.scribble")
-                                        .foregroundStyle(.whitePurple)
-                                        .font(.system(size: 35))
-                                }
-                        }
-                    }.padding(.bottom, 40)
-
-                    
-                    VStack {
-                        HStack {
-                            Text("Motivation")
-                                .semiBold()
-                                .padding(.leading, 24)
-                                .padding(.bottom, 5)
-                            
-                            Spacer()
-                        }
-
-                        ScrollMotivation(viewModel: journalEditVM)
-
-                    }
-                    .padding(.bottom)
-
-
-                    PurpleButton(withArrow: false, buttonFuncText: "Enregistrer")
-                    
-                    
-                }
->>>>>>> main
                 
                 
                 VStack {
@@ -202,7 +168,7 @@ struct JournalEditorView: View {
                         Spacer()
                     }
                     
-                    ScrollMotivation(viewModel: $viewModel)
+                    ScrollMotivation(viewModel: viewModel)
                     
                 }.padding(.bottom)
                 
@@ -214,32 +180,15 @@ struct JournalEditorView: View {
             
             .task {
                 do{
-                      emotionVM.fetchRandomEmotions()
+                    viewModel.fetchRandomEmotions()
                 }
             }
-            
-            
-            
-            
-            
         }
-        //        .navigationTitle(viewModel.today)
-        //        .navigationBarTitleDisplayMode(.inline)
-        //        .toolbar {
-        //            Text(viewModel.today)
-        //                .font(.system(size: 24))
-        //                .fontWidth(.compressed)
-        //                .foregroundStyle(.purpleText)
-        //                .padding(.trailing, 24)
-        //        }.statusBarHidden()
     }
 }
 
 #Preview {
-    JournalEditorView()
-<<<<<<< HEAD
-=======
-        .environment(JournalEditorViewModel())
+    JournalEditorView(viewModel: .constant(JournalEditorViewModel(user: AuthViewModel())))
+        .environment(JournalEditorViewModel(user: AuthViewModel()))
         .environment(ChallengeViewModel())
->>>>>>> main
 }

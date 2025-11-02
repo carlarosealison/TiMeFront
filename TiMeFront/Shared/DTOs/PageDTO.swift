@@ -14,3 +14,9 @@ struct PageResponseDTO: Codable, Identifiable {
     let createdAt: Date
     let idUser: UUID
 }
+
+//MARK: - PageRequestDTO
+struct PageRequestDTO : Codable {
+    let idUser: UUID
+    let note : String
+}

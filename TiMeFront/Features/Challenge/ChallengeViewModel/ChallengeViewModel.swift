@@ -63,7 +63,7 @@ class ChallengeViewModel: @unchecked Sendable {
     //MARK: - ValidateChallenge
     
     
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //    // Charge le challenge actuel au démarrage
 //    func loadCurrentChallenge() async {
 //        // Pour l'instant, on simule qu'il n'y a pas de challenge
@@ -93,7 +93,7 @@ class ChallengeViewModel: @unchecked Sendable {
 //        challenge = nil
 //        isChallengeCompleted = false
 //    }
-=======
+//=======
     // Valider le challenge
     func completeChallenge() async {
         guard challenge != nil else { return }
@@ -110,5 +110,5 @@ class ChallengeViewModel: @unchecked Sendable {
         challenge = nil
         isChallengeCompleted = false
     }
->>>>>>> main
+//>>>>>>> main
 }

@@ -68,5 +68,5 @@ struct HeartMotivationView: View {
 }
 
 #Preview {
-    HeartMotivationView(viewModel: .constant(JournalEditorViewModel()))
+    HeartMotivationView(viewModel: .constant(JournalEditorViewModel(user: AuthViewModel())))
 }

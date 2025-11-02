@@ -11,38 +11,38 @@ import Foundation
 @Observable
 class BookcaseViewModel {
     
-<<<<<<< HEAD
-    // MARK: - Properties
-    private(set) var books: [Book] = []
-    private(set) var currentMonth: Int = 1
-    private(set) var currentYear: Int = 2025
-    
-    // MARK: - Computed Properties
-    
-    /// Nom du mois actuel formaté en français
-    var currentMonthName: String {
-        DateFormatter.monthName(from: currentMonth)
-    }
-    
-    /// Titre complet (ex: "Janvier 2025")
-    var monthYearTitle: String {
-        "\(currentMonthName) \(currentYear)"
-    }
-    
-    // MARK: - Initialization
-    
-    init() {
-        setupCurrentMonthAndYear()
-        loadBooks()
-    }
-    
-    // MARK: - Private Methods
-    
-    /// Configure le mois et l'année actuels
-    private func setupCurrentMonthAndYear() {
-        let calendar = Calendar.current
-        let now = Date()
-=======
+//<<<<<<< HEAD
+//    // MARK: - Properties
+//    private(set) var books: [Book] = []
+//    private(set) var currentMonth: Int = 1
+//    private(set) var currentYear: Int = 2025
+//    
+//    // MARK: - Computed Properties
+//    
+//    /// Nom du mois actuel formaté en français
+//    var currentMonthName: String {
+//        DateFormatter.monthName(from: currentMonth)
+//    }
+//    
+//    /// Titre complet (ex: "Janvier 2025")
+//    var monthYearTitle: String {
+//        "\(currentMonthName) \(currentYear)"
+//    }
+//    
+//    // MARK: - Initialization
+//    
+//    init() {
+//        setupCurrentMonthAndYear()
+//        loadBooks()
+//    }
+//    
+//    // MARK: - Private Methods
+//    
+//    /// Configure le mois et l'année actuels
+//    private func setupCurrentMonthAndYear() {
+//        let calendar = Calendar.current
+//        let now = Date()
+//=======
         // MARK: - Types
     
         /// Représente un mois avec ses livres
@@ -51,7 +51,7 @@ class BookcaseViewModel {
         let month: Int
         let year: Int
         let books: [Book]
->>>>>>> main
+//>>>>>>> main
         
         var monthName: String {
             DateFormatter.monthName(from: month)

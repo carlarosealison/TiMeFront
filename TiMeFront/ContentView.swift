@@ -10,7 +10,7 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct ContentView: View {
     @Environment(AuthViewModel.self) var authVM
-    @State private var journalEditVM = JournalEditorViewModel()
+    @State private var viewModel = JournalEditorViewModel(user: AuthViewModel())
     @State private var challengeVM = ChallengeViewModel()
     
     var body: some View {
@@ -21,7 +21,7 @@ struct ContentView: View {
                   AuthentificationView()
               }
           }
-        .environment(journalEditVM)
+//        .environment(journalEditVM)
         .environment(challengeVM)
         .animation(.easeInOut, value: authVM.isAuthenticated)
     }
@@ -31,5 +31,6 @@ struct ContentView: View {
     if #available(iOS 26.0, *) {
         ContentView()
                 .environment(AuthViewModel())
+                .environment(ChallengeViewModel())
     }
 }

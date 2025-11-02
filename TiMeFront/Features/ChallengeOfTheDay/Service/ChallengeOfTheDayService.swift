@@ -11,12 +11,11 @@ struct ChallengeOfTheDayService {
     
     private let api = APIService()
     
-<<<<<<< HEAD
 //    func postRandomChallengeOfTheDay(userID : UUID) async throws -> ChallengeOfTheDayRequestDTO{
 //        let challengeOfTheDay : ChallengeOfTheDayRequestDTO
 //        try await api.post(endpoint: "challengeOfTheDay/\(userID)", body: challengeOfTheDay)
 //    }
-=======
+//=======
     func createRandomChallengeOfTheDay() async throws -> ChallengeOfTheDayResponse {
         guard let token = UserDefaults.standard.string(forKey: "jwtToken") else {
             throw URLError(.userAuthenticationRequired)
@@ -45,7 +44,7 @@ struct ChallengeOfTheDayService {
     func postRandomChallengeOfTheDay(challengeOTD : ChallengeOfTheDayRequestDTO) async throws -> ChallengeOfTheDayResponseDTO{
         try await api.post(endpoint: "challengeOfTheDay/randomChallengeOTD", body: challengeOTD )
     }
->>>>>>> main
+//>>>>>>> main
     
     func getChallengeOfTheDay() async throws -> ChallengeOfTheDayResponseDTO{
         try await api.get(endpoint: "challengeOfTheDay/get_challenge_of_the_day", as: ChallengeOfTheDayResponseDTO.self)
