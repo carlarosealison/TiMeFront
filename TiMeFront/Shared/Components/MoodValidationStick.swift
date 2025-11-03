@@ -41,14 +41,15 @@ struct MoodValidationStick: View {
                                 isSelected.toggle()
                                 
                             } label: {
-                                Circle()
-                                    .glassEffect(.regular.tint(ColorMapper.color(from: stickColor)))
-                                    .frame(width: 44)
-                                    .overlay {
-                                        Image(systemName: buttonSign)
-                                            .font(.system(size: 20))
-                                    }
-                                    .padding([.leading, .top], 45)
+                               Circle()
+                                .glassEffect(.regular.tint(isSelected ? Color.green : ColorMapper.color(from: stickColor)))
+                                .frame(width: 44)
+                                .overlay {
+                                    Image(systemName: isSelected ? "checkmark" : "plus")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(isSelected ? .black : .primary)
+                                }
+                                .padding([.leading, .top], 45)
                             }.buttonStyle(.plain)
                         }
                 } else {
@@ -60,19 +61,26 @@ struct MoodValidationStick: View {
                                 isSelected.toggle()
                                 
                             } label: {
-                                Circle()
-                                    .foregroundStyle(ColorMapper.color(from: stickColor))
-                                    .frame(width: 44)
-                                    .overlay {
-                                        Image(systemName: buttonSign)
-                                            .font(.system(size: 20))
-                                    }
-                                    .padding([.leading, .top], 45)
+                            Circle()
+                                .foregroundStyle(isSelected ? Color.green : ColorMapper.color(from: stickColor))
+                                .frame(width: 44)
+                                .overlay {
+                                    Image(systemName: isSelected ? "checkmark" : "plus")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(isSelected ? .black : .primary)
+                                }
+                                .padding([.leading, .top], 45)
                             }.buttonStyle(.plain)
                         }
                 }
+                
                 Text(emotion)
                     .textCards()
+                    .lineLimit(1)
+                    .allowsTightening(true)
+                    .minimumScaleFactor(0.3)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .layoutPriority(1)
                     .padding([.leading, .bottom], 40)
             }
         }

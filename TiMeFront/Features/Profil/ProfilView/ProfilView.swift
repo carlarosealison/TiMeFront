@@ -1,8 +1,8 @@
-//
-//  ProfilView.swift
-//  TiMeFront
-//
-//  Created by Mounir on 26/09/2025.
+    //
+    //  ProfilView.swift
+    //  TiMeFront
+    //
+    //  Created by Mounir on 26/09/2025.
 
 
 import SwiftUI
@@ -10,11 +10,12 @@ import LocalAuthentication
 import PhotosUI
 
 struct ProfilView: View {
+
     @State private var viewModel = ProfilViewModel()
     @State private var isShowingPhotoPicker = false
     @Environment(AuthViewModel.self) var authVM
     @Environment(UserViewModel.self) var userVM
-
+    
     
     enum EditField: Identifiable {
         case name, email, password
@@ -22,9 +23,9 @@ struct ProfilView: View {
         
         var title: String {
             switch self {
-            case .name: return "Modifier le nom"
-            case .email: return "Modifier l'email"
-            case .password: return "Modifier le mot de passe"
+                case .name: return "Modifier le nom"
+                case .email: return "Modifier l'email"
+                case .password: return "Modifier le mot de passe"
             }
         }
     }
@@ -34,7 +35,6 @@ struct ProfilView: View {
             GradientBackgroundView()
             mainContent
             
-            // Overlay centré pour l'édition
             if let field = viewModel.showingEdit {
                 EditSheet(
                     field: field,
@@ -46,22 +46,24 @@ struct ProfilView: View {
                     },
                     onSave: {
                         Task {
-                            //  Appeler la fonction updateProfile du ProfilViewModel
                             let success = await viewModel.updateProfile(field: field)
                             
                             if success {
-                                //  Synchroniser avec UserViewModel après succès
                                 userVM.userName = viewModel.name
                                 userVM.email = viewModel.email
                                 if !viewModel.password.isEmpty {
                                     userVM.password = viewModel.password
                                 }
+                                            if var user = authVM.currentUser {
+                                                user.userName = viewModel.name
+                                                user.email = viewModel.email
+                                                authVM.currentUser = user
+                                            }
                                 print("✅ Profil mis à jour avec succès")
                             } else {
                                 print("❌ Échec de la mise à jour")
                             }
                             
-                            // Ferme la sheet
                             viewModel.showingEdit = nil
                         }
                     }
@@ -71,8 +73,13 @@ struct ProfilView: View {
             }
         }
         .onAppear {
-            // Charger les données au démarrage
+                // Charger les données au démarrage
             viewModel.loadUserData(from: userVM)
+        }
+        .navigationDestination(isPresented: $viewModel.navigateToAuth) {
+            if #available(iOS 26.0, *) {
+                AuthentificationView()
+            }
         }
         .onChange(of: viewModel.faceIDOn) { _, newValue in
             if newValue { viewModel.authenticateFaceID() }
@@ -91,7 +98,7 @@ struct ProfilView: View {
     }
 }
 
-// MARK: - Sous-vues pour alléger le body
+    // MARK: - Sous-vues pour alléger le body
 
 private extension ProfilView {
     
@@ -100,19 +107,13 @@ private extension ProfilView {
             Spacer()
             
             avatarSection
+          
+Text(userVM.userName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Invité" : userVM.userName)
+                .font(.title2)
+                .bold()
+                .foregroundColor(Color("PurpleText"))
             
-            if let user = authVM.currentUser{
-                Text(user.userName)
-                    .font(.title2)
-                    .bold()
-                    .foregroundColor(Color("PurpleText"))
-            }else{
-                Text("invité")
-                    .font(.title2)
-                    .bold()
-                    .foregroundColor(Color("PurpleText"))
-            }
-
+            
             optionsSection
             logoutButton
             
@@ -127,24 +128,13 @@ private extension ProfilView {
                 .frame(width: 100, height: 100)
                 .overlay(
                     Group {
-                        if let user = authVM.currentUser,
-                           let imageURLString = user.imageProfil,
-                           !imageURLString.isEmpty,
-                           let imageURL = URL(string: imageURLString) {
-                            
-                            AsyncImage(url: imageURL) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            } placeholder: {
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .foregroundColor(Color("PurpleText"))
-                            }
+                        if let image = viewModel.profilImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
                         } else {
                             Image(systemName: "person.fill")
-                                .resizable()
-                                .frame(width: 60, height: 60)
+                                .font(.system(size: 70))
                                 .foregroundColor(Color("PurpleText"))
                         }
                     }
@@ -193,7 +183,7 @@ private extension ProfilView {
         Button("Déconnexion") {
             viewModel.showLogoutConfirm = true
         }
-        .font(Font.custom("SF Pro", size: 19))
+        .fontWidth(.expanded)
         .foregroundColor(.white)
         .frame(maxWidth: .infinity)
         .padding()
@@ -208,4 +198,3 @@ private extension ProfilView {
         .environment(AuthViewModel())
         .environment(UserViewModel())
 }
-

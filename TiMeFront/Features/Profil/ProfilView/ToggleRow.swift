@@ -1,9 +1,9 @@
-//
-//  ToggleRow.swift
-//  TiMeFront
-//
-//  Created by Mounir on 13/10/2025.
-//
+    //
+    //  ToggleRow.swift
+    //  TiMeFront
+    //
+    //  Created by Mounir on 13/10/2025.
+    //
 
 import SwiftUI
 
@@ -17,8 +17,11 @@ struct ToggleRow: View {
             Image(systemName: icon)
                 .frame(width: 30)
                 .foregroundColor(Color("PurpleText"))
+            
             Text(text)
                 .foregroundColor(Color("PurpleText"))
+                .fontWidth(.expanded)
+
             Spacer()
             Toggle("", isOn: $isOn)
                 .labelsHidden()
