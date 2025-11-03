@@ -42,7 +42,7 @@ struct EditSheet: View {
                 VStack(spacing: 25) {
                     // --- Titre selon le champ édité (ex: “Modifier le nom”) ---
                     Text(field.title)
-                        .font(Font.custom("SF Pro", size: 22))
+                        .fontWidth(.expanded)
                         .foregroundColor(Color("PurpleText"))
 
                     //  Champ de texte
@@ -75,7 +75,7 @@ struct EditSheet: View {
                         .padding(.horizontal, 24)
                         .background(Color.white.opacity(0.15))
                         .clipShape(Capsule())
-                        .font(Font.custom("SF Pro", size: 19))
+                        .fontWidth(.expanded)
 
                         // Bouton Enregistrer
                         Button("Enregistrer") {
@@ -96,7 +96,7 @@ struct EditSheet: View {
                             color: Color("PurpleDark").opacity(0.5),
                             radius: 10, x: 0, y: 4
                         )
-                        .font(Font.custom("SF Pro", size: 19))
+                        .fontWidth(.expanded)
                     }
                     .padding(.top, 10)
                 }

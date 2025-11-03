@@ -107,7 +107,7 @@ private extension ProfilView {
             Spacer()
             
             avatarSection
-            Text(userVM.userName.isEmpty ? "Invité" : userVM.userName)
+            Text(userVM.userName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Invité" : userVM.userName)
                 .font(.title2)
                 .bold()
                 .foregroundColor(Color("PurpleText"))
@@ -182,7 +182,7 @@ private extension ProfilView {
         Button("Déconnexion") {
             viewModel.showLogoutConfirm = true
         }
-        .font(Font.custom("SF Pro", size: 19))
+        .fontWidth(.expanded)
         .foregroundColor(.white)
         .frame(maxWidth: .infinity)
         .padding()
