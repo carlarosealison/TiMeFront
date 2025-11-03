@@ -1,9 +1,9 @@
-//
-//  ProfilRow.swift
-//  TiMeFront
-//
-//  Created by Mounir on 13/10/2025.
-//
+    //
+    //  ProfilRow.swift
+    //  TiMeFront
+    //
+    //  Created by Mounir on 13/10/2025.
+    //
 
 import SwiftUI
 
@@ -18,14 +18,14 @@ struct ProfilRow: View {
                 .fontWidth(.expanded)
                 .foregroundColor(Color("PurpleText"))
                 .frame(width: 36)
-
+            
             Text(text)
                 .fontWidth(.expanded)
                 .foregroundColor(Color("PurpleText"))
-
+            
             Spacer()
-
-            //  Flèche chevron à droite
+            
+                //  Flèche chevron à droite
             Image(systemName: "chevron.right")
                 .foregroundColor(Color("PurpleText"))
         }

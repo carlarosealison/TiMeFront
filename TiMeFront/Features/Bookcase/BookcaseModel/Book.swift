@@ -2,8 +2,6 @@
     //  Book.swift
     //  TiMeFront
     //
-    //  Created by Thibault on 15/10/2025.
-    //
 
 import Foundation
 import SwiftUI
@@ -11,37 +9,43 @@ import SwiftUI
     /// Représente un livre dans la bibliothèque (correspond à une semaine)
 struct Book: Identifiable {
     let id = UUID()
-    let weekNumber: Int  // 1 à 4 (ou 5)
-    let month: Int       // 1 à 12
-    let year: Int        // 2025, 2026...
+    let weekNumber: Int
+    let month: Int
+    let year: Int
+    let placement: BookPlacement
     
-        /// Titre formaté du livre (ex: "Semaine 2 - Janvier 2025")
+        /// Titre formaté du livre
     var title: String {
         let monthName = DateFormatter.monthName(from: month)
         return "Semaine \(weekNumber) - \(monthName) \(year)"
     }
     
-        /// ✅ Couleur du livre calculée automatiquement
+        /// Couleur du livre calculée automatiquement
     var color: BookColor {
-            // Rotation des couleurs selon weekNumber + variation par mois
-        let colors: [BookColor] = [
-            .purple,
-            .pink,
-            .orange,
-            .yellow,
-            .purpleDark,
-            .gray
-        ]
-        
-            // Offset selon le mois pour varier les étagères
+        let colors: [BookColor] = [.purple, .pink, .purpleDark, .gray]
         let monthOffset = month % colors.count
         let colorIndex = (weekNumber - 1 + monthOffset) % colors.count
-        
         return colors[colorIndex]
     }
 }
 
+    // MARK: - Book Placement
+
+    /// Définit la position, rotation et taille d'un livre sur l'étagère
+struct BookPlacement {
+    var offset: CGSize
+    var rotation: Angle
+    var scale: CGFloat
+    
+    static let `default` = BookPlacement(
+        offset: .zero,
+        rotation: .zero,
+        scale: 1.0
+    )
+}
+
     // MARK: - DateFormatter Extension
+
 extension DateFormatter {
     static func monthName(from month: Int) -> String {
         let formatter = DateFormatter()

@@ -1,9 +1,9 @@
-//
-//  ToggleRow.swift
-//  TiMeFront
-//
-//  Created by Mounir on 13/10/2025.
-//
+    //
+    //  ToggleRow.swift
+    //  TiMeFront
+    //
+    //  Created by Mounir on 13/10/2025.
+    //
 
 import SwiftUI
 

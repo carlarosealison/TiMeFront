@@ -1,29 +1,29 @@
-//
-//  EditSheet.swift
-//  TiMeFront
-//
-//  Created by Mounir on 13/10/2025.
-//
+    //
+    //  EditSheet.swift
+    //  TiMeFront
+    //
+    //  Created by Mounir on 13/10/2025.
+    //
 
 import SwiftUI
 
 struct EditSheet: View {
-    // Le champ en cours d’édition (nom, email ou mot de passe)
+        // Le champ en cours d’édition (nom, email ou mot de passe)
     let field: ProfilView.EditField
     
-    // Liaisons avec le ViewModel pour modifier les données utilisateur
+        // Liaisons avec le ViewModel pour modifier les données utilisateur
     @Binding var name: String
     @Binding var email: String
     @Binding var password: String
     
-    // Actions appelées lors de l’annulation ou de la sauvegarde
+        // Actions appelées lors de l’annulation ou de la sauvegarde
     var onCancel: () -> Void
     var onSave: () -> Void
-
-    // Texte temporaire saisi par l’utilisateur
+    
+        // Texte temporaire saisi par l’utilisateur
     @State private var inputText: String = ""
     
-    // Gestion du focus sur le champ de texte
+        // Gestion du focus sur le champ de texte
     @FocusState private var isFocused: Bool
     
     @State private var showPassword: Bool = false
@@ -34,19 +34,19 @@ struct EditSheet: View {
 
     var body: some View {
         ZStack {
-            // Fond noir semi-transparent derrière la popup
+                // Fond noir semi-transparent derrière la popup
             Color.white.opacity(0.45)
                 .ignoresSafeArea() // recouvre tout l’écran
                 .onTapGesture {
-                    // Ferme la popup si l’utilisateur tape à l’extérieur
+                        // Ferme la popup si l’utilisateur tape à l’extérieur
                     onCancel()
                 }
-
-            // Conteneur principal centré
+            
+                // Conteneur principal centré
             VStack {
-                //  Fenêtre principale du popup (centré)
+                    //  Fenêtre principale du popup (centré)
                 VStack(spacing: 25) {
-                    // --- Titre selon le champ édité (ex: “Modifier le nom”) ---
+                        // --- Titre selon le champ édité (ex: “Modifier le nom”) ---
                     Text(field.title)
                         .fontWidth(.expanded)
                         .foregroundColor(Color("PurpleText"))
@@ -134,23 +134,8 @@ struct EditSheet: View {
                             currentPasswordInput = ""
                             newPasswordInput = ""
                         }
-
-                        // Focus automatique
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            isFocused = true
-                        }
-                    }
-                    .onChange(of: email) { newValue in
-                        // Si on édite l'email, synchroniser le TextField avec l'email courant
-                        if case .email = field {
-                            inputText = newValue
-                        }
-                    }
-                    .focused($isFocused)
-
-                    //  Boutons “Annuler” et “Enregistrer” côte à côte 
                     HStack(spacing: 20) {
-                        // Bouton Annuler
+                            // Bouton Annuler
                         Button("Annuler") {
                             onCancel()
                         }
@@ -160,10 +145,10 @@ struct EditSheet: View {
                         .background(Color.white.opacity(0.15))
                         .clipShape(Capsule())
                         .fontWidth(.expanded)
-
+                        
                         // Bouton Enregistrer
                         Button("Enregistrer") {
-                            // Met à jour le champ correspondant
+                                // Met à jour le champ correspondant
                             switch field {
                             case .name: name = inputText
                             case .email: email = inputText
@@ -187,7 +172,7 @@ struct EditSheet: View {
                 .padding(24)
                 .frame(maxWidth: 360)
                 .fixedSize(horizontal: false, vertical: true)
-                // Fond uniforme pour une couleur toujours identique
+                    // Fond uniforme pour une couleur toujours identique
                 .background(
                     Color("PurpleHover")
                 )
@@ -197,35 +182,35 @@ struct EditSheet: View {
                 )
                 .cornerRadius(20)
                 .shadow(color: Color.black.opacity(0.25), radius: 20, x: 0, y: 10)
-                // Transition et animation type popup centré
+                    // Transition et animation type popup centré
                 .transition(.scale.combined(with: .opacity))
                 .animation(.spring(response: 0.35, dampingFraction: 0.85), value: field)
             }
         }
     }
-
-    //  Fonction utilitaire : texte du placeholder
+    
+        //  Fonction utilitaire : texte du placeholder
     private func labelText(_ field: ProfilView.EditField) -> String {
         switch field {
-        case .name: return "nom"
-        case .email: return "email"
-        case .password: return "mot de passe"
+            case .name: return "nom"
+            case .email: return "email"
+            case .password: return "mot de passe"
         }
     }
 }
 
-//  Extension pour arrondir uniquement certains coins
+    //  Extension pour arrondir uniquement certains coins
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 }
 
-//  Forme personnalisée pour les coins sélectionnés
+    //  Forme personnalisée pour les coins sélectionnés
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
-
+    
     func path(in rect: CGRect) -> Path {
         let path = UIBezierPath(
             roundedRect: rect,
