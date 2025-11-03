@@ -161,8 +161,8 @@ struct JournalEditorView: View {
                             }
                             
                             
-                        }.scrollIndicators(.hidden)
-                            .scrollEdgeEffectStyle(.hard, for: .bottom)
+                        } .scrollEdgeEffectStyle(.hard, for: [.trailing, .leading]).scrollIndicators(.hidden)
+                           
                     } else {
                         // Fallback on earlier versions
                     }
@@ -238,5 +238,6 @@ struct JournalEditorView: View {
         JournalEditorView(viewModel: .constant(JournalEditorViewModel()))
             .environment(JournalEditorViewModel())
             .environment(ChallengeViewModel())
+            .environment(AuthViewModel())
 
 }
