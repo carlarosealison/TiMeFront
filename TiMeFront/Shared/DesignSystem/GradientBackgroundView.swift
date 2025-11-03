@@ -16,17 +16,17 @@ struct GradientBackgroundView: View {
             ZStack {
                 // Cercle 1
                 Circle()
-                    .fill(Color("PinkBackground").opacity(0.6))
+                    .fill(Color("PinkBackground").opacity(0.7))
                     .frame(width: size.width * 1, height: size.width * 1)
-                    .blur(radius: 90)
-                    .offset(x: -size.width * 0.55, y: -size.height * -0.2)
+                    .blur(radius: 150)
+                    .offset(x: -size.width * 0.45, y: -size.height * -0.15)
                 
                 // Cercle 2
                 Circle()
-                    .fill(Color("BlueBackground").opacity(0.6))
+                    .fill(Color("BlueBackground").opacity(0.7))
                     .frame(width: size.width * 1, height: size.width * 1.0)
-                    .blur(radius: 90)
-                    .offset(x: size.width * 0.3, y: size.height * 0.5)
+                    .blur(radius: 120)
+                    .offset(x: size.width * 0.05, y: size.height * 0.7)
             }
             .ignoresSafeArea()
         }

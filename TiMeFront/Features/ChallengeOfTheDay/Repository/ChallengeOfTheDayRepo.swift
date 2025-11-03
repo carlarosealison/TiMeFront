@@ -12,6 +12,9 @@ class ChallengeOfTheDayRepo {
     private let service = ChallengeOfTheDayService()
     private let mapper = ChallengeOfTheDayMapper()
     
+    func createRandomChallengeOfTheDay() async throws -> ChallengeOfTheDayResponse {
+        return try await service.createRandomChallengeOfTheDay()
+    }
     
     func postRandomChallengeOfTheDay(dateExp: Date, instruction : String, messageMotivation : String, id_user: UUID, id_challenge: UUID) async throws -> ChallengeOfTheDayResponseDTO {
         

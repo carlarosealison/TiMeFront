@@ -8,7 +8,7 @@
 import Foundation
 
 //MARK: - EmotionCategoryModel
-struct EmotionCategoryModel: Identifiable {
+struct EmotionCategoryModel: Identifiable, Hashable {
     let id: UUID
     let title: String
     let color: String

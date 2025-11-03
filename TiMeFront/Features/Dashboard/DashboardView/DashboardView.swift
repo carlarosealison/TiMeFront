@@ -10,8 +10,9 @@ import CoreMotion
 
 @available(iOS 26.0, *)
 struct DashboardView: View {
+    @State private var navigationPath = NavigationPath()
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             ZStack {
                 GradientBackgroundView()
                 
@@ -20,12 +21,7 @@ struct DashboardView: View {
                     
                     Spacer()
                     
-                    Text("Ici on trouvera l'affirmation du jour pour ne pas encombrer une des bulles en dessous.")
-                        .fontWidth(.expanded)
-                        .fontWeight(.regular)
-                        .font(.system(size: 16))
-                        .padding(.horizontal, 70)
-                        .multilineTextAlignment(.center)
+                    DailyStatementView()
                     
                     Spacer()
                     
@@ -35,7 +31,7 @@ struct DashboardView: View {
                             availableWidth: availableWidth,
                             columns: 4
                         )
-                        // 2 Lignes de cellules + spacing entre les lignes + paddings haut/bas
+                            // 2 Lignes de cellules + spacing entre les lignes + paddings haut/bas
                         let calculatedHeight = (cellSize * 2) + DesignSystem.Grid.spacing + (DesignSystem.Grid.padding * 2)
                         
                         DashboardGridView()
@@ -55,36 +51,38 @@ struct DashboardView: View {
     @ViewBuilder
     private func destinationView(for destination: DashboardDestination) -> some View {
         switch destination {
-        case .challenge:
-            ChallengeView()
-        case .books:
-            BookcaseView()
-        case .streak:
-            StreakView()
-        case .graph:
+            case .challenge:
+                ChallengeView(navigationPath: $navigationPath)
+            case .books:
+                BookcaseView()
+            case .streak:
+                StreakView()
+            case .graph:
                 StatisticsView()
-        case .journal:
-            CreatePrivateJournalOfTheDayView()
-        case .microphone:
-            CreatePrivateJournalOfTheDayView()
-        case .jarChallenge:
-            JarView()
-        case .profile:
-            ProfilView()
-        case .privateJournal(let weekNumber, let month, let year):
-            PrivateJournalWeekView(
-                weekNumber: weekNumber,
-                month: month,
-                year: year)
+            case .journal:
+                JournalEditorView()
+            case .microphone:
+                RecordView()
+            case .jarChallenge:
+                JarView(navigationPath: $navigationPath)
+            case .profile:
+                ProfilView()
+            case .privateJournal(let weekNumber, let month, let year):
+                PrivateJournalWeekView(
+                    weekNumber: weekNumber,
+                    month: month,
+                    year: year
+                )
         }
     }
 }
 
 #Preview {
+        let previewBookColor: BookColor = .purple
+
     if #available(iOS 26.0, *) {
         DashboardView()
             .environment(AuthViewModel())
-    } else {
-        // Fallback on earlier versions
+            .environment(ChallengeViewModel())
     }
-}
+    }

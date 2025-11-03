@@ -8,23 +8,17 @@
 import SwiftUI
 
 struct PurpleButton: View {
-    @State var withArrow : Bool
-    @State var buttonFuncText : String
+    var withArrow : Bool
+    var buttonFuncText : String
     
     var body: some View {
-                
-        NavigationLink {
-            //
-        } label: {
             if #available(iOS 26.0, *) {
-
+                
                 Rectangle()
                     .frame(width: 200, height: 44)
                     .cornerRadius(90)
                     .foregroundStyle(.clear)
                     .glassEffect(.regular.tint(.purpleButton))
-//                    .shadow(radius: 3, y: 4)
-                
                     .overlay {
                         
                         Text(buttonFuncText)
@@ -45,8 +39,6 @@ struct PurpleButton: View {
                         }
 
                         }
-                        
-
             } else {
                 
                 ZStack {
@@ -60,9 +52,6 @@ struct PurpleButton: View {
                         .font(.system(size: 15, weight: .bold).width(.expanded))
                 }
             }
-        }
-        
-        
     }
 }
 

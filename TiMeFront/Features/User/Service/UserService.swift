@@ -31,7 +31,16 @@ struct UserService{
         try await api.post(endpoint: "users", body: user)
     }
     
+
+    func patchStreak(streak: UserStreakDTO, token: String) async throws -> UserStreakResponseDTO {
+        return try await api.patch(endpoint: "users/streak", token: token, body: streak)
+    }
+
+    
+
     func updateUser(userRequest: UserRequest) async throws -> UserResponse {
         try await api.put(endpoint: "users", body: userRequest)
     }
+    
+    
 }

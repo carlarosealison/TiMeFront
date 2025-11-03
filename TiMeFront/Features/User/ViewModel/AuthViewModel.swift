@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-@MainActor
 @Observable
 class AuthViewModel {
     var isAuthenticated = false
     var token: String?
     var currentUser: UserResponse?
-    
-    private let userRepo = UserRepo() // supposé utiliser APIService.shared
+    var streakUser : Int = 0
+    private let userRepo = UserRepo()
     private let baseURL = APIService.shared.baseURL
     
     // MARK: - Login utilisateur
@@ -23,22 +22,26 @@ class AuthViewModel {
             let token = try await userRepo.login(email: email, username: username, password: password)
             self.token = token
             self.isAuthenticated = true
-            // ✅ AJOUTE CES 2 LIGNES
             UserDefaults.standard.set(token, forKey: "jwtToken")
-            print("💾 Token sauvegardé dans UserDefaults")
-            print("✅ Connecté avec token: \(token)")
             
             // Décoder le JWT pour extraire l'userId
             if let userId = extractUserIdFromJWT(token) {
                 UserDefaults.standard.set(userId, forKey: "userId")
-                print("💾 UserId extrait du JWT et sauvegardé : \(userId)")
             } else {
-                print("⚠️ Impossible d'extraire l'userId du token")
+                print("Impossible d'extraire l'userId du token")
             }
             
             await fetchUserProfile()
+            // Simulation : dernière connexion hier
+//            let formatter = DateFormatter()
+//            formatter.dateFormat = "yyyy-MM-dd"
+//            formatter.timeZone = .current
+//            UserDefaults.standard.set(formatter.string(from: Date().addingTimeInterval(-86400)), forKey: "lastConnectionDay")
+
+            await incrementStreakIfNeeded()
+            
         } catch {
-            print("❌ Erreur lors du login: \(error)")
+            print("Erreur lors du login: \(error)")
             self.isAuthenticated = false
         }
     }
@@ -48,7 +51,7 @@ class AuthViewModel {
         // Un JWT est composé de 3 parties séparées par des points : header.payload.signature
         let parts = token.split(separator: ".")
         guard parts.count == 3 else {
-            print("⚠️ Token JWT invalide (pas 3 parties)")
+            print("Token JWT invalide (pas 3 parties)")
             return nil
         }
         
@@ -66,7 +69,7 @@ class AuthViewModel {
         
         // Décode en Data
         guard let decodedData = Data(base64Encoded: base64String) else {
-            print("⚠️ Impossible de décoder le payload JWT en Base64")
+            print("Impossible de décoder le payload JWT en Base64")
             return nil
         }
         
@@ -76,11 +79,11 @@ class AuthViewModel {
                let userId = json["id"] as? String {
                 return userId
             } else {
-                print("⚠️ Payload JWT ne contient pas 'id' : \(String(data: decodedData, encoding: .utf8) ?? "non décodable")")
+                print("Payload JWT ne contient pas 'id' : \(String(data: decodedData, encoding: .utf8) ?? "non décodable")")
                 return nil
             }
         } catch {
-            print("⚠️ Erreur parsing JSON du JWT : \(error)")
+            print("Erreur parsing JSON du JWT : \(error)")
             return nil
         }
     }
@@ -90,9 +93,9 @@ class AuthViewModel {
         token = nil
         currentUser = nil
         isAuthenticated = false
-
+        
         UserDefaults.standard.removeObject(forKey: "jwtToken")
-        print(" Déconnexion réussie")
+        print("✅ Déconnexion réussie")
     }
     
     // MARK: - Récupérer le profil utilisateur connecté
@@ -112,12 +115,11 @@ class AuthViewModel {
             
             guard let httpResponse = response as? HTTPURLResponse,
                   httpResponse.statusCode == 200 else {
-                print("❌ Erreur profil: statut HTTP invalide")
+                print("Erreur profil: statut HTTP invalide")
                 return
             }
             
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("📥 JSON profil reçu : \(jsonString)")
+            if String(data: data, encoding: .utf8) != nil {
             }
             
             let decoder = JSONDecoder()
@@ -126,19 +128,65 @@ class AuthViewModel {
             
             self.currentUser = user
             
-            // Sauvegarde l'userId
-//            if let userId = user.id {
-//                UserDefaults.standard.set(userId.uuidString, forKey: "userId")
-//                print("💾 UserId sauvegardé : \(userId.uuidString)")
-//            } else {
-//                print("⚠️ UserResponse n'a pas d'id !")
-//            }
-            
-            print("👤 Profil récupéré: \(user.userName)")
-            
         } catch {
-            print("❌ Erreur récupération profil: \(error)")
+            print("Erreur récupération profil: \(error)")
         }
     }
+    
+    // MARK: Fonction pour gérer la streak
+    func incrementStreakIfNeeded() async {
+        guard let token = token else { return }
+        guard var currentUser = currentUser else { return }
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = .current
+
+        let todayString = formatter.string(from: Date())
+        let lastConnectionString = UserDefaults.standard.string(forKey: "lastConnectionDay")
+
+        print("lastConnectionDay:", lastConnectionString ?? "aucune", "today:", todayString)
+
+        // Déjà connecté aujourd'hui → rien à faire
+        if lastConnectionString == todayString {
+            print("Déjà connecté aujourd'hui → streak inchangée")
+            return
+        }
+
+        var shouldIncrement = false
+        var newStreakValue = currentUser.streakNumber
+
+        if let lastDay = lastConnectionString,
+           let lastDate = formatter.date(from: lastDay),
+           let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()),
+           formatter.string(from: lastDate) == formatter.string(from: yesterday) {
+            newStreakValue += 1
+            shouldIncrement = true
+            print("Connecté hier → Streak +1 (\(newStreakValue))")
+        } else {
+            newStreakValue = 1
+            shouldIncrement = true
+            print("Première connexion ou oubli → Streak réinitialisée à 1")
+        }
+
+        // Sauvegarde la date du jour
+        UserDefaults.standard.set(todayString, forKey: "lastConnectionDay")
+        print("Date sauvegardée :", todayString)
+
+        // Mise à jour côté serveur
+        if shouldIncrement {
+            do {
+                let response = try await userRepo.patchStreak(streak: newStreakValue, token: token)
+                currentUser.streakNumber = response.streakNumber
+                self.currentUser = currentUser
+                print("Streak mise à jour : \(response.streakNumber)")
+            } catch {
+                print("Erreur lors de la mise à jour de la streak: \(error)")
+            }
+        }
     }
+
+
+
+}
 

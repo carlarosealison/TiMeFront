@@ -10,9 +10,10 @@ import SwiftUI
 struct DashboardGridView: View {
     
     let spacing = DesignSystem.Grid.spacing
+    @Environment(AuthViewModel.self) var authVM
+    @Environment(ChallengeViewModel.self) var challengeViewModel
     @State private var emotionViewModel = EmotionOfTheDayViewModel()
-    @State private var challengeViewModel = ChallengeViewModel()
-    
+
     var body: some View {
         GeometryReader { geometry in
             let availableWidth = geometry.size.width - (DesignSystem.Grid.padding * 2)
@@ -31,11 +32,11 @@ struct DashboardGridView: View {
                         challengeViewModel: challengeViewModel,
                         cellSize: cellSize,
                         spacing: spacing
-                    )                    
+                    )
                     VStack(spacing: spacing) {
                         HStack(spacing: spacing) {
                             
-                            // Livres (1×1)
+                                // Livres (1×1)
                             NavigationLink(value: DashboardDestination.books) {
                                 DashboardCard {
                                     VStack {
@@ -47,38 +48,44 @@ struct DashboardGridView: View {
                                             .scaledToFit()
                                             .frame(width: cellSize * 0.5, height: cellSize * 0.8, alignment: .bottom)
                                     }
-                                        .background(
-                                            Image("BackgroundDots")
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: 300, height: 500)
-                                        )
+                                    .background(
+                                        Image("BackgroundDots")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 300, height: 500)
+                                    )
                                 }
                                 .frame(width: cellSize, height: cellSize)
                             }
                             .buttonStyle(.plain)
                             .contentShape(Rectangle())
                             
-                            // Streak (1×1)
-                            NavigationLink(value: DashboardDestination.streak) {
-                                DashboardCard {
+                                // Streak (1×1)
+                            DashboardCard {
+                                if let user = authVM.currentUser {
                                     VStack {
                                         Image("StreakSmall")
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: cellSize * 0.5, height: cellSize * 0.5)
                                         
-                                        Text("Jour 6")
+                                        Text("Jour \(user.streakNumber)")
                                             .font(.system(size: 12).width(.expanded).weight(.medium))
                                             .foregroundStyle(Color("PurpleDark"))
                                     }
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .background(.white)
+                                } else {
+                                    VStack {
+                                        Image(systemName: "exclamationmark.triangle")
+                                            .font(.system(size: 30))
+                                            .foregroundColor(.red)
+                                        Text("Indisponible")
+                                            .font(.caption)
+                                    }
                                 }
-                                .frame(width: cellSize, height: cellSize)
                             }
-                            .buttonStyle(.plain)
-                            .contentShape(Rectangle())
+                            .frame(width: cellSize, height: cellSize)
                         }
                         
                         // Graph (2×1)
@@ -107,7 +114,7 @@ struct DashboardGridView: View {
                     // Micro (1×1)
                     NavigationLink(value: DashboardDestination.microphone) {
                         DashboardCard {
-                            IconCardContent(icon: "mic.fill.badge.plus", color: Color("PurpleDark"))
+                            IconCardContent(icon: "mic.fill.badge.plus", color: Color("PurpleDark"), backgroundColor: .white)
                         }
                         .frame(width: cellSize, height: cellSize)
                     }
@@ -172,5 +179,6 @@ struct DashboardGridView: View {
 
 #Preview {
     DashboardGridView()
-        .background(Color(.white))
+        .environment(AuthViewModel())
+        .environment(ChallengeViewModel())
 }

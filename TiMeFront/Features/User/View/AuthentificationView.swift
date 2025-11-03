@@ -24,6 +24,7 @@ struct AuthentificationView: View {
                     authForm
                     buttonAccessFormRegister
                 }
+                .frame(maxWidth: .infinity)
             }
             .onChange(of: authVM.isAuthenticated) { _, newValue in
                 if newValue {
@@ -31,7 +32,6 @@ struct AuthentificationView: View {
                     navigateToUserForm = false
                     //userVM.checkFormData
                     // Ou montre un autre écran principal
-                    print("Utilisateur connecté ! Redirection...")
                 }
             }
             .navigationDestination(isPresented: $navigateToUserForm) {
@@ -47,38 +47,56 @@ struct AuthentificationView: View {
     
     
     var titleAuth: some View{
-        Text("Bienvenue")
-            .font(title.width(.expanded).weight(.black))
-            .foregroundStyle(.purpleText)
-            .overlay(alignment: .center) {
-                Image("Plant")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 73, height: 157)
-                    .padding(.bottom, 80)
-                    .padding(.leading, 48)
-            }
-            .padding(.top, 30)
+            Text("Bienvenue")
+                .font(title.width(.expanded).weight(.black))
+                .foregroundStyle(.purpleText)
+                .overlay(alignment: .center) {
+                    Image("Plant")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 73, height: 157)
+                        .padding(.bottom, 80)
+                        .padding(.leading, 48)
+                }
+        .padding(.top, 100)
     }
     
     var textMotivation: some View{
         Text("Incroyable bichette! Tu as fait un premier grand pas vers ta réussite !")
             .font(.system(size: 14).width(.expanded).weight(.light))
+            .foregroundStyle(.purpleText)
             .multilineTextAlignment(.center)
             .lineSpacing(9)
-            .frame(width: 250)
+            .frame(width: 350)
     }
     
-    var authForm: some View{
-        VStack(alignment: .leading, spacing: 30){
-            UserTextField(data: $userVM.usernameOrEmailAuth, dataError: $userVM.userNameOrEmailAuthError, label: "Email ou pseudo", size: (width: 280, heigth: 44))
-            VStack(alignment: .leading){
-                HStack{
-                    UserTextField(data: $userVM.passwordAuth, dataError: $userVM.passwordAuthError, label: "Mot de passe", size: (width: 230, heigth: 44))
-                    buttonAuth
-                }
-                forgetPassword
+    var authForm: some View {
+        VStack(spacing: 12) {
+            
+            HStack {
+                UserTextField(
+                    data: $userVM.usernameOrEmailAuth,
+                    dataError: $userVM.userNameOrEmailAuthError,
+                    label: "Email ou pseudo",
+                    size: (width: 295, heigth: 44)
+                )
             }
+            
+            HStack(alignment: .center, spacing: 12) {
+                UserTextField(
+                    data: $userVM.passwordAuth,
+                    dataError: $userVM.passwordAuthError,
+                    label: "Mot de passe",
+                    size: (width: 233, heigth: 44)
+                )
+                
+                buttonAuth
+                    .frame(width: 50, height: 50)
+            }
+            
+                forgetPassword
+                .frame(width: 295, alignment: .leading)
+                .padding(.leading, 30)
         }
     }
     
@@ -87,7 +105,6 @@ struct AuthentificationView: View {
             userVM.validateLogin()
             
             if userVM.isloginValid {
-                print("Formulaire valide ✅")
                 Task {
                     let input = userVM.usernameOrEmailAuth // Champ unique
                     let password = userVM.passwordAuth
@@ -97,41 +114,35 @@ struct AuthentificationView: View {
                     } else {
                         await authVM.login(email: nil, username: input, password: password)
                     }
-
-                    print("🔑 Tentative de connexion terminée")
+                    print("✅ Connexion réussie")
                 }
             } else {
-                print("Formulaire invalide ❌")
+                print("❌ Formulaire invalide")
             }
-           
-            
         } label: {
             Image(systemName: "arrow.forward")
+                .font(.system(size: 18, weight: .semibold))
                 .foregroundStyle(.purpleDark)
-                .padding(14)
-            
+                .padding()
         }
         .background {
             Circle()
                 .fill(.white)
                 .glassEffect()
-            
         }
-        
     }
     
-    var forgetPassword: some View{
+    var forgetPassword: some View {
         Button {
-            print("j'ai oublier le mot de passe")
+            print("J'ai oublié mon mot de passe -> appelé")
         } label: {
             Text("mot de passe oublié ?")
                 .font(.system(size: 8).width(.expanded))
                 .foregroundStyle(.purpleText)
         }
-        .padding(.leading, 10)
     }
     
-    var buttonAccessFormRegister: some View{
+    var buttonAccessFormRegister: some View {
         VStack(spacing: 12){
             Text("Pas encore de compte ? ")
                 .font(.system(size: 8).width(.expanded).weight(.light))
@@ -148,7 +159,5 @@ struct AuthentificationView: View {
     if #available(iOS 26.0, *) {
         AuthentificationView(navigateToUserForm: false)
             .environment(AuthViewModel())
-    } else {
-        // Fallback on earlier versions
     }
 }

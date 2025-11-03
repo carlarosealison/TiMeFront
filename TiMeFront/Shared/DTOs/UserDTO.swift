@@ -16,6 +16,17 @@ struct UserRequest: Codable{
     var imageProfil: String?
 }
 
+//DTO uniquement pour la streak
+struct UserStreakDTO: Codable {
+    var streakNumber: Int
+}
+
+struct UserStreakResponseDTO: Codable {
+    let streakNumber: Int
+}
+
+
+
 struct UserLogin: Codable{
     var email: String?
     var username: String?
@@ -28,4 +39,8 @@ struct UserResponse: Decodable{
     var userName: String
     var email: String
     var imageProfil: String?
+    var streakNumber: Int
+    var challengeNumber: Int
+
 }
+
