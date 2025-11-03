@@ -16,29 +16,29 @@ struct OctoberShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: -140, height: 9),
-                rotation: Angle(degrees: 0),
-                scale: 0.85
-            ),
-            BookPlacement(
-                offset: CGSize(width: -80, height: 10),
+                offset: CGSize(width: -115, height: 9),
                 rotation: Angle(degrees: 0),
                 scale: 0.9
             ),
             BookPlacement(
+                offset: CGSize(width: -70, height: 10),
+                rotation: Angle(degrees: 0),
+                scale: 0.92
+            ),
+            BookPlacement(
                 offset: CGSize(width: -27, height: 7),
                 rotation: Angle(degrees: 0),
-                scale: 0.88
+                scale: 0.9
             ),
             BookPlacement(
-                offset: CGSize(width: -55, height: 58),
-                rotation: Angle(degrees: 270),
-                scale: 0.75
+                offset: CGSize(width: 55, height: 45),
+                rotation: Angle(degrees: 90),
+                scale: 0.9
             ),
             BookPlacement(
-                offset: CGSize(width: 45, height: -11),
-                rotation: Angle(degrees: -25),
-                scale: 0.7
+                offset: CGSize(width: 17, height: -36),
+                rotation: Angle(degrees: -20),
+                scale: 0.85
             ),
             BookPlacement(
                 offset: CGSize(width: -80, height: -75),
@@ -96,11 +96,9 @@ struct OctoberShelfView: View {
                         )
                     } label: {
                         BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 ShelfView(width: 450, height: 15)

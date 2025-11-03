@@ -16,27 +16,27 @@ struct DecemberShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: 44, height: 110),
+                offset: CGSize(width: -114, height: 43),
                 rotation: Angle(degrees: 90),
                 scale: 0.98
             ),
             BookPlacement(
-                offset: CGSize(width: 3, height: 110),
+                offset: CGSize(width: -110, height: 3),
                 rotation: Angle(degrees: 90),
                 scale: 0.96
             ),
             BookPlacement(
-                offset: CGSize(width: -40, height: 110),
+                offset: CGSize(width: -100, height: -37),
                 rotation: Angle(degrees: 90),
                 scale: 0.94
             ),
             BookPlacement(
-                offset: CGSize(width: 6, height: 0),
+                offset: CGSize(width: 9, height: -5),
                 rotation: Angle(degrees: -25),
                 scale: 0.92
             ),
             BookPlacement(
-                offset: CGSize(width: 48, height: 15),
+                offset: CGSize(width: 52, height: -4),
                 rotation: Angle(degrees: -25),
                 scale: 0.92
             ),
@@ -96,11 +96,9 @@ struct DecemberShelfView: View {
                         )
                     } label: {
                         BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 DecorationView(type: .cactus)

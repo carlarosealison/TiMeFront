@@ -8,27 +8,27 @@ struct AugustShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: 55, height: 120),
+                offset: CGSize(width: -110, height: 45),
                 rotation: Angle(degrees: 90),
                 scale: 0.86
             ),
             BookPlacement(
-                offset: CGSize(width: 12, height: 120),
+                offset: CGSize(width: -120, height: 8),
                 rotation: Angle(degrees: 90),
                 scale: 0.91
             ),
             BookPlacement(
-                offset: CGSize(width: 59, height: -30),
+                offset: CGSize(width: 59, height: 46),
                 rotation: Angle(degrees: 90),
                 scale: 0.8
             ),
             BookPlacement(
-                offset: CGSize(width: 14, height: -35),
+                offset: CGSize(width: 44, height: 11),
                 rotation: Angle(degrees: 90),
                 scale: 0.89
             ),
             BookPlacement(
-                offset: CGSize(width: -27, height: -33),
+                offset: CGSize(width: 37, height: -26),
                 rotation: Angle(degrees: 90),
                 scale: 0.93
             ),
@@ -88,11 +88,9 @@ struct AugustShelfView: View {
                         )
                     } label: {
                         BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 DecorationView(type: .plant3)

@@ -8,27 +8,27 @@ struct SeptemberShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: -185, height: 18),
+                offset: CGSize(width: -135, height: 18),
                 rotation: Angle(degrees: 0),
                 scale: 0.75
             ),
             BookPlacement(
-                offset: CGSize(width: -125, height: 10),
+                offset: CGSize(width: -95, height: 10),
                 rotation: Angle(degrees: 0),
                 scale: 0.8
             ),
             BookPlacement(
-                offset: CGSize(width: -70, height: 6),
+                offset: CGSize(width: -55, height: 6),
                 rotation: Angle(degrees: 0),
                 scale: 0.85
             ),
             BookPlacement(
-                offset: CGSize(width: -20, height: 8),
+                offset: CGSize(width: -10, height: 8),
                 rotation: Angle(degrees: 0),
                 scale: 0.9
             ),
             BookPlacement(
-                offset: CGSize(width: 28, height: 0),
+                offset: CGSize(width: 38, height: 0),
                 rotation: Angle(degrees: 0),
                 scale: 0.95
             ),
@@ -88,11 +88,9 @@ struct SeptemberShelfView: View {
                         )
                     } label: {
                         BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 DecorationView(type: .plant2)

@@ -83,11 +83,7 @@ struct JanuaryShelfView: View {
             .allowsHitTesting(false)
             
             ZStack(alignment: .bottom) {
-                ShelfView(width: 450, height: 15)
-                    .allowsHitTesting(false)
-                    .offset(.init(width: -10, height: 0))
-                
-                ForEach(books.reversed()) { book in
+                ForEach(books) { book in
                     NavigationLink {
                         PrivateJournalWeekView(
                             weekNumber: book.weekNumber,
@@ -100,6 +96,10 @@ struct JanuaryShelfView: View {
                     .buttonStyle(.plain)
                     .offset(book.placement.offset)
                 }
+                
+                ShelfView(width: 450, height: 15)
+                    .allowsHitTesting(false)
+                    .offset(.init(width: -10, height: 0))
             }
             .frame(height: 220)
         }

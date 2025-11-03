@@ -8,12 +8,12 @@ struct JulyShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: 55, height: 170),
+                offset: CGSize(width: -125, height: 46),
                 rotation: Angle(degrees: 90),
                 scale: 0.82
             ),
             BookPlacement(
-                offset: CGSize(width: 12, height: 160),
+                offset: CGSize(width: -121, height: 11),
                 rotation: Angle(degrees: 90),
                 scale: 0.85
             ),
@@ -79,10 +79,6 @@ struct JulyShelfView: View {
             .padding(.horizontal, 20)
             
             ZStack(alignment: .bottom) {
-//                ShelfView(width: 400, height: 15)
-//                    .offset(x: -200, y: -240)
-//                    .allowsHitTesting(false)
-                
                 ForEach(books) { book in
                     NavigationLink {
                         PrivateJournalWeekView(
@@ -92,11 +88,9 @@ struct JulyShelfView: View {
                         )
                     } label: {
                         BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 ShelfView(width: 350, height: 15)

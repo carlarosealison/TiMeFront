@@ -16,12 +16,12 @@ struct FebruaryShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: 60, height: 150),
+                offset: CGSize(width: -130, height: 46),
                 rotation: Angle(degrees: 90),
                 scale: 0.8
             ),
             BookPlacement(
-                offset: CGSize(width: -50, height: 10),
+                offset: CGSize(width: -50, height: 3),
                 rotation: Angle(degrees: 0),
                 scale: 0.85
             ),
@@ -82,7 +82,6 @@ struct FebruaryShelfView: View {
             .padding(.horizontal, 60)
             
             ZStack(alignment: .bottom) {
-                
                 ShelfView(width: 500, height: 15)
                     .offset(.init(width: 60, height: 0))
                     .allowsHitTesting(false)
@@ -102,7 +101,7 @@ struct FebruaryShelfView: View {
                 }
                 DecorationView(type: .buste)
                     .scaleEffect(2)
-                    .offset(.init(width: 200, height: -35))
+                    .offset(.init(width: 180, height: -35))
             }
             .frame(height: 220)
         }

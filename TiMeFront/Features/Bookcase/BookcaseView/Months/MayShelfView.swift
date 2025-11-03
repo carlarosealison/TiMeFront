@@ -13,22 +13,22 @@ struct MayShelfView: View {
                 scale: 1
             ),
             BookPlacement(
-                offset: CGSize(width: -130, height: 10),
+                offset: CGSize(width: -120, height: 10),
                 rotation: Angle(degrees: 0),
                 scale: 0.9
             ),
             BookPlacement(
-                offset: CGSize(width: 60, height: 10),
+                offset: CGSize(width: -36, height: 46),
                 rotation: Angle(degrees: 90),
                 scale: 0.8
             ),
             BookPlacement(
-                offset: CGSize(width: 19, height: 6),
+                offset: CGSize(width: -41, height: 13),
                 rotation: Angle(degrees: 90),
                 scale: 0.78
             ),
             BookPlacement(
-                offset: CGSize(width: 70, height: 37),
+                offset: CGSize(width: 38, height: -3),
                 rotation: Angle(degrees: -30),
                 scale: 0.92
             ),
@@ -88,11 +88,9 @@ struct MayShelfView: View {
                         )
                     } label: {
                         BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 ShelfView(width: 550, height: 15)

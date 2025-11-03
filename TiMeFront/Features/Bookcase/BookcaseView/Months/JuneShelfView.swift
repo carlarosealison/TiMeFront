@@ -8,7 +8,7 @@ struct JuneShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: 57, height: 140),
+                offset: CGSize(width: -117, height: 46),
                 rotation: Angle(degrees: 90),
                 scale: 0.8
             ),
@@ -28,7 +28,7 @@ struct JuneShelfView: View {
                 scale: 0.89
             ),
             BookPlacement(
-                offset: CGSize(width: -75, height: -30),
+                offset: CGSize(width: 25, height: -69),
                 rotation: Angle(degrees: 90),
                 scale: 0.93
             ),
@@ -88,11 +88,9 @@ struct JuneShelfView: View {
                         )
                     } label: {
                         BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 ShelfView(width: 350, height: 15)

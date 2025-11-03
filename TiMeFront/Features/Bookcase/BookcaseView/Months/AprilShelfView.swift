@@ -23,12 +23,12 @@ struct AprilShelfView: View {
                 scale: 0.95
             ),
             BookPlacement(
-                offset: CGSize(width: 50, height: -90),
+                offset: CGSize(width: 80, height: 44),
                 rotation: Angle(degrees: 90),
                 scale: 0.93
             ),
             BookPlacement(
-                offset: CGSize(width: 15, height: -70),
+                offset: CGSize(width: 75, height: 9),
                 rotation: Angle(degrees: 90),
                 scale: 0.75
             ),
@@ -88,11 +88,9 @@ struct AprilShelfView: View {
                         )
                     } label: {
                         BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 DecorationView(type: .painting)

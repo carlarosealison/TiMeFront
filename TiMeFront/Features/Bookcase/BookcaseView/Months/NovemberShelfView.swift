@@ -16,7 +16,7 @@ struct NovemberShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: 49, height: 143),
+                offset: CGSize(width: -139, height: 44),
                 rotation: Angle(degrees: 90),
                 scale: 0.9
             ),
@@ -96,11 +96,9 @@ struct NovemberShelfView: View {
                         )
                     } label: {
                         BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 ShelfView(width: 380, height: 15)

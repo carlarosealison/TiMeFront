@@ -8,7 +8,7 @@ struct MarchShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: -140, height: 5),
+                offset: CGSize(width: -130, height: 5),
                 rotation: Angle(degrees: 0),
                 scale: 0.85
             ),
@@ -23,12 +23,12 @@ struct MarchShelfView: View {
                 scale: 0.88
             ),
             BookPlacement(
-                offset: CGSize(width: 32, height: 26),
+                offset: CGSize(width: 33, height: 0),
                 rotation: Angle(degrees: -40),
                 scale: 0.92
             ),
             BookPlacement(
-                offset: CGSize(width: 75, height: 69),
+                offset: CGSize(width: 84, height: 2),
                 rotation: Angle(degrees: -40),
                 scale: 0.87
             ),
@@ -88,11 +88,9 @@ struct MarchShelfView: View {
                         )
                     } label: {
                         BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 ShelfView(width: 450, height: 15)
