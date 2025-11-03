@@ -10,10 +10,23 @@ import SwiftUI
 struct MoodValidationStick: View {
     @State var stickColor : String
     @State var emotion : String
-    @State var isSelected : Bool = false
-    @Binding var emotionOTFVM : EmotionOfTheDayViewModel
+    @State var isSelected : Bool
+    @State var buttonSign : String
     
     @State var color = ColorMapper()
+    
+    let onValidate: () -> Void
+    let onDelete: () -> Void
+    
+    init(stickColor: String, emotion: String, isSelected: Bool, buttonSign: String, color: ColorMapper = ColorMapper(), onValidate: @escaping () -> Void, onDelete: @escaping () -> Void) {
+        self.stickColor = stickColor
+        self.emotion = emotion
+        self.isSelected = isSelected
+        self.buttonSign = buttonSign
+        self.color = color
+        self.onValidate = onValidate
+        self.onDelete = onDelete
+    }
     
     var body: some View {
         
@@ -32,7 +45,7 @@ struct MoodValidationStick: View {
                                     .glassEffect(.regular.tint(ColorMapper.color(from: stickColor)))
                                     .frame(width: 44)
                                     .overlay {
-                                        Image(systemName: "plus")
+                                        Image(systemName: buttonSign)
                                             .font(.system(size: 20))
                                     }
                                     .padding([.leading, .top], 45)
@@ -51,7 +64,7 @@ struct MoodValidationStick: View {
                                     .foregroundStyle(ColorMapper.color(from: stickColor))
                                     .frame(width: 44)
                                     .overlay {
-                                        Image(systemName: "plus")
+                                        Image(systemName: buttonSign)
                                             .font(.system(size: 20))
                                     }
                                     .padding([.leading, .top], 45)
@@ -62,15 +75,11 @@ struct MoodValidationStick: View {
                     .textCards()
                     .padding([.leading, .bottom], 40)
             }
-        }.task {
-            do{
-                await emotionOTFVM.addEmotionOfTheDay()
-            }
         }
         .frame(width: 140)
     }
 }
 
 #Preview {
-    MoodValidationStick(stickColor: "rose", emotion: "Peur", emotionOTFVM: .constant(EmotionOfTheDayViewModel()))
+    MoodValidationStick(stickColor: "rose", emotion: "Peur", isSelected: false, buttonSign: "plus", onValidate: {}, onDelete: {})
 }

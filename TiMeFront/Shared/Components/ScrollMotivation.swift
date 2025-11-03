@@ -103,5 +103,5 @@ extension Comparable {
 }
 
 #Preview {
-    ScrollMotivation(viewModel: JournalEditorViewModel(user: AuthViewModel()))
+    ScrollMotivation(viewModel: JournalEditorViewModel())
 }

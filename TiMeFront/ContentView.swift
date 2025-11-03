@@ -10,7 +10,7 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct ContentView: View {
     @Environment(AuthViewModel.self) var authVM
-    @State private var viewModel = JournalEditorViewModel(user: AuthViewModel())
+    @State private var viewModel = JournalEditorViewModel()
     @State private var challengeVM = ChallengeViewModel()
     
     var body: some View {

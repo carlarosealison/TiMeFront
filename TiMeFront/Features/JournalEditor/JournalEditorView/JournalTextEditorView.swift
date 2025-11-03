@@ -10,6 +10,7 @@ import SwiftUI
 struct JournalTextEditorView: View {
     @Binding var viewModel : JournalEditorViewModel
     @Environment(\.dismiss) var dismiss
+    @Environment(AuthViewModel.self) var authVM
     
     
     var body: some View {
@@ -37,6 +38,7 @@ struct JournalTextEditorView: View {
                     //TODO: Bouton pour poster le message
                     //                    viewModel.postTextOfTheDay()
                     Task {
+                        viewModel.user = authVM
                         await viewModel.postTextOfTheDay()
                         
                     }
@@ -100,5 +102,6 @@ struct JournalTextEditorView: View {
 }
 
 #Preview {
-    JournalTextEditorView(viewModel: .constant(JournalEditorViewModel(user: AuthViewModel())))
+    JournalTextEditorView(viewModel: .constant(JournalEditorViewModel()))
+        .environment(AuthViewModel())
 }

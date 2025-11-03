@@ -10,7 +10,7 @@ import SwiftUI
 
 @Observable
 class JournalEditorViewModel {
-
+    
     //MARK: - Date du jour
     var today = Date().formattedFrench()
     
@@ -48,16 +48,16 @@ class JournalEditorViewModel {
         }.resume()
     }
     
+    
+    
     //MARK: - Rédaction du jour
     var showSheet : Bool = false
     var textOfTheDay = ""
     var showAlert : Bool = false
     var messageAlert = ""
-    var user : AuthViewModel
+    var user : AuthViewModel?
     
-    init(user : AuthViewModel) {
-        self.user = user
-    }
+    
     
     func postTextOfTheDay() async {
         //je prends l'url corrspondant la route que je veux lier
@@ -68,15 +68,43 @@ class JournalEditorViewModel {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
-        if let token = user.token {
-            request.addValue("Bearer: \(token)", forHTTPHeaderField: "Authorization")
+        if let token = user?.token {
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }else {
             print("Aucun token disponible")
         }
         
-        //j'instancie le nouvel object à encode en JSON qui sera envoyé vers le back
-        let newTextOfTheDay = PageRequestDTO(idUser: user.currentUser?.id ?? UUID(), note: textOfTheDay)
-        request.httpBody = try? JSONEncoder().encode(newTextOfTheDay)
+        //        if let idUser = user?.currentUser?.id {
+        //            let newTextOfTheDay = PageRequestDTO(idUser: idUser, note: textOfTheDay)
+        //            request.httpBody = try? JSONEncoder().encode(newTextOfTheDay)
+        //        }else{
+        //            print ("User id indisponible")
+        //        }
+        
+        //        guard let userIdString = UserDefaults.standard.string(forKey: "id_user"), let idUser = UUID(uuidString: userIdString) else {
+        //            print("User id non trouvé")
+        //            return
+        //        }
+        
+        // je récupère l'id du User
+        guard let idUser = user?.currentUser?.id ?? UUID(uuidString: UserDefaults.standard.string(forKey: "id_user") ?? "") else{
+            print("User non trouvé")
+            return
+        }
+        
+        //j'instancie le nouvel object à encoder en JSON qui sera envoyé vers le back
+        let newTextOfTheDay = PageRequestDTO(idUser: idUser, note: self.textOfTheDay)
+        
+        
+        // j'encode mon objet
+        do{
+            request.httpBody = try JSONEncoder().encode(newTextOfTheDay)
+            
+        }catch{
+            print("Erreur lors de l'encodage: \(error.localizedDescription)")
+            return
+        }
+        
         
         //exécution de la requête -> à réaliser dans un do{}catch{}
         do{
@@ -92,20 +120,23 @@ class JournalEditorViewModel {
                 }else{
                     messageAlert = "Erreur lors de l'envoi de la note du jour.\n Erreur: \(httpResponse.statusCode)"
                     showAlert = true
-
+                    
                 }
             }
             //print pour débug console
             print(String(data: data, encoding: .utf8) ?? "")
+            
+            let textOfTheDayResponse = try JSONDecoder().decode(PageResponseDTO.self, from: data)
+            print(textOfTheDayResponse.note)
             
         }catch{
             
             // le catch en cas de refus d'exécution de la requête
             messageAlert = "Erreur de reseau: \(error.localizedDescription)"
             showAlert = true
-
+            
         }
-  
+        
     }
     
     //    @MainActor

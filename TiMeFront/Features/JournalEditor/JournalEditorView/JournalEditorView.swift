@@ -21,7 +21,7 @@ struct JournalEditorView: View {
             
             VStack {
                 //                Spacer()
-
+                
                 
                 HStack {
                     Spacer()
@@ -38,22 +38,23 @@ struct JournalEditorView: View {
                 
                 
                 HStack {
-                    if #available(iOS 26.0, *) {
-                        VStack(alignment: .leading) {
-                            
-                            Text("Émotion")
-                                .semiBold()
-                                .padding(.leading, 24)
+                    VStack(alignment: .leading) {
+                        
+                        Text("Émotion")
+                            .semiBold()
+                            .padding(.leading, 24)
+                        if #available(iOS 26.0, *) {
                             
                             RoundedRectangle(cornerRadius: 20)
                                 .glassEffect(in: .rect(cornerRadius: 20))
                                 .frame(width: 175 ,height: 170)
                                 .foregroundStyle(.white)
                             //                            .shadow(radius: 3, y: 4)
+                            
                                 .overlay {
                                     VStack (alignment: .leading){
                                         HeartMotivationView(viewModel: $viewModel)
-                                                                                
+                                        
                                         Text("Niveau d'émotion")
                                             .font(.system(size: 12))
                                             .fontWeight(.light)
@@ -63,61 +64,107 @@ struct JournalEditorView: View {
                                             .fontWeight(.thin)
                                             .fontWidth(.expanded)
                                         
-                                    
+                                        
                                     }.padding(.trailing,35)
                                     
                                 }.padding(.leading, 24)
-                        }
-                        .padding(.bottom, 40)
-                        Spacer()
-                        
-                        
-                        
-                    } else {
-                        VStack(alignment: .leading) {
-                            
-                            Text("Émotion")
-                                .semiBold()
-                                .padding(.leading, 24)
-                            
-                            RoundedRectangle(cornerRadius: 20)
-                                .frame(width: 175 ,height: 170)
-                                .foregroundStyle(.white)
-                            //                            .shadow(radius: 3, y: 4)
-                                .overlay {
-                                    VStack (alignment: .leading){
-                                        HeartMotivationView(viewModel: $viewModel)
-                                            .padding(.bottom,2)
-                                        Text("Niveau d'émotion")
-                                            .font(.system(size: 12))
-                                            .fontWeight(.light)
-                                            .fontWidth(.expanded)
-                                        Text("Remplissez-le selon votre ressenti")
-                                            .font(.system(size: 10))
-                                            .fontWeight(.thin)
-                                            .fontWidth(.expanded)
-                                    }.padding(.trailing,35)
-                                    
-                                }.padding(.leading, 24)
-                        }
-                        .padding(.bottom, 40)
-                        Spacer()
-                        
-                    }
-                    ScrollView(.horizontal){
-                        HStack(spacing: -35) {
-                            ForEach(viewModel.randomEmotions, id: \.self) { emotion in
-                                    MoodValidationStick(stickColor: "rose", emotion: emotion.title, emotionOTFVM: $emotionOTDViewModel)
+                        }                     else {
+                            VStack(alignment: .leading) {
                                 
+                                Text("Émotion")
+                                    .semiBold()
+                                    .padding(.leading, 24)
+                                
+                                RoundedRectangle(cornerRadius: 20)
+                                    .frame(width: 175 ,height: 170)
+                                    .foregroundStyle(.white)
+                                //                            .shadow(radius: 3, y: 4)
+                                    .overlay {
+                                        VStack (alignment: .leading){
+                                            HeartMotivationView(viewModel: $viewModel)
+                                                .padding(.bottom,2)
+                                            Text("Niveau d'émotion")
+                                                .font(.system(size: 12))
+                                                .fontWeight(.light)
+                                                .fontWidth(.expanded)
+                                            Text("Remplissez-le selon votre ressenti")
+                                                .font(.system(size: 10))
+                                                .fontWeight(.thin)
+                                                .fontWidth(.expanded)
+                                        }.padding(.trailing,35)
+                                        
+                                    }.padding(.leading, 24)
                             }
-                            NavigationLink {
-                                // doit naviger vers la page des choix des émotions
-                            } label: {
-                                MoodValidationStick(stickColor: "gris", emotion: "Voir plus", emotionOTFVM: $emotionOTDViewModel)
-                            }.buttonStyle(.plain)
+                            .padding(.bottom, 40)
+                            Spacer()
+                            
                         }
-
-
+                    }
+                    .padding(.bottom, 40)
+                    Spacer()
+                    
+                    
+                    
+                    
+                    if #available(iOS 26.0, *) {
+                        ScrollView(.horizontal){
+                            
+                            HStack(spacing: -35) {
+                                
+                                ForEach(viewModel.randomEmotions, id: \.self) { emotion in
+                                    MoodValidationStick(
+                                        stickColor: "rose",
+                                        emotion: emotion.title, isSelected: false,
+                                        buttonSign: "plus",
+                                        onValidate: {
+                                            Task{
+                                                await emotionOTDViewModel.addEmotionOfTheDay()
+                                            }
+                                        },
+                                        onDelete: {
+                                            Task{
+                                                await emotionOTDViewModel.deleteEmotionOfTheDay()
+                                            }
+                                        })
+                                }
+                                
+                                Button {
+                                    // doit naviger vers la page des choix des émotions
+                                } label: {
+                                    HStack {
+                                        ZStack {
+                                                Capsule()
+                                                    .glassEffect(.regular.tint(.gray))
+                                                    .frame(width: 44, height: 110)
+                                                    .overlay {
+                                                        Button {
+                                                            //                                                        isSelected.toggle()
+                                                            
+                                                        } label: {
+                                                            Circle()
+                                                                .glassEffect(.regular.tint(.gray))
+                                                                .frame(width: 44)
+                                                                .overlay {
+                                                                    Image(systemName: "arrow.right")
+                                                                        .font(.system(size: 20))
+                                                                }
+                                                                .padding([.leading, .top], 45)
+                                                        }.buttonStyle(.plain)
+                                                    }
+                                            
+                                            Text("Voir plus")
+                                                .textCards()
+                                                .padding([.leading, .bottom], 40)
+                                        }
+                                    }
+                                    .frame(width: 140)                            }.buttonStyle(.plain)
+                            }
+                            
+                            
+                        }.scrollIndicators(.hidden)
+                            .scrollEdgeEffectStyle(.hard, for: .bottom)
+                    } else {
+                        // Fallback on earlier versions
                     }
                     
                     
@@ -188,7 +235,8 @@ struct JournalEditorView: View {
 }
 
 #Preview {
-    JournalEditorView(viewModel: .constant(JournalEditorViewModel(user: AuthViewModel())))
-        .environment(JournalEditorViewModel(user: AuthViewModel()))
-        .environment(ChallengeViewModel())
+        JournalEditorView(viewModel: .constant(JournalEditorViewModel()))
+            .environment(JournalEditorViewModel())
+            .environment(ChallengeViewModel())
+
 }
