@@ -9,7 +9,7 @@ import Foundation
 
 struct StatRepo {
     
-    var statService: StatService
+    var statService = StatService()
     let statMapper = StatMapper()
     let emotionCategoryMapper = EmotionCategoryMapper()
     

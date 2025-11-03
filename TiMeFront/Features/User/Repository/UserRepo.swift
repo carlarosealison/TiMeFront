@@ -7,14 +7,11 @@
 
 import Foundation
 
-class UserRepo{
-    private let service: UserService
-    private let mapper: UserMapper
+struct UserRepo{
     
-    init(service: UserService = UserService(), mapper: UserMapper = UserMapper()) {
-        self.service = service
-        self.mapper = mapper
-    }
+     let service = UserService()
+     let mapper = UserMapper()
+    
     
     func creatUser(firstName: String, lastName: String, userName: String, email: String, password: String, imageProfil: String) async throws -> UserResponse{
         let request = UserRequest(firstName: firstName, lastName: lastName, userName: userName, email: email, password: password, imageProfil: imageProfil)
@@ -27,11 +24,7 @@ class UserRepo{
         return try await service.login(user: request)
     }
     
-    func updateUser(
-        firstName: String, lastName: String,
-        userName: String, email: String,
-        password: String, imageProfil: String?
-    ) async throws -> UserResponse {
+    func updateUser(firstName: String, lastName: String, userName: String, email: String, password: String, imageProfil: String?) async throws -> UserResponse {
         let request = UserRequest(
             firstName: firstName,
             lastName: lastName,
@@ -42,5 +35,11 @@ class UserRepo{
         )
         return try await service.updateUser(userRequest: request)
     }
+    
+    func patchStreak(streak: Int, token: String) async throws -> UserStreakResponseDTO {
+        let request = UserStreakDTO(streakNumber: streak)
+        return try await service.patchStreak(streak: request, token: token)
+    }
+
+
 }
-//        return mapper.mapUserResponse(response)

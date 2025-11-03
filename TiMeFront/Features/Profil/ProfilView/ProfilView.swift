@@ -10,6 +10,7 @@ import LocalAuthentication
 import PhotosUI
 
 struct ProfilView: View {
+
     @State private var viewModel = ProfilViewModel()
     @State private var isShowingPhotoPicker = false
     @Environment(AuthViewModel.self) var authVM
@@ -34,7 +35,6 @@ struct ProfilView: View {
             GradientBackgroundView()
             mainContent
             
-                // Overlay centré pour l'édition
             if let field = viewModel.showingEdit {
                 EditSheet(
                     field: field,
@@ -46,22 +46,24 @@ struct ProfilView: View {
                     },
                     onSave: {
                         Task {
-                                //  Appeler la fonction updateProfile du ProfilViewModel
                             let success = await viewModel.updateProfile(field: field)
                             
                             if success {
-                                    //  Synchroniser avec UserViewModel après succès
                                 userVM.userName = viewModel.name
                                 userVM.email = viewModel.email
                                 if !viewModel.password.isEmpty {
                                     userVM.password = viewModel.password
                                 }
+                                            if var user = authVM.currentUser {
+                                                user.userName = viewModel.name
+                                                user.email = viewModel.email
+                                                authVM.currentUser = user
+                                            }
                                 print("✅ Profil mis à jour avec succès")
                             } else {
                                 print("❌ Échec de la mise à jour")
                             }
                             
-                                // Ferme la sheet
                             viewModel.showingEdit = nil
                         }
                     }
@@ -77,8 +79,6 @@ struct ProfilView: View {
         .navigationDestination(isPresented: $viewModel.navigateToAuth) {
             if #available(iOS 26.0, *) {
                 AuthentificationView()
-            } else {
-                    // Fallback on earlier versions
             }
         }
         .onChange(of: viewModel.faceIDOn) { _, newValue in
@@ -107,7 +107,8 @@ private extension ProfilView {
             Spacer()
             
             avatarSection
-            Text(userVM.userName.isEmpty ? "Invité" : userVM.userName)
+          
+Text(userVM.userName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Invité" : userVM.userName)
                 .font(.title2)
                 .bold()
                 .foregroundColor(Color("PurpleText"))
@@ -182,7 +183,7 @@ private extension ProfilView {
         Button("Déconnexion") {
             viewModel.showLogoutConfirm = true
         }
-        .font(Font.custom("SF Pro", size: 19))
+        .fontWidth(.expanded)
         .foregroundColor(.white)
         .frame(maxWidth: .infinity)
         .padding()

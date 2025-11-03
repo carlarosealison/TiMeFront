@@ -26,6 +26,12 @@ struct EditSheet: View {
         // Gestion du focus sur le champ de texte
     @FocusState private var isFocused: Bool
     
+    @State private var showPassword: Bool = false
+    @State private var currentPasswordInput: String = ""
+    @State private var newPasswordInput: String = ""
+    @State private var showCurrentPassword: Bool = false
+    @State private var showNewPassword: Bool = false
+
     var body: some View {
         ZStack {
                 // Fond noir semi-transparent derrière la popup
@@ -42,29 +48,92 @@ struct EditSheet: View {
                 VStack(spacing: 25) {
                         // --- Titre selon le champ édité (ex: “Modifier le nom”) ---
                     Text(field.title)
-                        .font(Font.custom("SF Pro", size: 22))
+                        .fontWidth(.expanded)
                         .foregroundColor(Color("PurpleText"))
-                    
-                        //  Champ de texte
-                    TextField("Entrez votre \(labelText(field))", text: $inputText)
-                        .textFieldStyle(.roundedBorder)
-                        .focused($isFocused)
-                        .padding(.horizontal)
-                        .onAppear {
-                                // Pré-remplit le champ avec la valeur actuelle
-                            switch field {
-                                case .name: inputText = name
-                                case .email: inputText = email
-                                case .password: inputText = password
+
+                    // Champ(s) de texte — version simple
+                    VStack(alignment: .leading, spacing: 12) {
+                        if case .email = field {
+                            // Affiche simplement l'email actuel
+                            Text("Email actuel: " + email)
+                                .font(.subheadline)
+                                .foregroundColor(.white.opacity(0.9))
+
+                            TextField("Nouvel email", text: $inputText)
+                                .textInputAutocapitalization(.never)
+                                .keyboardType(.emailAddress)
+                                .autocorrectionDisabled(true)
+                                .padding(10)
+                                .background(Color.white.opacity(0.12))
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        } else if case .password = field {
+                            // Deux champs: mot de passe actuel et nouveau mot de passe, chacun avec afficher/masquer
+                            VStack(spacing: 10) {
+                                // Mot de passe actuel
+                                HStack {
+                                    Group {
+                                        if showCurrentPassword {
+                                            TextField("Mot de passe actuel", text: $currentPasswordInput)
+                                        } else {
+                                            SecureField("Mot de passe actuel", text: $currentPasswordInput)
+                                        }
+                                    }
+                                    .textInputAutocapitalization(.never)
+                                    .autocorrectionDisabled(true)
+
+                                    Button(action: { showCurrentPassword.toggle() }) {
+                                        Image(systemName: showCurrentPassword ? "eye.slash" : "eye")
+                                            .foregroundColor(.white.opacity(0.85))
+                                    }
+                                    .accessibilityLabel(showCurrentPassword ? "Masquer le mot de passe actuel" : "Afficher le mot de passe actuel")
+                                }
+                                .padding(10)
+                                .background(Color.white.opacity(0.12))
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+
+                                // Nouveau mot de passe
+                                HStack {
+                                    Group {
+                                        if showNewPassword {
+                                            TextField("Nouveau mot de passe", text: $newPasswordInput)
+                                        } else {
+                                            SecureField("Nouveau mot de passe", text: $newPasswordInput)
+                                        }
+                                    }
+                                    .textInputAutocapitalization(.never)
+                                    .autocorrectionDisabled(true)
+
+                                    Button(action: { showNewPassword.toggle() }) {
+                                        Image(systemName: showNewPassword ? "eye.slash" : "eye")
+                                            .foregroundColor(.white.opacity(0.85))
+                                    }
+                                    .accessibilityLabel(showNewPassword ? "Masquer le nouveau mot de passe" : "Afficher le nouveau mot de passe")
+                                }
+                                .padding(10)
+                                .background(Color.white.opacity(0.12))
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                             }
-                            
-                                // Active automatiquement le clavier après un court délai
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                isFocused = true
-                            }
+
+                            // Note: Le hash doit être appliqué côté ViewModel/Service avant l'écriture en BDD.
+                        } else {
+                            TextField("Entrez votre \(labelText(field))", text: $inputText)
+                                .padding(10)
+                                .background(Color.white.opacity(0.12))
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         }
-                    
-                        //  Boutons “Annuler” et “Enregistrer” côte à côte
+                    }
+                    .padding(.horizontal)
+                    .onAppear {
+                        // Pré-remplit le champ avec la valeur actuelle
+                        switch field {
+                        case .name: inputText = name
+                        case .email: inputText = email
+                        case .password:
+                            // Ne jamais pré-remplir un mot de passe en clair
+                            inputText = ""
+                            currentPasswordInput = ""
+                            newPasswordInput = ""
+                        }
                     HStack(spacing: 20) {
                             // Bouton Annuler
                         Button("Annuler") {
@@ -75,15 +144,15 @@ struct EditSheet: View {
                         .padding(.horizontal, 24)
                         .background(Color.white.opacity(0.15))
                         .clipShape(Capsule())
-                        .font(Font.custom("SF Pro", size: 19))
+                        .fontWidth(.expanded)
                         
-                            // Bouton Enregistrer
+                        // Bouton Enregistrer
                         Button("Enregistrer") {
                                 // Met à jour le champ correspondant
                             switch field {
-                                case .name: name = inputText
-                                case .email: email = inputText
-                                case .password: password = inputText
+                            case .name: name = inputText
+                            case .email: email = inputText
+                            case .password: password = newPasswordInput
                             }
                             onSave()
                         }
@@ -96,7 +165,7 @@ struct EditSheet: View {
                             color: Color("PurpleDark").opacity(0.5),
                             radius: 10, x: 0, y: 4
                         )
-                        .font(Font.custom("SF Pro", size: 19))
+                        .fontWidth(.expanded)
                     }
                     .padding(.top, 10)
                 }
@@ -161,3 +230,4 @@ struct RoundedCorner: Shape {
         onSave: {}
     )
 }
+

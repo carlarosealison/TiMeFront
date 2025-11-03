@@ -15,12 +15,12 @@ struct ProfilRow: View {
         HStack {
             Image(systemName: icon)
                 .symbolVariant(.fill)
-                .font(.system(size: 20, weight: .semibold))
+                .fontWidth(.expanded)
                 .foregroundColor(Color("PurpleText"))
                 .frame(width: 36)
             
             Text(text)
-                .font(.custom("SF Pro Expanded Regular", size: 16))
+                .fontWidth(.expanded)
                 .foregroundColor(Color("PurpleText"))
             
             Spacer()
