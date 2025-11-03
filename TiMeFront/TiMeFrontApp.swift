@@ -17,7 +17,8 @@ struct TiMeFrontApp: App {
     @State private var challengeVM = ChallengeViewModel()
     var body: some Scene {
         WindowGroup {
-
+            
+//            EmotionListView()
                 ContentView()
                 .environment(authVM)
                 .environment(userVM)

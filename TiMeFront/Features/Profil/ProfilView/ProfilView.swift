@@ -10,6 +10,7 @@ import LocalAuthentication
 import PhotosUI
 
 struct ProfilView: View {
+
     @State private var viewModel = ProfilViewModel()
     @State private var isShowingPhotoPicker = false
     @Environment(AuthViewModel.self) var authVM
@@ -56,6 +57,12 @@ struct ProfilView: View {
                                 if !viewModel.password.isEmpty {
                                     userVM.password = viewModel.password
                                 }
+                                // ✅ AJOUT : Synchroniser aussi avec AuthViewModel
+                                            if var user = authVM.currentUser {
+                                                user.userName = viewModel.name
+                                                user.email = viewModel.email
+                                                authVM.currentUser = user
+                                            }
                                 print("✅ Profil mis à jour avec succès")
                             } else {
                                 print("❌ Échec de la mise à jour")
@@ -100,6 +107,7 @@ private extension ProfilView {
             Spacer()
             
             avatarSection
+
             
             if let user = authVM.currentUser{
                 Text(user.userName)
@@ -193,7 +201,7 @@ private extension ProfilView {
         Button("Déconnexion") {
             viewModel.showLogoutConfirm = true
         }
-        .font(Font.custom("SF Pro", size: 19))
+        .fontWidth(.expanded)
         .foregroundColor(.white)
         .frame(maxWidth: .infinity)
         .padding()
