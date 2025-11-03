@@ -155,7 +155,7 @@ class AuthViewModel {
                 shouldIncrement = true
                 print("Connecté hier → Streak +1")
             } else {
-                    // Je ne me suis pas connecté hier → Streak garde sa valeur
+                    // Je ne me suis pas connecté hier → Streak garde sa valeur initiale
                 shouldIncrement = false
                 print("Pas connecté hier → Streak garde sa valeur")
             }
