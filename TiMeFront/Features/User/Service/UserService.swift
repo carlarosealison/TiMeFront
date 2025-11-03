@@ -32,11 +32,11 @@ struct UserService{
     }
     
 
-
-    func postStreak(userId: Int, streak: UserStreakDTO) async throws -> UserResponse{
-        try await api.post(endpoint: "user/\(userId)/streak", body: streak)
+    func patchStreak(streak: UserStreakDTO, token: String) async throws -> UserStreakResponseDTO {
+        return try await api.patch(endpoint: "users/streak", token: token, body: streak)
     }
 
+    
 
     func updateUser(userRequest: UserRequest) async throws -> UserResponse {
         try await api.put(endpoint: "users", body: userRequest)

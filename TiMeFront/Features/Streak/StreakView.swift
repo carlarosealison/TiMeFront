@@ -24,7 +24,16 @@ struct StreakView: View {
                         .foregroundStyle(Color("PurpleDark"))
                 }
             }else{
-                Text("Non authentifier")
+                VStack(spacing: 80){
+                    Image(systemName: "lock.fill")
+                        .resizable()
+                        .foregroundStyle(.purpleButton)
+                        .scaledToFill()
+                        .frame(width: 60, height: 60)
+                    Text("Non authentifier")
+                        .mediumBlack()
+                }
+          
             }
         }
 }
