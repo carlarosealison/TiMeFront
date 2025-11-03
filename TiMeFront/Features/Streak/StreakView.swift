@@ -29,16 +29,6 @@ struct StreakView: View {
 
 #Preview {
     let authVM = AuthViewModel()
-    authVM.currentUser = UserResponse(
-        id: UUID(),
-        firstName: "Thibault",
-        lastName: "Test",
-        userName: "thibault",
-        email: "test@test.com",
-        imageProfil: nil,
-        streakNumber: 12
-    )
-    
-    return StreakView()
+    StreakView()
         .environment(authVM)
 }
