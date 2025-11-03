@@ -1,12 +1,13 @@
-//
-//  EmotionListView.swift
-//  TiMeFront
-//
-//  Created by Mounir on 28/10/2025.
-//
+    //
+    //  EmotionListView.swift
+    //  TiMeFront
+    //
+    //  Created by Mounir on 28/10/2025.
+    //
 
 import SwiftUI
 
+@available(iOS 26.0, *)
 struct EmotionListView: View {
     @State private var selectedEmotion: String? = nil  // Une seule émotion sélectionnée
     
@@ -30,569 +31,912 @@ struct EmotionListView: View {
                 
                 VStack(alignment: .leading) {
                     
-                    
-                    Group {
-                        Text("Amour")
-                            .fontWidth(.expanded)
-                            .bold()
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 0) {
-                                MoodValidationStick(
-                                    stickColor: "rose",
-                                    emotion: "Excitée",
-                                    isSelected: selectedEmotion == "Excitée",
-                                    onTap: { selectEmotion("Excitée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rose",
-                                    emotion: "Tendre",
-                                    isSelected: selectedEmotion == "Tendre",
-                                    onTap: { selectEmotion("Tendre") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rose",
-                                    emotion: "Attentionnée",
-                                    isSelected: selectedEmotion == "Attentionnée",
-                                    onTap: { selectEmotion("Attentionnée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rose",
-                                    emotion: "Passionnée",
-                                    isSelected: selectedEmotion == "Passionnée",
-                                    onTap: { selectEmotion("Passionnée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rose",
-                                    emotion: "Paisible",
-                                    isSelected: selectedEmotion == "Paisible",
-                                    onTap: { selectEmotion("Paisible") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rose",
-                                    emotion: "Affectueuse",
-                                    isSelected: selectedEmotion == "Affectueuse",
-                                    onTap: { selectEmotion("Affectueuse") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rose",
-                                    emotion: "Romantique",
-                                    isSelected: selectedEmotion == "Romantique",
-                                    onTap: { selectEmotion("Romantique") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rose",
-                                    emotion: "Amoureuse",
-                                    isSelected: selectedEmotion == "Amoureuse",
-                                    onTap: { selectEmotion("Amoureuse") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rose",
-                                    emotion: "Désir",
-                                    isSelected: selectedEmotion == "Désir",
-                                    onTap: { selectEmotion("Désir") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rose",
-                                    emotion: "Envie",
-                                    isSelected: selectedEmotion == "Envie",
-                                    onTap: { selectEmotion("Envie") }
-                                ).frame(width: 120)
-                            }
-                        }
-                        .background(Color.clear)
-                    }
-                    
-                    Group {
-                        Text("Joie")
-                            .fontWidth(.expanded)
-                            .bold()
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 0) {
-                                MoodValidationStick(
-                                    stickColor: "orange",
-                                    emotion: "Fascinée",
-                                    isSelected: selectedEmotion == "Fascinée",
-                                    onTap: { selectEmotion("Fascinée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "orange",
-                                    emotion: "Optimiste",
-                                    isSelected: selectedEmotion == "Optimiste",
-                                    onTap: { selectEmotion("Optimiste") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "orange",
-                                    emotion: "Reconnaissante",
-                                    isSelected: selectedEmotion == "Reconnaissante",
-                                    onTap: { selectEmotion("Reconnaissante") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "orange",
-                                    emotion: "Fière",
-                                    isSelected: selectedEmotion == "Fière",
-                                    onTap: { selectEmotion("Fière") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "orange",
-                                    emotion: "Heureuse",
-                                    isSelected: selectedEmotion == "Heureuse",
-                                    onTap: { selectEmotion("Heureuse") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "orange",
-                                    emotion: "Joyeuse",
-                                    isSelected: selectedEmotion == "Joyeuse",
-                                    onTap: { selectEmotion("Joyeuse") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "orange",
-                                    emotion: "Enthousiaste",
-                                    isSelected: selectedEmotion == "Enthousiaste",
-                                    onTap: { selectEmotion("Enthousiaste") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "orange",
-                                    emotion: "Satisfaite",
-                                    isSelected: selectedEmotion == "Satisfaite",
-                                    onTap: { selectEmotion("Satisfaite") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "orange",
-                                    emotion: "Sur un nuage",
-                                    isSelected: selectedEmotion == "Sur un nuage",
-                                    onTap: { selectEmotion("Sur un nuage") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "orange",
-                                    emotion: "Emplie d'espoir",
-                                    isSelected: selectedEmotion == "Emplie d'espoir",
-                                    onTap: { selectEmotion("Emplie d'espoir") }
-                                ).frame(width: 120)
-                            }
+                    Text("Amour")
+                        .fontWidth(.expanded)
+                        .bold()
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 0) {
+                            MoodValidationStick(
+                                stickColor: "rose",
+                                emotion: "Excitée",
+                                isSelected: selectedEmotion == "Excitée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }
+                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rose",
+                                emotion: "Tendre",
+                                isSelected: selectedEmotion == "Tendre",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }
+                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rose",
+                                emotion: "Attentionnée",
+                                isSelected: selectedEmotion == "Attentionnée", buttonSign: "",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }
+                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rose",
+                                emotion: "Passionnée",
+                                isSelected: selectedEmotion == "Passionnée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }
+                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rose",
+                                emotion: "Paisible",
+                                isSelected: selectedEmotion == "Paisible",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rose",
+                                emotion: "Affectueuse",
+                                isSelected: selectedEmotion == "Affectueuse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rose",
+                                emotion: "Romantique",
+                                isSelected: selectedEmotion == "Romantique",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rose",
+                                emotion: "Amoureuse",
+                                isSelected: selectedEmotion == "Amoureuse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rose",
+                                emotion: "Désir",
+                                isSelected: selectedEmotion == "Désir",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rose",
+                                emotion: "Envie",
+                                isSelected: selectedEmotion == "Envie",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
                         }
                     }
+                    .background(Color.clear)
                     
-                    Group {
-                        Text("Fatigue")
-                            .fontWidth(.expanded)
-                            .bold()
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 0){
-                                MoodValidationStick(
-                                    stickColor: "vert",
-                                    emotion: "Vaseuse",
-                                    isSelected: selectedEmotion == "Vaseuse",
-                                    onTap: { selectEmotion("Vaseuse") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "vert",
-                                    emotion: "Anéantie",
-                                    isSelected: selectedEmotion == "Anéantie",
-                                    onTap: { selectEmotion("Anéantie") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "vert",
-                                    emotion: "Exténuée",
-                                    isSelected: selectedEmotion == "Exténuée",
-                                    onTap: { selectEmotion("Exténuée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "vert",
-                                    emotion: "Fatiguée",
-                                    isSelected: selectedEmotion == "Fatiguée",
-                                    onTap: { selectEmotion("Fatiguée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "vert",
-                                    emotion: "Indisposée",
-                                    isSelected: selectedEmotion == "Indisposée",
-                                    onTap: { selectEmotion("Indisposée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "vert",
-                                    emotion: "Déprimée",
-                                    isSelected: selectedEmotion == "Déprimée",
-                                    onTap: { selectEmotion("Déprimée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "vert",
-                                    emotion: "Ennuyée",
-                                    isSelected: selectedEmotion == "Ennuyée",
-                                    onTap: { selectEmotion("Ennuyée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "vert",
-                                    emotion: "Las",
-                                    isSelected: selectedEmotion == "Las",
-                                    onTap: { selectEmotion("Las") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "vert",
-                                    emotion: "Meurtrie",
-                                    isSelected: selectedEmotion == "Meurtrie",
-                                    onTap: { selectEmotion("Meurtrie") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "vert",
-                                    emotion: "Surmenage",
-                                    isSelected: selectedEmotion == "Surmenage",
-                                    onTap: { selectEmotion("Surmenage") }
-                                ).frame(width: 120)
-                            }
-                        }
-                    }
-                    
-                    Group {
-                        Text("Colère")
-                            .fontWidth(.expanded)
-                            .bold()
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 0){
-                                MoodValidationStick(
-                                    stickColor: "rouge",
-                                    emotion: "Rancoeur",
-                                    isSelected: selectedEmotion == "Rancoeur",
-                                    onTap: { selectEmotion("Rancoeur") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rouge",
-                                    emotion: "Envieuse",
-                                    isSelected: selectedEmotion == "Envieuse",
-                                    onTap: { selectEmotion("Envieuse") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rouge",
-                                    emotion: "Agacée",
-                                    isSelected: selectedEmotion == "Agacée",
-                                    onTap: { selectEmotion("Agacée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rouge",
-                                    emotion: "Jalouse",
-                                    isSelected: selectedEmotion == "Jalouse",
-                                    onTap: { selectEmotion("Jalouse") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rouge",
-                                    emotion: "Dégoûtée",
-                                    isSelected: selectedEmotion == "Dégoûtée",
-                                    onTap: { selectEmotion("Dégoûtée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rouge",
-                                    emotion: "Haineuse",
-                                    isSelected: selectedEmotion == "Haineuse",
-                                    onTap: { selectEmotion("Haineuse") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rouge",
-                                    emotion: "Aigrie",
-                                    isSelected: selectedEmotion == "Aigrie",
-                                    onTap: { selectEmotion("Aigrie") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rouge",
-                                    emotion: "Irritable",
-                                    isSelected: selectedEmotion == "Irritable",
-                                    onTap: { selectEmotion("Irritable") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rouge",
-                                    emotion: "Enragée",
-                                    isSelected: selectedEmotion == "Enragée",
-                                    onTap: { selectEmotion("Enragée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "rouge",
-                                    emotion: "Exaspérée",
-                                    isSelected: selectedEmotion == "Exaspérée",
-                                    onTap: { selectEmotion("Exaspérée") }
-                                ).frame(width: 120)
-                            }
+                    Text("Joie")
+                        .fontWidth(.expanded)
+                        .bold()
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 0) {
+                            MoodValidationStick(
+                                stickColor: "orange",
+                                emotion: "Fascinée",
+                                isSelected: selectedEmotion == "Fascinée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "orange",
+                                emotion: "Optimiste",
+                                isSelected: selectedEmotion == "Optimiste",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "orange",
+                                emotion: "Reconnaissante",
+                                isSelected: selectedEmotion == "Reconnaissante",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "orange",
+                                emotion: "Fière",
+                                isSelected: selectedEmotion == "Fière",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "orange",
+                                emotion: "Heureuse",
+                                isSelected: selectedEmotion == "Heureuse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "orange",
+                                emotion: "Joyeuse",
+                                isSelected: selectedEmotion == "Joyeuse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "orange",
+                                emotion: "Enthousiaste",
+                                isSelected: selectedEmotion == "Enthousiaste",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "orange",
+                                emotion: "Satisfaite",
+                                isSelected: selectedEmotion == "Satisfaite",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "orange",
+                                emotion: "Sur un nuage",
+                                isSelected: selectedEmotion == "Sur un nuage",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "orange",
+                                emotion: "Emplie d'espoir",
+                                isSelected: selectedEmotion == "Emplie d'espoir",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
                         }
                     }
                     
-                    Group {
-                        Text("Peur")
-                            .fontWidth(.expanded)
-                            .bold()
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 0){
-                                MoodValidationStick(
-                                    stickColor: "bleu",
-                                    emotion: "Horrifiée",
-                                    isSelected: selectedEmotion == "Horrifiée",
-                                    onTap: { selectEmotion("Horrifiée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "bleu",
-                                    emotion: "Apeurée",
-                                    isSelected: selectedEmotion == "Apeurée",
-                                    onTap: { selectEmotion("Apeurée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "bleu",
-                                    emotion: "Terrifiée",
-                                    isSelected: selectedEmotion == "Terrifiée",
-                                    onTap: { selectEmotion("Terrifiée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "bleu",
-                                    emotion: "Angoissée",
-                                    isSelected: selectedEmotion == "Angoissée",
-                                    onTap: { selectEmotion("Angoissée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "bleu",
-                                    emotion: "Stressée",
-                                    isSelected: selectedEmotion == "Stressée",
-                                    onTap: { selectEmotion("Stressée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "bleu",
-                                    emotion: "Insécure",
-                                    isSelected: selectedEmotion == "Insécure",
-                                    onTap: { selectEmotion("Insécure") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "bleu",
-                                    emotion: "Impuissante",
-                                    isSelected: selectedEmotion == "Impuissante",
-                                    onTap: { selectEmotion("Impuissante") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "bleu",
-                                    emotion: "Inquiète",
-                                    isSelected: selectedEmotion == "Inquiète",
-                                    onTap: { selectEmotion("Inquiète") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "bleu",
-                                    emotion: "Effrayée",
-                                    isSelected: selectedEmotion == "Effrayée",
-                                    onTap: { selectEmotion("Effrayée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "bleu",
-                                    emotion: "Nerveuse",
-                                    isSelected: selectedEmotion == "Nerveuse",
-                                    onTap: { selectEmotion("Nerveuse") }
-                                ).frame(width: 120)
-                            }
+                    Text("Fatigue")
+                        .fontWidth(.expanded)
+                        .bold()
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 0){
+                            MoodValidationStick(
+                                stickColor: "vert",
+                                emotion: "Vaseuse",
+                                isSelected: selectedEmotion == "Vaseuse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "vert",
+                                emotion: "Anéantie",
+                                isSelected: selectedEmotion == "Anéantie",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "vert",
+                                emotion: "Exténuée",
+                                isSelected: selectedEmotion == "Exténuée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "vert",
+                                emotion: "Fatiguée",
+                                isSelected: selectedEmotion == "Fatiguée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "vert",
+                                emotion: "Indisposée",
+                                isSelected: selectedEmotion == "Indisposée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "vert",
+                                emotion: "Déprimée",
+                                isSelected: selectedEmotion == "Déprimée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "vert",
+                                emotion: "Ennuyée",
+                                isSelected: selectedEmotion == "Ennuyée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "vert",
+                                emotion: "Las",
+                                isSelected: selectedEmotion == "Las",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "vert",
+                                emotion: "Meurtrie",
+                                isSelected: selectedEmotion == "Meurtrie",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "vert",
+                                emotion: "Surmenage",
+                                isSelected: selectedEmotion == "Surmenage",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                        }
+                    }
+                    
+                    Text("Colère")
+                        .fontWidth(.expanded)
+                        .bold()
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 0){
+                            MoodValidationStick(
+                                stickColor: "rouge",
+                                emotion: "Rancoeur",
+                                isSelected: selectedEmotion == "Rancoeur",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rouge",
+                                emotion: "Envieuse",
+                                isSelected: selectedEmotion == "Envieuse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rouge",
+                                emotion: "Agacée",
+                                isSelected: selectedEmotion == "Agacée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rouge",
+                                emotion: "Jalouse",
+                                isSelected: selectedEmotion == "Jalouse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rouge",
+                                emotion: "Dégoûtée",
+                                isSelected: selectedEmotion == "Dégoûtée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rouge",
+                                emotion: "Haineuse",
+                                isSelected: selectedEmotion == "Haineuse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rouge",
+                                emotion: "Aigrie",
+                                isSelected: selectedEmotion == "Aigrie",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rouge",
+                                emotion: "Irritable",
+                                isSelected: selectedEmotion == "Irritable",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rouge",
+                                emotion: "Enragée",
+                                isSelected: selectedEmotion == "Enragée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "rouge",
+                                emotion: "Exaspérée",
+                                isSelected: selectedEmotion == "Exaspérée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                        }
+                    }
+                    
+                    Text("Peur")
+                        .fontWidth(.expanded)
+                        .bold()
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 0){
+                            MoodValidationStick(
+                                stickColor: "bleu",
+                                emotion: "Horrifiée",
+                                isSelected: selectedEmotion == "Horrifiée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "bleu",
+                                emotion: "Apeurée",
+                                isSelected: selectedEmotion == "Apeurée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "bleu",
+                                emotion: "Terrifiée",
+                                isSelected: selectedEmotion == "Terrifiée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "bleu",
+                                emotion: "Angoissée",
+                                isSelected: selectedEmotion == "Angoissée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "bleu",
+                                emotion: "Stressée",
+                                isSelected: selectedEmotion == "Stressée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "bleu",
+                                emotion: "Insécure",
+                                isSelected: selectedEmotion == "Insécure",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "bleu",
+                                emotion: "Impuissante",
+                                isSelected: selectedEmotion == "Impuissante",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "bleu",
+                                emotion: "Inquiète",
+                                isSelected: selectedEmotion == "Inquiète",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "bleu",
+                                emotion: "Effrayée",
+                                isSelected: selectedEmotion == "Effrayée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "bleu",
+                                emotion: "Nerveuse",
+                                isSelected: selectedEmotion == "Nerveuse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                        }
+                    }
+                    
+                    Text("Tristesse")
+                        .fontWidth(.expanded)
+                        .bold()
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 0){
+                            MoodValidationStick(
+                                stickColor: "gris",
+                                emotion: "Déprimée",
+                                isSelected: selectedEmotion == "Déprimée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "gris",
+                                emotion: "Honteuse",
+                                isSelected: selectedEmotion == "Honteuse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "gris",
+                                emotion: "Déçue",
+                                isSelected: selectedEmotion == "Déçue",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "gris",
+                                emotion: "Mélancolique",
+                                isSelected: selectedEmotion == "Mélancolique",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "gris",
+                                emotion: "Délaissée",
+                                isSelected: selectedEmotion == "Délaissée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "gris",
+                                emotion: "Désespérée",
+                                isSelected: selectedEmotion == "Désespérée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "gris",
+                                emotion: "Triste",
+                                isSelected: selectedEmotion == "Triste",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "gris",
+                                emotion: "Bouleversée",
+                                isSelected: selectedEmotion == "Bouleversée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "gris",
+                                emotion: "Nostalgique",
+                                isSelected: selectedEmotion == "Nostalgique",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "gris",
+                                emotion: "Contrariée",
+                                isSelected: selectedEmotion == "Contrariée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                        }
+                    }
+                    
+                    Text("Surprise")
+                        .fontWidth(.expanded)
+                        .bold()
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 0){
+                            MoodValidationStick(
+                                stickColor: "violet",
+                                emotion: "Ebahie",
+                                isSelected: selectedEmotion == "Ebahie",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "violet",
+                                emotion: "Attérée",
+                                isSelected: selectedEmotion == "Attérée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "violet",
+                                emotion: "Emue",
+                                isSelected: selectedEmotion == "Emue",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "violet",
+                                emotion: "Sidérée",
+                                isSelected: selectedEmotion == "Sidérée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "violet",
+                                emotion: "Perplexe",
+                                isSelected: selectedEmotion == "Perplexe",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "violet",
+                                emotion: "Touchée",
+                                isSelected: selectedEmotion == "Touchée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "violet",
+                                emotion: "Emerveillée",
+                                isSelected: selectedEmotion == "Emerveillée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "violet",
+                                emotion: "Choquée",
+                                isSelected: selectedEmotion == "Choquée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "violet",
+                                emotion: "Confuse",
+                                isSelected: selectedEmotion == "Confuse",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
+                            
+                            MoodValidationStick(
+                                stickColor: "violet",
+                                emotion: "Submergée",
+                                isSelected: selectedEmotion == "Submergée",
+                                buttonSign: "plus",
+                                onValidate: {
+                                    print("Émotion validée")
+                                },
+                                onDelete: {
+                                    print("Émotion supprimée")
+                                }                            ).frame(width: 120)
                         }
                     }
                     
                     Group {
-                        Text("Tristesse")
-                            .fontWidth(.expanded)
-                            .bold()
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 0){
-                                MoodValidationStick(
-                                    stickColor: "gris",
-                                    emotion: "Déprimée",
-                                    isSelected: selectedEmotion == "Déprimée",
-                                    onTap: { selectEmotion("Déprimée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "gris",
-                                    emotion: "Honteuse",
-                                    isSelected: selectedEmotion == "Honteuse",
-                                    onTap: { selectEmotion("Honteuse") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "gris",
-                                    emotion: "Déçue",
-                                    isSelected: selectedEmotion == "Déçue",
-                                    onTap: { selectEmotion("Déçue") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "gris",
-                                    emotion: "Mélancolique",
-                                    isSelected: selectedEmotion == "Mélancolique",
-                                    onTap: { selectEmotion("Mélancolique") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "gris",
-                                    emotion: "Délaissée",
-                                    isSelected: selectedEmotion == "Délaissée",
-                                    onTap: { selectEmotion("Délaissée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "gris",
-                                    emotion: "Désespérée",
-                                    isSelected: selectedEmotion == "Désespérée",
-                                    onTap: { selectEmotion("Désespérée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "gris",
-                                    emotion: "Triste",
-                                    isSelected: selectedEmotion == "Triste",
-                                    onTap: { selectEmotion("Triste") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "gris",
-                                    emotion: "Bouleversée",
-                                    isSelected: selectedEmotion == "Bouleversée",
-                                    onTap: { selectEmotion("Bouleversée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "gris",
-                                    emotion: "Nostalgique",
-                                    isSelected: selectedEmotion == "Nostalgique",
-                                    onTap: { selectEmotion("Nostalgique") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "gris",
-                                    emotion: "Contrariée",
-                                    isSelected: selectedEmotion == "Contrariée",
-                                    onTap: { selectEmotion("Contrariée") }
-                                ).frame(width: 120)
+                        if #available(iOS 16.0, *) {
+                            // Button is available on iOS 16 and later; adjust minimum as needed
+                            Button(action: {
+                                enregistrerEmotion()
+                            }) {
+                                ButtonForm(title: "Enregistrer", isImage: true)
                             }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.top, 20)
+                        } else {
+                            EmptyView()
                         }
-                    }
-                    
-                    Group {
-                        Text("Surprise")
-                            .fontWidth(.expanded)
-                            .bold()
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 0){
-                                MoodValidationStick(
-                                    stickColor: "violet",
-                                    emotion: "Ebahie",
-                                    isSelected: selectedEmotion == "Ebahie",
-                                    onTap: { selectEmotion("Ebahie") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "violet",
-                                    emotion: "Attérée",
-                                    isSelected: selectedEmotion == "Attérée",
-                                    onTap: { selectEmotion("Attérée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "violet",
-                                    emotion: "Emue",
-                                    isSelected: selectedEmotion == "Emue",
-                                    onTap: { selectEmotion("Emue") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "violet",
-                                    emotion: "Sidérée",
-                                    isSelected: selectedEmotion == "Sidérée",
-                                    onTap: { selectEmotion("Sidérée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "violet",
-                                    emotion: "Perplexe",
-                                    isSelected: selectedEmotion == "Perplexe",
-                                    onTap: { selectEmotion("Perplexe") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "violet",
-                                    emotion: "Touchée",
-                                    isSelected: selectedEmotion == "Touchée",
-                                    onTap: { selectEmotion("Touchée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "violet",
-                                    emotion: "Emerveillée",
-                                    isSelected: selectedEmotion == "Emerveillée",
-                                    onTap: { selectEmotion("Emerveillée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "violet",
-                                    emotion: "Choquée",
-                                    isSelected: selectedEmotion == "Choquée",
-                                    onTap: { selectEmotion("Choquée") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "violet",
-                                    emotion: "Confuse",
-                                    isSelected: selectedEmotion == "Confuse",
-                                    onTap: { selectEmotion("Confuse") }
-                                ).frame(width: 120)
-                                
-                                MoodValidationStick(
-                                    stickColor: "violet",
-                                    emotion: "Submergée",
-                                    isSelected: selectedEmotion == "Submergée",
-                                    onTap: { selectEmotion("Submergée") }
-                                ).frame(width: 120)
-                            }
-                        }
-                    }
-                    
-                    if #available(iOS 26.0, *) {
-                        Button(action: {
-                            enregistrerEmotion()
-                        }) {
-                            ButtonForm(title: "Enregistrer", isImage: true)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, 20)
                     }
                 }
                 .padding()
@@ -601,24 +945,24 @@ struct EmotionListView: View {
         }
     }
     
-    // Fonction pour gérer la sélection d'UNE SEULE émotion au total
+        // Fonction pour gérer la sélection d'UNE SEULE émotion au total
     private func selectEmotion(_ emotion: String) {
         if selectedEmotion == emotion {
-            // Si on reclique sur l'émotion déjà sélectionnée, on la désélectionne
+                // Si on reclique sur l'émotion déjà sélectionnée, on la désélectionne
             selectedEmotion = nil
         } else {
-            // Sinon on sélectionne cette émotion (l'ancienne est automatiquement désélectionnée)
+                // Sinon on sélectionne cette émotion (l'ancienne est automatiquement désélectionnée)
             selectedEmotion = emotion
         }
     }
     
-    // Fonction pour enregistrer l'émotion du jour dans la base de données
+        // Fonction pour enregistrer l'émotion du jour dans la base de données
     private func enregistrerEmotion() {
         if let emotion = selectedEmotion {
             print("Émotion du jour sélectionnée:", emotion)
             
-            // Ici tu envoies l'émotion à ton API Vapor
-            // Exemple : await saveEmotionToAPI(emotion: emotion)
+                // Ici tu envoies l'émotion à ton API Vapor
+                // Exemple : await saveEmotionToAPI(emotion: emotion)
         } else {
             print("Aucune émotion sélectionnée")
         }
@@ -626,5 +970,7 @@ struct EmotionListView: View {
 }
 
 #Preview {
-    EmotionListView()
+    if #available(iOS 26.0, *) {
+        EmotionListView()
+    }
 }
