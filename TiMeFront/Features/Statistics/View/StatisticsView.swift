@@ -9,7 +9,7 @@ import SwiftUI
 
 @available(iOS 26.0, *)
 struct StatisticsView: View {
-    @Environment(AuthViewModel.self) var authVM
+    @Environment(AuthViewModel.self) var authVM 
     @State var statVM = StatisticsViewModel()
     
     var body: some View {

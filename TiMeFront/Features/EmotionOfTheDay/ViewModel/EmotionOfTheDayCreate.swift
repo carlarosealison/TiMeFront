@@ -1,8 +1,8 @@
 //
 //  EmotionOfTheDayCreate.swift
-//  YourProjectName
+//  TiMeFront
 //
-//  Created by YourName on 2025-10-09.
+//  Created by Thibault on 08/10/2025.
 //
 
 import Foundation

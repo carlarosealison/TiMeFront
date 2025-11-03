@@ -12,7 +12,7 @@ class AuthViewModel {
     var isAuthenticated = false
     var token: String?
     var currentUser: UserResponse?
-    
+    var streakUser : Int = 0
     private let userRepo = UserRepo()
     private let baseURL = APIService.shared.baseURL
     
@@ -32,7 +32,12 @@ class AuthViewModel {
             }
             
             await fetchUserProfile()
-            
+            // Simulation : dernière connexion hier
+//            let formatter = DateFormatter()
+//            formatter.dateFormat = "yyyy-MM-dd"
+//            formatter.timeZone = .current
+//            UserDefaults.standard.set(formatter.string(from: Date().addingTimeInterval(-86400)), forKey: "lastConnectionDay")
+
             await incrementStreakIfNeeded()
             
         } catch {
@@ -88,7 +93,7 @@ class AuthViewModel {
         token = nil
         currentUser = nil
         isAuthenticated = false
-
+        
         UserDefaults.standard.removeObject(forKey: "jwtToken")
         print("✅ Déconnexion réussie")
     }
@@ -123,78 +128,66 @@ class AuthViewModel {
             
             self.currentUser = user
 
+            
         } catch {
             print("Erreur récupération profil: \(error)")
         }
     }
     
-        // MARK: Fonction pour gérer la streak
+    // MARK: Fonction pour gérer la streak
     func incrementStreakIfNeeded() async {
-        guard let token else { return }
-        
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        
-            // Récupère la dernière date de connexion (peu importe si elle a incrémenté ou non)
-        let lastConnectionDate = UserDefaults.standard.object(forKey: "lastConnectionDate") as? Date
-                
-            // Cas 1 : Déjà connecté aujourd'hui → Ne rien faire
-        if let lastDate = lastConnectionDate,
-           calendar.isDate(lastDate, inSameDayAs: today) {
+        guard let token = token else { return }
+        guard var currentUser = currentUser else { return }
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = .current
+
+        let todayString = formatter.string(from: Date())
+        let lastConnectionString = UserDefaults.standard.string(forKey: "lastConnectionDay")
+
+        print("lastConnectionDay:", lastConnectionString ?? "aucune", "today:", todayString)
+
+        // Déjà connecté aujourd'hui → rien à faire
+        if lastConnectionString == todayString {
+            print("Déjà connecté aujourd'hui → streak inchangée")
             return
         }
-        
-            // Cas 2 : Vérifier si je me suis connecté hier
+
         var shouldIncrement = false
-        
-        if let lastDate = lastConnectionDate {
-                // Calcule hier
-            if let yesterday = calendar.date(byAdding: .day, value: -1, to: today),
-               calendar.isDate(lastDate, inSameDayAs: yesterday) {
-                    // Je me suis connecté hier → +1
-                shouldIncrement = true
-                print("Connecté hier → Streak +1")
-            } else {
-                    // Je ne me suis pas connecté hier → Streak garde sa valeur
-                shouldIncrement = false
-                print("Pas connecté hier → Streak garde sa valeur")
-            }
-        } else {
-                // Première connexion → On démarre à 1
+        var newStreakValue = currentUser.streakNumber
+
+        if let lastDay = lastConnectionString,
+           let lastDate = formatter.date(from: lastDay),
+           let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()),
+           formatter.string(from: lastDate) == formatter.string(from: yesterday) {
+            newStreakValue += 1
             shouldIncrement = true
-            print("Première connexion → Streak = 1")
+            print("Connecté hier → Streak +1 (\(newStreakValue))")
+        } else {
+            newStreakValue = 1
+            shouldIncrement = true
+            print("Première connexion ou oubli → Streak réinitialisée à 1")
         }
-        
-            // Toujours sauvegarder la date d'aujourd'hui
-        UserDefaults.standard.set(today, forKey: "lastConnectionDate")
-        print("Date de connexion sauvegardée : \(today)")
-        
-            // Incrémenter uniquement si consécutif
+
+        // Sauvegarde la date du jour
+        UserDefaults.standard.set(todayString, forKey: "lastConnectionDay")
+        print("Date sauvegardée :", todayString)
+
+        // Mise à jour côté serveur
         if shouldIncrement {
             do {
-                let apiService = APIService()
-                var request = URLRequest(url: apiService.baseURL.appendingPathComponent("users/streak/increment"))
-                request.httpMethod = "POST"
-                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-                
-                let (data, response) = try await URLSession.shared.data(for: request)
-                
-                guard let httpResponse = response as? HTTPURLResponse,
-                      httpResponse.statusCode == 200 else {
-                    print("Erreur incrémentation streak")
-                    return
-                }
-                
-                let decoder = JSONDecoder()
-                let updatedUser = try decoder.decode(UserResponse.self, from: data)
-                self.currentUser = updatedUser
-                
+                let response = try await userRepo.patchStreak(streak: newStreakValue, token: token)
+                currentUser.streakNumber = response.streakNumber
+                self.currentUser = currentUser
+                print("Streak mise à jour : \(response.streakNumber)")
             } catch {
-                print("Erreur gestion streak: \(error)")
+                print("Erreur lors de la mise à jour de la streak: \(error)")
             }
-        } else {
-                // Ne fait rien, la streak garde sa valeur
         }
     }
-    }
+
+
+
+}
 

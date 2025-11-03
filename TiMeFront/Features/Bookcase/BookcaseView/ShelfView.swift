@@ -1,35 +1,44 @@
-//
-//  ShelfView.swift
-//  TiMeFront
-//
-//  Created by Thibault on 30/10/2025.
-//
+    //
+    //  ShelfView.swift
+    //  TiMeFront
+    //
 
 import SwiftUI
 
-/// Une étagère en bois (la planche horizontale)
+    /// Une étagère
 struct ShelfView: View {
+    var width: CGFloat = 350
+    var height: CGFloat = 12
+    var shadowRadius: CGFloat = 15
+    
     var body: some View {
         Rectangle()
             .fill(
                 LinearGradient(
-                    colors: [
-                        Color(.purpleButton)
-                    ],
+                    colors: [Color(.purpleButton)],
                     startPoint: .top,
                     endPoint: .bottom
                 )
             )
-            .frame(height: 15)
+            .frame(width: width, height: height)
             .overlay {
-                // Effet bois
                 Rectangle()
                     .stroke(Color.black.opacity(0.1), lineWidth: 1)
             }
-            .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 3)
+            .shadow(
+                color: .black.opacity(0.7),
+                radius: shadowRadius,
+                x: 0,
+                y: 10
+            )
+            .cornerRadius(100)
     }
 }
 
 #Preview {
-    ShelfView()
+    VStack(spacing: 40) {
+        ShelfView()
+        ShelfView(width: 200, height: 12, shadowRadius: 20)
+    }
+    .padding()
 }
