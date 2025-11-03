@@ -42,6 +42,7 @@ struct JournalTextEditorView: View {
                         await viewModel.postTextOfTheDay()
                         
                     }
+                    sleep(1)
                     dismiss()
                     
                 } label: {

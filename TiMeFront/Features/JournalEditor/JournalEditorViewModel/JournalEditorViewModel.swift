@@ -48,7 +48,34 @@ class JournalEditorViewModel {
         }.resume()
     }
     
-    
+    //MARK: - Fetch Catégories Emotions pour couleur des MoodValidationSticks
+    var emotionCategories : [EmotionCategoryResponseDTO] = []
+
+    func fetchCatEmotionColor() {
+        
+        guard let url = URL(string: "http://127.0.0.1:8080/emotion-category") else {
+            print("invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url){ data, response, error in
+            if let data = data {
+                do{
+                    let decodedEmotions = try JSONDecoder().decode([EmotionCategoryResponseDTO].self, from: data)
+                    DispatchQueue.main.async {
+                        self.emotionCategories = decodedEmotions
+                    }
+                    print(data)
+                }catch{
+                    print("error while decoding data : \(error.localizedDescription)")
+                }
+            }
+            else if let error = error {
+                print("error while fetching: \(error.localizedDescription)")
+            }
+            
+        }.resume()
+    }
     
     //MARK: - Rédaction du jour
     var showSheet : Bool = false

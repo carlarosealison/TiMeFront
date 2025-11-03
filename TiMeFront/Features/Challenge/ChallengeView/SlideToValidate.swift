@@ -92,7 +92,8 @@ struct SlideToValidate: View {
     @Previewable @State var isValidated = false
     
     ZStack {
-        Color.whitePurple.ignoresSafeArea()
+        Color.whitePurple
+            .ignoresSafeArea()
         
         VStack(spacing: 40) {
             SlideToValidate(isValidated: $isValidated) {

@@ -19,12 +19,14 @@ struct DailyStatementView: View {
                     Text("Citation du jour")
                         .font(.caption)
                         .foregroundColor(.secondary)
+                        .textCards()
                     
                     Text(statement.sentence)
                         .font(.body)
                         .multilineTextAlignment(.center)
                         .foregroundColor(Color("PurpleText"))
                         .padding()
+                        .semiBoldTitle()
                 }
                 .padding(.horizontal)
             } else if let error = viewModel.errorMessage {
