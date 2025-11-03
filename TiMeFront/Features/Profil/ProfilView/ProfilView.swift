@@ -10,7 +10,7 @@ import LocalAuthentication
 import PhotosUI
 
 struct ProfilView: View {
-    @StateObject private var viewModel = ProfilViewModel()  // ← Utilise @StateObject
+    @StateObject private var viewModel = ProfilViewModel()  
     @State private var isShowingPhotoPicker = false
     @Environment(AuthViewModel.self) var authVM
     @Environment(UserViewModel.self) var userVM
@@ -56,6 +56,12 @@ struct ProfilView: View {
                                 if !viewModel.password.isEmpty {
                                     userVM.password = viewModel.password
                                 }
+                                // ✅ AJOUT : Synchroniser aussi avec AuthViewModel
+                                            if var user = authVM.currentUser {
+                                                user.userName = viewModel.name
+                                                user.email = viewModel.email
+                                                authVM.currentUser = user
+                                            }
                                 print("✅ Profil mis à jour avec succès")
                             } else {
                                 print("❌ Échec de la mise à jour")

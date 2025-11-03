@@ -26,6 +26,6 @@ struct UserResponse: Decodable{
     let firstName: String
     let lastName: String
     var userName: String
-    let email: String
+    var email: String
     var imageProfil: String?
 }
