@@ -15,6 +15,7 @@ struct StatisticsView: View {
     var body: some View {
         ZStack {
             GradientBackgroundView()
+
             VStack(spacing: 30) {
                 Text("Statistiques")
                     .semiBoldTitle()

@@ -114,6 +114,7 @@ struct AuthentificationView: View {
                     } else {
                         await authVM.login(email: nil, username: input, password: password)
                     }
+
                     print("✅ Connexion réussie")
                 }
             } else {

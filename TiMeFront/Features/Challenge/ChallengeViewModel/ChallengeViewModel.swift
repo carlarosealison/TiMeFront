@@ -60,20 +60,40 @@ class ChallengeViewModel: @unchecked Sendable {
         isLoading = false
     }
     
-    // Charge le challenge actuel au démarrage
-    func loadCurrentChallenge() async {
-        // Pour l'instant, on simule qu'il n'y a pas de challenge
-        // Plus tard, tu chargeras depuis le backend le challenge du jour
-        challenge = nil
-        isChallengeCompleted = false
-    }
+    //MARK: - ValidateChallenge
     
-    // Accepter un challenge
-    func acceptChallenge(_ selectedChallenge: ChallengeModel) {
-        challenge = selectedChallenge
-        isChallengeCompleted = false
-    }
     
+//<<<<<<< HEAD
+//    // Charge le challenge actuel au démarrage
+//    func loadCurrentChallenge() async {
+//        // Pour l'instant, on simule qu'il n'y a pas de challenge
+//        // Plus tard, tu chargeras depuis le backend le challenge du jour
+//        challenge = nil
+//        isChallengeCompleted = false
+//    }
+//    
+//    // Accepter un challenge
+//    func acceptChallenge(_ selectedChallenge: ChallengeModel) {
+//        challenge = selectedChallenge
+//        isChallengeCompleted = false
+//    }
+//    
+//    // Valider le challenge
+//    func completeChallenge() async {
+//        guard challenge != nil else { return }
+//        
+//        // TODO: Appeler le backend pour marquer comme complété
+//        // try await challengeRepo.completeChallenge(challenge.id)
+//        
+//        isChallengeCompleted = true
+//    }
+//    
+//    // Terminer/abandonner le challenge
+//    func finishChallenge() {
+//        challenge = nil
+//        isChallengeCompleted = false
+//    }
+//=======
     // Valider le challenge
     func completeChallenge() async {
         guard challenge != nil else { return }
@@ -90,4 +110,5 @@ class ChallengeViewModel: @unchecked Sendable {
         challenge = nil
         isChallengeCompleted = false
     }
+//>>>>>>> main
 }

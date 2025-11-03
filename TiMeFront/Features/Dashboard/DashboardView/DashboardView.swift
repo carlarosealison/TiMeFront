@@ -1,9 +1,9 @@
-//
-//  DashboardView.swift
-//  TiMeFront
-//
-//  Created by Thibault on 26/09/2025.
-//
+    //
+    //  DashboardView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 26/09/2025.
+    //
 
 import SwiftUI
 import CoreMotion
@@ -60,7 +60,7 @@ struct DashboardView: View {
             case .graph:
                 StatisticsView()
             case .journal:
-                JournalEditorView()
+            JournalEditorView(viewModel: .constant(JournalEditorViewModel()))
             case .microphone:
                 RecordView()
             case .jarChallenge:
@@ -83,6 +83,7 @@ struct DashboardView: View {
     if #available(iOS 26.0, *) {
         DashboardView()
             .environment(AuthViewModel())
+
             .environment(ChallengeViewModel())
     }
     }

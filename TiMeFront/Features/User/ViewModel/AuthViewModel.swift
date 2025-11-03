@@ -127,6 +127,7 @@ class AuthViewModel {
             let user = try decoder.decode(UserResponse.self, from: data)
             
             self.currentUser = user
+
             
         } catch {
             print("Erreur récupération profil: \(error)")
