@@ -187,7 +187,13 @@ class AuthViewModel {
         }
     }
 
-
-
+    // Initiales de l'utilisateur pour les livres
+    var userInitials: String {
+            guard let user = currentUser else { return "?" }
+            
+            let firstInitial = user.firstName.first.map { String($0).uppercased() } ?? ""
+            let lastInitial = user.lastName.first.map { String($0).uppercased() } ?? ""
+            
+            return firstInitial + lastInitial
+        }
 }
-

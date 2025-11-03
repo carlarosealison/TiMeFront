@@ -95,7 +95,7 @@ struct NovemberShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
                     .offset(book.placement.offset)
@@ -115,6 +115,6 @@ struct NovemberShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         NovemberShelfView(year: 2025)
-            .padding()
+        .environment(AuthViewModel())
     }
 }

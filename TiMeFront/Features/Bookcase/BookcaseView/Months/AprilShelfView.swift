@@ -1,3 +1,10 @@
+    //
+    //  AprilShelfView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 30/10/2025.
+    //
+
 import SwiftUI
 
 @available(iOS 26.0, *)
@@ -87,7 +94,7 @@ struct AprilShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
                     .offset(book.placement.offset)
@@ -111,6 +118,6 @@ struct AprilShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         AprilShelfView(year: 2025)
-            .padding()
+            .environment(AuthViewModel())
     }
 }

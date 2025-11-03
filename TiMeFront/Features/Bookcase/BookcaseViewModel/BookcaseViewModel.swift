@@ -46,7 +46,7 @@ class BookcaseViewModel {
         
         guard let firstDay = calendar.date(from: components),
               let range = calendar.range(of: .day, in: .month, for: firstDay) else {
-            return 4 // Fallback sécuritaire
+            return 4
         }
         
         let daysInMonth = range.count

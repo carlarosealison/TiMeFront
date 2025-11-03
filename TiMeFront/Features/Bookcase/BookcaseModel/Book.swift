@@ -1,7 +1,9 @@
-    //
-    //  Book.swift
-    //  TiMeFront
-    //
+//
+//  Book.swift
+//  TiMeFront
+//
+//  Created by Thibault on 30/10/2025.
+//
 
 import Foundation
 import SwiftUI

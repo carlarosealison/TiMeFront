@@ -1,3 +1,10 @@
+    //
+    //  JulyShelfView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 01/11/2025.
+    //
+
 import SwiftUI
 
 @available(iOS 26.0, *)
@@ -87,7 +94,7 @@ struct JulyShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
                     .offset(book.placement.offset)
@@ -107,6 +114,6 @@ struct JulyShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         JulyShelfView(year: 2025)
-            .padding()
+        .environment(AuthViewModel())
     }
 }
