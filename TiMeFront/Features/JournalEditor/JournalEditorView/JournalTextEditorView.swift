@@ -36,10 +36,10 @@ struct JournalTextEditorView: View {
                 
                 Button{
                     //TODO: Bouton pour poster le message
-                    //                    viewModel.postTextOfTheDay()
+                    //                    viewModel.submitNote()
                     Task {
                         viewModel.user = authVM
-                        await viewModel.postTextOfTheDay()
+                        await viewModel.submitNote()
                         
                     }
                     sleep(1)

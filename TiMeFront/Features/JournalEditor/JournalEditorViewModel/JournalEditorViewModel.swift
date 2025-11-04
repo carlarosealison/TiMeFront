@@ -50,7 +50,7 @@ class JournalEditorViewModel {
     
     //MARK: - Fetch Catégories Emotions pour couleur des MoodValidationSticks
     var emotionCategories : [EmotionCategoryResponseDTO] = []
-
+    
     func fetchCatEmotionColor() {
         
         guard let url = URL(string: "http://127.0.0.1:8080/emotion-category") else {
@@ -86,7 +86,7 @@ class JournalEditorViewModel {
     
     
     
-    func postTextOfTheDay() async {
+    func submitNote() async {
         //je prends l'url corrspondant la route que je veux lier
         guard let url = URL(string: "http://127.0.0.1:8080/page/create") else { return }
         
@@ -101,31 +101,21 @@ class JournalEditorViewModel {
             print("Aucun token disponible")
         }
         
-        //        if let idUser = user?.currentUser?.id {
-        //            let newTextOfTheDay = PageRequestDTO(idUser: idUser, note: textOfTheDay)
-        //            request.httpBody = try? JSONEncoder().encode(newTextOfTheDay)
-        //        }else{
-        //            print ("User id indisponible")
-        //        }
-        
-        //        guard let userIdString = UserDefaults.standard.string(forKey: "id_user"), let idUser = UUID(uuidString: userIdString) else {
-        //            print("User id non trouvé")
-        //            return
-        //        }
-        
         // je récupère l'id du User
-        guard let idUser = user?.currentUser?.id ?? UUID(uuidString: UserDefaults.standard.string(forKey: "id_user") ?? "") else{
+        guard let idUserString = user?.extractUserIdFromJWT(user?.token ?? ""),
+              let idUser = UUID(uuidString: idUserString)
+        else {
             print("User non trouvé")
             return
         }
         
-        //j'instancie le nouvel object à encoder en JSON qui sera envoyé vers le back
-        let newTextOfTheDay = PageRequestDTO(idUser: idUser, note: self.textOfTheDay)
         
-        
-        // j'encode mon objet
         do{
-            request.httpBody = try JSONEncoder().encode(newTextOfTheDay)
+            //j'instancie le nouvel object à encoder en JSON qui sera envoyé vers le back
+            let newNote = PageRequestDTO(idUser: idUser, note: self.textOfTheDay)
+            
+            // j'encode mon objet
+            request.httpBody = try JSONEncoder().encode(newNote)
             
         }catch{
             print("Erreur lors de l'encodage: \(error.localizedDescription)")
@@ -166,63 +156,6 @@ class JournalEditorViewModel {
         
     }
     
-    //    @MainActor
-    //    func postTextOfTheDay(textOfTheDay: PageRequestDTO) {
-    //
-    //        guard let url = URL(string: "http://localhost:8080/page/create") else { return }
-    //        var request = URLRequest(url: url)
-    //        request.httpMethod = "POST"
-    //        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    //        request.addValue("", forHTTPHeaderField: "Authorization")
-    //
-    //            do{
-    //                let jsonData = try JSONEncoder().encode(textOfTheDay)
-    //                request.httpBody = jsonData
-    //            }catch{
-    //                print("error while encoding text of the day: \(error.localizedDescription)")
-    //            }
-    //
-    //
-    //            URLSession.shared.dataTask(with: request) { data, response, error in
-    //
-    //                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201, let data = data else{
-    //                    print("error with status code: \((response as? HTTPURLResponse)?.statusCode ?? -1)")
-    //                    return
-    //                }
-    //
-    //                do{
-    //                    let createdTextOfTheDay = try JSONDecoder().decode(PageRequestDTO.self, from: data)
-    //                    print("New textOfTheDay successfully added!")
-    //                    print("created textOfTheDay: \(createdTextOfTheDay)")
-    //
-    //                }catch{
-    //                    print("error while decode response: \(error.localizedDescription)")
-    //
-    //                }
-    //
-    //                if let error = error {
-    //                    print("error while sending TextOfTheDay: \(error.localizedDescription)")
-    //                    return
-    //                }
-    //
-    //            return
-    //        }.resume()
-    //
-    //
-    //    }
-    
-    //    @MainActor
-    //    func submitTextOfTheDay(){
-    //        guard !textOfTheDay.isEmpty else {
-    //            //TODO: mettre en place une alert dans le font pour prévenir les users que le textOfTheDay n'est pas rempli
-    //            showAlert = true
-    //            return
-    //        }
-    //        let textOfTheDay = PageRequestDTO(idUser: user.currentUser?.id ?? UUID() , note: textOfTheDay)
-    //        postTextOfTheDay(textOfTheDay: textOfTheDay
-    //         )
-    //    }
-    
     //MARK: - ScrollMotivation
     var value : Int = 0
     var tempValue : Int = 0
@@ -231,5 +164,81 @@ class JournalEditorViewModel {
     let range: ClosedRange<Int> = 0...100
     let stepWidth: CGFloat = 10
     
+    func submitMotivation () async{
+        //mon url
+        guard let url = URL(string: "http://127.0.0.1:8080/motivation/create") else {
+            print("Invalid Url")
+            return
+        }
+        
+        //mes headers
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        if let token = user?.token {
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }else{
+            print("aucun token disponible")
+        }
+        
+        // récupération de l'idUser
+        guard let idUserString = user?.extractUserIdFromJWT(user?.token ?? ""),
+              let idUser = UUID(uuidString: idUserString) else {
+            print("User id indisponible")
+            return
+        }
+        
+        do{
+            
+            //instenciation de l'object à envoyer
+            let motivation = MotivationRequestDTO(motivation: tempValue, idUser: idUser)
+            
+            //encodage de mon nouvel objet
+            request.httpBody = try JSONEncoder().encode(motivation)
+            
+        }catch{
+            print("Erreur lors de l'encodage de la motivation: \(error.localizedDescription)")
+            
+        }
+        
+        //exécution de la requête
+        do{
+            //requête
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            //reponseHttp
+            if let httpResponse = response as? HTTPURLResponse {
+                if (200...299).contains(httpResponse.statusCode){
+                    print("motivation envoyée!")
+                }else{
+                    print("erreur lors de l'envoi de la motivation: \(httpResponse.statusCode)")
+                }
+            }
+            //print pour debug
+            
+            print(String(data: data, encoding: .utf8) ?? "")
+
+            let motivationResponse = try JSONDecoder().decode(MotivationResponseDTO.self , from: data)
+            print(motivationResponse.motivation)
+            
+        }catch{
+            //catch de refus d'exécution de la requête
+            print("erreur d'exécution de la requête: \(error.localizedDescription)")
+        }
+        
+    }
+    
+    //MARK: - POST -> Enregistrement des infos de JournalEditorView
+    var isSaved : Bool = false
+    
+    func submitJournalOfTheDay (){
+        //        sliderHeight -> heartlevel
+        //        emotion -> emotion with details
+        //        textOfTheDay -> page
+        //        tempValue -> motivation
+        
+        
+    }
     
 }

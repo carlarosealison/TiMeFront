@@ -11,7 +11,8 @@ struct JournalEditorView: View {
     @State var emotionCatVM = EmotionCategoryViewModel()
     @State var emotionOTDViewModel = EmotionOfTheDayViewModel()
     @State var emotionVM = EmotionViewModel()
-    @Binding var viewModel : JournalEditorViewModel
+    @Binding var user : AuthViewModel
+    @State var viewModel = JournalEditorViewModel()
     
     var body: some View {
         ZStack {
@@ -220,14 +221,23 @@ struct JournalEditorView: View {
                         Spacer()
                     }
                     
-                    ScrollMotivation(viewModel: viewModel)
+                    ScrollMotivation(viewModel: $viewModel)
                     
                 }.padding(.bottom)
                 
+                Button {
+                    //TODO: doit enregistrer toutes les infos
+                    Task {
+                        await viewModel.submitMotivation()
+                    }
+                } label: {
+                    PurpleButton(withArrow: false, buttonFuncText: "Enregistrer")
+                }
+
                 
-                PurpleButton(withArrow: false, buttonFuncText: "Enregistrer")
                 
-                
+            }.onAppear{
+                viewModel.user = user
             }
             
             .task {
@@ -241,8 +251,8 @@ struct JournalEditorView: View {
 }
 
 #Preview {
-    JournalEditorView(viewModel: .constant(JournalEditorViewModel()))
-        .environment(JournalEditorViewModel())
+    JournalEditorView(user: .constant(AuthViewModel()))
+//        .environment(JournalEditorViewModel())
         .environment(ChallengeViewModel())
         .environment(AuthViewModel())
     

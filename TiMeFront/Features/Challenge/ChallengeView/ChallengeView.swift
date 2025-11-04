@@ -135,6 +135,9 @@ struct ChallengeView: View {
                 handleValidation()
             }
         }
+        .task {
+            
+        }
     }
     
     private func handleValidation() {

@@ -60,7 +60,7 @@ struct DashboardView: View {
             case .graph:
                 StatisticsView()
             case .journal:
-            JournalEditorView(viewModel: .constant(JournalEditorViewModel()))
+            JournalEditorView( user: .constant(AuthViewModel()))
             case .microphone:
                 RecordView()
             case .jarChallenge:
@@ -83,7 +83,6 @@ struct DashboardView: View {
     if #available(iOS 26.0, *) {
         DashboardView()
             .environment(AuthViewModel())
-
             .environment(ChallengeViewModel())
     }
     }

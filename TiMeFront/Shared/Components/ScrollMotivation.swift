@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScrollMotivation: View {
-    var viewModel: JournalEditorViewModel
+   @Binding var viewModel: JournalEditorViewModel
     
     var body: some View {
         VStack {
@@ -103,5 +103,5 @@ extension Comparable {
 }
 
 #Preview {
-    ScrollMotivation(viewModel: JournalEditorViewModel())
+    ScrollMotivation(viewModel: .constant(JournalEditorViewModel()))
 }

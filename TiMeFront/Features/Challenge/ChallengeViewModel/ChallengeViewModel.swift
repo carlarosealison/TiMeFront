@@ -20,6 +20,8 @@ class ChallengeViewModel: @unchecked Sendable {
     private let challengeRepo = ChallengeRepo()
     private let challengeOfTheDayRepo = ChallengeOfTheDayRepo()
     
+    var user : AuthViewModel?
+    
 
     //étape 6: mettre en place le viewModel qui fait l'intermédiaire entre le Model(mais ici le Repo -> DTO) et la View
 //    func fetchChallenge(id: UUID) async throws {
@@ -35,6 +37,23 @@ class ChallengeViewModel: @unchecked Sendable {
 //            print("Erreur lors du fetch : \(error)")
 //        }
 //    }
+    
+    func createChallengeOfTheDay(){
+        guard let url = URL(string: "http://127.0.0.1:8080/challengeOfTheDay/\(String(describing: user?.currentUser?.id))") else {
+            print("Invalid URL")
+            return
+        }
+
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        if let token = user?.token{
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }else {
+            print("unavailable token")
+        }
+       
+    }
     
     func fetchRandomChallenge() async {
         isLoading = true
@@ -53,7 +72,7 @@ class ChallengeViewModel: @unchecked Sendable {
             print("✅ Challenge du jour créé")
             
         } catch {
-            print("❌ Erreur : \(error)")
+            print("❌ Erreur : \(error.localizedDescription)")
             errorMessage = "Erreur de chargement"
         }
         
@@ -63,37 +82,20 @@ class ChallengeViewModel: @unchecked Sendable {
     //MARK: - ValidateChallenge
     
     
-//<<<<<<< HEAD
-//    // Charge le challenge actuel au démarrage
-//    func loadCurrentChallenge() async {
-//        // Pour l'instant, on simule qu'il n'y a pas de challenge
-//        // Plus tard, tu chargeras depuis le backend le challenge du jour
-//        challenge = nil
-//        isChallengeCompleted = false
-//    }
-//    
-//    // Accepter un challenge
-//    func acceptChallenge(_ selectedChallenge: ChallengeModel) {
-//        challenge = selectedChallenge
-//        isChallengeCompleted = false
-//    }
-//    
-//    // Valider le challenge
-//    func completeChallenge() async {
-//        guard challenge != nil else { return }
-//        
-//        // TODO: Appeler le backend pour marquer comme complété
-//        // try await challengeRepo.completeChallenge(challenge.id)
-//        
-//        isChallengeCompleted = true
-//    }
-//    
-//    // Terminer/abandonner le challenge
-//    func finishChallenge() {
-//        challenge = nil
-//        isChallengeCompleted = false
-//    }
-//=======
+    // Charge le challenge actuel au démarrage
+    func loadCurrentChallenge() async {
+        // Pour l'instant, on simule qu'il n'y a pas de challenge
+        // Plus tard, tu chargeras depuis le backend le challenge du jour
+        challenge = nil
+        isChallengeCompleted = false
+    }
+    
+    // Accepter un challenge
+    func acceptChallenge(_ selectedChallenge: ChallengeModel) {
+        challenge = selectedChallenge
+        isChallengeCompleted = false
+    }
+    
     // Valider le challenge
     func completeChallenge() async {
         guard challenge != nil else { return }
@@ -110,5 +112,4 @@ class ChallengeViewModel: @unchecked Sendable {
         challenge = nil
         isChallengeCompleted = false
     }
-//>>>>>>> main
 }
