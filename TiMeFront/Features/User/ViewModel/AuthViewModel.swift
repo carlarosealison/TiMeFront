@@ -186,8 +186,5 @@ class AuthViewModel {
             }
         }
     }
-
-
-
 }
 

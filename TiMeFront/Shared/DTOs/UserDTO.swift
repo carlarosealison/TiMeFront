@@ -25,6 +25,12 @@ struct UserStreakResponseDTO: Codable {
     let streakNumber: Int
 }
 
+struct UserChallengeDTO: Codable {
+    let challengeNumber: Int
+}
+struct UserChallengeResponseDTO: Codable {
+    let challengeNumber: Int
+}
 
 
 struct UserLogin: Codable{

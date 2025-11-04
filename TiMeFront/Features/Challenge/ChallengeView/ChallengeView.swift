@@ -67,6 +67,7 @@ struct ChallengeView: View {
 //                
 //=======
     @Environment(ChallengeViewModel.self) var challengeVM
+    @Environment(AuthViewModel.self) var authVM
     @Binding var navigationPath: NavigationPath
     
     @State private var isValidated = false
@@ -142,9 +143,11 @@ struct ChallengeView: View {
         withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
             showSuccessAnimation = true
         }
-
+        
         Task {
-            await challengeVM.completeChallenge()
+            
+            await challengeVM.completeChallenge(auth: authVM)
+            
         }
         
         // Attendre 1.5 secondes puis retourner au Dashboard
@@ -160,4 +163,5 @@ struct ChallengeView: View {
 #Preview {
     ChallengeView(navigationPath: .constant(NavigationPath()))
         .environment(ChallengeViewModel())
+        .environment(AuthViewModel())
 }
