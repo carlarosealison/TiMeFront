@@ -126,9 +126,6 @@ class APIService{
         }
     }
 
-
-    
-
     /// Permet d'utliser les query parameters qui servent à récupérer un user précis avec des jours précis et les mettre dans l'url de requête pour l'historique du journal
     /// On filtre les données d'un seul user (celui connecté) plutôt que toutes les données du journal de tous les users
     func get<T: Decodable>(
