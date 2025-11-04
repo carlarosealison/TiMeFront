@@ -24,25 +24,102 @@ final class ProfilViewModel {
     var showingEdit: ProfilView.EditField?
     var selectedPhotoItem: PhotosPickerItem?
     
+    var isUploadingImage: Bool = false
+    var uploadError: String?
+    
+    private let userRepo = UserRepo()
+    
     @MainActor
-    func loadUserData(from userVM: UserViewModel) {
-        self.name = userVM.userName
-        self.email = userVM.email
+    func loadUserData(from authVM: AuthViewModel) {
+        guard let user = authVM.currentUser else {
+            print("⚠️ Pas d'utilisateur connecté")
+            return
+        }
+        
+        self.name = user.userName
+        self.email = user.email
         self.password = ""
     }
     
-        // MARK: - Chargement image
-    func loadProfileImage(from item: PhotosPickerItem?) {
+        // MARK: Charge et upload automatiquement la photo de profil
+    func loadAndUploadProfileImage(from item: PhotosPickerItem?, authVM: AuthViewModel) {
         guard let item = item else { return }
+        
         Task {
-            if let data = try? await item.loadTransferable(type: Data.self),
-               let uiImage = UIImage(data: data) {
-                await MainActor.run { self.profilImage = uiImage }
+            await MainActor.run { isUploadingImage = true }
+            defer { Task { await MainActor.run { isUploadingImage = false } } }
+            
+            do {
+                    // Charge l'image depuis PhotosPicker
+                guard let data = try await item.loadTransferable(type: Data.self) else {
+                    await MainActor.run {
+                        uploadError = "Impossible de charger l'image"
+                    }
+                    return
+                }
+                
+                    // Crée l'UIImage pour l'afficher localement
+                if let uiImage = UIImage(data: data) {
+                    await MainActor.run {
+                        self.profilImage = uiImage
+                    }
+                }
+                
+                    // Upload vers le backend via AuthViewModel
+                let updatedUser = try await authVM.uploadProfileImage(imageData: data)
+                
+                await MainActor.run {
+                    print("✅ Photo de profil mise à jour")
+                }
+                
+            } catch {
+                await MainActor.run {
+                    print("❌ Erreur upload : \(error)")
+                    uploadError = "Impossible d'uploader l'image"
+                        // Réinitialise l'image locale en cas d'échec
+                    self.profilImage = nil
+                }
             }
         }
     }
     
-        // MARK: - Authentification Face ID
+    // MARK: Met à jour les infos du profil (nom, email, mot de passe)
+    @MainActor
+    func updateProfile(field: ProfilView.EditField, authVM: AuthViewModel) async -> Bool {
+        guard authVM.token != nil else {
+            print("❌ Pas de token disponible")
+            return false
+        }
+        
+        do {
+            let updatedUser = try await userRepo.updateUser(
+                firstName: authVM.currentUser?.firstName ?? "",  // Garde l'existant
+                lastName: authVM.currentUser?.lastName ?? "",     // Garde l'existant
+                userName: name,                                   // Nouveau
+                email: email,                                     // Nouveau
+                password: password.isEmpty ? "" : password,       // Nouveau si non vide
+                imageProfil: authVM.currentUser?.imageProfil      // Garde l'existant
+            )
+            
+                // Met à jour AuthViewModel
+            authVM.currentUser = updatedUser
+            
+                // Réinitialise le champ password pour la sécurité
+            if case .password = field {
+                self.password = ""
+            }
+            
+            print("✅ Profil mis à jour")
+            return true
+            
+        } catch {
+            print("❌ Erreur mise à jour : \(error)")
+            uploadError = "Impossible de mettre à jour le profil"
+            return false
+        }
+    }
+    
+        // MARK: Authentification Face ID
     func authenticateFaceID() {
         let context = LAContext()
         context.localizedCancelTitle = "Annuler"
@@ -59,80 +136,6 @@ final class ProfilViewModel {
             }
         } else {
             faceIDOn = false
-        }
-    }
-    
-    @MainActor
-    func updateProfile(field: ProfilView.EditField) async -> Bool {
-        print("🔵 === DÉBUT updateProfile ===")
-        print("🔵 Field: \(field)")
-        print("🔵 Name: \(name)")
-        print("🔵 Email: \(email)")
-        
-        guard let token = UserDefaults.standard.string(forKey: "jwtToken") else {
-            print("❌ Pas de token JWT")
-            return false
-        }
-        
-        print("✅ Token trouvé: \(token.prefix(30))...")
-        
-        guard let url = URL(string: "http://127.0.0.1:8080/users/update") else {
-            print("❌ URL invalide")
-            return false
-        }
-        
-        print("✅ URL: \(url)")
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        let payload: [String: String] = {
-            switch field {
-                case .name:
-                    return ["userName": name]
-                case .email:
-                    return ["email": email]
-                case .password:
-                    return ["password": password]
-            }
-        }()
-        
-        print("📤 Payload: \(payload)")
-        
-        if let body = try? JSONSerialization.data(withJSONObject: payload, options: []) {
-            request.httpBody = body
-        } else {
-            print("❌ Impossible d'encoder le payload en JSON")
-        }
-        
-        do {
-            print("🔵 Envoi de la requête...")
-            let (data, response) = try await URLSession.shared.data(for: request)
-            
-            if let httpResponse = response as? HTTPURLResponse {
-                print("📡 Code HTTP: \(httpResponse.statusCode)")
-                
-                if let responseText = String(data: data, encoding: .utf8) {
-                    print("Réponse: \(responseText)")
-                }
-                
-                if httpResponse.statusCode == 200 {
-                    print("✅ Succès!")
-                    return true
-                } else {
-                    print("❌ Échec - Code: \(httpResponse.statusCode)")
-                    return false
-                }
-            }
-            
-            print("❌ Pas de réponse HTTP")
-            return false
-            
-        } catch {
-            print("❌ Erreur réseau: \(error.localizedDescription)")
-            return false
         }
     }
 }

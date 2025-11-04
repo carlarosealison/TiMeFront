@@ -166,20 +166,22 @@ class UserViewModel{
     
     
     
-    func uploadImageToVapor() async -> String? {
+    func uploadImageToVapor(authVM: AuthViewModel) async -> UserResponse? {
         guard let imageData = selectedImageData else {
             print("Aucune image à uploader")
             return nil
         }
         
         do {
-            // Utilise APIService qui gère automatiquement l'IP
-            let imageURL = try await apiService.uploadImage(imageData: imageData)
-            self.imageProfil = imageURL
-            print("Image uploadée : (imageURL)")
-            return imageURL
+            let updatedUser = try await authVM.uploadProfileImage(imageData: imageData)
+            
+            print("✅ Image uploadée avec succès")
+            
+            return updatedUser
+            
         } catch {
-            print("Erreur upload : (error)")
+            print("❌ Erreur upload : (error)")
+            errorMessage = "Impossible d'uploader l'image"
             return nil
         }
     }

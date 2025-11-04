@@ -46,24 +46,13 @@ struct ProfilView: View {
                     },
                     onSave: {
                         Task {
-                            let success = await viewModel.updateProfile(field: field)
+                            let success = await viewModel.updateProfile(field: field, authVM: authVM)
                             
                             if success {
-                                userVM.userName = viewModel.name
-                                userVM.email = viewModel.email
-                                if !viewModel.password.isEmpty {
-                                    userVM.password = viewModel.password
-                                }
-                                            if var user = authVM.currentUser {
-                                                user.userName = viewModel.name
-                                                user.email = viewModel.email
-                                                authVM.currentUser = user
-                                            }
-                                print("✅ Profil mis à jour avec succès")
+                                viewModel.loadUserData(from: authVM)
                             } else {
                                 print("❌ Échec de la mise à jour")
                             }
-                            
                             viewModel.showingEdit = nil
                         }
                     }
@@ -73,8 +62,7 @@ struct ProfilView: View {
             }
         }
         .onAppear {
-                // Charger les données au démarrage
-            viewModel.loadUserData(from: userVM)
+            viewModel.loadUserData(from: authVM)
         }
         .navigationDestination(isPresented: $viewModel.navigateToAuth) {
             if #available(iOS 26.0, *) {
@@ -93,7 +81,16 @@ struct ProfilView: View {
         }
         .photosPicker(isPresented: $isShowingPhotoPicker, selection: $viewModel.selectedPhotoItem)
         .onChange(of: viewModel.selectedPhotoItem) { _, newValue in
-            viewModel.loadProfileImage(from: newValue)
+            viewModel.loadAndUploadProfileImage(from: newValue, authVM: authVM)
+        }
+        .alert("Erreur", isPresented: .constant(viewModel.uploadError != nil)) {
+            Button("OK") {
+                viewModel.uploadError = nil
+            }
+        } message: {
+            if let error = viewModel.uploadError {
+                Text(error)
+            }
         }
     }
 }
@@ -107,7 +104,7 @@ private extension ProfilView {
             Spacer()
             
             avatarSection
-          
+            
             if let user = authVM.currentUser {
                 Text("\(user.userName)")
                     .semiBoldCardsTitle()
@@ -130,30 +127,35 @@ private extension ProfilView {
     
     var avatarSection: some View {
         ZStack(alignment: .bottomTrailing) {
-            Circle()
-                .fill(Color.gray.opacity(0.4))
-                .frame(width: 100, height: 100)
+
+            ProfileImageView()
                 .overlay(
-                    Group {
-                        if let image = viewModel.profilImage {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
-                        } else {
-                            Image(systemName: "person.fill")
-                                .font(.system(size: 70))
-                                .foregroundColor(Color("PurpleText"))
-                        }
-                    }
-                        .clipShape(Circle())
+                    Circle()
+                        .stroke(Color("PurpleDark").opacity(0.3), lineWidth: 2)
                 )
             
             Button(action: { isShowingPhotoPicker = true }) {
                 Circle()
                     .fill(Color.white)
                     .frame(width: 30, height: 30)
-                    .overlay(Image(systemName: "pencil").foregroundColor(.black))
+                    .overlay(
+                        Image(systemName: "pencil")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(Color("PurpleButton"))
+                    )
                     .shadow(radius: 2)
+            }
+            .disabled(viewModel.isUploadingImage)
+            
+                // Indicateur de chargement pendant l'upload
+            if viewModel.isUploadingImage {
+                Circle()
+                    .fill(Color.black.opacity(0.6))
+                    .frame(width: 100, height: 100)
+                    .overlay(
+                        ProgressView()
+                            .tint(.white)
+                    )
             }
         }
     }
@@ -203,5 +205,4 @@ private extension ProfilView {
 #Preview {
     ProfilView()
         .environment(AuthViewModel())
-        .environment(UserViewModel())
 }

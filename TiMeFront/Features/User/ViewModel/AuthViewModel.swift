@@ -187,6 +187,29 @@ class AuthViewModel {
         }
     }
 
+    func uploadProfileImage(imageData: Data) async throws -> UserResponse {
+        guard let token = token else {
+            throw URLError(.userAuthenticationRequired)
+        }
+                
+        do {
+                // Appelle le backend qui retourne le user complet
+            let updatedUser = try await APIService.shared.uploadImage(
+                imageData: imageData,
+                token: token
+            )
+            
+                // Met à jour currentUser avec les nouvelles données
+            self.currentUser = updatedUser
+            
+            return updatedUser
+                        
+        } catch {
+            print("❌ Échec: \(error)")
+            throw error
+        }
+    }
+    
     // Initiales de l'utilisateur pour les livres
     var userInitials: String {
             guard let user = currentUser else { return "?" }
