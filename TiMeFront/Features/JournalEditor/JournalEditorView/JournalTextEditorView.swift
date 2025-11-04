@@ -40,7 +40,6 @@ struct JournalTextEditorView: View {
                     Task {
                         viewModel.user = authVM
                         await viewModel.submitNote()
-                        
                     }
                     sleep(1)
                     dismiss()

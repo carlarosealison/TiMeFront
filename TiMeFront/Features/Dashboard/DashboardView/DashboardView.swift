@@ -60,7 +60,7 @@ struct DashboardView: View {
             case .graph:
                 StatisticsView()
             case .journal:
-            JournalEditorView( user: .constant(AuthViewModel()))
+            JournalEditorView()
             case .microphone:
                 RecordView()
             case .jarChallenge:

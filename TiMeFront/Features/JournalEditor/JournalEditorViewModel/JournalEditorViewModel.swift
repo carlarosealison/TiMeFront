@@ -20,6 +20,58 @@ class JournalEditorViewModel {
     var heartMaxHeight : CGFloat = 105
     
     var lastDragValue : CGFloat = 0
+    
+    func submitHeartLevel () async{
+        guard let url = URL(string: "http://127.0.0.1:8080/heartLevel/create") else{ return }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        if let token = user?.token {
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }else{
+            print("token indisponible (heart)")
+        }
+        
+        guard let userIdString = user?.extractUserIdFromJWT(user?.token ?? ""),
+        let userId = UUID(uuidString: userIdString) else {
+            print("user indisponible (heart)")
+            return
+        }
+        
+        do {
+            let heartLevel = Int(sliderHeight)
+            let newHeartLevel = HeartLevelRequestDTO(level: heartLevel, idUser: userId)
+            request.httpBody = try JSONEncoder().encode(newHeartLevel)
+            
+        }catch{
+            
+            print("erreur lors de l'encodage du heartLevel: \(error.localizedDescription)")
+            return
+        }
+        
+        do{
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if (200...299).contains(httpResponse.statusCode){
+                    print("heartLevel envoyé")
+                }else{
+                    print("erreur lors de l'envoi du heartLevel \nErreur:\(httpResponse.statusCode)")
+                }
+            }
+            
+            print(String(data: data, encoding: .utf8) ?? "")
+            
+            let heartLevelResponse = try JSONDecoder().decode(HeartLevelResponseDTO.self, from: data)
+            print(heartLevelResponse.level)
+            
+        }catch{
+            print("erreur d'exécution de la requête du heartLevel : \(error.localizedDescription)")
+        }
+    }
+    
     //MARK: - FetchEmotion pour les MoodValidationSticks
     var randomEmotions : [EmotionResponseDTO] = []
     
@@ -98,14 +150,14 @@ class JournalEditorViewModel {
         if let token = user?.token {
             request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }else {
-            print("Aucun token disponible")
+            print("Aucun token disponible (note)")
         }
         
         // je récupère l'id du User
         guard let idUserString = user?.extractUserIdFromJWT(user?.token ?? ""),
               let idUser = UUID(uuidString: idUserString)
         else {
-            print("User non trouvé")
+            print("User non trouvé (note) ")
             return
         }
         
@@ -179,13 +231,13 @@ class JournalEditorViewModel {
         if let token = user?.token {
             request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }else{
-            print("aucun token disponible")
+            print("aucun token disponible (motivation) ")
         }
         
         // récupération de l'idUser
         guard let idUserString = user?.extractUserIdFromJWT(user?.token ?? ""),
               let idUser = UUID(uuidString: idUserString) else {
-            print("User id indisponible")
+            print("User id indisponible (motivation) ")
             return
         }
         
@@ -224,13 +276,16 @@ class JournalEditorViewModel {
             
         }catch{
             //catch de refus d'exécution de la requête
-            print("erreur d'exécution de la requête: \(error.localizedDescription)")
+            print("erreur d'exécution de la requête de la motivation: \(error.localizedDescription)")
         }
         
     }
     
+    
+    
     //MARK: - POST -> Enregistrement des infos de JournalEditorView
     var isSaved : Bool = false
+    var showMandatory : Bool = false
     
     func submitJournalOfTheDay (){
         //        sliderHeight -> heartlevel

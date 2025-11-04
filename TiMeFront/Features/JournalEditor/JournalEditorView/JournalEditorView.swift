@@ -11,7 +11,8 @@ struct JournalEditorView: View {
     @State var emotionCatVM = EmotionCategoryViewModel()
     @State var emotionOTDViewModel = EmotionOfTheDayViewModel()
     @State var emotionVM = EmotionViewModel()
-    @Binding var user : AuthViewModel
+//    @Binding var user : AuthViewModel
+    @Environment(AuthViewModel.self) var user
     @State var viewModel = JournalEditorViewModel()
     
     var body: some View {
@@ -92,11 +93,14 @@ struct JournalEditorView: View {
                                                 .padding([.leading, .bottom], 40)
                                         }
                                     }
-                                    .frame(width: 140)                            }.buttonStyle(.plain)
+                                    .frame(width: 140)
+                                }.buttonStyle(.plain)
                             }
                             
                             
-                        }.scrollIndicators(.hidden).padding(.leading, 170)
+                        }
+                        .scrollIndicators(.hidden)
+                        .padding(.leading, 170)
                         
                     } else {
                         // Fallback on earlier versions
@@ -108,10 +112,9 @@ struct JournalEditorView: View {
                             Text("Émotion")
                                 .semiBold()
                                 .padding(.leading, 24)
-                            if #available(iOS 26.0, *) {
                                 
                                 RoundedRectangle(cornerRadius: 20)
-                                    .glassEffect(in: .rect(cornerRadius: 20))
+//                                    .glassEffect(in: .rect(cornerRadius: 20))
                                     .frame(width: 175 ,height: 170)
                                     .foregroundStyle(.white)
                                     .overlay {
@@ -131,47 +134,13 @@ struct JournalEditorView: View {
                                         }.padding(.trailing,35)
                                         
                                     }.padding(.leading, 24)
-                            }                     else {
-                                VStack(alignment: .leading) {
-                                    
-                                    Text("Émotion")
-                                        .semiBold()
-                                        .padding(.leading, 24)
-                                    
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .frame(width: 175 ,height: 170)
-                                        .foregroundStyle(.white)
-                                        .overlay {
-                                            VStack (alignment: .leading){
-                                                HeartMotivationView(viewModel: $viewModel)
-                                                    .padding(.bottom,2)
-                                                Text("Niveau d'émotion")
-                                                    .font(.system(size: 12))
-                                                    .fontWeight(.light)
-                                                    .fontWidth(.expanded)
-                                                Text("Remplissez-le selon votre ressenti")
-                                                    .font(.system(size: 10))
-                                                    .fontWeight(.thin)
-                                                    .fontWidth(.expanded)
-                                            }.padding(.trailing,35)
-                                            
-                                        }.padding(.leading, 24)
-                                }
-                                .padding(.bottom, 40)
-                                Spacer()
-                                
-                            }
+                            
                         }
                         .padding(.bottom, 40)
                         Spacer()
                     }
 
                     Spacer()
-                    
-                    
-                    
-                    
-
                     
                     
                 }
@@ -225,11 +194,36 @@ struct JournalEditorView: View {
                     
                 }.padding(.bottom)
                 
+                if viewModel.showMandatory {
+                    Text("Remplissage d'un champ obligatoire pour enregistrer")
+                        .font(.system(size: 10))
+                        .fontWidth(.expanded)
+                        .fontWeight(.regular)
+                        .foregroundStyle(.redCustom)
+                        .padding(.bottom,5)
+                }
+                
                 Button {
                     //TODO: doit enregistrer toutes les infos
                     Task {
-                        await viewModel.submitMotivation()
+                        viewModel.user = user
+                        
+                        if viewModel.tempValue > 0{
+                            await viewModel.submitMotivation()
+                        }
+                        
+                        if viewModel.sliderHeight > 0 {
+                            await viewModel.submitHeartLevel()
+                        }
+                        
+                        if !viewModel.textOfTheDay.isEmpty{
+                            await viewModel.submitNote()
+                        }
+                        else if viewModel.tempValue <= 0 && viewModel.sliderHeight <= 0 && viewModel.textOfTheDay.isEmpty{
+                            viewModel.showMandatory = true
+                        }
                     }
+                    
                 } label: {
                     PurpleButton(withArrow: false, buttonFuncText: "Enregistrer")
                 }
@@ -251,7 +245,7 @@ struct JournalEditorView: View {
 }
 
 #Preview {
-    JournalEditorView(user: .constant(AuthViewModel()))
+    JournalEditorView()
 //        .environment(JournalEditorViewModel())
         .environment(ChallengeViewModel())
         .environment(AuthViewModel())
