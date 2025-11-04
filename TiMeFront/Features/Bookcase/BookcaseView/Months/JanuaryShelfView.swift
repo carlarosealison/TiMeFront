@@ -99,7 +99,7 @@ struct JanuaryShelfView: View {
                 
                 ShelfView(width: 450, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: -10, height: 0))
+                    .offset(.init(width: -10, height: -15))
             }
             .frame(height: 220)
         }

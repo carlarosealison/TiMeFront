@@ -103,10 +103,11 @@ struct DecemberShelfView: View {
                 
                 DecorationView(type: .cactus)
                     .scaleEffect(1.6)
-                    .offset(.init(width: 150, height: -30))
+                    .offset(.init(width: 150, height: -45))
                 
                 ShelfView(width: 420, height: 15)
                     .allowsHitTesting(false)
+                    .offset(.init(width: 0, height: -15))
             }
             .frame(height: 220)
         }

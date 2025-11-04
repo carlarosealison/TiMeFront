@@ -103,6 +103,7 @@ struct OctoberShelfView: View {
                 
                 ShelfView(width: 450, height: 15)
                     .allowsHitTesting(false)
+                    .offset(.init(width: 0, height: -15))
 
             }
             .frame(height: 220)

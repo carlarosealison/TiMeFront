@@ -102,11 +102,11 @@ struct SeptemberShelfView: View {
                 
                 DecorationView(type: .plant2)
                     .scaleEffect(4)
-                    .offset(.init(width: 155, height: -65))
+                    .offset(.init(width: 155, height: -80))
                 
                 ShelfView(width: 450, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: 50, height: 0))
+                    .offset(.init(width: 50, height: -15))
             }
             .frame(height: 220)
         }

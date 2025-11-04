@@ -102,7 +102,7 @@ struct MarchShelfView: View {
                 
                 ShelfView(width: 450, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: 70, height: 0))
+                    .offset(.init(width: 70, height: -15))
             }
             .frame(height: 220)
         }

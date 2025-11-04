@@ -83,7 +83,7 @@ struct FebruaryShelfView: View {
             
             ZStack(alignment: .bottom) {
                 ShelfView(width: 500, height: 15)
-                    .offset(.init(width: 60, height: 0))
+                    .offset(.init(width: 60, height: -15))
                     .allowsHitTesting(false)
                 
                 ForEach(books) { book in
@@ -101,7 +101,7 @@ struct FebruaryShelfView: View {
                 }
                 DecorationView(type: .buste)
                     .scaleEffect(2)
-                    .offset(.init(width: 180, height: -35))
+                    .offset(.init(width: 180, height: -50))
             }
             .frame(height: 220)
         }

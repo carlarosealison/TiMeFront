@@ -106,7 +106,7 @@ struct AprilShelfView: View {
                 
                 ShelfView(width: 420, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: -50, height: 0))
+                    .offset(.init(width: -50, height: -15))
             }
             .frame(height: 220)
         }

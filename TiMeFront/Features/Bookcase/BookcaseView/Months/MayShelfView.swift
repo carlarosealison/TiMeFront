@@ -102,11 +102,11 @@ struct MayShelfView: View {
                 
                 ShelfView(width: 550, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: 0, height: 0))
+                    .offset(.init(width: 0, height: -15))
                 
                 DecorationView(type: .plant4)
                     .scaleEffect(2.8)
-                    .offset(.init(width: 160, height: 11))
+                    .offset(.init(width: 160, height: -3))
             }
             .frame(height: 220)
         }

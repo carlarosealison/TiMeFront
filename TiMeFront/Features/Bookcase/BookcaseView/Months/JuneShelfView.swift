@@ -102,7 +102,7 @@ struct JuneShelfView: View {
                 
                 ShelfView(width: 350, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: 0, height: 0))
+                    .offset(.init(width: 0, height: -15))
             }
             .frame(height: 220)
         }

@@ -102,11 +102,11 @@ struct AugustShelfView: View {
                 
                 DecorationView(type: .plant3)
                     .scaleEffect(4)
-                    .offset(.init(width: 165, height: -88))
+                    .offset(.init(width: 165, height: -105))
                 
                 ShelfView(width: 450, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: 35, height: 0))
+                    .offset(.init(width: 35, height: -15))
             }
             .frame(height: 220)
         }
