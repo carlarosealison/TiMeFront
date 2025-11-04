@@ -23,7 +23,7 @@ struct ProfilView: View {
         
         var title: String {
             switch self {
-                case .name: return "Modifier le nom"
+                case .name: return "Modifier le pseudo"
                 case .email: return "Modifier l'email"
                 case .password: return "Modifier le mot de passe"
             }
@@ -108,12 +108,19 @@ private extension ProfilView {
             
             avatarSection
           
-Text(userVM.userName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Invité" : userVM.userName)
-                .font(.title2)
-                .bold()
-                .foregroundColor(Color("PurpleText"))
-            
-            
+            if let user = authVM.currentUser {
+                Text("\(user.userName)")
+                    .semiBoldCardsTitle()
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color("PurpleText"))
+            } else {
+                Text("invité")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color("PurpleText"))
+            }
+
             optionsSection
             logoutButton
             
@@ -154,7 +161,7 @@ Text(userVM.userName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "
     var optionsSection: some View {
         VStack(spacing: 0) {
             Button { viewModel.showingEdit = .name } label: {
-                ProfilRow(icon: "pencil", text: "Modifier le nom")
+                ProfilRow(icon: "pencil", text: "Modifier le pseudo")
             }
             Divider().frame(minHeight: 1)
             
