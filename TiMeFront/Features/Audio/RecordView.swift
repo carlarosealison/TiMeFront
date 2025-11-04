@@ -123,6 +123,7 @@ struct RecordView: View {
         .alert("Enregistrement sauvegardé", isPresented: $showSaveAlert) {
             Button("OK", role: .cancel) {
                     recordingTime = 0
+                dismiss()
             }
         } message: {
             Text("Votre enregistrement vocal a été sauvegardé avec succès !")
