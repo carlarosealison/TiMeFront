@@ -133,12 +133,14 @@ struct StatisticsView: View {
         case .chart:
             VStack {
                 textDescription(description: "Changements d'humeurs", isShowInfo: true)
+                    .semiBoldTitle()
                 StatsGraphView(emotionStats: statVM.emotionCategoryStats)
                     .padding(.horizontal)
             }
         case .card:
             VStack {
                 textDescription(description: "Chiffres clés", isShowInfo: false)
+                    .semiBoldTitle()
                 GridCardDataView(
                     pages: statVM.pages,
                     streak: statVM.streak, notes: statVM.notes, average: statVM.average,
