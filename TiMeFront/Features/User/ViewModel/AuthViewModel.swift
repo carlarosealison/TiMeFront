@@ -58,7 +58,7 @@ class AuthViewModel {
     }
     
     // MARK: - Helper : Décoder JWT
-    private func extractUserIdFromJWT(_ token: String) -> String? {
+    func extractUserIdFromJWT(_ token: String) -> String? {
         // Un JWT est composé de 3 parties séparées par des points : header.payload.signature
         let parts = token.split(separator: ".")
         guard parts.count == 3 else {

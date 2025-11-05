@@ -15,8 +15,8 @@ struct MoodValidationStick: View {
     
     @State var color = ColorMapper()
     
-    let onValidate: () -> Void
-    let onDelete: () -> Void
+    let onValidate: () -> Void?
+    let onDelete: () -> Void?
     
     init(stickColor: String, emotion: String, isSelected: Bool, buttonSign: String, color: ColorMapper = ColorMapper(), onValidate: @escaping () -> Void, onDelete: @escaping () -> Void) {
         self.stickColor = stickColor
@@ -27,6 +27,8 @@ struct MoodValidationStick: View {
         self.onValidate = onValidate
         self.onDelete = onDelete
     }
+    
+
     
     var body: some View {
         
@@ -39,17 +41,24 @@ struct MoodValidationStick: View {
                         .overlay {
                             Button {
                                 isSelected.toggle()
+
+                                if isSelected {
+                                    onValidate()
+                                }else{
+                                    onDelete()
+                                }
                                 
                             } label: {
-                               Circle()
-                                .glassEffect(.regular.tint(isSelected ? Color.green : ColorMapper.color(from: stickColor)))
-                                .frame(width: 44)
-                                .overlay {
-                                    Image(systemName: isSelected ? "checkmark" : "plus")
-                                        .font(.system(size: 20))
-                                        .foregroundColor(isSelected ? .black : .primary)
-                                }
-                                .padding([.leading, .top], 45)
+                                Circle()
+                                    .glassEffect(.regular.tint(isSelected ? Color.greenCustom : ColorMapper.color(from: stickColor)))
+                                    .frame(width: 44)
+                                    .overlay {
+                                        withAnimation(.easeInOut) {
+                                            Image(systemName: isSelected ? "checkmark" : "plus")
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.purpleText)
+                                        }}
+                                    .padding([.leading, .top], 45)
                             }.buttonStyle(.plain)
                         }
                 } else {
@@ -59,17 +68,25 @@ struct MoodValidationStick: View {
                         .overlay {
                             Button {
                                 isSelected.toggle()
+
+                                if isSelected {
+                                    onValidate()
+                                }else{
+                                    onDelete()
+                                }
                                 
                             } label: {
-                            Circle()
-                                .foregroundStyle(isSelected ? Color.green : ColorMapper.color(from: stickColor))
-                                .frame(width: 44)
-                                .overlay {
-                                    Image(systemName: isSelected ? "checkmark" : "plus")
-                                        .font(.system(size: 20))
-                                        .foregroundColor(isSelected ? .black : .primary)
-                                }
-                                .padding([.leading, .top], 45)
+                                Circle()
+                                    .foregroundStyle(isSelected ? Color.greenCustom : ColorMapper.color(from: stickColor))
+                                    .frame(width: 44)
+                                    .overlay {
+                                        withAnimation(.interactiveSpring) {
+                                            Image(systemName: isSelected ? "checkmark" : "plus")
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.purpleText)
+                                        }
+                                    }
+                                    .padding([.leading, .top], 45)
                             }.buttonStyle(.plain)
                         }
                 }

@@ -16,12 +16,12 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
     var challenge : ChallengeModel?
     private let challengeRepo = ChallengeRepo()
     
-    var authViewModel : AuthViewModel
+    var user : AuthViewModel
     
-    init(challengeOTD: ChallengeOfTheDayResponseDTO? = nil, challenge: ChallengeModel? = nil, authViewModel: AuthViewModel) {
+    init(challengeOTD: ChallengeOfTheDayResponseDTO? = nil, challenge: ChallengeModel? = nil, user: AuthViewModel) {
         self.challengeOTD = challengeOTD
         self.challenge = challenge
-        self.authViewModel = authViewModel
+        self.user = user
     }
     
     func createRandomChallenge() async throws {

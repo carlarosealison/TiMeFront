@@ -14,3 +14,9 @@ struct MotivationResponseDTO: Codable, Identifiable {
     let createdAt: Date
     let idUser: UUID
 }
+
+//MARK: - MotivationRequestDTO
+struct MotivationRequestDTO : Codable {
+    let motivation : Int
+    let idUser : UUID
+}

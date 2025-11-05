@@ -68,7 +68,7 @@ struct PrivateJournalWeekView: View {
 				} else if let dayEntry = currentDayEntry {
 					if dayEntry.hasData {
 							// Au moins 1 donnée → Affiche placeholders pour les autres cartes
-						PrivateJournalDayView(dayEntry: dayEntry)
+                        PrivateJournalDayView(journalEditorVM: .constant(JournalEditorViewModel()), dayEntry: dayEntry)
 							.frame(width: 290)
 							.padding(.top, 50)
                             .padding(.leading, 30)

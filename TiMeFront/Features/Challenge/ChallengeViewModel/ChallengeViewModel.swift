@@ -20,6 +20,7 @@ class ChallengeViewModel: @unchecked Sendable {
     var authViewModel: AuthViewModel?
     
     private let challengeRepo = ChallengeRepo()
+    private let userService = UserService()
     private let challengeOfTheDayRepo = ChallengeOfTheDayRepo()
     
     func fetchRandomChallenge() async {

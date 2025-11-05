@@ -14,3 +14,9 @@ struct HeartLevelResponseDTO: Codable, Identifiable {
     let createdAt: Date
     let idUser: UUID
 }
+
+//MARK: - HeartLevelRequestDTO
+struct HeartLevelRequestDTO: Codable {
+    let level : Int
+    let idUser : UUID
+}
