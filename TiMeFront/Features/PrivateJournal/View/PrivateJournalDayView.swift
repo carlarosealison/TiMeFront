@@ -137,6 +137,12 @@ struct PrivateJournalDayView: View {
                     Spacer()
                 }
             }
+            .task {
+                await journalEditorVM.fetchHeartLevels()
+                journalEditorVM.fetchHeartLevel()
+                
+            }
+
         }
     
 }

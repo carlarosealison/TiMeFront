@@ -11,7 +11,6 @@ struct JournalEditorView: View {
     @State var emotionCatVM = EmotionCategoryViewModel()
     @State var emotionOTDViewModel = EmotionOfTheDayViewModel()
     @State var emotionVM = EmotionViewModel()
-//    @Binding var user : AuthViewModel
     @Environment(AuthViewModel.self) var user
     @State var viewModel = JournalEditorViewModel()
     
@@ -55,7 +54,12 @@ struct JournalEditorView: View {
                                         buttonSign: "plus",
                                         onValidate: {
                                             Task{
-                                                await emotionOTDViewModel.addEmotionOfTheDay()
+                                                //pour bien lier le user de JournalEditorViewModel au user de AuthViewModel
+                                                viewModel.user = user
+                                                if let emotionID = emotion.id {
+                                                    await viewModel.submitEmotionOfTheDay(emotionID: emotionID)
+                                                }
+                                               
                                             }
                                         },
                                         onDelete: {
