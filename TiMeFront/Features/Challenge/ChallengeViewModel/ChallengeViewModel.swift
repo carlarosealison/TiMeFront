@@ -39,12 +39,11 @@ class ChallengeViewModel: @unchecked Sendable {
                 messageMotivation: challengeOTD.messageMotivationOTD
             )
             self.isChallengeCompleted = false
-            
-            print("✅ [Challenge] Challenge créé: \(challengeOTD.instructionOTD)")
-            
+                        
         } catch {
             print("❌ [Challenge] Erreur: \(error)")
             errorMessage = "Erreur de chargement"
+            self.challenge = nil
         }
         
         isLoading = false
@@ -54,7 +53,6 @@ class ChallengeViewModel: @unchecked Sendable {
     func completeChallenge() async {
         guard challenge != nil else { return }
         self.isChallengeCompleted = true
-        print("✅ [Challenge] Challenge validé!")
     }
     
     // MARK: Compléter/abandonner le challenge

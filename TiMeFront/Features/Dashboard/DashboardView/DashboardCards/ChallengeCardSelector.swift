@@ -45,7 +45,7 @@ struct ChallengeCardSelector: View {
             DashboardCard {
                 ChallengeCardContent(
                     title: "Défi",
-                    description: challengeViewModel.challenge?.instruction ?? "Prend du temps pour toi",
+                    description: challengeViewModel.challenge?.instruction ?? "Indisponible",
                     showSuccess: challengeViewModel.isChallengeCompleted
                 )
             }
