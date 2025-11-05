@@ -31,4 +31,6 @@ struct ChallengeService {
     func randomChallenge() async throws -> ChallengeResponseDTO{
         try await api.get(endpoint: "challenge/randomChallenge", as: ChallengeResponseDTO.self)
     }
+    
+
 }

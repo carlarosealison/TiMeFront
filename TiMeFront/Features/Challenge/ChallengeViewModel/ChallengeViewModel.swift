@@ -18,6 +18,7 @@ class ChallengeViewModel: @unchecked Sendable {
     var errorMessage: String?
     
     private let challengeRepo = ChallengeRepo()
+    private let userService = UserService()
     private let challengeOfTheDayRepo = ChallengeOfTheDayRepo()
     
     var user : AuthViewModel?
@@ -82,6 +83,7 @@ class ChallengeViewModel: @unchecked Sendable {
     //MARK: - ValidateChallenge
     
     
+
     // Charge le challenge actuel au démarrage
     func loadCurrentChallenge() async {
         // Pour l'instant, on simule qu'il n'y a pas de challenge
@@ -96,15 +98,35 @@ class ChallengeViewModel: @unchecked Sendable {
         isChallengeCompleted = false
     }
     
+
     // Valider le challenge
-    func completeChallenge() async {
-        guard challenge != nil else { return }
-        
-        // TODO: Appeler le backend pour marquer comme complété
-        // try await challengeRepo.completeChallenge(challenge.id)
-        
+    func completeChallenge(auth: AuthViewModel) async {
+        guard let challenge else { return }
+        guard let token = auth.token else {
+            print("❌ Pas de token → impossible de mettre à jour challengeNumber")
+            return
+        }
+
+        // On marque le challenge comme complété
         self.isChallengeCompleted = true
         print("✅ Challenge complété !")
+
+        // On incrémente le challenge number localement
+        let newValue = (auth.currentUser?.challengeNumber ?? 0) + 1
+
+        do {
+            let updatedUser = try await userService.patchChallenge(
+                challengeNumber: newValue,
+                token: token
+            )
+
+            // On met à jour auth.currentUser pour refléter le nouveau challengeNumber
+            auth.currentUser?.challengeNumber = updatedUser.challengeNumber
+
+            print("🔥 ChallengeNumber mis à jour côté serveur : \(updatedUser.challengeNumber)")
+        } catch {
+            print("❌ Erreur mise à jour challengeNumber:", error)
+        }
     }
     
     // Terminer/abandonner le challenge

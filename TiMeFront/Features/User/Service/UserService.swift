@@ -42,5 +42,9 @@ struct UserService{
         try await api.put(endpoint: "users", body: userRequest)
     }
     
+    func patchChallenge(challengeNumber: Int, token: String) async throws -> UserChallengeResponseDTO {
+           let body = UserChallengeDTO(challengeNumber: challengeNumber)
+           return try await api.patch(endpoint: "users/challenge", token: token, body: body)
+       }
     
 }
