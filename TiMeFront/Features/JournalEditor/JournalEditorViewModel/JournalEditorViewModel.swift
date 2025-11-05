@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Observable
-class JournalEditorViewModel {
+class JournalEditorViewModel : @unchecked Sendable{
     
     //MARK: - Date du jour
     var today = Date().formattedFrench()
@@ -70,6 +70,37 @@ class JournalEditorViewModel {
         }catch{
             print("erreur d'exécution de la requête du heartLevel : \(error.localizedDescription)")
         }
+    }
+    
+    var heartLevels : [HeartLevelResponseDTO] = []
+    
+    func fetchHeartLevel() async {
+        guard let url = URL(string: "http://127.0.0.1:8080/heartLevel")else{
+            print("invalid Url")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                do{
+                    let decodedHeartLevels = try JSONDecoder().decode([HeartLevelResponseDTO].self, from: data)
+                    
+                    DispatchQueue.main.async {
+                        self.heartLevels = decodedHeartLevels
+                    }
+                    
+                }
+                catch{
+                    print("error while decoding data: \(error.localizedDescription)")
+                    return
+                }
+            }
+            else if let error = error {
+                print("error while decoding data: \(error.localizedDescription)")
+            }
+
+        }.resume()
+        
     }
     
     //MARK: - FetchEmotion pour les MoodValidationSticks
