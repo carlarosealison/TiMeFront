@@ -74,7 +74,7 @@ final class ProfilViewModel {
                 
             } catch {
                 await MainActor.run {
-                    print("❌ Erreur upload : \(error)")
+                    print("Erreur upload : \(error)")
                     uploadError = "Impossible d'uploader l'image"
                         // Réinitialise l'image locale en cas d'échec
                     self.profilImage = nil
@@ -87,7 +87,7 @@ final class ProfilViewModel {
     @MainActor
     func updateProfile(field: ProfilView.EditField, authVM: AuthViewModel) async -> Bool {
         guard authVM.token != nil else {
-            print("❌ Pas de token disponible")
+            print("Pas de token disponible")
             return false
         }
         
@@ -108,12 +108,10 @@ final class ProfilViewModel {
             if case .password = field {
                 self.password = ""
             }
-            
-            print("✅ Profil mis à jour")
             return true
             
         } catch {
-            print("❌ Erreur mise à jour : \(error)")
+            print("Erreur mise à jour : \(error)")
             uploadError = "Impossible de mettre à jour le profil"
             return false
         }

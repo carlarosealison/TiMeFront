@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct JournalTextEditorView: View {
+    
     @Binding var viewModel : JournalEditorViewModel
     @Environment(\.dismiss) var dismiss
     @Environment(AuthViewModel.self) var authVM
-    
     
     var body: some View {
         VStack {
@@ -36,7 +36,6 @@ struct JournalTextEditorView: View {
                 
                 Button{
                     //TODO: Bouton pour poster le message
-                    //                    viewModel.submitNote()
                     Task {
                         viewModel.user = authVM
                         await viewModel.submitNote()

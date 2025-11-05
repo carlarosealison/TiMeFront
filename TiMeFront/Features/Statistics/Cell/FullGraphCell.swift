@@ -26,7 +26,6 @@ struct FullGraphCell: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
-               //.padding(.leading, 14)
             
             HStack(alignment: .bottom, spacing: 12) {
                 // Axe Y
@@ -56,7 +55,6 @@ struct FullGraphCell: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .trailing)
-                //.padding(.trailing)
         }
         .padding()
 

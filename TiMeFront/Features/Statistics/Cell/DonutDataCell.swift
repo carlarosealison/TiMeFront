@@ -43,10 +43,10 @@ struct DonutDataCell: View {
 #Preview {
     DonutDataCell(
         emotionStats: [
-//            EmotionCategoryStats(id: UUID(), title: "Joie", color: "violet", count: 12),
-//            EmotionCategoryStats(id: UUID(), title: "Tristesse", color: "rose", count: 8),
-//            EmotionCategoryStats(id: UUID(), title: "Colère", color: "bleu", count: 5),
-//            EmotionCategoryStats(id: UUID(), title: "Sérénité", color: "orange", count: 10)
+            EmotionCategoryStats(id: UUID(), title: "Joie", color: "violet", count: 12),
+            EmotionCategoryStats(id: UUID(), title: "Tristesse", color: "rose", count: 8),
+            EmotionCategoryStats(id: UUID(), title: "Colère", color: "bleu", count: 5),
+            EmotionCategoryStats(id: UUID(), title: "Sérénité", color: "orange", count: 10)
         ]
     )
 }

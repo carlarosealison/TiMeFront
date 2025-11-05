@@ -37,9 +37,6 @@ struct AuthentificationView: View {
             .navigationDestination(isPresented: $userVM.checkFormData) {
                 UserRegisterView(userVM: userVM)
             }
-//            .navigationDestination(isPresented: $authVM.isAuthenticated) {
-//                DashboardView()
-//            }
             .alert("Erreur", isPresented: .constant(authVM.errorMessage != nil)) {
                 Button("OK") { authVM.errorMessage = nil }
             } message: {
@@ -76,7 +73,6 @@ struct AuthentificationView: View {
     
     var authForm: some View {
         VStack(spacing: 12) {
-            
             HStack {
                 UserTextField(
                     data: $userVM.usernameOrEmailAuth,

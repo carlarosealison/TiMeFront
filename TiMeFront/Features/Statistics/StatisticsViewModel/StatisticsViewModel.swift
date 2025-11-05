@@ -49,7 +49,6 @@ class StatisticsViewModel {
     
     func streakTotal() async {
         guard let user = authVM?.currentUser else {
-            print("⚠️ Utilisateur non connecté")
             return
         }
         self.streak = user.streakNumber
@@ -58,29 +57,24 @@ class StatisticsViewModel {
     
     func fetchPageTotal() async {
         guard authVM?.token != nil else {
-            print("⚠️ Token non disponible")
             return
         }
         guard let repo = statRepo else {
-            print("⚠️ StatRepo non initialisé")
             return
         }
         
         do {
             let countPages = try await repo.getCountPage()
             self.pages = countPages.countData
-            print("📄 Nombre de pages récupérées : \(pages)")
             
             let countNotes = try await repo.getCountNote()
             self.notes = countNotes.countData
-            print("📝 Nombre de notes récupérées : \(notes)")
             
             let averageMotivation = try await repo.getAverageMotivation()
             self.average = averageMotivation.countData
-            print("📊 Moyenne de motivation : \(average)")
             
         } catch {
-            print("❌ Erreur récupération statistiques : \(error)")
+            print("Erreur récupération statistiques : \(error)")
         }
     }
     
@@ -89,11 +83,9 @@ class StatisticsViewModel {
     
     func fetchEmotionCategoryStat() async {
         guard authVM?.token != nil else {
-            print("⚠️ Token non disponible")
             return
         }
         guard let repo = statRepo else {
-            print("⚠️ StatRepo non initialisé")
             return
         }
         
@@ -102,7 +94,7 @@ class StatisticsViewModel {
             self.emotionCategoryStats = emotionCategoryStat
             
         } catch {
-            print("❌ Erreur récupération statistiques : \(error)")
+            print("Erreur récupération statistiques : \(error)")
         }
     }
 }
