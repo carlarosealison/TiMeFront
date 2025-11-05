@@ -36,21 +36,24 @@ struct JournalTextEditorView: View {
                 
                 Button{
                     //TODO: Bouton pour poster le message
-                    //                    viewModel.submitNote()
-                    Task {
-                        viewModel.user = authVM
-                        await viewModel.submitNote()
+                    viewModel.noteSaved.toggle()
+                          
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                      dismiss()
                     }
-                    sleep(1)
-                    dismiss()
+                        
+                    
+                    
                     
                 } label: {
                     Circle()
                         .frame(width: 44)
-                        .foregroundStyle(.purpleText)
+                        .foregroundStyle(viewModel.noteSaved ? .greenCustom : .purpleText)
                         .overlay {
-                            Image(systemName: "arrow.up")
-                                .foregroundStyle(.whitePurple)
+                            withAnimation(.bouncy(duration: 0.1)){
+                                Image(systemName: viewModel.noteSaved ? "checkmark" : "arrow.up")
+                                    .foregroundStyle(.whitePurple)
+                            }
                         }
                 }.buttonStyle(.plain)
                 
@@ -84,13 +87,29 @@ struct JournalTextEditorView: View {
                     .textEditorStyle(.plain)
                     .padding([.horizontal, .vertical], 24)
                     .textCards()
+                    .overlay(content: {
+                        if viewModel.noteSaved {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 42)
+                                    .foregroundStyle(.greenCustom.opacity(0.7))
+                                
+                                Text("Validé!")
+                                    .boldTextWhite()
+                                
+                            }
+                        }
+                    })
                     .overlay(alignment: .bottomTrailing){
                         Image(systemName: "pencil.and.scribble")
                             .font(.system(size: 50))
                             .foregroundStyle(.whitePurple)
                             .padding([.horizontal, .vertical], 45)
                     }
+                    .onChange(of: viewModel.textOfTheDay) { oldValue, newValue in
+                        viewModel.noteSaved = false
+                    }
                 
+
                 
                 
             }

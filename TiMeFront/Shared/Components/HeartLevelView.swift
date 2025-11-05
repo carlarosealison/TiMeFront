@@ -35,35 +35,10 @@ struct HeartLevelView: View {
         }
         .frame(height: viewModel.heartMaxHeight) // ici la hauteur totale de la graduation
         .scaledToFit()
-//        .gesture(
-//            DragGesture()
-//                .onChanged({ value in
-//                    viewModel.sliderHeight = -value.translation.height + viewModel.lastDragValue
-//                    //j'établis la hauteur du slider, soit le dragGesture + la sauvegarde du dernire dragGesture
-//                    
-//                    viewModel.sliderHeight = viewModel.sliderHeight > viewModel.heartMaxHeight ? viewModel.heartMaxHeight : viewModel.sliderHeight
-//                    //je garde les dragGesture dans la frame totale, pour ne pas que ça dépasse
-//                    
-//                    viewModel.sliderHeight = viewModel.sliderHeight >= 0 ? viewModel.sliderHeight : 0
-//                    //je fais en sorte que le dragGesture ne soit pas négatif
-//                    
-//                })
-//            
-//                .onEnded({ value in
-//                    viewModel.lastDragValue = viewModel.sliderHeight
-//                    // je sauvegarde le dragGesture à sa position de fin
-//                    
-//                    viewModel.sliderHeight = viewModel.sliderHeight > viewModel.heartMaxHeight ? viewModel.heartMaxHeight : viewModel.sliderHeight
-//                    //idem, je garde les dragGesture dans la frame totale, pour ne pas que ça dépasse
-//                    
-//                    viewModel.sliderHeight = viewModel.sliderHeight >= 0 ? viewModel.sliderHeight : 0
-//                    //idem, je fais en sorte que le dragGesture ne soit pas négatif
-//                    
-//                    viewModel.sliderProgress = CGFloat(viewModel.sliderHeight / viewModel.heartMaxHeight)
-//                    //idem, je calcule la progression du dragGesture en fonction de sa position dans la frame entière
-//                    
-//                })
-//        )
+        .task {
+            await viewModel.fetchHeartLevels()
+             viewModel.fetchHeartLevel()
+        }
     }
 }
 

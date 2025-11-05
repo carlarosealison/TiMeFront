@@ -104,12 +104,32 @@ class JournalEditorViewModel : @unchecked Sendable{
     }
     
     func fetchHeartLevel() {
-        if let todayLevel = heartLevels.last(where: {$0.createdAt == Date.now})?.level {
+        if let todayLevel = heartLevels.filter({$0.createdAt == Date.now}).first?.level {
             sliderHeight = CGFloat(todayLevel)
         } else {
             print("todayLevel unavailable")
         }
     }
+    
+    
+    
+//    func fetchHeartLevel() {
+//        let calendar = Calendar.current
+//        let todayStart = calendar.startOfDay(for: Date())
+//
+//        if let todayLevel = heartLevels.last(where: {
+//            calendar.isDate($0.createdAt, inSameDayAs: todayStart)
+//        })?.level {
+//            DispatchQueue.main.async {
+//                withAnimation(.easeInOut(duration: 0.3)) {
+//                    self.sliderHeight = CGFloat(todayLevel)
+//                }
+//                print("Heart level du jour mis à jour: \(todayLevel)")
+//            }
+//        } else {
+//            print("Aucun heart level trouvé pour aujourd’hui")
+//        }
+//    }
     
     
     //MARK: - FetchEmotion pour les MoodValidationSticks
@@ -234,6 +254,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     var textOfTheDay = ""
     var showAlert : Bool = false
     var messageAlert = ""
+    var noteSaved : Bool = false
     var user : AuthViewModel?
     
     
@@ -411,9 +432,7 @@ class JournalEditorViewModel : @unchecked Sendable{
         }.resume()
     }
     
-    func fetchMotivNumber(){
-        
-    }
+
     
     
     
