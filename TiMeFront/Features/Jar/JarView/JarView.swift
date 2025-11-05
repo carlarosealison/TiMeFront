@@ -43,36 +43,45 @@ struct JarView: View {
 struct BallsView: View {
     @Binding var navigationPath: NavigationPath
     @State var challengeVM = ChallengeViewModel()
-//=======
-//    @Environment(ChallengeViewModel.self) var challengeVM
-//>>>>>>> main
+    @Environment(AuthViewModel.self) var authVM
     @State var navManager = NavigationManager()
-    var scene : SKScene {
-        let scene = JarViewModelContainer()
-        scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        scene.backgroundColor = .whitePurple
-        scene.navManager = navManager
-        scene.challengeVM = challengeVM
-        
-        return scene
-    }
+    @State private var skScene: JarViewModelContainer?
     
     var body: some View {
-        SpriteView(scene: scene)
-            .ignoresSafeArea()
-            .onShakeGesture {
-                print("Device has been shaken!")
-
+        Group {
+            if let scene = skScene {
+                SpriteView(scene: scene)
+                    .ignoresSafeArea()
+                    .onShakeGesture {
+                        Task {
+                            await challengeVM.fetchRandomChallenge()
+                        }
+                    }
+                    .onChange(of: navManager.shouldNavigate) { _, shouldNavigate in
+                        if shouldNavigate {
+                            navigationPath = NavigationPath()
+                            navigationPath.append(DashboardDestination.challenge)
+                            navManager.shouldNavigate = false
+                        }
+                    }
+            } else {
+                Color.whitePurple
+                    .ignoresSafeArea()
             }
-            //        .matchedTransitionSource(id: <#T##Hashable#>, in: <#T##Namespace.ID#>)
-        
-            .onChange(of: navManager.shouldNavigate) { _, shouldNavigate in
-                if shouldNavigate {
-                    navigationPath = NavigationPath()
-                    navigationPath.append(DashboardDestination.challenge)
-                    navManager.shouldNavigate = false
-                }
+        }
+        .onAppear {
+            if skScene == nil {
+                challengeVM.authViewModel = authVM
+                
+                let scene = JarViewModelContainer()
+                scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                scene.backgroundColor = .whitePurple
+                scene.navManager = navManager
+                scene.challengeVM = challengeVM
+                
+                skScene = scene
             }
+        }
     }
 }
 

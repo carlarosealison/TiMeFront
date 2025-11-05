@@ -12,8 +12,10 @@ class ChallengeOfTheDayRepo {
     private let service = ChallengeOfTheDayService()
     private let mapper = ChallengeOfTheDayMapper()
     
-    func createRandomChallengeOfTheDay() async throws -> ChallengeOfTheDayResponse {
-        return try await service.createRandomChallengeOfTheDay()
+    
+    func createRandomChallengeOfTheDay(userId: UUID) async throws -> ChallengeOfTheDayResponse {
+        print("📦 [Repo] Création challenge pour user: \(userId)")
+        return try await service.createRandomChallengeOfTheDay(userId: userId)
     }
     
 //    func postRandomChallengeOfTheDay(dateExp: Date, instruction : String, messageMotivation : String, id_user: UUID, id_challenge: UUID) async throws -> ChallengeOfTheDayRequestDTO {
@@ -25,9 +27,18 @@ class ChallengeOfTheDayRepo {
 //    }
     
     func getChallengeOfTheDay() async throws -> ChallengeOfTheDayResponseDTO {
+        print("📦 [Repo] Appel du service getChallengeOfTheDay()...")
+
         let response = try await service.getChallengeOfTheDay()
-        return mapper.mapChallengeOfTheDayResponse(register: response)
         
+        print("📦 [Repo] Réponse reçue:")
+        print("   ID: \(response.id)")
+        print("   Instruction: \(response.instruction)")
+        
+        let mapped = mapper.mapChallengeOfTheDayResponse(register: response)
+        
+        print("📦 [Repo] Mapping terminé")
+        return mapped
     }
     
     func deleteChallengeForToday(challengeID: UUID) async throws -> DeleteResponse{

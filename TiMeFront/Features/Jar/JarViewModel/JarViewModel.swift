@@ -10,9 +10,6 @@ import CoreMotion
 import UIKit
 import SwiftUI
 
-//class JarViewModel {
-//
-//}
 class JarViewModelContainer : SKScene , Observable{
     
     
@@ -113,36 +110,46 @@ class JarViewModelContainer : SKScene , Observable{
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
         
-        if circleButton.contains(location){
+        guard circleButton.contains(location) else {
+            print("⚠️ [SpriteKit] Touch hors du bouton, ignoré")
+            return
+        }
+        
+        print("🎲 [SpriteKit] Bouton 'Secouer' cliqué")
+        
             // animation pour mimer le comportement du bouton
             let scaleUp = SKAction.scale(to: 2.5, duration: 0.1)
             let scaleDown = SKAction.scale(to: 1.0, duration: 0.1)
             circleButton.run(SKAction.sequence([scaleUp, scaleDown]))
             
-            Task { @MainActor in
-                await self.challengeVM?.fetchRandomChallenge()
+        Task { @MainActor in
+                // Double vérification que challengeVM existe et a authViewModel
+            guard let vm = self.challengeVM else {
+                print("❌ [SpriteKit] challengeVM est nil")
+                return
             }
             
-            //navigation de le SKScene à la vue SwiftUI
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                self.navManager?.shouldNavigate = true
+            guard vm.authViewModel != nil else {
+                print("❌ [SpriteKit] authViewModel n'est pas injecté")
+                return
             }
             
+            await vm.fetchRandomChallenge()
         }
         
-        
+            // Navigation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.navManager?.shouldNavigate = true
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
         //pour lire la data de l'accelerometre
         if let accData = motionManager.accelerometerData {
             let acc = accData.acceleration
-            
-            //            motionManager.deviceMotionUpdateInterval = 1.0 / 60.0 //60 mises à jour par seconde
-            
+                        
             physicsWorld.gravity = CGVector(dx: acc.x * 9.8, dy: acc.y * 9.8)
         }
-        
     }
 }
 
@@ -158,12 +165,6 @@ class BallsDashboardViewContainer : SKScene {
     override func didMove(to view: SKView) {
         
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
-        
-        //        let h = frame.height
-        //        let w = frame.width
-        //        let cornerRadius: CGFloat
-        //        let pathCornerRadius = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: w, height: h), cornerRadius: cornerRadius)
-        
         
         //création ball 1
         let ball_1 = SKShapeNode(circleOfRadius: 25)
