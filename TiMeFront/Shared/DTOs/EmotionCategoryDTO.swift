@@ -8,7 +8,7 @@
 import Foundation
 
 //MARK: - EmotionCategoryResponseDTO (pour récupérer la couleur)
-struct EmotionCategoryResponseDTO: Codable, Identifiable {
+struct EmotionCategoryResponseDTO: Codable, Identifiable, Hashable {
 
     let id: UUID?
     let title: String

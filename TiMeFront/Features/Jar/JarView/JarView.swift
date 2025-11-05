@@ -2,7 +2,7 @@
     //  JarView.swift
     //  TiMeFront
     //
-    //  Created by Apprenant125 on 26/09/2025.
+    //  Created by Carla on 26/09/2025.
     //
 
 import SwiftUI
@@ -12,7 +12,7 @@ import CoreMotion
 struct JarView: View {
     @Binding var navigationPath: NavigationPath
     @Namespace private var transitionNamespace
-    
+
     var body: some View {
         ZStack {
             
@@ -42,9 +42,8 @@ struct JarView: View {
 
 struct BallsView: View {
     @Binding var navigationPath: NavigationPath
-    @State var challengeVM = ChallengeViewModel()
 //=======
-//    @Environment(ChallengeViewModel.self) var challengeVM
+    @Environment(ChallengeViewModel.self) var challengeVM
 //>>>>>>> main
     @State var navManager = NavigationManager()
     var scene : SKScene {
@@ -110,4 +109,5 @@ struct ShakeGestureViewModifier: ViewModifier {
 
 #Preview {
     JarView(navigationPath: .constant(NavigationPath()))
+        .environment(ChallengeViewModel())
 }
