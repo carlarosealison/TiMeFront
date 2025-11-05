@@ -14,6 +14,7 @@ struct MoodValidationStick: View {
     @State var buttonSign : String
     
     @State var color = ColorMapper()
+    @State var emotionOfTheDayVM = EmotionOfTheDayViewModel()
     
     let onValidate: () -> Void?
     let onDelete: () -> Void?
