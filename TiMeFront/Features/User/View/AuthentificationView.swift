@@ -28,10 +28,7 @@ struct AuthentificationView: View {
             }
             .onChange(of: authVM.isAuthenticated) { _, newValue in
                 if newValue {
-                    // Exemple : redirige vers une page principale
                     navigateToUserForm = false
-                    //userVM.checkFormData
-                    // Ou montre un autre écran principal
                 }
             }
             .navigationDestination(isPresented: $navigateToUserForm) {
@@ -40,9 +37,16 @@ struct AuthentificationView: View {
             .navigationDestination(isPresented: $userVM.checkFormData) {
                 UserRegisterView(userVM: userVM)
             }
+//            .navigationDestination(isPresented: $authVM.isAuthenticated) {
+//                DashboardView()
+//            }
+            .alert("Erreur", isPresented: .constant(authVM.errorMessage != nil)) {
+                Button("OK") { authVM.errorMessage = nil }
+            } message: {
+                Text(authVM.errorMessage ?? "")
+            }
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
-        
     }
     
     
@@ -106,36 +110,39 @@ struct AuthentificationView: View {
             
             if userVM.isloginValid {
                 Task {
-                    let input = userVM.usernameOrEmailAuth // Champ unique
+                    let input = userVM.usernameOrEmailAuth
                     let password = userVM.passwordAuth
-
+                    
                     if input.contains("@") {
                         await authVM.login(email: input, username: nil, password: password)
                     } else {
                         await authVM.login(email: nil, username: input, password: password)
                     }
-
-                    print("✅ Connexion réussie")
                 }
-            } else {
-                print("❌ Formulaire invalide")
             }
-        } label: {
-            Image(systemName: "arrow.forward")
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundStyle(.purpleDark)
-                .padding()
         }
+        label: {
+            if authVM.isLoading {
+                ProgressView()
+                    .tint(.purpleDark)
+            }
+            else {
+                Image(systemName: "arrow.forward")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(.purpleDark)
+            }
+        }
+        .frame(width: 50, height: 50)
         .background {
             Circle()
                 .fill(.white)
                 .glassEffect()
         }
+        .disabled(authVM.isLoading)
     }
     
     var forgetPassword: some View {
         Button {
-            print("J'ai oublié mon mot de passe -> appelé")
         } label: {
             Text("mot de passe oublié ?")
                 .font(.system(size: 8).width(.expanded))

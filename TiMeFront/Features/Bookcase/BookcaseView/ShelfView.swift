@@ -2,6 +2,8 @@
     //  ShelfView.swift
     //  TiMeFront
     //
+    //  Created by Thibault on 01/11/2025.
+    //
 
 import SwiftUI
 

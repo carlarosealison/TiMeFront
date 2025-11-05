@@ -1,9 +1,9 @@
-    //
-    //  RecordView.swift
-    //  TiMeFront
-    //
-    //  Created by Thibault on 30/10/2025.
-    //
+//
+//  RecordView.swift
+//  TiMeFront
+//
+//  Created by Thibault on 30/10/2025.
+//
 
 import SwiftUI
 
@@ -123,6 +123,7 @@ struct RecordView: View {
         .alert("Enregistrement sauvegardé", isPresented: $showSaveAlert) {
             Button("OK", role: .cancel) {
                     recordingTime = 0
+                dismiss()
             }
         } message: {
             Text("Votre enregistrement vocal a été sauvegardé avec succès !")

@@ -25,12 +25,8 @@ struct ChallengeOfTheDayResponse: Decodable {
     let instructionOTD: String
     let messageMotivationOTD: String
     let dateExp: Date
-    let idChallenge: ParentID
-    let idUser: ParentID
-}
-
-struct ParentID: Decodable {
-    let id: UUID
+    let idChallenge: UUID
+    let idUser: UUID
 }
 
 enum ChallengeOfTheDayResult {

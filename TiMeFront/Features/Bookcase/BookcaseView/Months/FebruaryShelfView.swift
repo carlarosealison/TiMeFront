@@ -16,12 +16,12 @@ struct FebruaryShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: 60, height: 150),
+                offset: CGSize(width: -130, height: 46),
                 rotation: Angle(degrees: 90),
                 scale: 0.8
             ),
             BookPlacement(
-                offset: CGSize(width: -50, height: 10),
+                offset: CGSize(width: -50, height: 3),
                 rotation: Angle(degrees: 0),
                 scale: 0.85
             ),
@@ -82,9 +82,8 @@ struct FebruaryShelfView: View {
             .padding(.horizontal, 60)
             
             ZStack(alignment: .bottom) {
-                
                 ShelfView(width: 500, height: 15)
-                    .offset(.init(width: 60, height: 0))
+                    .offset(.init(width: 60, height: -15))
                     .allowsHitTesting(false)
                 
                 ForEach(books) { book in
@@ -95,14 +94,14 @@ struct FebruaryShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
                     .offset(book.placement.offset)
                 }
                 DecorationView(type: .buste)
                     .scaleEffect(2)
-                    .offset(.init(width: 200, height: -35))
+                    .offset(.init(width: 180, height: -50))
             }
             .frame(height: 220)
         }
@@ -114,6 +113,6 @@ struct FebruaryShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         FebruaryShelfView(year: 2025)
-            .padding()
+        .environment(AuthViewModel())
     }
 }

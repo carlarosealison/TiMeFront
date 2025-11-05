@@ -19,27 +19,32 @@ struct UserRegisterView: View {
             VStack(spacing: 100){
                 TitleForm(title: "Photo de profil", isWelcome: false)
                 addProfilPicture
+                
                 ButtonForm(title: "Enregistrer", isImage: false, action: {
                     Task {
-                        // Upload optionnel de l'image
-                        if let _ = await userVM.uploadImageToVapor() {
-                            print("Image uploadée avec succès")
-                        } else {
-                            print("Pas d'image à uploader, on continue")
-                        }
-
-                        // Création et login automatique de l'utilisateur
+                        // Récupération du token
                         await userVM.createUserAndLogin(authVM: authVM)
-                            dismiss()
+                        
+                            // Si une image est sélectionnée, upload maintenant
+                        if userVM.selectedImageData != nil {
+                            print("📤 Upload de l'image après création...")
+                            
+                            // Utilise le token
+                            if let uploadedUser = await userVM.uploadImageToVapor(authVM: authVM) {
+                                print("✅ Image uploadée pour \(uploadedUser.firstName)")
+                            } else {
+                                print("⚠️ Échec de l'upload (user créé sans image)")
+                            }
+                        } else {
+                            print("Pas d'image sélectionnée")
+                        }
+                        dismiss()
                     }
                 })
-
-                
                 .padding(.top, 100)
             }
             .padding()
         }
-        
     }
     
     var addProfilPicture: some View{
@@ -70,7 +75,7 @@ struct UserRegisterView: View {
                         userVM.image = Image(uiImage: uIImage)
                         userVM.selectedImageData = data
                     }
-                    print("Image importer")
+                    print("Image importée")
                 }catch{
                     print("Image introuvable")
                 }
@@ -94,10 +99,9 @@ struct UserRegisterView: View {
     }
 }
 
+
 #Preview {
     if #available(iOS 26.0, *) {
-        UserRegisterView(userVM: .init())
-    } else {
-        // Fallback on earlier versions
+        UserRegisterView(userVM: UserViewModel())
     }
 }

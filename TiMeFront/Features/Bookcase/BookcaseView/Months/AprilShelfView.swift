@@ -1,3 +1,10 @@
+    //
+    //  AprilShelfView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 30/10/2025.
+    //
+
 import SwiftUI
 
 @available(iOS 26.0, *)
@@ -23,12 +30,12 @@ struct AprilShelfView: View {
                 scale: 0.95
             ),
             BookPlacement(
-                offset: CGSize(width: 50, height: -90),
+                offset: CGSize(width: 80, height: 44),
                 rotation: Angle(degrees: 90),
                 scale: 0.93
             ),
             BookPlacement(
-                offset: CGSize(width: 15, height: -70),
+                offset: CGSize(width: 75, height: 9),
                 rotation: Angle(degrees: 90),
                 scale: 0.75
             ),
@@ -87,12 +94,10 @@ struct AprilShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 DecorationView(type: .painting)
@@ -101,7 +106,7 @@ struct AprilShelfView: View {
                 
                 ShelfView(width: 420, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: -50, height: 0))
+                    .offset(.init(width: -50, height: -15))
             }
             .frame(height: 220)
         }
@@ -113,6 +118,6 @@ struct AprilShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         AprilShelfView(year: 2025)
-            .padding()
+            .environment(AuthViewModel())
     }
 }

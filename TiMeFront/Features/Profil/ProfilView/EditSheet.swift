@@ -8,22 +8,17 @@
 import SwiftUI
 
 struct EditSheet: View {
-    // Le champ en cours d’édition (nom, email ou mot de passe)
     let field: ProfilView.EditField
 
-    // Liaisons avec le ViewModel pour modifier les données utilisateur
     @Binding var name: String
     @Binding var email: String
     @Binding var password: String
 
-    // Actions appelées lors de l’annulation ou de la sauvegarde
     var onCancel: () -> Void
     var onSave: () -> Void
 
-    // Texte temporaire saisi par l’utilisateur
     @State private var inputText: String = ""
 
-    // Gestion du focus sur le champ de texte
     @FocusState private var isFocused: Bool
 
     @State private var showPassword: Bool = false
@@ -34,27 +29,20 @@ struct EditSheet: View {
 
     var body: some View {
         ZStack {
-            // Fond noir semi-transparent derrière la popup
             Color.white.opacity(0.45)
-                .ignoresSafeArea() // recouvre tout l’écran
+                .ignoresSafeArea()
                 .onTapGesture {
-                    // Ferme la popup si l’utilisateur tape à l’extérieur
                     onCancel()
                 }
 
-            // Conteneur principal centré
             VStack {
-                //  Fenêtre principale du popup (centré)
                 VStack(spacing: 25) {
-                    // --- Titre selon le champ édité (ex: “Modifier le nom”) ---
                     Text(field.title)
                         .fontWidth(.expanded)
                         .foregroundColor(Color("PurpleText"))
 
-                    // Champ(s) de texte — version simple
                     VStack(alignment: .leading, spacing: 12) {
                         if case .email = field {
-                            // Affiche simplement l'email actuel
                             Text("Email actuel: " + email)
                                 .font(.subheadline)
                                 .foregroundColor(.white.opacity(0.9))
@@ -67,9 +55,7 @@ struct EditSheet: View {
                                 .background(Color.white.opacity(0.12))
                                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         } else if case .password = field {
-                            // Deux champs: mot de passe actuel et nouveau mot de passe, chacun avec afficher/masquer
                             VStack(spacing: 10) {
-                                // Mot de passe actuel
                                 HStack {
                                     Group {
                                         if showCurrentPassword {
@@ -91,7 +77,6 @@ struct EditSheet: View {
                                 .background(Color.white.opacity(0.12))
                                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
 
-                                // Nouveau mot de passe
                                 HStack {
                                     Group {
                                         if showNewPassword {
@@ -114,7 +99,6 @@ struct EditSheet: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                             }
 
-                            // Note: Le hash doit être appliqué côté ViewModel/Service avant l'écriture en BDD.
                         } else {
                             TextField("Entrez votre \(labelText(field))", text: $inputText)
                                 .padding(10)
@@ -124,14 +108,12 @@ struct EditSheet: View {
                     }
                     .padding(.horizontal)
                     .onAppear {
-                        // Pré-remplit le champ avec la valeur actuelle
                         switch field {
                         case .name:
                             inputText = name
                         case .email:
                             inputText = email
                         case .password:
-                            // Ne jamais pré-remplir un mot de passe en clair
                             inputText = ""
                             currentPasswordInput = ""
                             newPasswordInput = ""
@@ -139,7 +121,6 @@ struct EditSheet: View {
                     }
 
                     HStack(spacing: 20) {
-                        // Bouton Annuler
                         Button("Annuler") {
                             onCancel()
                         }
@@ -150,7 +131,6 @@ struct EditSheet: View {
                         .clipShape(Capsule())
                         .fontWidth(.expanded)
 
-                        // Bouton Enregistrer
                         Button("Enregistrer") {
                             // Met à jour le champ correspondant
                             switch field {
@@ -176,7 +156,6 @@ struct EditSheet: View {
                 .padding(24)
                 .frame(maxWidth: 360)
                 .fixedSize(horizontal: false, vertical: true)
-                // Fond uniforme pour une couleur toujours identique
                 .background(
                     Color("PurpleHover")
                 )
@@ -186,14 +165,12 @@ struct EditSheet: View {
                 )
                 .cornerRadius(20)
                 .shadow(color: Color.black.opacity(0.25), radius: 20, x: 0, y: 10)
-                // Transition et animation type popup centré
                 .transition(.scale.combined(with: .opacity))
                 .animation(.spring(response: 0.35, dampingFraction: 0.85), value: field)
             }
         }
     }
 
-    //  Fonction utilitaire : texte du placeholder
     func labelText(_ field: ProfilView.EditField) -> String {
         switch field {
         case .name: return "nom"
@@ -203,7 +180,6 @@ struct EditSheet: View {
     }
 }
 
-//  Forme personnalisée pour les coins sélectionnés
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
@@ -218,7 +194,6 @@ struct RoundedCorner: Shape {
     }
 }
 
-//  Extension pour arrondir uniquement certains coins
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))

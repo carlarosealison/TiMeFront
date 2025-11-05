@@ -23,7 +23,7 @@ struct ProfilView: View {
         
         var title: String {
             switch self {
-                case .name: return "Modifier le nom"
+                case .name: return "Modifier le pseudo"
                 case .email: return "Modifier l'email"
                 case .password: return "Modifier le mot de passe"
             }
@@ -35,46 +35,34 @@ struct ProfilView: View {
             GradientBackgroundView()
             mainContent
             
-//            if let field = viewModel.showingEdit {
-//                EditSheet(
-//                    field: field,
-//                    name: $viewModel.name,
-//                    email: $viewModel.email,
-//                    password: $viewModel.password,
-//                    onCancel: {
-//                        viewModel.showingEdit = nil
-//                    },
-//                    onSave: {
-//                        Task {
-//                            let success = await viewModel.updateProfile(field: field)
-//                            
-//                            if success {
-//                                userVM.userName = viewModel.name
-//                                userVM.email = viewModel.email
-//                                if !viewModel.password.isEmpty {
-//                                    userVM.password = viewModel.password
-//                                }
-//                                            if var user = authVM.currentUser {
-//                                                user.userName = viewModel.name
-//                                                user.email = viewModel.email
-//                                                authVM.currentUser = user
-//                                            }
-//                                print("✅ Profil mis à jour avec succès")
-//                            } else {
-//                                print("❌ Échec de la mise à jour")
-//                            }
-//                            
-//                            viewModel.showingEdit = nil
-//                        }
-//                    }
-//                )
-//                .transition(.scale.combined(with: .opacity))
-//                .zIndex(1)
-//            }
+            if let field = viewModel.showingEdit {
+                EditSheet(
+                    field: field,
+                    name: $viewModel.name,
+                    email: $viewModel.email,
+                    password: $viewModel.password,
+                    onCancel: {
+                        viewModel.showingEdit = nil
+                    },
+                    onSave: {
+                        Task {
+                            let success = await viewModel.updateProfile(field: field, authVM: authVM)
+                            
+                            if success {
+                                viewModel.loadUserData(from: authVM)
+                            } else {
+                                print("❌ Échec de la mise à jour")
+                            }
+                            viewModel.showingEdit = nil
+                        }
+                    }
+                )
+                .transition(.scale.combined(with: .opacity))
+                .zIndex(1)
+            }
         }
         .onAppear {
-                // Charger les données au démarrage
-            viewModel.loadUserData(from: userVM)
+            viewModel.loadUserData(from: authVM)
         }
         .navigationDestination(isPresented: $viewModel.navigateToAuth) {
             if #available(iOS 26.0, *) {
@@ -93,7 +81,16 @@ struct ProfilView: View {
         }
         .photosPicker(isPresented: $isShowingPhotoPicker, selection: $viewModel.selectedPhotoItem)
         .onChange(of: viewModel.selectedPhotoItem) { _, newValue in
-            viewModel.loadProfileImage(from: newValue)
+            viewModel.loadAndUploadProfileImage(from: newValue, authVM: authVM)
+        }
+        .alert("Erreur", isPresented: .constant(viewModel.uploadError != nil)) {
+            Button("OK") {
+                viewModel.uploadError = nil
+            }
+        } message: {
+            if let error = viewModel.uploadError {
+                Text(error)
+            }
         }
     }
 }
@@ -107,13 +104,20 @@ private extension ProfilView {
             Spacer()
             
             avatarSection
-          
-Text(userVM.userName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Invité" : userVM.userName)
-                .font(.title2)
-                .bold()
-                .foregroundColor(Color("PurpleText"))
             
-            
+            if let user = authVM.currentUser {
+                Text("\(user.userName)")
+                    .semiBoldCardsTitle()
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color("PurpleText"))
+            } else {
+                Text("invité")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(Color("PurpleText"))
+            }
+
             optionsSection
             logoutButton
             
@@ -123,30 +127,34 @@ Text(userVM.userName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "
     
     var avatarSection: some View {
         ZStack(alignment: .bottomTrailing) {
-            Circle()
-                .fill(Color.gray.opacity(0.4))
-                .frame(width: 100, height: 100)
+            
+            ProfileImageView(size: 100)
                 .overlay(
-                    Group {
-                        if let image = viewModel.profilImage {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
-                        } else {
-                            Image(systemName: "person.fill")
-                                .font(.system(size: 70))
-                                .foregroundColor(Color("PurpleText"))
-                        }
-                    }
-                        .clipShape(Circle())
+                    Circle()
+                        .stroke(Color("PurpleDark").opacity(0.3), lineWidth: 2)
                 )
             
             Button(action: { isShowingPhotoPicker = true }) {
                 Circle()
                     .fill(Color.white)
                     .frame(width: 30, height: 30)
-                    .overlay(Image(systemName: "pencil").foregroundColor(.black))
+                    .overlay(
+                        Image(systemName: "pencil")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(Color("PurpleButton"))
+                    )
                     .shadow(radius: 2)
+            }
+            .disabled(viewModel.isUploadingImage)
+            
+            if viewModel.isUploadingImage {
+                Circle()
+                    .fill(Color.black.opacity(0.6))
+                    .frame(width: 100, height: 100)
+                    .overlay(
+                        ProgressView()
+                            .tint(.white)
+                    )
             }
         }
     }
@@ -154,7 +162,7 @@ Text(userVM.userName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "
     var optionsSection: some View {
         VStack(spacing: 0) {
             Button { viewModel.showingEdit = .name } label: {
-                ProfilRow(icon: "pencil", text: "Modifier le nom")
+                ProfilRow(icon: "pencil", text: "Modifier le pseudo")
             }
             Divider().frame(minHeight: 1)
             

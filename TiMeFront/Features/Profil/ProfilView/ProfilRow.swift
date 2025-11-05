@@ -25,7 +25,6 @@ struct ProfilRow: View {
             
             Spacer()
             
-                //  Flèche chevron à droite
             Image(systemName: "chevron.right")
                 .foregroundColor(Color("PurpleText"))
         }

@@ -24,28 +24,44 @@ class ChallengeOfTheDayViewModel : @unchecked Sendable {
         self.user = user
     }
     
+    func createRandomChallenge() async throws {
+        
+        guard let userId = authViewModel.currentUser?.id else {
+            throw URLError(.userAuthenticationRequired)
+        }
+        
+        
+        do {
+            let response = try await challengeOTDRepo.createRandomChallengeOfTheDay(userId: userId)
+            
+            challengeOTD = ChallengeOfTheDayResponseDTO(
+                id: response.id ?? UUID(),
+                dateExp: response.dateExp,
+                instruction: response.instructionOTD,
+                messageMotivation: response.messageMotivationOTD,
+                id_user: response.idUser,
+                id_challenge: response.idChallenge
+            )
+        } catch {
+            throw error
+        }
+    }
+    
     func fetchRandomChallengeOfTheDay() async throws {
+
+        guard let userId = authViewModel.currentUser?.id else {
+            return
+        }
         do{
             let challengeOfTheDay = try await challengeOTDRepo.getChallengeOfTheDay()
+            if challengeOfTheDay.id_user == userId {
             challengeOTD = challengeOfTheDay
-
-            
-//            DispatchQueue.main.async {
-//                self.challengeOTD = postChallengeOTD
-//                self.challengeOTD = finalChallengeOfTheDay
-//            }
+            } else {
+            }
         }
         
         catch{
             print("Erreur lors du fetch : \(error.localizedDescription)")
         }
-        
     }
-    
-    func createChallengeOfTheDay() {
-        
-    }
-    
-    
 }
-

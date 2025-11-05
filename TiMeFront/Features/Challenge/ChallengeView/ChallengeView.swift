@@ -8,77 +8,33 @@
 import SwiftUI
 
 struct ChallengeView: View {
-//<<<<<<< HEAD
-//    
-//    @State var viewModel = ChallengeOfTheDayViewModel(authViewModel: AuthViewModel())
-//    
-//    var body: some View {
-//        
-//        VStack {
-//                ZStack {
-//                    Color.whitePurple
-//                        .ignoresSafeArea()
-//                    VStack {
-//                        Spacer(minLength: 265)
-//                        
-//                        Text("Défi du jour")
-//                            .mediumPurple()
-//                            .padding(5)
-//                        
-//                        Text(viewModel.challenge?.instruction ?? "challenge indisponible")
-//                            .semiBold()
-//                            .multilineTextAlignment(.center)
-//                        
-//                        
-//                        Spacer()
-//                        
-//                        PurpleButton(withArrow: true, buttonFuncText: "Allons-y!")
-//                            .padding(.bottom, 100)
-//                        
-//                    }
-//                    .padding(.horizontal, 24)
-//                    .toolbar{
-//                        ToolbarItem(placement: .topBarTrailing){
-//                            NavigationLink {
-//                                //TODO: mettre en place un navigation path pour pop sur le dashborad
-//                                
-//                            } label: {
-//                                Text("Passer")
-//                                    .foregroundStyle(.purpleText)
-//                                    .fontWeight(.regular)
-//                                    .fontWidth(.expanded)
-//                                    .underline()
-//                            }
-//                            
-//                        }
-//                    }
-//                    
-//                    
-//                }
-//                .task {
-//                    do{
-////                        try await viewModel.fetchRandomChallengeOfTheDay()
-//                    }
-//                    catch{
-//                        print("Error while fetching the challenge : \(error.localizedDescription)")
-//                    }
-//                    
-//                }
-//                
-//=======
     @Environment(ChallengeViewModel.self) var challengeVM
     @Environment(AuthViewModel.self) var authVM
     @Binding var navigationPath: NavigationPath
-    
+    @State var viewModel = ChallengeOfTheDayViewModel(authViewModel: AuthViewModel())
+    @State var authViewModel = AuthViewModel()
     @State private var isValidated = false
     @State private var showSuccessAnimation = false
     
     var body: some View {
+        let _ = print("🔍 [ChallengeView] Challenge: \(challengeVM.challenge?.instruction ?? "nil")")
+
         ZStack {
             // Background qui passe au vert lors de la validation
             (showSuccessAnimation ? Color.greenCustom : Color.whitePurple)
                 .ignoresSafeArea()
                 .animation(.easeInOut(duration: 0.5), value: showSuccessAnimation)
+            
+            if challengeVM.isLoading {
+                VStack(spacing: 20) {
+                    ProgressView()
+                        .tint(.purpleDark)
+                        .scaleEffect(1.5)
+                    
+                    Text("Préparation du défi...")
+                        .mediumPurple()
+                }
+            }
             
             if !showSuccessAnimation {
                 VStack(spacing: 40) {
@@ -88,16 +44,30 @@ struct ChallengeView: View {
                         .mediumPurple()
                         .padding(5)
                     
-                    Text(challengeVM.challenge?.instruction ?? "Challenge indisponible")
-                        .semiBold()
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 24)
+                    if let instruction = challengeVM.challenge?.instruction {
+                        Text(instruction)
+                            .semiBold()
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 24)
+                    } else if let error = challengeVM.errorMessage {
+                        Text(error)
+                            .foregroundStyle(.red)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 24)
+                    } else {
+                        Text("Challenge indisponible")
+                            .mediumPurple()
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 24)
+                    }
                     
                     Spacer()
                     
                     SlideToValidate(isValidated: $isValidated) {
                         handleValidation()
                     }
+                    .disabled(challengeVM.challenge == nil)
+                    .opacity(challengeVM.challenge == nil ? 0.5 : 1.0)
                     
                     Spacer()
                         .frame(height: 100)
@@ -156,7 +126,6 @@ struct ChallengeView: View {
         // Attendre 1.5 secondes puis retourner au Dashboard
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             navigationPath = NavigationPath()
-//>>>>>>> main
         }
     }
 
