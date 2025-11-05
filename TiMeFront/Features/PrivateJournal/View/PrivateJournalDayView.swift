@@ -25,24 +25,21 @@ struct PrivateJournalDayView: View {
                         Text("Ressentis")
                             .semiBoldCondensedTitle()
                         
-                        HeartLevelView(viewModel: $journalEditorVM)
+                        
 
                         
                         HStack(spacing: 32.5) {
                             
                             // Heart Level
                             if dayEntry.heartLevel != nil {
-                                DashboardCard(backgroundColor: Color("WhitePurple")) {
-                                    VStack {
-                                        IconCardContent(
-                                            icon: "heart.fill",
-                                            color: Color("PurpleButton"),
-                                            size: .large
-                                        )
-                                    }
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .foregroundStyle(.whitePurple)
+                                        .frame(width: 75, height: 75)
+                                    
+                                    HeartLevelView(viewModel: $journalEditorVM)
+                                        .padding(10)
                                 }
-                                .frame(width: 75, height: 75)
-                               
                             } else {
                                 EmptyDataCard(
                                     icon: "heart",
@@ -140,7 +137,7 @@ struct PrivateJournalDayView: View {
             .task {
                 await journalEditorVM.fetchHeartLevels()
                 journalEditorVM.fetchHeartLevel()
-                
+//                await  journalEditorVM.fetchMotivation(motivationID: )
             }
 
         }

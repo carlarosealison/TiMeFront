@@ -381,6 +381,40 @@ class JournalEditorViewModel : @unchecked Sendable{
         
     }
     
+    var motivations : [MotivationResponseDTO] = []
+    
+    func fetchMotivation(motivationID : UUID){
+        guard let url = URL(string: "http://127.0.0.1:8080/motivation/\(motivationID)") else {
+            print("invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url){ data, response, error in
+            
+            if let data = data {
+                do {
+                    let decodedMotivations = try JSONDecoder().decode([MotivationResponseDTO].self, from: data)
+                    
+                    DispatchQueue.main.async {
+                        self.motivations = decodedMotivations
+                    }
+                    
+                    print(data)
+                    
+                }catch {
+                    print("error while decoding data : \(error.localizedDescription)")
+                }
+            }
+            else if let error = error {
+                print("error while fetching data:\(error.localizedDescription)")
+            }
+        }.resume()
+    }
+    
+    func fetchMotivNumber(){
+        
+    }
+    
     
     
     //MARK: - POST -> Enregistrement des infos de JournalEditorView
