@@ -35,42 +35,42 @@ struct ProfilView: View {
             GradientBackgroundView()
             mainContent
             
-            if let field = viewModel.showingEdit {
-                EditSheet(
-                    field: field,
-                    name: $viewModel.name,
-                    email: $viewModel.email,
-                    password: $viewModel.password,
-                    onCancel: {
-                        viewModel.showingEdit = nil
-                    },
-                    onSave: {
-                        Task {
-                            let success = await viewModel.updateProfile(field: field)
-                            
-                            if success {
-                                userVM.userName = viewModel.name
-                                userVM.email = viewModel.email
-                                if !viewModel.password.isEmpty {
-                                    userVM.password = viewModel.password
-                                }
-                                            if var user = authVM.currentUser {
-                                                user.userName = viewModel.name
-                                                user.email = viewModel.email
-                                                authVM.currentUser = user
-                                            }
-                                print("✅ Profil mis à jour avec succès")
-                            } else {
-                                print("❌ Échec de la mise à jour")
-                            }
-                            
-                            viewModel.showingEdit = nil
-                        }
-                    }
-                )
-                .transition(.scale.combined(with: .opacity))
-                .zIndex(1)
-            }
+//            if let field = viewModel.showingEdit {
+//                EditSheet(
+//                    field: field,
+//                    name: $viewModel.name,
+//                    email: $viewModel.email,
+//                    password: $viewModel.password,
+//                    onCancel: {
+//                        viewModel.showingEdit = nil
+//                    },
+//                    onSave: {
+//                        Task {
+//                            let success = await viewModel.updateProfile(field: field)
+//                            
+//                            if success {
+//                                userVM.userName = viewModel.name
+//                                userVM.email = viewModel.email
+//                                if !viewModel.password.isEmpty {
+//                                    userVM.password = viewModel.password
+//                                }
+//                                            if var user = authVM.currentUser {
+//                                                user.userName = viewModel.name
+//                                                user.email = viewModel.email
+//                                                authVM.currentUser = user
+//                                            }
+//                                print("✅ Profil mis à jour avec succès")
+//                            } else {
+//                                print("❌ Échec de la mise à jour")
+//                            }
+//                            
+//                            viewModel.showingEdit = nil
+//                        }
+//                    }
+//                )
+//                .transition(.scale.combined(with: .opacity))
+//                .zIndex(1)
+//            }
         }
         .onAppear {
                 // Charger les données au démarrage

@@ -22,6 +22,7 @@ struct DashboardHeaderView: View {
                         .semiBoldCardsTitle()
                 } else {
                     Text("invité")
+                        .semiBoldCardsTitle()
                 }
                 
                 Text(currentDate.formatted(.dateTime
@@ -31,8 +32,9 @@ struct DashboardHeaderView: View {
                     .year()
                     .locale(Locale(identifier: "fr_FR"))
                 ))
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                .subTitle()
+//                    .font(.caption)
+//                    .foregroundColor(.secondary)
             }
             
             Spacer()
