@@ -34,6 +34,5 @@ struct CardDataCell: View {
 }
 
 #Preview {
-//    CardDataCell(size: CGSize(width: UIScreen.main.bounds.width/3, height: UIScreen.main.bounds.height/8),nbStat: 54, sizeS: 26, description: "Stricks max", sizeD: 8)
     CardDataCell(cardVM: StatisticsCardViewModel(card: Card.card))
 }

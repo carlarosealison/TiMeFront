@@ -21,9 +21,6 @@ struct JournalEditorView: View {
                 .ignoresSafeArea()
             
             VStack {
-                //                Spacer()
-                
-                
                 HStack {
                     Spacer()
                     
@@ -80,8 +77,6 @@ struct JournalEditorView: View {
                                                 .glassEffect(.regular.tint(.white))
                                                 .frame(width: 44, height: 110)
                                                 .overlay {
-                                                    //                                                        isSelected.toggle()
-                                                    
                                                     Circle()
                                                         .glassEffect(.regular.tint(.white))
                                                         .frame(width: 44)
@@ -118,7 +113,6 @@ struct JournalEditorView: View {
                                 .padding(.leading, 24)
                                 
                                 RoundedRectangle(cornerRadius: 20)
-//                                    .glassEffect(in: .rect(cornerRadius: 20))
                                     .frame(width: 175 ,height: 170)
                                     .foregroundStyle(.white)
                                     .overlay {
@@ -143,10 +137,7 @@ struct JournalEditorView: View {
                         .padding(.bottom, 40)
                         Spacer()
                     }
-
                     Spacer()
-                    
-                    
                 }
                 
                 VStack (alignment: .leading){
@@ -182,8 +173,6 @@ struct JournalEditorView: View {
                             }
                     }
                 }.padding(.bottom, 40)
-                
-                
                 VStack {
                     HStack {
                         Text("Motivation")

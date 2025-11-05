@@ -59,11 +59,9 @@ final class PrivateJournalViewModel {
                 apiService: APIService()
             )
             
-            print("✅ Semaine chargée avec succès")
-            
         } catch {
             errorMessage = nil // ✅ Ne pas afficher d'erreur réseau non plus
-            print("❌ Error loading week: \(error)")
+            print("Error loading week: \(error)")
             
             // Crée une semaine vide en cas d'erreur
             let dates = Week.generateWeekDates(weekNumber: weekNumber, month: month, year: year)

@@ -25,7 +25,6 @@ class ChallengeViewModel: @unchecked Sendable {
     
     func fetchRandomChallenge() async {
         guard let userId = authViewModel?.currentUser?.id else {
-            print("❌ [Challenge] Pas d'utilisateur connecté")
             return
         }
         
@@ -69,13 +68,13 @@ class ChallengeViewModel: @unchecked Sendable {
         isChallengeCompleted = false
     }
     
-
+    // MARK: - Valider le challenge
     // Valider le challenge
+    // On marque le challenge comme complété
       func completeChallenge(auth: AuthViewModel) async {
         guard challenge != nil else { return }
 
         guard let token = auth.token else {
-            print("❌ Pas de token → impossible de mettre à jour challengeNumber")
             return
         }
 
@@ -95,21 +94,11 @@ class ChallengeViewModel: @unchecked Sendable {
             // On met à jour auth.currentUser pour refléter le nouveau challengeNumber
             auth.currentUser?.challengeNumber = updatedUser.challengeNumber
 
-            print("🔥 ChallengeNumber mis à jour côté serveur : \(updatedUser.challengeNumber)")
         } catch {
-            print("❌ Erreur mise à jour challengeNumber:", error)
+            print("Erreur lors de la mise à jour du challengeNumber:", error)
         }
     }
 
-        // On marque le challenge comme complété
-
-    // MARK: - Valider le challenge
-    //func completeChallenge() async {
-    //   guard challenge != nil else { return }
-
-     //  self.isChallengeCompleted = true
-    //}
-    
     // MARK: Compléter/abandonner le challenge
     func finishChallenge() {
         challenge = nil
