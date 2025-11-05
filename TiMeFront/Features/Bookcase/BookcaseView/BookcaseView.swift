@@ -1,3 +1,10 @@
+    //
+    //  BookcaseView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 01/11/2025.
+    //
+
 import SwiftUI
 
 @available(iOS 26.0, *)
@@ -55,6 +62,7 @@ struct BookcaseView: View {
     if #available(iOS 26.0, *) {
         NavigationStack {
             BookcaseView()
+                .environment(AuthViewModel())
         }
     }
 }

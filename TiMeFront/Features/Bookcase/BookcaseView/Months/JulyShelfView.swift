@@ -1,3 +1,10 @@
+    //
+    //  JulyShelfView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 01/11/2025.
+    //
+
 import SwiftUI
 
 @available(iOS 26.0, *)
@@ -8,12 +15,12 @@ struct JulyShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: 55, height: 170),
+                offset: CGSize(width: -125, height: 46),
                 rotation: Angle(degrees: 90),
                 scale: 0.82
             ),
             BookPlacement(
-                offset: CGSize(width: 12, height: 160),
+                offset: CGSize(width: -121, height: 11),
                 rotation: Angle(degrees: 90),
                 scale: 0.85
             ),
@@ -79,10 +86,6 @@ struct JulyShelfView: View {
             .padding(.horizontal, 20)
             
             ZStack(alignment: .bottom) {
-//                ShelfView(width: 400, height: 15)
-//                    .offset(x: -200, y: -240)
-//                    .allowsHitTesting(false)
-                
                 ForEach(books) { book in
                     NavigationLink {
                         PrivateJournalWeekView(
@@ -91,17 +94,15 @@ struct JulyShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 ShelfView(width: 350, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: -20, height: 0))
+                    .offset(.init(width: -20, height: -15))
             }
             .frame(height: 220)
         }
@@ -113,6 +114,6 @@ struct JulyShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         JulyShelfView(year: 2025)
-            .padding()
+        .environment(AuthViewModel())
     }
 }

@@ -13,37 +13,48 @@ class AuthViewModel {
     var token: String?
     var currentUser: UserResponse?
     var streakUser : Int = 0
+    var isLoading: Bool = false
+    var errorMessage: String?
+    
     private let userRepo = UserRepo()
     private let baseURL = APIService.shared.baseURL
     
     // MARK: - Login utilisateur
+    @MainActor
     func login(email: String?, username: String?, password: String) async {
+        errorMessage = nil
+        isLoading = true
         do {
             let token = try await userRepo.login(email: email, username: username, password: password)
+            
             self.token = token
             self.isAuthenticated = true
             UserDefaults.standard.set(token, forKey: "jwtToken")
             
-            // Décoder le JWT pour extraire l'userId
-            if let userId = extractUserIdFromJWT(token) {
-                UserDefaults.standard.set(userId, forKey: "userId")
-            } else {
-                print("Impossible d'extraire l'userId du token")
-            }
+            let userResponse: UserResponse = try await APIService.shared.getToken(
+                endpoint: "/users/profile",
+                token: token,
+                as: UserResponse.self
+            )
             
-            await fetchUserProfile()
-            // Simulation : dernière connexion hier
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "yyyy-MM-dd"
-//            formatter.timeZone = .current
-//            UserDefaults.standard.set(formatter.string(from: Date().addingTimeInterval(-86400)), forKey: "lastConnectionDay")
-
-            await incrementStreakIfNeeded()
+            self.currentUser = userResponse
+            self.streakUser = userResponse.streakNumber
+            self.isAuthenticated = true
+            
+            print("✅ Connexion réussie : \(userResponse.userName)")
             
         } catch {
-            print("Erreur lors du login: \(error)")
-            self.isAuthenticated = false
+            if let urlError = error as? URLError, urlError.code.rawValue == -1011 {
+                errorMessage = "Identifiants incorrects"
+            } else {
+                errorMessage = "Erreur de connexion"
+            }
+            
+            isAuthenticated = false
+            print("❌ Erreur login: \(error)")
         }
+        
+        isLoading = false
     }
     
     // MARK: - Helper : Décoder JWT
@@ -186,5 +197,37 @@ class AuthViewModel {
             }
         }
     }
-}
 
+    func uploadProfileImage(imageData: Data) async throws -> UserResponse {
+        guard let token = token else {
+            throw URLError(.userAuthenticationRequired)
+        }
+                
+        do {
+                // Appelle le backend qui retourne le user complet
+            let updatedUser = try await APIService.shared.uploadImage(
+                imageData: imageData,
+                token: token
+            )
+            
+                // Met à jour currentUser avec les nouvelles données
+            self.currentUser = updatedUser
+            
+            return updatedUser
+                        
+        } catch {
+            print("❌ Échec: \(error)")
+            throw error
+        }
+    }
+    
+    // Initiales de l'utilisateur pour les livres
+    var userInitials: String {
+            guard let user = currentUser else { return "?" }
+            
+            let firstInitial = user.firstName.first.map { String($0).uppercased() } ?? ""
+            let lastInitial = user.lastName.first.map { String($0).uppercased() } ?? ""
+            
+            return firstInitial + lastInitial
+        }
+}

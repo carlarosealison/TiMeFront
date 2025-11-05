@@ -1,3 +1,10 @@
+    //
+    //  SeptemberShelfView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 01/11/2025.
+    //
+
 import SwiftUI
 
 @available(iOS 26.0, *)
@@ -8,27 +15,27 @@ struct SeptemberShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: -185, height: 18),
+                offset: CGSize(width: -135, height: 18),
                 rotation: Angle(degrees: 0),
                 scale: 0.75
             ),
             BookPlacement(
-                offset: CGSize(width: -125, height: 10),
+                offset: CGSize(width: -95, height: 10),
                 rotation: Angle(degrees: 0),
                 scale: 0.8
             ),
             BookPlacement(
-                offset: CGSize(width: -70, height: 6),
+                offset: CGSize(width: -55, height: 6),
                 rotation: Angle(degrees: 0),
                 scale: 0.85
             ),
             BookPlacement(
-                offset: CGSize(width: -20, height: 8),
+                offset: CGSize(width: -10, height: 8),
                 rotation: Angle(degrees: 0),
                 scale: 0.9
             ),
             BookPlacement(
-                offset: CGSize(width: 28, height: 0),
+                offset: CGSize(width: 38, height: 0),
                 rotation: Angle(degrees: 0),
                 scale: 0.95
             ),
@@ -87,21 +94,19 @@ struct SeptemberShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 DecorationView(type: .plant2)
                     .scaleEffect(4)
-                    .offset(.init(width: 155, height: -65))
+                    .offset(.init(width: 155, height: -80))
                 
                 ShelfView(width: 450, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: 50, height: 0))
+                    .offset(.init(width: 50, height: -15))
             }
             .frame(height: 220)
         }
@@ -113,6 +118,6 @@ struct SeptemberShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         SeptemberShelfView(year: 2025)
-            .padding()
+        .environment(AuthViewModel())
     }
 }

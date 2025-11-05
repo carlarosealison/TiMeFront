@@ -1,3 +1,10 @@
+    //
+    //  JuneShelfView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 01/11/2025.
+    //
+
 import SwiftUI
 
 @available(iOS 26.0, *)
@@ -8,7 +15,7 @@ struct JuneShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: 57, height: 140),
+                offset: CGSize(width: -117, height: 46),
                 rotation: Angle(degrees: 90),
                 scale: 0.8
             ),
@@ -28,7 +35,7 @@ struct JuneShelfView: View {
                 scale: 0.89
             ),
             BookPlacement(
-                offset: CGSize(width: -75, height: -30),
+                offset: CGSize(width: 25, height: -69),
                 rotation: Angle(degrees: 90),
                 scale: 0.93
             ),
@@ -87,17 +94,15 @@ struct JuneShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 ShelfView(width: 350, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: 0, height: 0))
+                    .offset(.init(width: 0, height: -15))
             }
             .frame(height: 220)
         }
@@ -109,6 +114,6 @@ struct JuneShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         JuneShelfView(year: 2025)
-            .padding()
+        .environment(AuthViewModel())
     }
 }

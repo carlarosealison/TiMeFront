@@ -17,69 +17,40 @@ class ChallengeViewModel: @unchecked Sendable {
     var isLoading = false
     var errorMessage: String?
     
+    var authViewModel: AuthViewModel?
+    
     private let challengeRepo = ChallengeRepo()
     private let userService = UserService()
     private let challengeOfTheDayRepo = ChallengeOfTheDayRepo()
     
-    var user : AuthViewModel?
-    
-
-    //étape 6: mettre en place le viewModel qui fait l'intermédiaire entre le Model(mais ici le Repo -> DTO) et la View
-//    func fetchChallenge(id: UUID) async throws {
-//        
-//        do{
-//            let challengeModel = try await challengeRepo.getChallengeById(id: id)
-//            
-//            DispatchQueue.main.async {
-//                self.challenge = challengeModel
-//            }
-//        }
-//        catch {
-//            print("Erreur lors du fetch : \(error)")
-//        }
-//    }
-    
-    func createChallengeOfTheDay(){
-        guard let url = URL(string: "http://127.0.0.1:8080/challengeOfTheDay/\(String(describing: user?.currentUser?.id))") else {
-            print("Invalid URL")
+    func fetchRandomChallenge() async {
+        guard let userId = authViewModel?.currentUser?.id else {
+            print("❌ [Challenge] Pas d'utilisateur connecté")
             return
         }
-
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        if let token = user?.token{
-            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }else {
-            print("unavailable token")
-        }
-       
-    }
-    
-    func fetchRandomChallenge() async {
         isLoading = true
-        errorMessage = nil
         
         do {
-            let challengeOTD = try await challengeOfTheDayRepo.createRandomChallengeOfTheDay()
+            let challengeOTD = try await challengeOfTheDayRepo.createRandomChallengeOfTheDay(userId: userId)
             
             self.challenge = ChallengeModel(
-                id: challengeOTD.idChallenge.id,
+                id: challengeOTD.idChallenge,
                 instruction: challengeOTD.instructionOTD,
                 messageMotivation: challengeOTD.messageMotivationOTD
             )
             self.isChallengeCompleted = false
-            
-            print("✅ Challenge du jour créé")
-            
+                        
         } catch {
-            print("❌ Erreur : \(error.localizedDescription)")
+            print("❌ [Challenge] Erreur: \(error)")
             errorMessage = "Erreur de chargement"
+            self.challenge = nil
         }
         
         isLoading = false
     }
     
+
     //MARK: - ValidateChallenge
     
     
@@ -100,7 +71,7 @@ class ChallengeViewModel: @unchecked Sendable {
     
 
     // Valider le challenge
-    func completeChallenge(auth: AuthViewModel) async {
+      func completeChallenge(auth: AuthViewModel) async {
         guard challenge != nil else { return }
 
         guard let token = auth.token else {
@@ -129,8 +100,17 @@ class ChallengeViewModel: @unchecked Sendable {
             print("❌ Erreur mise à jour challengeNumber:", error)
         }
     }
+
+        // On marque le challenge comme complété
+
+    // MARK: - Valider le challenge
+    //func completeChallenge() async {
+    //   guard challenge != nil else { return }
+
+     //  self.isChallengeCompleted = true
+    //}
     
-    // Terminer/abandonner le challenge
+    // MARK: Compléter/abandonner le challenge
     func finishChallenge() {
         challenge = nil
         isChallengeCompleted = false

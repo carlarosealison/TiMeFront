@@ -1,3 +1,10 @@
+    //
+    //  MarchShelfView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 01/11/2025.
+    //
+
 import SwiftUI
 
 @available(iOS 26.0, *)
@@ -8,7 +15,7 @@ struct MarchShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                offset: CGSize(width: -140, height: 5),
+                offset: CGSize(width: -130, height: 5),
                 rotation: Angle(degrees: 0),
                 scale: 0.85
             ),
@@ -23,12 +30,12 @@ struct MarchShelfView: View {
                 scale: 0.88
             ),
             BookPlacement(
-                offset: CGSize(width: 32, height: 26),
+                offset: CGSize(width: 33, height: 0),
                 rotation: Angle(degrees: -40),
                 scale: 0.92
             ),
             BookPlacement(
-                offset: CGSize(width: 75, height: 69),
+                offset: CGSize(width: 84, height: 2),
                 rotation: Angle(degrees: -40),
                 scale: 0.87
             ),
@@ -87,17 +94,15 @@ struct MarchShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 ShelfView(width: 450, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: 70, height: 0))
+                    .offset(.init(width: 70, height: -15))
             }
             .frame(height: 220)
         }
@@ -109,6 +114,6 @@ struct MarchShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         MarchShelfView(year: 2025)
-            .padding()
+        .environment(AuthViewModel())
     }
 }

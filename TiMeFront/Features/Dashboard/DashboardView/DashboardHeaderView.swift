@@ -18,7 +18,7 @@ struct DashboardHeaderView: View {
             
             VStack(alignment: .leading) {
                 if let user = authVM.currentUser {
-                    Text("Bonjour \(user.userName)")
+                    Text("Bonjour \(user.firstName)")
                         .semiBoldCardsTitle()
                 } else {
                     Text("invité")

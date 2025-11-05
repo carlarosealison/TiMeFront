@@ -11,17 +11,15 @@ struct ChallengeOfTheDayService {
     
     private let api = APIService()
     
-//    func postRandomChallengeOfTheDay(userID : UUID) async throws -> ChallengeOfTheDayRequestDTO{
-//        let challengeOfTheDay : ChallengeOfTheDayRequestDTO
-//        try await api.post(endpoint: "challengeOfTheDay/\(userID)", body: challengeOfTheDay)
-//    }
-//=======
-    func createRandomChallengeOfTheDay() async throws -> ChallengeOfTheDayResponse {
+    func createRandomChallengeOfTheDay(userId: UUID) async throws -> ChallengeOfTheDayResponse {
+        
         guard let token = UserDefaults.standard.string(forKey: "jwtToken") else {
             throw URLError(.userAuthenticationRequired)
         }
         
-        let url = api.baseURL.appendingPathComponent("challengeOfTheDay/randomChallengeOTD")
+        let url = api.baseURL
+            .appendingPathComponent("challengeOfTheDay")
+            .appendingPathComponent(userId.uuidString)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -37,26 +35,28 @@ struct ChallengeOfTheDayService {
         
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        
         return try decoder.decode(ChallengeOfTheDayResponse.self, from: data)
     }
     
     func postRandomChallengeOfTheDay(challengeOTD : ChallengeOfTheDayRequestDTO) async throws -> ChallengeOfTheDayResponseDTO{
         try await api.post(endpoint: "challengeOfTheDay/randomChallengeOTD", body: challengeOTD )
     }
-//>>>>>>> main
     
-    func getChallengeOfTheDay() async throws -> ChallengeOfTheDayResponseDTO{
-        try await api.get(endpoint: "challengeOfTheDay/get_challenge_of_the_day", as: ChallengeOfTheDayResponseDTO.self)
+    func getChallengeOfTheDay() async throws -> ChallengeOfTheDayResponseDTO {
+        guard let token = UserDefaults.standard.string(forKey: "jwtToken") else {
+            print("❌ Pas de token JWT disponible")
+            throw URLError(.userAuthenticationRequired)
+        }
+        let result = try await api.getToken(
+            endpoint: "/challengeOfTheDay/get_challenge_of_the_day",
+            token: token,
+            as: ChallengeOfTheDayResponseDTO.self
+        )
+        return result
     }
-    
-//    func deleteChallengeOfTheDay(challengeID: UUID) async throws -> HTTPURLResponse{
-//        try await api.delete(endpoint: "challengeOfTheDay/deleteForToday/\(challengeID)")
         
     func deleteChallengeOfTheDay(challengeId: UUID) async throws -> DeleteResponse {
         try await api.delete(endpoint: "challengeOfTheDay/\(challengeId)")
     }
     
 }
-
-

@@ -16,17 +16,17 @@ struct JanuaryShelfView: View {
     private var allBookPlacements: [BookPlacement] {
         [
             BookPlacement(
-                    offset: CGSize(width: -120, height: 8),
+                    offset: CGSize(width: -120, height: 6),
                     rotation: Angle(degrees: 0),
                     scale: 0.8
             ),
             BookPlacement(
-                    offset: CGSize(width: -70, height: 10),
+                    offset: CGSize(width: -70, height: 3),
                     rotation: Angle(degrees: 0),
                     scale: 0.85
             ),
             BookPlacement(
-                offset: CGSize(width: -22, height: 1),
+                offset: CGSize(width: -22, height: 0),
                 rotation: Angle(degrees: 0),
                 scale: 0.9
             ),
@@ -83,11 +83,7 @@ struct JanuaryShelfView: View {
             .allowsHitTesting(false)
             
             ZStack(alignment: .bottom) {
-                ShelfView(width: 450, height: 15)
-                    .allowsHitTesting(false)
-                    .offset(.init(width: -10, height: 0))
-                
-                ForEach(books.reversed()) { book in
+                ForEach(books) { book in
                     NavigationLink {
                         PrivateJournalWeekView(
                             weekNumber: book.weekNumber,
@@ -95,11 +91,15 @@ struct JanuaryShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
                     .offset(book.placement.offset)
                 }
+                
+                ShelfView(width: 450, height: 15)
+                    .allowsHitTesting(false)
+                    .offset(.init(width: -10, height: -15))
             }
             .frame(height: 220)
         }
@@ -111,6 +111,6 @@ struct JanuaryShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         JanuaryShelfView(year: 2025)
-            .padding()
+            .environment(AuthViewModel())
     }
 }

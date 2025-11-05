@@ -1,3 +1,10 @@
+    //
+    //  MayShelfView.swift
+    //  TiMeFront
+    //
+    //  Created by Thibault on 01/11/2025.
+    //
+
 import SwiftUI
 
 @available(iOS 26.0, *)
@@ -13,22 +20,22 @@ struct MayShelfView: View {
                 scale: 1
             ),
             BookPlacement(
-                offset: CGSize(width: -130, height: 10),
+                offset: CGSize(width: -120, height: 10),
                 rotation: Angle(degrees: 0),
                 scale: 0.9
             ),
             BookPlacement(
-                offset: CGSize(width: 60, height: 10),
+                offset: CGSize(width: -36, height: 46),
                 rotation: Angle(degrees: 90),
                 scale: 0.8
             ),
             BookPlacement(
-                offset: CGSize(width: 19, height: 6),
+                offset: CGSize(width: -41, height: 13),
                 rotation: Angle(degrees: 90),
                 scale: 0.78
             ),
             BookPlacement(
-                offset: CGSize(width: 70, height: 37),
+                offset: CGSize(width: 38, height: -3),
                 rotation: Angle(degrees: -30),
                 scale: 0.92
             ),
@@ -87,21 +94,19 @@ struct MayShelfView: View {
                             year: book.year
                         )
                     } label: {
-                        BookView(book: book)
-                            .offset(book.placement.offset)
-                            .rotationEffect(book.placement.rotation)
-                            .scaleEffect(book.placement.scale)
+                        BookView(book: book, showInitials: true)
                     }
                     .buttonStyle(.plain)
+                    .offset(book.placement.offset)
                 }
                 
                 ShelfView(width: 550, height: 15)
                     .allowsHitTesting(false)
-                    .offset(.init(width: 0, height: 0))
+                    .offset(.init(width: 0, height: -15))
                 
                 DecorationView(type: .plant4)
                     .scaleEffect(2.8)
-                    .offset(.init(width: 160, height: 11))
+                    .offset(.init(width: 160, height: -3))
             }
             .frame(height: 220)
         }
@@ -113,6 +118,6 @@ struct MayShelfView: View {
 #Preview {
     if #available(iOS 26.0, *) {
         MayShelfView(year: 2025)
-            .padding()
+        .environment(AuthViewModel())
     }
 }
