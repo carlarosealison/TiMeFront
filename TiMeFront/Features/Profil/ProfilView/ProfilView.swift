@@ -127,8 +127,8 @@ private extension ProfilView {
     
     var avatarSection: some View {
         ZStack(alignment: .bottomTrailing) {
-
-            ProfileImageView()
+            
+            ProfileImageView(size: 100)
                 .overlay(
                     Circle()
                         .stroke(Color("PurpleDark").opacity(0.3), lineWidth: 2)
@@ -140,14 +140,13 @@ private extension ProfilView {
                     .frame(width: 30, height: 30)
                     .overlay(
                         Image(systemName: "pencil")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(Color("PurpleButton"))
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(Color("PurpleButton"))
                     )
                     .shadow(radius: 2)
             }
             .disabled(viewModel.isUploadingImage)
             
-                // Indicateur de chargement pendant l'upload
             if viewModel.isUploadingImage {
                 Circle()
                     .fill(Color.black.opacity(0.6))
@@ -205,4 +204,5 @@ private extension ProfilView {
 #Preview {
     ProfilView()
         .environment(AuthViewModel())
+        .environment(UserViewModel())
 }

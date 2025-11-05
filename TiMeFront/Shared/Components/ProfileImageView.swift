@@ -7,7 +7,12 @@ import SwiftUI
 
 struct ProfileImageView: View {
     @Environment(AuthViewModel.self) var authVM
-    let size: CGFloat = 44
+    
+    let size: CGFloat
+    
+    init(size: CGFloat = 44) {
+        self.size = size
+    }
     
     var body: some View {
         Group {

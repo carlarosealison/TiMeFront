@@ -25,7 +25,6 @@ struct ProfilePhotoView: View {
             }
             
             Button("Changer la photo") {
-                // Vous pouvez réutiliser PhotosPicker ici aussi
             }
             .padding()
         }
