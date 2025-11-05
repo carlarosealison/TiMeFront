@@ -101,7 +101,8 @@ class ChallengeViewModel: @unchecked Sendable {
 
     // Valider le challenge
     func completeChallenge(auth: AuthViewModel) async {
-        guard let challenge else { return }
+        guard challenge != nil else { return }
+
         guard let token = auth.token else {
             print("❌ Pas de token → impossible de mettre à jour challengeNumber")
             return
