@@ -11,7 +11,7 @@ struct UserService{
     private let api = APIService()
     
     func login(user: UserLogin) async throws -> String {
-        let url = URL(string: "http://127.0.0.1:8080/users/login")!
+        let url = URL(string: "http://10.80.59.29:8080/users/login")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = try JSONEncoder().encode(user)

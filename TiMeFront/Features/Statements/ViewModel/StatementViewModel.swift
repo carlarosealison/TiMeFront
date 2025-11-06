@@ -19,7 +19,7 @@ class StatementViewModel {
         isLoading = true
         errorMessage = nil
         
-        guard let url = URL(string: "http://127.0.0.1:8080/statements/daily") else {
+        guard let url = URL(string: "http://10.80.59.29:8080/statements/daily") else {
             errorMessage = "URL invalide"
             isLoading = false
             return

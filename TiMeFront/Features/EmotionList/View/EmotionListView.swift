@@ -32,6 +32,7 @@ struct EmotionListView: View {
                 VStack(alignment: .leading) {
                     
                     Text("Amour")
+                        .padding(.horizontal)
                         .fontWidth(.expanded)
                         .bold()
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -163,6 +164,7 @@ struct EmotionListView: View {
                     .background(Color.clear)
                     
                     Text("Joie")
+                        .padding(.horizontal)
                         .fontWidth(.expanded)
                         .bold()
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -290,6 +292,7 @@ struct EmotionListView: View {
                     }
                     
                     Text("Fatigue")
+                        .padding(.horizontal)
                         .fontWidth(.expanded)
                         .bold()
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -417,6 +420,7 @@ struct EmotionListView: View {
                     }
                     
                     Text("Colère")
+                        .padding(.horizontal)
                         .fontWidth(.expanded)
                         .bold()
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -544,6 +548,7 @@ struct EmotionListView: View {
                     }
                     
                     Text("Peur")
+                        .padding(.horizontal)
                         .fontWidth(.expanded)
                         .bold()
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -671,6 +676,7 @@ struct EmotionListView: View {
                     }
                     
                     Text("Tristesse")
+                        .padding(.horizontal)
                         .fontWidth(.expanded)
                         .bold()
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -798,6 +804,7 @@ struct EmotionListView: View {
                     }
                     
                     Text("Surprise")
+                        .padding(.horizontal)
                         .fontWidth(.expanded)
                         .bold()
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -939,7 +946,6 @@ struct EmotionListView: View {
                         }
                     }
                 }
-                .padding()
                 .frame(maxWidth: .infinity)
             }
         }
