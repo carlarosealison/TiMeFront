@@ -35,7 +35,6 @@ struct EmotionCategoryView: View {
                 
             }
         }
-        .padding()
     }
 }
 
