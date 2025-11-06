@@ -25,10 +25,9 @@ struct UserFormView: View {
                 ButtonForm(title: "Suivant", isImage: true, action: {
                     userVM.validateForm()
                         if userVM.isFormValid {
-                            print("Formulaire valide ✅")
                             userVM.checkFormData = true
                         } else {
-                            print("Formulaire invalide ❌")
+                            print("Formulaire invalide")
                         }
                 })
                 .padding(.top, 100)

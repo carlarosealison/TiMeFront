@@ -22,14 +22,12 @@ struct ButtonForm: View {
                         .foregroundStyle(.whitePurple)
                         .bold()
                         .frame(width: 130, height:32)
-                        //.padding()
                     if isImage{
                         Image(systemName: "chevron.right")
                             .resizable()
                             .scaledToFill()
                             .foregroundStyle(.whitePurple)
                             .frame(width: 9, height: 13)
-                            //.padding()
                     }
                         
                 }

@@ -115,8 +115,6 @@ class UserViewModel{
                 imageProfil: imageProfil ?? ""
             )
             
-            print("✅ Utilisateur créé : \(newUser.userName)")
-            
             //Auto-login avec les infos saisies
             await authVM.login(
                 email: email.isEmpty ? nil : email,
@@ -128,7 +126,7 @@ class UserViewModel{
             try await resetForm()
             
         } catch {
-            print("❌ Erreur lors de la création ou connexion : \(error)")
+            print("Erreur lors de la création ou connexion : \(error)")
         }
     }
     
@@ -146,10 +144,8 @@ class UserViewModel{
             email = response.email
             password = ""
             errorMessage = nil
-            print("✅ Utilisateur mis à jour")
         } catch {
             errorMessage = "Erreur lors de la mise à jour : \(error.localizedDescription)"
-            print("❌ \(errorMessage ?? "")")
         }
     }
 
@@ -174,13 +170,9 @@ class UserViewModel{
         
         do {
             let updatedUser = try await authVM.uploadProfileImage(imageData: imageData)
-            
-            print("✅ Image uploadée avec succès")
-            
             return updatedUser
             
         } catch {
-            print("❌ Erreur upload : (error)")
             errorMessage = "Impossible d'uploader l'image"
             return nil
         }
