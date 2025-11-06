@@ -26,6 +26,9 @@ struct AuthentificationView: View {
                 }
                 .frame(maxWidth: .infinity)
             }
+            .onTapGesture {
+                hideKeyboard()
+            }
             .onChange(of: authVM.isAuthenticated) { _, newValue in
                 if newValue {
                     navigateToUserForm = false
