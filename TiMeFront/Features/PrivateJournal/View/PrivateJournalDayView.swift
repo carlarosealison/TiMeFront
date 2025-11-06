@@ -39,7 +39,7 @@ struct PrivateJournalDayView: View {
                                     
                                     HeartLevelView(viewModel: $journalEditorVM)
                                         .padding(10)
-                                }
+                                }.frame(width: 75, height: 75)
                             } else {
                                 EmptyDataCard(
                                     icon: "heart",

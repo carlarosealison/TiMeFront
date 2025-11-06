@@ -50,6 +50,7 @@ struct MoodValidationStick: View {
                                 }
                                 
                             } label: {
+                            
                                 Circle()
                                     .glassEffect(.regular.tint(isSelected ? Color.greenCustom : ColorMapper.color(from: stickColor)))
                                     .frame(width: 44)

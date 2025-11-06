@@ -11,8 +11,12 @@ struct JournalEditorView: View {
     @State var emotionCatVM = EmotionCategoryViewModel()
     @State var emotionOTDViewModel = EmotionOfTheDayViewModel()
     @State var emotionVM = EmotionViewModel()
-    @Environment(AuthViewModel.self) var user
     @State var viewModel = JournalEditorViewModel()
+    
+    @Binding var navigationPath : NavigationPath
+    
+    @Environment(AuthViewModel.self) var user
+    
     
     var body: some View {
         ZStack {
@@ -56,7 +60,7 @@ struct JournalEditorView: View {
                                                 if let emotionID = emotion.id {
                                                     await viewModel.submitEmotionOfTheDay(emotionID: emotionID)
                                                 }
-                                               
+                                                
                                             }
                                         },
                                         onDelete: {
@@ -131,12 +135,16 @@ struct JournalEditorView: View {
                                             
                                         }.padding(.trailing,35)
                                         
-                                    }.padding(.leading, 24)
+                                        
+                                    }.padding(.trailing,35)
+                                    
+                                }.padding(.leading, 24)
                             
                         }
                         .padding(.bottom, 40)
                         Spacer()
                     }
+                    
                     Spacer()
                 }
                 
@@ -212,15 +220,17 @@ struct JournalEditorView: View {
                         if !viewModel.textOfTheDay.isEmpty{
                             await viewModel.submitNote()
                         }
-                        else if viewModel.tempValue <= 0 && viewModel.sliderHeight <= 0 && viewModel.textOfTheDay.isEmpty{
+                        else if viewModel.tempValue <= 0 && viewModel.sliderHeight <= 0 && viewModel.textOfTheDay.isEmpty {
                             viewModel.showMandatory = true
+                        }else{
+                            navigationPath.append(DashboardDestination.books)
                         }
                     }
                     
                 } label: {
                     PurpleButton(withArrow: false, buttonFuncText: "Enregistrer")
                 }
-
+                
                 
                 
             }.onAppear{
@@ -238,8 +248,7 @@ struct JournalEditorView: View {
 }
 
 #Preview {
-    JournalEditorView()
-//        .environment(JournalEditorViewModel())
+    JournalEditorView(navigationPath: .constant(NavigationPath()))
         .environment(ChallengeViewModel())
         .environment(AuthViewModel())
     
