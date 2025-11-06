@@ -13,12 +13,12 @@ class APIService{
     
 #if DEBUG
 #if targetEnvironment(simulator)
-    let baseURL = URL(string: "http://10.80.59.29:8080")!
+    let baseURL = URL(string: "http://127.0.0.1:8080")!
 #else
-    let baseURL = URL(string: "http://10.80.59.29:8080")!
+    let baseURL = URL(string: "http://127.0.0.1:8080")!
 #endif
 #else
-    let baseURL = URL(string: "http://10.80.59.29:8080")!
+    let baseURL = URL(string: "http://127.0.0.1:8080")!
 #endif
     
         // URLSession configurée pour le réseau local

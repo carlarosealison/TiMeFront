@@ -22,7 +22,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     var lastDragValue : CGFloat = 0
     
     func submitHeartLevel () async{
-        guard let url = URL(string: "http://10.80.59.29:8080/heartLevel/create") else{ return }
+        guard let url = URL(string: "http://127.0.0.1:8080/heartLevel/create") else{ return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -75,7 +75,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     var heartLevels : [HeartLevelResponseDTO] = []
     
     func fetchHeartLevels() async {
-        guard let url = URL(string: "http://10.80.59.29:8080/heartLevel")else{
+        guard let url = URL(string: "http://127.0.0.1:8080/heartLevel")else{
             print("invalid Url")
             return
         }
@@ -137,7 +137,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     var randomEmotions : [EmotionResponseDTO] = []
     
     func fetchRandomEmotions() {
-        guard let url = URL(string: "http://10.80.59.29:8080/emotion/random") else {
+        guard let url = URL(string: "http://127.0.0.1:8080/emotion/random") else {
             print("invalid URL")
             return
         }
@@ -162,7 +162,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     }
     
     func submitEmotionOfTheDay(emotionID : UUID) async {
-        guard let url = URL(string: "http://10.80.59.29:8080/emotionOfTheDay/create") else {
+        guard let url = URL(string: "http://127.0.0.1:8080/emotionOfTheDay/create") else {
             print("url invalide")
             return
         }
@@ -226,7 +226,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     
     func fetchCatEmotionColor() {
         
-        guard let url = URL(string: "http://10.80.59.29:8080/emotion-category") else {
+        guard let url = URL(string: "http://127.0.0.1:8080/emotion-category") else {
             print("invalid URL")
             return
         }
@@ -262,7 +262,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     
     func submitNote() async {
         //je prends l'url corrspondant la route que je veux lier
-        guard let url = URL(string: "http://10.80.59.29:8080/page/create") else { return }
+        guard let url = URL(string: "http://127.0.0.1:8080/page/create") else { return }
         
         //j'ajoute les headers nécessaire au bon fonctionnement de ma requête
         var request = URLRequest(url: url)
@@ -340,7 +340,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     
     func submitMotivation () async{
         //mon url
-        guard let url = URL(string: "http://10.80.59.29:8080/motivation/create") else {
+        guard let url = URL(string: "http://127.0.0.1:8080/motivation/create") else {
             print("Invalid Url")
             return
         }
@@ -406,7 +406,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     var motivations : [MotivationResponseDTO] = []
     
     func fetchMotivation(motivationID : UUID){
-        guard let url = URL(string: "http://10.80.59.29:8080/motivation/\(motivationID)") else {
+        guard let url = URL(string: "http://127.0.0.1:8080/motivation/\(motivationID)") else {
             print("invalid URL")
             return
         }

@@ -14,7 +14,7 @@ class ExerciseViewModel {
     var isLoading = false
     var errorMessage: String?
     
-    private let baseURL = "http://10.80.59.29:8080/exercises"
+    private let baseURL = "http://127.0.0.1:8080/exercises"
 
     //MARK: - Récupérer un exercice aléatoire
     @MainActor
