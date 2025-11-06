@@ -103,7 +103,7 @@ struct BallsView: View {
             
             if challengeVM.challenge != nil {
                 print("✅ [UI] Challenge prêt, navigation...")
-                navigationPath = NavigationPath()
+//                navigationPath = NavigationPath()
                 navigationPath.append(DashboardDestination.challenge)
             } else {
                 print("❌ [UI] Challenge non créé, pas de navigation")
@@ -133,7 +133,7 @@ struct BallsView: View {
             
             if challengeVM.challenge != nil {
                 print("✅ [UI] Challenge prêt, navigation...")
-                navigationPath = NavigationPath()
+//                navigationPath = NavigationPath()
                 navigationPath.append(DashboardDestination.challenge)
             }
         }
