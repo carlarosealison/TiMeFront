@@ -41,6 +41,10 @@ class AuthViewModel {
             self.streakUser = userResponse.streakNumber
             self.isAuthenticated = true
             
+            
+            await fetchUserProfile()
+            await incrementStreakIfNeeded()
+            
         } catch {
             if let urlError = error as? URLError, urlError.code.rawValue == -1011 {
                 errorMessage = "Identifiants incorrects"
