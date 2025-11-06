@@ -10,7 +10,6 @@ import Foundation
 @MainActor
 @Observable
 class EmotionOfTheDayViewModel {
-
     var isLoading: Bool = false
     var errorMessage: String?
     var showSuccess: Bool = false

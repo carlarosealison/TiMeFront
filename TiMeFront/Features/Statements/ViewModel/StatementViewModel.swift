@@ -38,11 +38,9 @@ class StatementViewModel {
             let statement = try JSONDecoder().decode(StatementResponse.self, from: data)
             self.dailyStatement = statement
             
-            print("✅ Citation du jour : \(statement.sentence)")
-            
         } catch {
             errorMessage = "Erreur : \(error.localizedDescription)"
-            print("❌ Erreur récupération statement : \(error)")
+            print("Erreur récupération statement : \(error)")
         }
         
         isLoading = false

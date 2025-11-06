@@ -25,18 +25,9 @@ struct UserRegisterView: View {
                         // Récupération du token
                         await userVM.createUserAndLogin(authVM: authVM)
                         
-                            // Si une image est sélectionnée, upload maintenant
+                        // Si une image est sélectionnée, upload maintenant
                         if userVM.selectedImageData != nil {
-                            print("📤 Upload de l'image après création...")
-                            
-                            // Utilise le token
-                            if let uploadedUser = await userVM.uploadImageToVapor(authVM: authVM) {
-                                print("✅ Image uploadée pour \(uploadedUser.firstName)")
-                            } else {
-                                print("⚠️ Échec de l'upload (user créé sans image)")
-                            }
-                        } else {
-                            print("Pas d'image sélectionnée")
+                            _ = await userVM.uploadImageToVapor(authVM: authVM)
                         }
                         dismiss()
                     }

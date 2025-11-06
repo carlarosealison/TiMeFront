@@ -18,6 +18,4 @@ class EmotionCategoryViewModel{
         self.emotionsCategory = categories
     }
     
-
-    
 }

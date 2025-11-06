@@ -33,8 +33,6 @@ struct DashboardHeaderView: View {
                     .locale(Locale(identifier: "fr_FR"))
                 ))
                 .subTitle()
-//                    .font(.caption)
-//                    .foregroundColor(.secondary)
             }
             
             Spacer()
