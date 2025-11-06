@@ -84,7 +84,6 @@ struct StatisticsView: View {
                                 .frame(height: 100)
                                 .padding(30)
                                 .background(Color.white)
-                                .shadow(radius: 5)
                                 .presentationCompactAdaptation(.popover)
                                 
                         }
