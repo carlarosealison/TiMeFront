@@ -11,8 +11,12 @@ struct JournalEditorView: View {
     @State var emotionCatVM = EmotionCategoryViewModel()
     @State var emotionOTDViewModel = EmotionOfTheDayViewModel()
     @State var emotionVM = EmotionViewModel()
-    @Environment(AuthViewModel.self) var user
     @State var viewModel = JournalEditorViewModel()
+    
+    @Binding var navigationPath : NavigationPath
+    
+    @Environment(AuthViewModel.self) var user
+    
     
     var body: some View {
         ZStack {
@@ -59,7 +63,7 @@ struct JournalEditorView: View {
                                                 if let emotionID = emotion.id {
                                                     await viewModel.submitEmotionOfTheDay(emotionID: emotionID)
                                                 }
-                                               
+                                                
                                             }
                                         },
                                         onDelete: {
@@ -116,34 +120,34 @@ struct JournalEditorView: View {
                             Text("Émotion")
                                 .semiBold()
                                 .padding(.leading, 24)
-                                
-                                RoundedRectangle(cornerRadius: 20)
-//                                    .glassEffect(in: .rect(cornerRadius: 20))
-                                    .frame(width: 175 ,height: 170)
-                                    .foregroundStyle(.white)
-                                    .overlay {
-                                        VStack (alignment: .leading){
-                                            HeartMotivationView(viewModel: $viewModel)
-                                            
-                                            Text("Niveau d'émotion")
-                                                .font(.system(size: 12))
-                                                .fontWeight(.light)
-                                                .fontWidth(.expanded)
-                                            Text("Remplissez-le selon votre ressenti")
-                                                .font(.system(size: 10))
-                                                .fontWeight(.thin)
-                                                .fontWidth(.expanded)
-                                            
-                                            
-                                        }.padding(.trailing,35)
+                            
+                            RoundedRectangle(cornerRadius: 20)
+                            //                                    .glassEffect(in: .rect(cornerRadius: 20))
+                                .frame(width: 175 ,height: 170)
+                                .foregroundStyle(.white)
+                                .overlay {
+                                    VStack (alignment: .leading){
+                                        HeartMotivationView(viewModel: $viewModel)
                                         
-                                    }.padding(.leading, 24)
+                                        Text("Niveau d'émotion")
+                                            .font(.system(size: 12))
+                                            .fontWeight(.light)
+                                            .fontWidth(.expanded)
+                                        Text("Remplissez-le selon votre ressenti")
+                                            .font(.system(size: 10))
+                                            .fontWeight(.thin)
+                                            .fontWidth(.expanded)
+                                        
+                                        
+                                    }.padding(.trailing,35)
+                                    
+                                }.padding(.leading, 24)
                             
                         }
                         .padding(.bottom, 40)
                         Spacer()
                     }
-
+                    
                     Spacer()
                     
                     
@@ -228,10 +232,12 @@ struct JournalEditorView: View {
                         }
                     }
                     
+                    navigationPath.append(DashboardDestination.books)
+                    
                 } label: {
                     PurpleButton(withArrow: false, buttonFuncText: "Enregistrer")
                 }
-
+                
                 
                 
             }.onAppear{
@@ -249,8 +255,7 @@ struct JournalEditorView: View {
 }
 
 #Preview {
-    JournalEditorView()
-//        .environment(JournalEditorViewModel())
+    JournalEditorView(navigationPath: .constant(NavigationPath()))
         .environment(ChallengeViewModel())
         .environment(AuthViewModel())
     

@@ -98,7 +98,7 @@ class JournalEditorViewModel : @unchecked Sendable{
             else if let error = error {
                 print("error while decoding data: \(error.localizedDescription)")
             }
-
+            
         }.resume()
         
     }
@@ -113,23 +113,23 @@ class JournalEditorViewModel : @unchecked Sendable{
     
     
     
-//    func fetchHeartLevel() {
-//        let calendar = Calendar.current
-//        let todayStart = calendar.startOfDay(for: Date())
-//
-//        if let todayLevel = heartLevels.last(where: {
-//            calendar.isDate($0.createdAt, inSameDayAs: todayStart)
-//        })?.level {
-//            DispatchQueue.main.async {
-//                withAnimation(.easeInOut(duration: 0.3)) {
-//                    self.sliderHeight = CGFloat(todayLevel)
-//                }
-//                print("Heart level du jour mis à jour: \(todayLevel)")
-//            }
-//        } else {
-//            print("Aucun heart level trouvé pour aujourd’hui")
-//        }
-//    }
+    //    func fetchHeartLevel() {
+    //        let calendar = Calendar.current
+    //        let todayStart = calendar.startOfDay(for: Date())
+    //
+    //        if let todayLevel = heartLevels.last(where: {
+    //            calendar.isDate($0.createdAt, inSameDayAs: todayStart)
+    //        })?.level {
+    //            DispatchQueue.main.async {
+    //                withAnimation(.easeInOut(duration: 0.3)) {
+    //                    self.sliderHeight = CGFloat(todayLevel)
+    //                }
+    //                print("Heart level du jour mis à jour: \(todayLevel)")
+    //            }
+    //        } else {
+    //            print("Aucun heart level trouvé pour aujourd’hui")
+    //        }
+    //    }
     
     
     //MARK: - FetchEmotion pour les MoodValidationSticks
@@ -391,7 +391,7 @@ class JournalEditorViewModel : @unchecked Sendable{
             //print pour debug
             
             print(String(data: data, encoding: .utf8) ?? "")
-
+            
             let motivationResponse = try JSONDecoder().decode(MotivationResponseDTO.self , from: data)
             print(motivationResponse.motivation)
             
@@ -432,21 +432,14 @@ class JournalEditorViewModel : @unchecked Sendable{
         }.resume()
     }
     
-
     
     
     
-    //MARK: - POST -> Enregistrement des infos de JournalEditorView
+    
+    //MARK: - Gestion de saisie
     var isSaved : Bool = false
     var showMandatory : Bool = false
     
-    func submitJournalOfTheDay (){
-        //        sliderHeight -> heartlevel
-        //        emotion -> emotion with details
-        //        textOfTheDay -> page
-        //        tempValue -> motivation
-        
-        
-    }
-    
+    //MARK: - Navigation Manager
+
 }

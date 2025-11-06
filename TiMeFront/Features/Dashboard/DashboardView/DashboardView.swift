@@ -60,7 +60,7 @@ struct DashboardView: View {
             case .graph:
                 StatisticsView()
             case .journal:
-            JournalEditorView()
+            JournalEditorView(navigationPath: $navigationPath)
             case .microphone:
                 RecordView()
             case .jarChallenge:
