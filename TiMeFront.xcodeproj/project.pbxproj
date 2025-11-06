@@ -6,8 +6,35 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		6A6B973B2EBCCFFC00CE78BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A078EE12E745FB100DA1530 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A078EE82E745FB100DA1530;
+			remoteInfo = TiMeFront;
+		};
+		6A6B97482EBCD08C00CE78BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A078EE12E745FB100DA1530 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A078EE82E745FB100DA1530;
+			remoteInfo = TiMeFront;
+		};
+		6A6B97672EBCD32600CE78BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A078EE12E745FB100DA1530 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A078EE82E745FB100DA1530;
+			remoteInfo = TiMeFront;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		6A078EE92E745FB100DA1530 /* TiMeFront.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TiMeFront.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A6B97372EBCCFFC00CE78BC /* DateFormatterTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DateFormatterTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A6B97442EBCD08C00CE78BC /* TiMeAppTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TiMeAppTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A6B97632EBCD32600CE78BC /* TiMeTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TiMeTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -31,10 +58,36 @@
 			path = TiMeFront;
 			sourceTree = "<group>";
 		};
+		6A6B97642EBCD32600CE78BC /* TiMeTest */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TiMeTest;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6A078EE62E745FB100DA1530 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A6B97342EBCCFFC00CE78BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A6B97412EBCD08C00CE78BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A6B97602EBCD32600CE78BC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -48,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				6A078EEB2E745FB100DA1530 /* TiMeFront */,
+				6A6B97642EBCD32600CE78BC /* TiMeTest */,
 				6A078EEA2E745FB100DA1530 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +110,9 @@
 			isa = PBXGroup;
 			children = (
 				6A078EE92E745FB100DA1530 /* TiMeFront.app */,
+				6A6B97372EBCCFFC00CE78BC /* DateFormatterTest.xctest */,
+				6A6B97442EBCD08C00CE78BC /* TiMeAppTest.xctest */,
+				6A6B97632EBCD32600CE78BC /* TiMeTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -85,6 +142,69 @@
 			productReference = 6A078EE92E745FB100DA1530 /* TiMeFront.app */;
 			productType = "com.apple.product-type.application";
 		};
+		6A6B97362EBCCFFC00CE78BC /* DateFormatterTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A6B973D2EBCCFFC00CE78BC /* Build configuration list for PBXNativeTarget "DateFormatterTest" */;
+			buildPhases = (
+				6A6B97332EBCCFFC00CE78BC /* Sources */,
+				6A6B97342EBCCFFC00CE78BC /* Frameworks */,
+				6A6B97352EBCCFFC00CE78BC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6A6B973C2EBCCFFC00CE78BC /* PBXTargetDependency */,
+			);
+			name = DateFormatterTest;
+			packageProductDependencies = (
+			);
+			productName = DateFormatterTest;
+			productReference = 6A6B97372EBCCFFC00CE78BC /* DateFormatterTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6A6B97432EBCD08C00CE78BC /* TiMeAppTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A6B974A2EBCD08C00CE78BC /* Build configuration list for PBXNativeTarget "TiMeAppTest" */;
+			buildPhases = (
+				6A6B97402EBCD08C00CE78BC /* Sources */,
+				6A6B97412EBCD08C00CE78BC /* Frameworks */,
+				6A6B97422EBCD08C00CE78BC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6A6B97492EBCD08C00CE78BC /* PBXTargetDependency */,
+			);
+			name = TiMeAppTest;
+			packageProductDependencies = (
+			);
+			productName = TiMeAppTest;
+			productReference = 6A6B97442EBCD08C00CE78BC /* TiMeAppTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6A6B97622EBCD32600CE78BC /* TiMeTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A6B97692EBCD32600CE78BC /* Build configuration list for PBXNativeTarget "TiMeTest" */;
+			buildPhases = (
+				6A6B975F2EBCD32600CE78BC /* Sources */,
+				6A6B97602EBCD32600CE78BC /* Frameworks */,
+				6A6B97612EBCD32600CE78BC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6A6B97682EBCD32600CE78BC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				6A6B97642EBCD32600CE78BC /* TiMeTest */,
+			);
+			name = TiMeTest;
+			packageProductDependencies = (
+			);
+			productName = TiMeTest;
+			productReference = 6A6B97632EBCD32600CE78BC /* TiMeTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -92,11 +212,23 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1630;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					6A078EE82E745FB100DA1530 = {
 						CreatedOnToolsVersion = 16.3;
+					};
+					6A6B97362EBCCFFC00CE78BC = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 6A078EE82E745FB100DA1530;
+					};
+					6A6B97432EBCD08C00CE78BC = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 6A078EE82E745FB100DA1530;
+					};
+					6A6B97622EBCD32600CE78BC = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 6A078EE82E745FB100DA1530;
 					};
 				};
 			};
@@ -115,12 +247,36 @@
 			projectRoot = "";
 			targets = (
 				6A078EE82E745FB100DA1530 /* TiMeFront */,
+				6A6B97362EBCCFFC00CE78BC /* DateFormatterTest */,
+				6A6B97432EBCD08C00CE78BC /* TiMeAppTest */,
+				6A6B97622EBCD32600CE78BC /* TiMeTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6A078EE72E745FB100DA1530 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A6B97352EBCCFFC00CE78BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A6B97422EBCD08C00CE78BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A6B97612EBCD32600CE78BC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -137,7 +293,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6A6B97332EBCCFFC00CE78BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A6B97402EBCD08C00CE78BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A6B975F2EBCD32600CE78BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6A6B973C2EBCCFFC00CE78BC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A078EE82E745FB100DA1530 /* TiMeFront */;
+			targetProxy = 6A6B973B2EBCCFFC00CE78BC /* PBXContainerItemProxy */;
+		};
+		6A6B97492EBCD08C00CE78BC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A078EE82E745FB100DA1530 /* TiMeFront */;
+			targetProxy = 6A6B97482EBCD08C00CE78BC /* PBXContainerItemProxy */;
+		};
+		6A6B97682EBCD32600CE78BC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A078EE82E745FB100DA1530 /* TiMeFront */;
+			targetProxy = 6A6B97672EBCD32600CE78BC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		6A078EF22E745FB300DA1530 /* Debug */ = {
@@ -319,6 +514,138 @@
 			};
 			name = Release;
 		};
+		6A6B973E2EBCCFFC00CE78BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4NDGZX5784;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = carlapaul.DateFormatterTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TiMeFront.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TiMeFront";
+			};
+			name = Debug;
+		};
+		6A6B973F2EBCCFFC00CE78BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4NDGZX5784;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = carlapaul.DateFormatterTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TiMeFront.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TiMeFront";
+			};
+			name = Release;
+		};
+		6A6B974B2EBCD08C00CE78BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4NDGZX5784;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = devPerso.TiMeAppTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TiMeFront.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TiMeFront";
+			};
+			name = Debug;
+		};
+		6A6B974C2EBCD08C00CE78BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4NDGZX5784;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = devPerso.TiMeAppTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TiMeFront.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TiMeFront";
+			};
+			name = Release;
+		};
+		6A6B976A2EBCD32600CE78BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4NDGZX5784;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = devPerso.TiMeTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TiMeFront.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TiMeFront";
+			};
+			name = Debug;
+		};
+		6A6B976B2EBCD32600CE78BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4NDGZX5784;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = devPerso.TiMeTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TiMeFront.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TiMeFront";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -336,6 +663,33 @@
 			buildConfigurations = (
 				6A078EF52E745FB300DA1530 /* Debug */,
 				6A078EF62E745FB300DA1530 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A6B973D2EBCCFFC00CE78BC /* Build configuration list for PBXNativeTarget "DateFormatterTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A6B973E2EBCCFFC00CE78BC /* Debug */,
+				6A6B973F2EBCCFFC00CE78BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A6B974A2EBCD08C00CE78BC /* Build configuration list for PBXNativeTarget "TiMeAppTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A6B974B2EBCD08C00CE78BC /* Debug */,
+				6A6B974C2EBCD08C00CE78BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A6B97692EBCD32600CE78BC /* Build configuration list for PBXNativeTarget "TiMeTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A6B976A2EBCD32600CE78BC /* Debug */,
+				6A6B976B2EBCD32600CE78BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
