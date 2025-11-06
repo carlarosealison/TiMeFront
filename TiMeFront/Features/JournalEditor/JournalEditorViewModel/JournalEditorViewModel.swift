@@ -15,7 +15,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     var today = Date().formattedFrench()
     
     //MARK: - Heart Manager
-    var sliderHeight : CGFloat = 0
+    var sliderHeight : CGFloat = 60
     var sliderProgress : CGFloat = 0
     var heartMaxHeight : CGFloat = 105
     
@@ -89,14 +89,15 @@ class JournalEditorViewModel : @unchecked Sendable{
                         self.heartLevels = decodedHeartLevels
                     }
                     
+                    print(data)
+                    
                 }
                 catch{
                     print("error while decoding data: \(error.localizedDescription)")
-                    return
                 }
             }
             else if let error = error {
-                print("error while decoding data: \(error.localizedDescription)")
+                print("error while fetching data: \(error.localizedDescription)")
             }
             
         }.resume()

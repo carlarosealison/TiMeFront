@@ -227,12 +227,12 @@ struct JournalEditorView: View {
                         if !viewModel.textOfTheDay.isEmpty{
                             await viewModel.submitNote()
                         }
-                        else if viewModel.tempValue <= 0 && viewModel.sliderHeight <= 0 && viewModel.textOfTheDay.isEmpty{
+                        else if viewModel.tempValue <= 0 && viewModel.sliderHeight <= 0 && viewModel.textOfTheDay.isEmpty {
                             viewModel.showMandatory = true
+                        }else{
+                            navigationPath.append(DashboardDestination.books)
                         }
                     }
-                    
-                    navigationPath.append(DashboardDestination.books)
                     
                 } label: {
                     PurpleButton(withArrow: false, buttonFuncText: "Enregistrer")
