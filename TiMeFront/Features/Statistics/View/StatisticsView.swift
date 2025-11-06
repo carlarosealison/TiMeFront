@@ -81,10 +81,12 @@ struct StatisticsView: View {
                             attachmentAnchor: .point(.bottom)
                         ) {
                             EmotionCategoryView()
+                                .frame(height: 100)
+                                .padding(30)
                                 .background(Color.white)
-                                .cornerRadius(12)
                                 .shadow(radius: 5)
                                 .presentationCompactAdaptation(.popover)
+                                
                         }
                 }
                 
@@ -98,7 +100,7 @@ struct StatisticsView: View {
         RoundedRectangle(cornerRadius: 20)
             .fill(.gray.opacity(0.2))
             .overlay {
-                HStack(spacing: 0) {
+                HStack(spacing: 11) {
                     ButtonFilter(name: "Semaine", isFilter: statVM.dateSelect == .week) {
                         Task {
                             statVM.dateSelect = .week
