@@ -1,3 +1,4 @@
+
 //
 //  JournalEditorView.swift
 //  TiMeFront
@@ -25,6 +26,9 @@ struct JournalEditorView: View {
                 .ignoresSafeArea()
             
             VStack {
+                //                Spacer()
+                
+                
                 HStack {
                     Spacer()
                     
@@ -81,6 +85,8 @@ struct JournalEditorView: View {
                                                 .glassEffect(.regular.tint(.white))
                                                 .frame(width: 44, height: 110)
                                                 .overlay {
+                                                    //                                                        isSelected.toggle()
+                                                    
                                                     Circle()
                                                         .glassEffect(.regular.tint(.white))
                                                         .frame(width: 44)
@@ -115,25 +121,23 @@ struct JournalEditorView: View {
                             Text("Émotion")
                                 .semiBold()
                                 .padding(.leading, 24)
-                                
-                                RoundedRectangle(cornerRadius: 20)
-                                    .frame(width: 175 ,height: 170)
-                                    .foregroundStyle(.white)
-                                    .overlay {
-                                        VStack (alignment: .leading){
-                                            HeartMotivationView(viewModel: $viewModel)
-                                            
-                                            Text("Niveau d'émotion")
-                                                .font(.system(size: 12))
-                                                .fontWeight(.light)
-                                                .fontWidth(.expanded)
-                                            Text("Remplissez-le selon votre ressenti")
-                                                .font(.system(size: 10))
-                                                .fontWeight(.thin)
-                                                .fontWidth(.expanded)
-                                            
-                                            
-                                        }.padding(.trailing,35)
+                            
+                            RoundedRectangle(cornerRadius: 20)
+                            //                                    .glassEffect(in: .rect(cornerRadius: 20))
+                                .frame(width: 175 ,height: 170)
+                                .foregroundStyle(.white)
+                                .overlay {
+                                    VStack (alignment: .leading){
+                                        HeartMotivationView(viewModel: $viewModel)
+                                        
+                                        Text("Niveau d'émotion")
+                                            .font(.system(size: 12))
+                                            .fontWeight(.light)
+                                            .fontWidth(.expanded)
+                                        Text("Remplissez-le selon votre ressenti")
+                                            .font(.system(size: 10))
+                                            .fontWeight(.thin)
+                                            .fontWidth(.expanded)
                                         
                                         
                                     }.padding(.trailing,35)
@@ -146,6 +150,8 @@ struct JournalEditorView: View {
                     }
                     
                     Spacer()
+                    
+                    
                 }
                 
                 VStack (alignment: .leading){
@@ -181,6 +187,8 @@ struct JournalEditorView: View {
                             }
                     }
                 }.padding(.bottom, 40)
+                
+                
                 VStack {
                     HStack {
                         Text("Motivation")
