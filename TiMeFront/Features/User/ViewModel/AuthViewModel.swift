@@ -41,8 +41,6 @@ class AuthViewModel {
             self.streakUser = userResponse.streakNumber
             self.isAuthenticated = true
             
-            print("✅ Connexion réussie : \(userResponse.userName)")
-            
         } catch {
             if let urlError = error as? URLError, urlError.code.rawValue == -1011 {
                 errorMessage = "Identifiants incorrects"
@@ -51,7 +49,7 @@ class AuthViewModel {
             }
             
             isAuthenticated = false
-            print("❌ Erreur login: \(error)")
+            print("Erreur login: \(error)")
         }
         
         isLoading = false
