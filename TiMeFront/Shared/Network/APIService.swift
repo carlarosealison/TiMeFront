@@ -87,9 +87,6 @@ class APIService{
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
-        print("📡 [API] GET \(url)")
-        print("🔐 Token utilisé : \(token)")
-
         // Effectue la requête
         let (data, response) = try await URLSession.shared.data(for: request)
 
@@ -98,19 +95,14 @@ class APIService{
             throw URLError(.badServerResponse)
         }
 
-        // 🔍 Log des infos pour le debug
-        print("📡 [API] GET \(url.absoluteString)")
-        print("📦 Status code: \(httpResponse.statusCode)")
-        if let body = String(data: data, encoding: .utf8) {
-            print("🧾 Response body: \(body)")
-        }
+//        if let body = String(data: data, encoding: .utf8) {
+//            print("🧾 Response body: \(body)")
+//        }
 
         //  Vérifie le code HTTP et revoie une erreur correspondante
         switch httpResponse.statusCode {
         case 200:
-            // OK ✅
             return try JSONDecoder().decode(T.self, from: data)
-
         case 400:
             throw NSError(domain: "APIError", code: 400, userInfo: [NSLocalizedDescriptionKey: "Requête invalide (400)"])
         case 401:

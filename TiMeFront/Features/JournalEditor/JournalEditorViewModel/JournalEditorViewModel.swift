@@ -74,7 +74,7 @@ class JournalEditorViewModel : @unchecked Sendable{
     
     var heartLevels : [HeartLevelResponseDTO] = []
     
-    func fetchHeartLevel() async {
+    func fetchHeartLevels() async {
         guard let url = URL(string: "http://127.0.0.1:8080/heartLevel")else{
             print("invalid Url")
             return
@@ -103,6 +103,15 @@ class JournalEditorViewModel : @unchecked Sendable{
         
     }
     
+    func fetchHeartLevel() {
+        if let todayLevel = heartLevels.last(where: {$0.createdAt == Date.now})?.level {
+            sliderHeight = CGFloat(todayLevel)
+        } else {
+            print("todayLevel unavailable")
+        }
+    }
+    
+    
     //MARK: - FetchEmotion pour les MoodValidationSticks
     var randomEmotions : [EmotionResponseDTO] = []
     
@@ -129,6 +138,66 @@ class JournalEditorViewModel : @unchecked Sendable{
             }
             
         }.resume()
+    }
+    
+    func submitEmotionOfTheDay(emotionID : UUID) async {
+        guard let url = URL(string: "http://127.0.0.1:8080/emotionOfTheDay/create") else {
+            print("url invalide")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        if let token = user?.token {
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            print("Aucun token disponible (emotion)")
+        }
+        
+        guard let idUserString = user?.extractUserIdFromJWT(user?.token ?? ""),
+              let userId = UUID(uuidString: idUserString)
+        else {
+            print("User indisponible (emotion)")
+            return
+        }
+        
+        do{
+            let newEmotionOfTheDay = EmotionOfTheDayRequestDTO(
+                date: Date(),
+                idUser: userId,
+                idEmotion: emotionID)
+            
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            request.httpBody = try encoder.encode(newEmotionOfTheDay)
+            
+        }catch{
+            print("erreur lors de l'encodage: \(error.localizedDescription)")
+            return
+        }
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if (200...299).contains(httpResponse.statusCode){
+                    print("l'émotion du jour a bien été enregistrée")
+                }else{
+                    print("erreur lors de l'envoi de l'émotion du jour :\n\(httpResponse.statusCode)")
+                }
+            }
+            
+            print(String(data: data, encoding: .utf8) ?? "")
+            
+            let emotionOfTheDayResponse = try JSONDecoder().decode(EmotionOfTheDayResponseDTO.self, from: data)
+            print(emotionOfTheDayResponse)
+        }catch{
+            print("erreur d'exécution de la requête de l'émotion du jour: \(error.localizedDescription)")
+        }
+        
     }
     
     //MARK: - Fetch Catégories Emotions pour couleur des MoodValidationSticks
@@ -309,6 +378,40 @@ class JournalEditorViewModel : @unchecked Sendable{
             //catch de refus d'exécution de la requête
             print("erreur d'exécution de la requête de la motivation: \(error.localizedDescription)")
         }
+        
+    }
+    
+    var motivations : [MotivationResponseDTO] = []
+    
+    func fetchMotivation(motivationID : UUID){
+        guard let url = URL(string: "http://127.0.0.1:8080/motivation/\(motivationID)") else {
+            print("invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url){ data, response, error in
+            
+            if let data = data {
+                do {
+                    let decodedMotivations = try JSONDecoder().decode([MotivationResponseDTO].self, from: data)
+                    
+                    DispatchQueue.main.async {
+                        self.motivations = decodedMotivations
+                    }
+                    
+                    print(data)
+                    
+                }catch {
+                    print("error while decoding data : \(error.localizedDescription)")
+                }
+            }
+            else if let error = error {
+                print("error while fetching data:\(error.localizedDescription)")
+            }
+        }.resume()
+    }
+    
+    func fetchMotivNumber(){
         
     }
     

@@ -35,7 +35,7 @@ class EmotionOfTheDayRepo {
             idEmotion: create.emotionID
         )
     }
-    
+    // Supprimer l'émotion
     func deleteEmotion(_ id: UUID) async throws {
         let apiService = APIService()
         let _: EmptyResponse = try await apiService.delete(

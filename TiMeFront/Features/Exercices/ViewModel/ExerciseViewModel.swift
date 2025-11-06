@@ -41,11 +41,9 @@ class ExerciseViewModel {
             let exercise = try JSONDecoder().decode(ExerciseResponse.self, from: data)
             self.randomExercise = exercise
             
-            print("✅ Exercice aléatoire : \(exercise.instruction)")
-            
         } catch {
             errorMessage = "Erreur : \(error.localizedDescription)"
-            print("❌ Erreur récupération exercice : \(error)")
+            print("Erreur de la récupération de l'exercice : \(error)")
         }
         
         isLoading = false
@@ -76,11 +74,9 @@ class ExerciseViewModel {
             let exercises = try JSONDecoder().decode([ExerciseResponse].self, from: data)
             self.allExercises = exercises
             
-            print("✅ \(exercises.count) exercices récupérés")
-            
         } catch {
             errorMessage = "Erreur : \(error.localizedDescription)"
-            print("❌ Erreur récupération exercices : \(error)")
+            print("Erreur lors de la récupération des exercices : \(error)")
         }
         
         isLoading = false

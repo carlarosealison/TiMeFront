@@ -30,7 +30,7 @@ class AuthViewModel {
             self.token = token
             self.isAuthenticated = true
             UserDefaults.standard.set(token, forKey: "jwtToken")
-            
+
             let userResponse: UserResponse = try await APIService.shared.getToken(
                 endpoint: "/users/profile",
                 token: token,
@@ -108,7 +108,6 @@ class AuthViewModel {
         isAuthenticated = false
         
         UserDefaults.standard.removeObject(forKey: "jwtToken")
-        print("✅ Déconnexion réussie")
     }
     
     // MARK: - Récupérer le profil utilisateur connecté
@@ -159,8 +158,6 @@ class AuthViewModel {
         let todayString = formatter.string(from: Date())
         let lastConnectionString = UserDefaults.standard.string(forKey: "lastConnectionDay")
 
-        print("lastConnectionDay:", lastConnectionString ?? "aucune", "today:", todayString)
-
         // Déjà connecté aujourd'hui → rien à faire
         if lastConnectionString == todayString {
             print("Déjà connecté aujourd'hui → streak inchangée")
@@ -176,16 +173,13 @@ class AuthViewModel {
            formatter.string(from: lastDate) == formatter.string(from: yesterday) {
             newStreakValue += 1
             shouldIncrement = true
-            print("Connecté hier → Streak +1 (\(newStreakValue))")
         } else {
             newStreakValue = 1
             shouldIncrement = true
-            print("Première connexion ou oubli → Streak réinitialisée à 1")
         }
 
         // Sauvegarde la date du jour
         UserDefaults.standard.set(todayString, forKey: "lastConnectionDay")
-        print("Date sauvegardée :", todayString)
 
         // Mise à jour côté serveur
         if shouldIncrement {
@@ -193,7 +187,6 @@ class AuthViewModel {
                 let response = try await userRepo.patchStreak(streak: newStreakValue, token: token)
                 currentUser.streakNumber = response.streakNumber
                 self.currentUser = currentUser
-                print("Streak mise à jour : \(response.streakNumber)")
             } catch {
                 print("Erreur lors de la mise à jour de la streak: \(error)")
             }
@@ -218,7 +211,7 @@ class AuthViewModel {
             return updatedUser
                         
         } catch {
-            print("❌ Échec: \(error)")
+            print("Échec: \(error)")
             throw error
         }
     }
